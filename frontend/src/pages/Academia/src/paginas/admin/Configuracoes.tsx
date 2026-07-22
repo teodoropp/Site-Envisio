@@ -104,8 +104,8 @@ export default function Configuracoes() {
       // Simular carregamento das configurações
       const mockConfig: ConfiguracoesSistema = {
         geral: {
-          nomePlataforma: "Academia Envisio",
-          emailContato: "contato@envisio.com",
+          nomePlataforma: "Academia Mais Resultados",
+          emailContato: "contato@maisresultados.com",
           telefone: "+55 11 99999-9999",
           endereco: "São Paulo, SP, Brasil",
           timezone: "America/Sao_Paulo",
@@ -121,10 +121,10 @@ export default function Configuracoes() {
         email: {
           servidorSMTP: "smtp.gmail.com",
           portaSMTP: 587,
-          usuarioSMTP: "sistema@envisio.com",
+          usuarioSMTP: "sistema@maisresultados.com",
           senhaSMTP: "********",
-          emailRemetente: "noreply@envisio.com",
-          nomeRemetente: "Sistema Envisio",
+          emailRemetente: "noreply@maisresultados.com",
+          nomeRemetente: "Sistema Mais Resultados",
         },
         backup: {
           backupAutomatico: true,

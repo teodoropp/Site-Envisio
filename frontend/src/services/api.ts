@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Cria a instância do Axios com base na URL do .env
 const api = axios.create({
-baseURL: process.env.REACT_APP_API_ACADEMIA || "REACT_APP_API_ACADEMIA=https://site-envisio-producao-1d15.up.railway.app", 
+baseURL: process.env.REACT_APP_API_ACADEMIA || "http://localhost:3001", 
   // fallback se variável não estiver definida
 });
 

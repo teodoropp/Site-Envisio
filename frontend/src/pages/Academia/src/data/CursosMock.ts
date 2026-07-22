@@ -16,7 +16,7 @@ export const cursosMock: Curso[] = [
     certificado: true,
     visualizacoes: 1200,
     avaliacao: 4.7,
-    instrutor: "Equipe Envisio",
+    instrutor: "Equipe Mais Resultados",
     imagemUrl:
       "https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=1200&auto=format&fit=crop",
     objetivos: [
@@ -48,7 +48,7 @@ export const cursosMock: Curso[] = [
     certificado: true,
     visualizacoes: 980,
     avaliacao: 4.6,
-    instrutor: "Equipe Envisio",
+    instrutor: "Equipe Mais Resultados",
     imagemUrl:
       "https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop",
     objetivos: ["HTML semântico", "CSS moderno", "JavaScript essencial"],
@@ -75,7 +75,7 @@ export const cursosMock: Curso[] = [
     certificado: true,
     visualizacoes: 720,
     avaliacao: 4.5,
-    instrutor: "Equipe Envisio",
+    instrutor: "Equipe Mais Resultados",
     imagemUrl:
       "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop",
     objetivos: ["Pensamento lógico", "Fluxogramas", "Pseudocódigo"],
@@ -102,7 +102,7 @@ export const cursosMock: Curso[] = [
     certificado: true,
     visualizacoes: 640,
     avaliacao: 4.8,
-    instrutor: "Equipe Envisio",
+    instrutor: "Equipe Mais Resultados",
     imagemUrl:
       "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1200&auto=format&fit=crop",
     objetivos: ["DDL e DML", "Joins e agregações", "Índices e performance"],

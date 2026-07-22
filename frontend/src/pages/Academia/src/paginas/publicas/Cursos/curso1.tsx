@@ -712,7 +712,7 @@ export default function CursoDetalhe() {
                     stiffness: 300,
                     damping: 10,
                   }}
-                  href="https://wa.me/244947137676?text=Olá%20Envisio,%20gostaria%20de%20saber%20mais%20sobre%20os%20cursos"
+                  href="https://wa.me/244947137676?text=Olá%20Mais%20Resultados,%20gostaria%20de%20saber%20mais%20sobre%20os%20cursos"
                   target="_blank"
                   rel="noopener noreferrer"
                   className=" w-[200px] border text-white border-gray-300 bg-transparent  font-semibold py-3 px-8 rounded-[5px] transition-all duration-300 flex items-center justify-center">

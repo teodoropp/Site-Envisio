@@ -188,7 +188,7 @@ const Contato: React.FC = () => {
 
           {/* Email */}
           <a
-            href="mailto:geral@envisio.co.ao"
+            href="mailto:geral@maisresultados.co.ao"
             className="flex items-center gap-4 group hover:bg-blue-50 rounded-[5px] px-4 py-3 transition-all duration-300 hover:shadow-md">
             <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-600 shadow-lg group-hover:bg-blue-200">
               <svg
@@ -208,7 +208,7 @@ const Contato: React.FC = () => {
                 E-mail
               </span>
               <span className="text-lg font-semibold text-gray-800 group-hover:text-blue-700">
-                geral@envisio.co.ao
+                geral@maisresultados.co.ao
               </span>
             </div>
           </a>
@@ -252,14 +252,14 @@ const Contato: React.FC = () => {
         {/* Mapa */}
         <div className="rounded-[5px] overflow-hidden shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300">
           <iframe
-            title="Localização da Envisio"
+            title="Localização da Mais Resultados"
             src="https://www.google.com/maps?q=Condom%C3%ADnio%20Jardins%20do%20Talatona%2C%20Torre%205%20-%20N%C2%BA%20003%2C%20Luanda%2C%20Angola&output=embed"
             width="100%"
             height="280"
             className="border-0"
             allowFullScreen
             loading="lazy"
-            aria-label="Mapa mostrando a localização da Envisio"></iframe>
+            aria-label="Mapa mostrando a localização da Mais Resultados"></iframe>
           <div className="bg-white p-4 border-t border-gray-100">
             <p
               className="text-sm text-gray-600"
@@ -300,7 +300,7 @@ const Contato: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`inline-flex items-center justify-center w-10 h-10 rounded-full bg-${social.color}-100 text-${social.color}-600 hover:bg-${social.color}-200 transition-colors shadow-sm`}
-                aria-label={`${social.icon} da Envisio`}>
+                aria-label={`${social.icon} da Mais Resultados`}>
                 <svg
                   className="w-5 h-5"
                   fill="currentColor"

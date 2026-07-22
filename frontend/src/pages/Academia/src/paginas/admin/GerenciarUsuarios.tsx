@@ -542,7 +542,7 @@ export default function GerenciarUsuarios() {
                 try {
                   // Simular compartilhamento
                   const shareData = {
-                    title: "Relatório da Academia Envisio",
+                    title: "Relatório da Academia Mais Resultados",
                     text: "Relatório completo da plataforma de cursos",
                     url: window.location.href,
                   };

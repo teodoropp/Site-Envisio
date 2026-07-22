@@ -9,7 +9,9 @@ interface EmailResponse {
 }
 
 
-const API_URL = "https://site-envisio-producao-1d15.up.railway.app/api/email";
+const API_URL = process.env.REACT_APP_API_URL
+  ? `${process.env.REACT_APP_API_URL}/api/email`
+  : "https://api.maisresultados.co.ao/api/email";
 
 export async function enviarEmail(formData: any, tipoCliente: string): Promise<EmailResponse> {
   try {

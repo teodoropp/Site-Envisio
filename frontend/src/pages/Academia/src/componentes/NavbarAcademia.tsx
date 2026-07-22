@@ -1,20 +1,26 @@
 /** @format */
 
-import { useState, useEffect } from "react";
-import { BookOpen, Menu, X, LogIn, UserPlus, House } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { BookOpen, Menu, X, LogIn, UserPlus, House, Users } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
-// Itens do menu
+// Itens do menu com tamanho de ícone atualizado
 const menuItems = [
   {
     nome: "Home",
-    icone: <House size={18} className="mr-2" />,
+    icone: <House size={20} className="mr-2" />,
     ativo: true,
     path: "/academia",
   },
   {
+    nome: "Sobre",
+    icone: <Users size={20} className="mr-2" />,
+    ativo: true,
+    path: "/academia/quem-somos",
+  },
+  {
     nome: "Cursos",
-    icone: <BookOpen size={18} className="mr-2" />,
+    icone: <BookOpen size={20} className="mr-2" />,
     ativo: true,
     path: "/academia/cursos",
   },
@@ -28,7 +34,7 @@ export default function NavbarAcademia() {
   // Efeito de scroll para mudar a aparência da navbar
   useEffect(() => {
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
+      const isScrolled = window.scrollY > 20;
       setScrolled(isScrolled);
     };
 
@@ -41,39 +47,63 @@ export default function NavbarAcademia() {
     setMenuAberto(false);
   }, [location]);
 
+  // Páginas públicas que possuem banner e aceitam navbar transparente
+  const isLandingPage =
+    location.pathname === "/academia" ||
+    location.pathname === "/academia/" ||
+    location.pathname === "/academia/quem-somos" ||
+    location.pathname.startsWith("/academia/curso") ||
+    location.pathname === "/academia/cursos";
+
+  const isTransparent = isLandingPage && !scrolled;
+  const isLightHero = location.pathname === "/academia/quem-somos";
+
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-white/95 backdrop-blur-md shadow-lg py-0"
-          : "bg-white/80 backdrop-blur-sm shadow-sm py-0"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isTransparent
+          ? isLightHero
+            ? "bg-transparent text-gray-800 shadow-none border-transparent"
+            : "bg-transparent text-white shadow-none border-transparent"
+          : "bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-100 text-gray-700"
       }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-12">
-          {/* Logo com efeito hover */}
+        <div
+          className={`flex justify-between items-center transition-all duration-300 ${
+            scrolled ? "h-16" : "h-20"
+          }`}>
+          {/* Logo com efeito hover e filtro para ficar branco quando transparente (exceto em Heros claros) */}
           <Link
             to="/academia"
             className="flex-shrink-0 flex items-center group transition-transform duration-300 hover:scale-105">
             <img
-              className={`h-10 w-auto transition-all duration-500 ${
-                scrolled ? "h-12" : "h-12"
-              }`}
+              className={`w-auto transition-all duration-300 ${
+                scrolled ? "h-10" : "h-12"
+              } ${isTransparent && !isLightHero ? "brightness-0 invert" : ""}`}
               src="/academia/logo.svg"
               alt="Logo"
             />
           </Link>
 
           {/* Menu Desktop */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-2">
             {menuItems.map((item) => (
               <Link
                 key={item.nome}
                 to={item.ativo ? item.path : "#"}
-                className={`relative px-4 py-2 rounded-[5px] text-sm font-medium flex items-center transition-all duration-300 group ${
+                className={`relative px-5 py-2.5 rounded-[5px] text-base font-medium flex items-center transition-all duration-300 group ${
                   item.ativo
                     ? location.pathname === item.path
-                      ? "text-gray-700 bg-gray-100 font-semibold"
-                      : "text-gray-700 hover:text-gray-700 hover:bg-gray-50/50"
+                      ? isTransparent
+                        ? isLightHero
+                          ? "text-gray-900 bg-gray-200/50 font-semibold"
+                          : "text-white bg-white/20 font-semibold"
+                        : "text-gray-900 bg-gray-100 font-semibold"
+                      : isTransparent
+                      ? isLightHero
+                        ? "text-gray-700 hover:text-gray-950 hover:bg-gray-100/50"
+                        : "text-white/80 hover:text-white hover:bg-white/10"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50/50"
                     : "text-gray-400 cursor-not-allowed"
                 }`}>
                 {item.icone}
@@ -82,28 +112,53 @@ export default function NavbarAcademia() {
                 {/* Efeito de pulso para Cursos */}
                 {item.nome === "Cursos" && item.ativo && (
                   <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gray-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-gray-700"></span>
+                    <span
+                      className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                        isTransparent ? (isLightHero ? "bg-red-400" : "bg-red-400") : "bg-gray-400"
+                      }`}></span>
+                    <span
+                      className={`relative inline-flex rounded-full h-3 w-3 ${
+                        isTransparent ? (isLightHero ? "bg-red-500" : "bg-red-500") : "bg-gray-700"
+                      }`}></span>
                   </span>
                 )}
               </Link>
             ))}
 
             {/* Divisor sutil */}
-            <div className="h-6 w-px bg-gray-300 mx-2"></div>
+            <div
+              className={`h-6 w-px mx-2 transition-colors duration-300 ${
+                isTransparent 
+                  ? isLightHero
+                    ? "bg-gray-300"
+                    : "bg-white/20" 
+                  : "bg-gray-300"
+              }`}></div>
 
             {/* Botões de Ação */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
               <button
                 disabled
-                className="group relative flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white rounded-[5px] border border-white cursor-not-allowed transition-all duration-300 hover:border-gray-300"
+                className={`group relative flex items-center px-5 py-2.5 text-sm font-medium rounded-[5px] border cursor-not-allowed transition-all duration-300 ${
+                  isTransparent
+                    ? isLightHero
+                      ? "text-white bg-transparent border-white hover:border-white/80"
+                      : "text-white/70 bg-transparent border-white/25 hover:border-white/40"
+                    : "text-gray-500 bg-white border-gray-200 hover:border-gray-300"
+                }`}
                 title="Em breve">
                 <LogIn size={16} className="mr-2" />
                 Entrar
               </button>
               <button
                 disabled
-                className="group relative flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-gray-600 to-gray-600 rounded-[5px] cursor-not-allowed transition-all duration-300 opacity-70 hover:opacity-90"
+                className={`group relative flex items-center px-5 py-2.5 text-sm font-medium rounded-[5px] cursor-not-allowed transition-all duration-300 ${
+                  isTransparent
+                    ? isLightHero
+                      ? "text-white bg-gray-800 border border-gray-700 hover:bg-gray-900"
+                      : "text-white bg-white/20 border border-white/10 hover:bg-white/30"
+                    : "text-white bg-gray-600 hover:bg-gray-700 opacity-90 hover:opacity-100"
+                }`}
                 title="Em breve">
                 <UserPlus size={16} className="mr-2" />
                 Cadastrar
@@ -115,7 +170,13 @@ export default function NavbarAcademia() {
           <div className="flex items-center md:hidden">
             <button
               onClick={() => setMenuAberto(!menuAberto)}
-              className="inline-flex items-center justify-center p-2 rounded-[5px] text-gray-700  transition-colors duration-300">
+              className={`inline-flex items-center justify-center p-2 rounded-[5px] transition-colors duration-300 ${
+                isTransparent
+                  ? isLightHero
+                    ? "text-gray-800 hover:text-gray-950"
+                    : "text-white hover:text-white"
+                  : "text-gray-700 hover:text-gray-900"
+              }`}>
               {menuAberto ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>

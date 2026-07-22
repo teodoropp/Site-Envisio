@@ -11,6 +11,7 @@ import {
   Clock,
   Headphones,
   Shield,
+  Building2,
 } from "lucide-react";
 
 // Dados dos serviços de software
@@ -29,6 +30,22 @@ const softwareServices = [
       "Foco no negócio principal com equipas mais produtivas",
     ],
     image: "/images/imagem soft/Consultoria.webp",
+  },
+
+  {
+    id: 2,
+    title: "Soluções ERP",
+    description:
+      "Solução completa de gestão empresarial que integra todas as áreas do seu negócio, aumentando a produtividade e garantindo maior controlo operacional.",
+    icon: <Building2 className="w-8 h-8 text-red-600" />,
+    items: [
+      "Automatização dos processos administrativos e financeiros",
+      "Faturação, contabilidade e gestão fiscal integradas",
+      "Gestão de stocks, compras e vendas numa única plataforma",
+      "Informação em tempo real para decisões mais rápidas",
+      "Escalável para acompanhar o crescimento da sua empresa",
+    ],
+    image: "/images/imagem soft/Primavera.webp",
   },
 
   {
@@ -154,7 +171,7 @@ const ServiceHighlight: React.FC<{ service: Service }> = ({ service }) => (
 
 const ServicosSoftware = () => {
   const [activeService, setActiveService] = useState<Service>(
-    softwareServices[0]
+    softwareServices[0],
   );
   const carouselRef = useRef<HTMLDivElement>(null);
 
@@ -305,10 +322,10 @@ const ServicosSoftware = () => {
               onClick={() =>
                 scrollToCard(
                   softwareServices.findIndex((s) => s.id === activeService.id) -
-                    1
+                    1,
                 )
               }
-              className="absolute left-[-20px] top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-blue-50 shadow-xl rounded-[5px] p-3 border border-gray-200 transition-all"
+              className="absolute left-[-20px] top-1/2 -translate-y-1/2 z-10  hover:bg-red-50  p-3  transition-all"
               aria-label="Anterior">
               <ChevronLeft className="w-7 h-7 text-red-600" />
             </button>
@@ -342,10 +359,10 @@ const ServicosSoftware = () => {
               onClick={() =>
                 scrollToCard(
                   softwareServices.findIndex((s) => s.id === activeService.id) +
-                    1
+                    1,
                 )
               }
-              className="absolute right-[400px] top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-blue-50 shadow-xl rounded-[5px] p-3 border border-gray-200 transition-all"
+              className="absolute right-[35px] top-1/2 -translate-y-1/2 z-10  hover:bg-red-50  p-3  transition-all"
               aria-label="Próximo">
               <ChevronRight className="w-7 h-7 text-red-600" />
             </button>
@@ -417,7 +434,7 @@ const ServicosSoftware = () => {
                   title: string;
                   description: string;
                 },
-                index: number
+                index: number,
               ) => (
                 <motion.div
                   key={index}
@@ -440,7 +457,7 @@ const ServicosSoftware = () => {
                     {item.description}
                   </p>
                 </motion.div>
-              )
+              ),
             )}
           </div>
         </div>

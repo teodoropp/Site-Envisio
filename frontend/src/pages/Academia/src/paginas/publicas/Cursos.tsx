@@ -140,14 +140,14 @@ const CursoCard = ({
               curso.status === "disponivel"
                 ? "bg-green-500/90"
                 : curso.status === "breve"
-                ? "bg-amber-500/90"
-                : "bg-red-500/90"
+                  ? "bg-amber-500/90"
+                  : "bg-red-500/90"
             }`}>
             {curso.status === "disponivel"
               ? "Disponível"
               : curso.status === "breve"
-              ? "Em Breve"
-              : "Indisponível"}
+                ? "Em Breve"
+                : "Indisponível"}
           </span>
         </div>
       </div>
@@ -222,7 +222,7 @@ export default function Cursos() {
   const [modalAberto, setModalAberto] = useState(false);
   const [busca] = useState("");
   const { modulos, carregando: carregandoModulos } = useModulos(
-    cursoSelecionado?.id
+    cursoSelecionado?.id,
   );
   const navigate = useNavigate();
 
@@ -243,14 +243,14 @@ export default function Cursos() {
 
   // Separar cursos por status
   const cursosDisponiveis = cursosFiltrados.filter(
-    (curso: Curso) => curso.status === "disponivel"
+    (curso: Curso) => curso.status === "disponivel",
   );
 
   const handleFavoritar = (cursoId: string) => {
     setFavoritos((prev) =>
       prev.includes(cursoId)
         ? prev.filter((id) => id !== cursoId)
-        : [...prev, cursoId]
+        : [...prev, cursoId],
     );
     toast.success("Lista de favoritos atualizada!");
   };
@@ -402,12 +402,12 @@ export default function Cursos() {
                         index === 0
                           ? "/academia/curso1"
                           : index === 1
-                          ? "/academia/curso2"
-                          : index === 2
-                          ? "/academia/curso3"
-                          : index === 3
-                          ? "/academia/curso4"
-                          : `/academia/curso/${cursoCard.id}`
+                            ? "/academia/curso2"
+                            : index === 2
+                              ? "/academia/curso3"
+                              : index === 3
+                                ? "/academia/curso4"
+                                : `/academia/curso/${cursoCard.id}`
                       }
                     />
                   </motion.div>

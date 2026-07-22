@@ -85,7 +85,7 @@ export default function Navbar() {
               className="flex items-center">
               <img
                 src="/images/Logos/logo.svg"
-                alt="Envisio"
+                alt="Mais Resultados"
                 className="h-14 w-auto"
               />
               <span className="text-xl font-bold ml-2 text-gray-900"></span>

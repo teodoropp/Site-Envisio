@@ -36,7 +36,7 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
   isOpen,
   onClose,
   cursoNome,
-  cursoArea = "Academia Envisio",
+  cursoArea = "Academia Mais Resultados",
   onSuccess,
 }) => {
   const [formData, setFormData] = useState<Omit<FormData, "arquivos">>({
@@ -96,8 +96,12 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
         });
       }
 
+      const targetUrl = process.env.REACT_APP_API_URL
+        ? `${process.env.REACT_APP_API_URL}/api/email`
+        : "https://api.maisresultados.co.ao/api/email";
+
       await axios.post(
-        "//site-envisio-producao-1d15.up.railway.app/api/email",
+        targetUrl,
         formDataToSend,
         {
           headers: {

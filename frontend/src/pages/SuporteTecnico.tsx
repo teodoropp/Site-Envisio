@@ -111,7 +111,7 @@ const SuporteTecnico: React.FC = () => {
             </div>
             <div className="mt-6 md:mt-0 flex flex-col sm:flex-row gap-3">
               <a
-                href="mailto:geral@envisio.co.ao"
+                href="mailto:geral@maisresultados.co.ao"
                 className="flex items-center justify-center gap-2 bg-red-900 hover:bg-red-950 text-white px-5 py-3 rounded-[5px] font-medium shadow-md transition-all duration-300">
                 <span className="inline-flex items-center justify-center w-6 h-6">
                   <svg
@@ -124,7 +124,7 @@ const SuporteTecnico: React.FC = () => {
                     <path d="M22 6l-10 7L2 6" />
                   </svg>
                 </span>
-                geral@envisio.co.ao
+                geral@maisresultados.co.ao
               </a>
             </div>
           </div>

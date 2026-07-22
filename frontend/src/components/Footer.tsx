@@ -57,8 +57,8 @@ export default function Footer() {
     contato: [
       { nome: "+244 947 137 676", url: "tel:+244947137676", icon: "📞" },
       {
-        nome: "geral@envisio.co.ao",
-        url: "mailto:geral@envisio.co.ao",
+        nome: "geral@maisresultados.co.ao",
+        url: "mailto:geral@maisresultados.co.ao",
         icon: "📧",
       },
     ],
@@ -122,7 +122,7 @@ export default function Footer() {
             <Link to="/">
               <img
                 src="/images/Logos/logo footer.svg"
-                alt="Envisio"
+                alt="Mais Resultados"
                 className="h-14"
               />
             </Link>
@@ -160,7 +160,7 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-gray-200">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <p className="text-white text-sm">
-              © {new Date().getFullYear()} Envisio. Todos os direitos
+              © {new Date().getFullYear()} Mais Resultados. Todos os direitos
               reservados.
             </p>
             <div className="flex gap-4">
