@@ -10,7 +10,7 @@ export default function FooterAcademia() {
             <h3 className="text-white text-2xl font-extrabold mb-4">
               Envisio<span className="text-red-500">.</span>
             </h3>
-            <p className="text-sm leading-relaxed mb-6 text-gray-500">
+            <p className="text-sm leading-relaxed mb-6 text-gray-400">
               A Academia Envisio tem como missão capacitar profissionais com ferramentas e metodologias 100% práticas, garantindo a excelência no mercado de trabalho.
             </p>
             {/* Redes Sociais */}
@@ -50,22 +50,22 @@ export default function FooterAcademia() {
             <h4 className="text-white font-bold mb-4 uppercase text-sm tracking-wider">Acesso Rápido</h4>
             <ul className="space-y-3">
               <li>
-                <Link to="/academia" className="hover:text-white transition-colors duration-200">
+                <Link to="/academia" className="text-gray-400 hover:text-white transition-colors duration-200">
                   Página Inicial
                 </Link>
               </li>
               <li>
-                <Link to="/academia/cursos" className="hover:text-white transition-colors duration-200">
+                <Link to="/academia/cursos" className="text-gray-400 hover:text-white transition-colors duration-200">
                   Nossos Cursos
                 </Link>
               </li>
               <li>
-                <Link to="#" className="hover:text-white transition-colors duration-200">
+                <Link to="#" className="text-gray-400 hover:text-white transition-colors duration-200">
                   Certificações
                 </Link>
               </li>
               <li>
-                <Link to="/academia/quem-somos" className="hover:text-white transition-colors duration-200">
+                <Link to="/academia/quem-somos" className="text-gray-400 hover:text-white transition-colors duration-200">
                   Sobre a Envisio
                 </Link>
               </li>
@@ -77,22 +77,22 @@ export default function FooterAcademia() {
             <h4 className="text-white font-bold mb-4 uppercase text-sm tracking-wider">Formações</h4>
             <ul className="space-y-3">
               <li>
-                <Link to="#" className="hover:text-white transition-colors duration-200">
+                <Link to="#" className="text-gray-400 hover:text-white transition-colors duration-200">
                   Cegid Primavera
                 </Link>
               </li>
               <li>
-                <Link to="#" className="hover:text-white transition-colors duration-200">
+                <Link to="#" className="text-gray-400 hover:text-white transition-colors duration-200">
                   Power BI
                 </Link>
               </li>
               <li>
-                <Link to="#" className="hover:text-white transition-colors duration-200">
+                <Link to="#" className="text-gray-400 hover:text-white transition-colors duration-200">
                   Desenvolvimento Web
                 </Link>
               </li>
               <li>
-                <Link to="#" className="hover:text-white transition-colors duration-200">
+                <Link to="#" className="text-gray-400 hover:text-white transition-colors duration-200">
                   Excel Avançado
                 </Link>
               </li>
@@ -102,7 +102,7 @@ export default function FooterAcademia() {
           {/* Contactos */}
           <div>
             <h4 className="text-white font-bold mb-4 uppercase text-sm tracking-wider">Contactos</h4>
-            <ul className="space-y-4">
+            <ul className="space-y-4 text-gray-400">
               <li className="flex items-start">
                 <svg className="w-5 h-5 text-red-500 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -128,14 +128,14 @@ export default function FooterAcademia() {
 
         {/* Separador e Copyright */}
         <div className="pt-8 border-t border-gray-900 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-500">
             &copy; {new Date().getFullYear()} Academia Envisio. Todos os direitos reservados.
           </p>
-          <div className="flex space-x-6 text-sm text-gray-600">
-            <Link to="#" className="hover:text-white transition-colors duration-200">
+          <div className="flex space-x-6 text-sm text-gray-500">
+            <Link to="/termos" className="hover:text-white transition-colors duration-200">
               Termos e Condições
             </Link>
-            <Link to="#" className="hover:text-white transition-colors duration-200">
+            <Link to="/privacidade" className="hover:text-white transition-colors duration-200">
               Política de Privacidade
             </Link>
           </div>

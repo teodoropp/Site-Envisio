@@ -71,7 +71,7 @@ const Academia = () => {
     e.preventDefault();
     e.stopPropagation();
     setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id],
     );
   };
 
@@ -204,7 +204,7 @@ const Academia = () => {
   const cursoExibir = cursoLocal as Curso as Curso;
 
   return (
-    <section className="bg-gray-50 w-full mt-[-64px]">
+    <section className="bg-gray-50 w-full">
       {/* Seção 1: Carrossel Publicitário de Alta Qualidade */}
       <div className="relative overflow-hidden w-full h-screen bg-black">
         <AnimatePresence initial={false} mode="wait">
@@ -234,21 +234,14 @@ const Academia = () => {
             <div className="absolute inset-0 flex items-center">
               <div className="container mx-auto px-6 md:px-12 lg:px-24">
                 <div className="max-w-2xl text-left">
-                  {/* Tag Superior */}
-                  <motion.span
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.5 }}
-                    className="inline-block px-3 py-1 mb-4 text-xs font-semibold uppercase tracking-wider text-red-400 bg-red-500/10 border border-red-500/30 rounded-full">
-                    Academia Mais Resultados
-                  </motion.span>
+                  {/* Tag Superior removida */}
 
                   {/* Título Principal */}
                   <motion.h1
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, duration: 0.6 }}
-                    className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-tight mb-4">
+                    className="text-4xl sm:text-5xl md:text-6xl font-extrabold !text-white tracking-tight leading-tight mb-4">
                     {slides[currentSlide].titulo}
                   </motion.h1>
 
@@ -257,7 +250,7 @@ const Academia = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4, duration: 0.6 }}
-                    className="text-base sm:text-lg md:text-xl text-gray-200 mb-8 max-w-lg leading-relaxed">
+                    className="text-base sm:text-lg md:text-xl !text-white mb-8 max-w-lg leading-relaxed">
                     {slides[currentSlide].subtitulo}
                   </motion.p>
 
@@ -269,7 +262,7 @@ const Academia = () => {
                     {slides[currentSlide].link.startsWith("#") ? (
                       <button
                         onClick={() => setIsModalOpen(true)}
-                        className="inline-flex items-center justify-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition duration-300 transform hover:scale-105 shadow-lg shadow-red-600/30">
+                        className="btn-academia-primary px-6 py-3 transition duration-300 transform hover:scale-105">
                         {slides[currentSlide].cta}
                         <svg
                           className="w-5 h-5 ml-2"
@@ -287,7 +280,7 @@ const Academia = () => {
                     ) : (
                       <Link
                         to={slides[currentSlide].link}
-                        className="inline-flex items-center justify-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition duration-300 transform hover:scale-105 shadow-lg shadow-red-600/30">
+                        className="btn-academia-primary px-6 py-3 transition duration-300 transform hover:scale-105">
                         {slides[currentSlide].cta}
                         <svg
                           className="w-5 h-5 ml-2"
@@ -420,21 +413,21 @@ const Academia = () => {
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Cabeçalho da Seção */}
-          <div className="mb-12">
-            <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold uppercase tracking-wider text-red-600 bg-red-50 rounded-full">
+          <div className="mb-12 text-center flex flex-col items-center">
+            <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold uppercase tracking-wider text-red-600 bg-red-50 rounded-[5px]">
               Curso em Destaque
             </span>
             <h2 className="text-4xl font-extrabold text-gray-900 sm:text-5xl tracking-tight">
               Cegid Primavera ERP
             </h2>
-            <p className="mt-4 text-xl text-gray-500 max-w-2xl">
+            <p className="mt-4 text-xl text-gray-500 max-w-2xl mx-auto">
               Formação prática de alto nível para dominar as funcionalidades do
               sistema de gestão líder do mercado.
             </p>
           </div>
 
           {/* Grid Principal: Detalhes, Capa e Apresentação do Curso */}
-          <div className="bg-white rounded-[5px] shadow-md border border-gray-200 overflow-hidden mb-16 transition-all duration-300 hover:shadow-lg">
+          <div className="bg-white rounded-none shadow-md overflow-hidden mb-16 transition-all duration-300 hover:shadow-lg">
             <div className="grid grid-cols-1 lg:grid-cols-12">
               {/* Informações da Capa do Curso */}
               <div className="lg:col-span-7 p-8 sm:p-12 flex flex-col justify-center bg-gradient-to-br from-gray-900 to-gray-800 text-white">
@@ -444,7 +437,7 @@ const Academia = () => {
                   <span>Certificação Envisio</span>
                 </div>
                 <h3 className="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
-                  Funcionalidades e Módulos Corporativos
+                  Cegid Primavera: Funcionalidades e Módulos Corporativos
                 </h3>
                 <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-8">
                   {cursoExibir.descricao ||
@@ -477,9 +470,9 @@ const Academia = () => {
               {/* Capa Visual do Curso */}
               <div className="lg:col-span-5 relative min-h-[300px] lg:min-h-full overflow-hidden">
                 <img
-                  src="/academia/pagina home/cegid.png"
+                  src="/academia/primavera.svg"
                   alt="Capa do Curso Cegid Primavera"
-                  className="absolute inset-0 w-[120%] h-[105%]  transition-transform duration-700 hover:scale-105"
+                  className="absolute inset-0 w-full h-full object-cover ntransition-transform duration-700 hover:scale-105"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
@@ -618,15 +611,15 @@ const Academia = () => {
 
                   <button
                     onClick={() => setIsModalOpen(true)}
-                    className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 px-4 rounded-lg transition duration-300 transform hover:scale-[1.02] shadow-lg shadow-red-600/20 text-center text-sm">
+                    className="btn-academia-primary w-full py-2.5 px-4 transition duration-300 transform hover:scale-[1.02] text-sm">
                     Fazer Inscrição Agora
                   </button>
 
                   <a
-                    href="https://wa.me/244947137676?text=Olá%20Mais%20Resultados,%20gostaria%20de%20saber%20mais%20sobre%20o%20curso%20Cegid%20Primavera"
+                    href="https://wa.me/244947137676?text=Olá%20Envisio,%20gostaria%20de%20saber%20mais%20sobre%20o%20curso%20Cegid%20Primavera"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full mt-3 border border-gray-200 hover:border-gray-300 bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg transition duration-300 text-center block hover:bg-gray-50 text-sm">
+                    className="btn-academia-secondary w-full mt-3 py-2 px-4 transition duration-300 text-sm">
                     Falar com Consultor
                   </a>
                 </div>
@@ -641,12 +634,15 @@ const Academia = () => {
         id="nossos-cursos"
         className="relative py-16 bg-gray-50 overflow-hidden">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Cabeçalho alinhado à esquerda */}
-          <div className="mb-8">
+          {/* Cabeçalho alinhado ao centro */}
+          <div className="mb-8 text-center flex flex-col items-center">
+            <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold uppercase tracking-wider text-red-600 bg-red-50 rounded-[5px]">
+              Nossas Formações
+            </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight">
               Formações que transformam a sua carreira
             </h2>
-            <p className="mt-2 text-base text-gray-500 max-w-2xl">
+            <p className="mt-2 text-base text-gray-500 max-w-2xl mx-auto">
               Desde fundamentos técnicos até soluções empresariais, a Envisio
               apoia o seu desenvolvimento profissional.
             </p>
@@ -677,7 +673,7 @@ const Academia = () => {
           </div>
 
           {/* Grid de Cursos Compactos */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
               {
                 id: 1,
@@ -693,7 +689,7 @@ const Academia = () => {
                 bgHeader: "bg-gray-900",
                 badgeText: "ERP",
                 badgeColor: "bg-red-600",
-                imgSrc: "/academia/pagina home/primavera.svg",
+                imgSrc: "/academia/primavera.svg",
                 imgStyle: "opacity-90",
                 titleHover: "group-hover:text-red-700",
                 iconColor: "text-red-700",
@@ -703,7 +699,7 @@ const Academia = () => {
                 category: "programacao",
                 title: "Programação Web Frontend",
                 desc: "HTML, CSS e JavaScript modernos. Crie interfaces responsivas com boas práticas profissionais.",
-                tags: ["Consultar", "Iniciante"],
+                tags: ["80h", "Iniciante"],
                 tagColors: [
                   "bg-gray-100 text-gray-500",
                   "bg-blue-50 text-blue-600",
@@ -722,7 +718,7 @@ const Academia = () => {
                 category: "programacao",
                 title: "Lógica de Programação",
                 desc: "Fundamentos de algoritmos, fluxogramas e estruturas de decisão para iniciantes.",
-                tags: ["Consultar", "Iniciante"],
+                tags: ["40h", "Iniciante"],
                 tagColors: [
                   "bg-gray-100 text-gray-500",
                   "bg-green-50 text-green-600",
@@ -731,7 +727,7 @@ const Academia = () => {
                 bgHeader: "bg-gray-900 flex items-center justify-center",
                 badgeText: "Base",
                 badgeColor: "bg-green-600",
-                imgSrc: "/academia/logica.svg",
+                imgSrc: "/academia/logica.png",
                 imgStyle: "opacity-90",
                 titleHover: "group-hover:text-green-700",
                 iconColor: "text-green-700",
@@ -741,7 +737,7 @@ const Academia = () => {
                 category: "dados",
                 title: "SQL Server — Banco de Dados",
                 desc: "Consultas SQL, modelagem, procedures, views e administração básica no SQL Server.",
-                tags: ["Consultar", "Intermédio"],
+                tags: ["60h", "Intermédio"],
                 tagColors: [
                   "bg-gray-100 text-gray-500",
                   "bg-purple-50 text-purple-600",
@@ -750,7 +746,7 @@ const Academia = () => {
                 bgHeader: "bg-gray-900 flex items-center justify-center",
                 badgeText: "BD",
                 badgeColor: "bg-purple-600",
-                imgSrc: "/academia/sql.svg",
+                imgSrc: "/academia/sql.png",
                 imgStyle: "opacity-90",
                 titleHover: "group-hover:text-purple-700",
                 iconColor: "text-purple-700",
@@ -773,7 +769,7 @@ const Academia = () => {
                 imgStyle: "",
                 svgElement: (
                   <svg
-                    className="w-20 h-20 text-yellow-200 opacity-70"
+                    className="w-16 h-16 text-yellow-200 opacity-70"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24">
@@ -812,7 +808,7 @@ const Academia = () => {
                 imgStyle: "",
                 svgElement: (
                   <svg
-                    className="w-20 h-20 text-emerald-200 opacity-70"
+                    className="w-16 h-16 text-emerald-200 opacity-70"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24">
@@ -827,6 +823,38 @@ const Academia = () => {
                 titleHover: "group-hover:text-emerald-700",
                 iconColor: "text-emerald-700",
               },
+              {
+                id: 7,
+                category: "programacao",
+                title: "Inteligência Artificial Fundamentos",
+                desc: "Conceitos básicos de Machine Learning e Aplicações IA.",
+                tags: ["30h", "Iniciante"],
+                tagColors: ["", ""],
+                link: "/academia/cursos",
+                bgHeader: "bg-[#719f9f] flex items-center justify-center",
+                badgeText: "IA",
+                badgeColor: "bg-slate-600",
+                imgSrc: "/academia/logica.png",
+                imgStyle: "opacity-90",
+                titleHover: "group-hover:text-teal-700",
+                iconColor: "text-teal-700",
+              },
+              {
+                id: 8,
+                category: "erp",
+                title: "Cegid Retail — Gestão Comercial Completa",
+                desc: "Domine o POS e gestão de lojas do Cegid Retail.",
+                tags: ["25h", "Iniciante"],
+                tagColors: ["", ""],
+                link: "/academia/cursos",
+                bgHeader: "bg-gray-200 flex items-center justify-center",
+                badgeText: "ERP",
+                badgeColor: "bg-gray-500",
+                imgSrc: "/academia/primavera.svg",
+                imgStyle: "opacity-90",
+                titleHover: "group-hover:text-gray-700",
+                iconColor: "text-gray-700",
+              },
             ]
               .filter(
                 (curso) =>
@@ -840,9 +868,9 @@ const Academia = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: idx * 0.08 }}
-                  className="group bg-white rounded-[5px] border border-gray-200 hover:border-gray-300 overflow-hidden flex flex-col transition-all duration-200 hover:shadow-lg cursor-pointer min-h-[460px]">
+                  className="group bg-white rounded-[5px] border border-gray-200 hover:border-gray-300 overflow-hidden flex flex-col h-full transition-all duration-200 hover:shadow-lg cursor-pointer">
                   <div
-                    className={`relative h-64 overflow-hidden ${curso.bgHeader}`}>
+                    className={`relative h-44 overflow-hidden ${curso.bgHeader}`}>
                     {curso.imgSrc ? (
                       <img
                         src={curso.imgSrc}
@@ -853,52 +881,44 @@ const Academia = () => {
                       curso.svgElement
                     )}
                     <span
-                      className={`absolute top-2 left-2 px-3 py-1 text-white text-[10px] font-bold uppercase tracking-wider rounded-sm ${curso.badgeColor}`}>
+                      className={`absolute top-2 left-2 px-2.5 py-0.5 text-white text-[9px] font-bold uppercase tracking-wider rounded-sm ${curso.badgeColor}`}>
                       {curso.badgeText}
                     </span>
-                    
+
                     {/* Ações: Favorito e Partilhar */}
-                    <div className={`absolute top-2 right-2 flex flex-row gap-2 transition-opacity duration-300 ${favorites.includes(curso.id) ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
-                      <button 
-                        className={`w-8 h-8 rounded-full bg-white/90 backdrop-blur flex items-center justify-center hover:scale-110 transition-all shadow-sm ${favorites.includes(curso.id) ? 'text-red-500' : 'text-gray-500 hover:text-red-500'}`}
-                        title={favorites.includes(curso.id) ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
-                        onClick={(e) => toggleFavorite(e, curso.id)}
-                      >
-                        <svg className="w-4 h-4" fill={favorites.includes(curso.id) ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-                      </button>
-                      <button 
-                        className="w-8 h-8 rounded-full bg-white/90 backdrop-blur text-gray-500 flex items-center justify-center hover:text-blue-500 hover:bg-white hover:scale-110 transition-all shadow-sm"
-                        title="Partilhar"
-                        onClick={(e) => handleShare(e, curso)}
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
-                      </button>
-                    </div>
-                  </div>
-                  <div className="p-6 flex flex-col flex-1">
-                    <h3
-                      className={`text-base font-bold text-gray-900 leading-snug transition-colors duration-200 mb-3 ${curso.titleHover}`}>
-                      {curso.title}
-                    </h3>
-                    <p className="text-sm text-gray-500 leading-relaxed flex-1 mb-5">
-                      {curso.desc}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <div className="flex gap-1 flex-wrap">
-                        {curso.tags.map((tag, i) => (
-                          <span
-                            key={i}
-                            className={`px-1.5 py-0.5 text-[10px] rounded ${curso.tagColors[i]}`}>
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                      <Link
-                        to={curso.link}
-                        className={`text-xs font-semibold text-gray-900 transition-colors duration-200 flex items-center gap-0.5 group-hover:${curso.iconColor}`}>
-                        Ver curso
+                    <div
+                      className={`absolute top-2 right-2 flex flex-row gap-1.5 transition-opacity duration-300 ${favorites.includes(curso.id) ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
+                      <button
+                        className={`w-7 h-7 rounded-full bg-white/90 backdrop-blur flex items-center justify-center hover:scale-110 transition-all shadow-sm ${favorites.includes(curso.id) ? "text-red-500" : "text-gray-500 hover:text-red-500"}`}
+                        title={
+                          favorites.includes(curso.id)
+                            ? "Remover dos Favoritos"
+                            : "Adicionar aos Favoritos"
+                        }
+                        onClick={(e) => toggleFavorite(e, curso.id)}>
                         <svg
-                          className="w-3 h-3"
+                          className="w-3.5 h-3.5"
+                          fill={
+                            favorites.includes(curso.id)
+                              ? "currentColor"
+                              : "none"
+                          }
+                          stroke="currentColor"
+                          viewBox="0 0 24 24">
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        className="w-7 h-7 rounded-full bg-white/90 backdrop-blur text-gray-500 flex items-center justify-center hover:text-blue-500 hover:bg-white hover:scale-110 transition-all shadow-sm"
+                        title="Partilhar"
+                        onClick={(e) => handleShare(e, curso)}>
+                        <svg
+                          className="w-3.5 h-3.5"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24">
@@ -906,9 +926,34 @@ const Academia = () => {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={2}
-                            d="M9 5l7 7-7 7"
+                            d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
                           />
                         </svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="p-6 flex flex-col flex-grow">
+                    <h3
+                      className={`text-lg font-bold text-gray-900 leading-tight transition-colors duration-200 mb-2 line-clamp-1 ${curso.titleHover}`}>
+                      {curso.title}
+                    </h3>
+                    <p className="text-sm text-gray-500 leading-relaxed flex-grow mb-6 line-clamp-2">
+                      {curso.desc}
+                    </p>
+                    <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
+                      <div className="flex gap-3 flex-wrap">
+                        {curso.tags.map((tag, i) => (
+                          <span
+                            key={i}
+                            className="text-xs font-semibold text-black">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <Link
+                        to={curso.link}
+                        className={`text-sm font-bold text-gray-900 transition-colors duration-200 flex items-center gap-1 group-hover:${curso.iconColor}`}>
+                        Ver curso &rarr;
                       </Link>
                     </div>
                   </div>
@@ -1357,24 +1402,38 @@ const depoimentosData = [
 
 const DepoimentosCarrossel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
 
-  useEffect(() => {
-    if (isPaused) return;
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % depoimentosData.length);
-    }, 4500);
-    return () => clearInterval(interval);
-  }, [isPaused]);
+  // Troca manual apenas (sem carrossel automático)
+  const nextSlide = () => {
+    setActiveIndex((prev) => (prev + 1) % depoimentosData.length);
+  };
+
+  const prevSlide = () => {
+    setActiveIndex(
+      (prev) => (prev - 1 + depoimentosData.length) % depoimentosData.length,
+    );
+  };
 
   const getVisibleItems = () => {
     const total = depoimentosData.length;
-    const prev = (activeIndex - 1 + total) % total;
-    const next = (activeIndex + 1) % total;
+    const prevIndex = (activeIndex - 1 + total) % total;
+    const nextIndex = (activeIndex + 1) % total;
     return [
-      { ...depoimentosData[prev], position: "prev" },
-      { ...depoimentosData[activeIndex], position: "active" },
-      { ...depoimentosData[next], position: "next" },
+      {
+        ...depoimentosData[prevIndex],
+        position: "prev",
+        targetIndex: prevIndex,
+      },
+      {
+        ...depoimentosData[activeIndex],
+        position: "active",
+        targetIndex: activeIndex,
+      },
+      {
+        ...depoimentosData[nextIndex],
+        position: "next",
+        targetIndex: nextIndex,
+      },
     ];
   };
 
@@ -1382,25 +1441,61 @@ const DepoimentosCarrossel = () => {
     <section className="py-24 bg-white overflow-hidden relative">
       <div className="absolute inset-0 bg-gray-50/50 pointer-events-none" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="mb-16 text-left">
-          <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold uppercase tracking-wider text-red-600 bg-red-50 rounded-full">
+        <div className="mb-12 text-center flex flex-col items-center">
+          <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold uppercase tracking-wider text-red-600 bg-red-50 rounded-[5px]">
             Testemunhos
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">
             O que dizem os nossos alunos
           </h2>
-          <p className="text-lg text-gray-500 max-w-2xl">
+          <p className="text-base text-gray-500 max-w-2xl mx-auto">
             Histórias reais de profissionais que impulsionaram as suas carreiras
             com as formações práticas da Academia Envisio.
           </p>
         </div>
 
-        <div
-          className="relative h-[350px] flex items-center justify-center"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}>
+        {/* Container principal de exibição dos cards com setas nas extremidades */}
+        <div className="relative h-[380px] flex items-center justify-center">
+          {/* Seta Esquerda (Manual) */}
+          <button
+            onClick={prevSlide}
+            className="absolute left-2 sm:left-6 z-40 w-11 h-11 rounded-full bg-white shadow-lg border border-gray-200 text-gray-700 hover:text-red-600 hover:border-red-300 flex items-center justify-center transition-all hover:scale-110"
+            aria-label="Anterior">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+
+          {/* Seta Direita (Manual) */}
+          <button
+            onClick={nextSlide}
+            className="absolute right-2 sm:right-6 z-40 w-11 h-11 rounded-full bg-white shadow-lg border border-gray-200 text-gray-700 hover:text-red-600 hover:border-red-300 flex items-center justify-center transition-all hover:scale-110"
+            aria-label="Seguinte">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+
           <div className="flex justify-center items-center w-full max-w-5xl relative h-full">
-            <AnimatePresence>
+            <AnimatePresence mode="popLayout">
               {getVisibleItems().map((item) => {
                 const isActive = item.position === "active";
                 const isPrev = item.position === "prev";
@@ -1408,28 +1503,41 @@ const DepoimentosCarrossel = () => {
                 return (
                   <motion.div
                     key={`${item.id}-${item.position}`}
-                    initial={{ opacity: 0, scale: 0.8, x: isPrev ? -100 : 100 }}
-                    animate={{
-                      opacity: isActive ? 1 : 0.4,
-                      scale: isActive ? 1 : 0.85,
-                      x: isActive ? 0 : isPrev ? "-60%" : "60%",
-                      zIndex: isActive ? 30 : 10,
-                      filter: isActive ? "blur(0px)" : "blur(4px)",
+                    onClick={() => {
+                      if (!isActive) setActiveIndex(item.targetIndex);
                     }}
-                    exit={{ opacity: 0, scale: 0.8, x: isPrev ? -100 : 100 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    className={`absolute w-full max-w-md bg-white rounded-[5px] p-8 shadow-xl border ${isActive ? "border-red-100 shadow-red-900/5" : "border-gray-200"} flex flex-col`}>
+                    initial={{ opacity: 0, scale: 0.8, x: isPrev ? -120 : 120 }}
+                    animate={{
+                      opacity: isActive ? 1 : 0.35,
+                      scale: isActive ? 1.05 : 0.85,
+                      x: isActive ? 0 : isPrev ? "-58%" : "58%",
+                      zIndex: isActive ? 30 : 10,
+                      filter: isActive ? "blur(0px)" : "blur(2.5px)",
+                    }}
+                    exit={{ opacity: 0, scale: 0.8, x: isPrev ? -120 : 120 }}
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                    className={`absolute w-[90%] sm:w-[420px] bg-white rounded-[10px] p-6 sm:p-7 border transition-all ${
+                      isActive
+                        ? "border-red-100 shadow-2xl ring-1 ring-red-500/10 cursor-default"
+                        : "border-gray-200 shadow-md cursor-pointer hover:opacity-60"
+                    } flex flex-col justify-between`}>
                     <div className="flex items-center gap-4 mb-6">
                       <div
-                        className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg ${isActive ? "bg-red-100 text-red-600" : "bg-gray-100 text-gray-500"}`}>
+                        className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg ${
+                          isActive
+                            ? "bg-red-100 text-red-600 border border-red-200"
+                            : "bg-gray-100 text-gray-400"
+                        }`}>
                         {item.iniciais}
                       </div>
                       <div>
                         <h4
-                          className={`font-bold text-lg ${isActive ? "text-gray-900" : "text-gray-600"}`}>
+                          className={`font-bold text-lg ${
+                            isActive ? "text-gray-900" : "text-gray-600"
+                          }`}>
                           {item.nome}
                         </h4>
-                        <span className="text-sm font-medium text-gray-400">
+                        <span className="text-sm font-medium text-gray-400 block">
                           {item.papel}
                         </span>
                       </div>
@@ -1437,13 +1545,17 @@ const DepoimentosCarrossel = () => {
 
                     <div className="flex-1 relative">
                       <svg
-                        className="absolute -top-4 -left-2 w-8 h-8 text-gray-100"
+                        className="absolute -top-4 -left-2 w-8 h-8 text-gray-200/60"
                         fill="currentColor"
                         viewBox="0 0 24 24">
                         <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                       </svg>
                       <p
-                        className={`relative z-10 text-base leading-relaxed ${isActive ? "text-gray-600 font-medium" : "text-gray-400"}`}>
+                        className={`relative z-10 text-base leading-relaxed pl-2 ${
+                          isActive
+                            ? "text-gray-700 font-medium"
+                            : "text-gray-400"
+                        }`}>
                         "{item.texto}"
                       </p>
                     </div>
@@ -1454,13 +1566,17 @@ const DepoimentosCarrossel = () => {
           </div>
         </div>
 
-        {/* Controladores */}
-        <div className="flex justify-center items-center gap-3 mt-8 relative z-40">
+        {/* Controladores Manuais (Pontos) */}
+        <div className="flex justify-center items-center gap-2.5 mt-6 relative z-40">
           {depoimentosData.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setActiveIndex(idx)}
-              className={`transition-all duration-300 rounded-full ${activeIndex === idx ? "w-8 h-2.5 bg-red-600" : "w-2.5 h-2.5 bg-gray-300 hover:bg-gray-400"}`}
+              className={`transition-all duration-300 rounded-full ${
+                activeIndex === idx
+                  ? "w-8 h-2.5 bg-red-600"
+                  : "w-2.5 h-2.5 bg-gray-300 hover:bg-gray-400"
+              }`}
               aria-label={`Ir para depoimento ${idx + 1}`}
             />
           ))}
@@ -1492,11 +1608,11 @@ const ModuleCard: React.FC<ModuleCardProps> = ({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05 }}
-      className="bg-gray-50 rounded-[5px] overflow-hidden border border-gray-200 hover:border-gray-300 transition-colors duration-200">
+      className="bg-white rounded-[5px] overflow-hidden border border-gray-200 hover:border-gray-300 transition-colors duration-200">
       <button
         onClick={onToggle}
         className={`w-full px-5 py-3 flex items-center justify-between transition-colors duration-200 ${
-          isOpen ? "bg-gray-100" : "hover:bg-gray-100"
+          isOpen ? "bg-slate-50" : "hover:bg-slate-50"
         }`}>
         <div className="flex items-center gap-4">
           <div className="flex items-center justify-center w-8 h-8 rounded-full bg-white text-gray-600 border border-gray-300">
@@ -1619,24 +1735,29 @@ const modules = [
 const faqs = [
   {
     pergunta: "Os certificados emitidos são reconhecidos pelo mercado?",
-    resposta: "Sim. A Academia Envisio emite certificados com validade e reconhecimento no mercado profissional de Angola, atestando de forma robusta as suas competências."
+    resposta:
+      "Sim. A Academia Envisio emite certificados com validade e reconhecimento no mercado profissional de Angola, atestando de forma robusta as suas competências.",
   },
   {
     pergunta: "Preciso de experiência prévia para iniciar uma formação?",
-    resposta: "Depende do curso. Formações como 'Lógica de Programação' ou 'Conceitos Base de ERP' começam do zero. Já cursos de nível Avançado podem exigir conhecimentos prévios que estarão descritos na página de detalhes do curso."
+    resposta:
+      "Depende do curso. Formações como 'Lógica de Programação' ou 'Conceitos Base de ERP' começam do zero. Já cursos de nível Avançado podem exigir conhecimentos prévios que estarão descritos na página de detalhes do curso.",
   },
   {
     pergunta: "Existe a possibilidade de pagar o curso em prestações?",
-    resposta: "Sim! Sabemos que a flexibilidade é importante. Fale com um dos nossos consultores para conhecer os nossos planos de pagamento faseado adequados à sua realidade financeira."
+    resposta:
+      "Sim! Sabemos que a flexibilidade é importante. Fale com um dos nossos consultores para conhecer os nossos planos de pagamento faseado adequados à sua realidade financeira.",
   },
   {
     pergunta: "As aulas são mais teóricas ou práticas?",
-    resposta: "A nossa metodologia é 80% prática e 20% teórica. O foco é prepará-lo para situações reais do mercado de trabalho, resolvendo casos práticos em laboratórios equipados."
+    resposta:
+      "A nossa metodologia é 80% prática e 20% teórica. O foco é prepará-lo para situações reais do mercado de trabalho, resolvendo casos práticos em laboratórios equipados.",
   },
   {
     pergunta: "As formações são presenciais ou online?",
-    resposta: "Atualmente, a maioria das nossas turmas funciona no formato presencial nas nossas instalações. Isso garante uma melhor imersão, foco e acompanhamento direto e imediato pelo formador especialista."
-  }
+    resposta:
+      "Atualmente, a maioria das nossas turmas funciona no formato presencial nas nossas instalações. Isso garante uma melhor imersão, foco e acompanhamento direto e imediato pelo formador especialista.",
+  },
 ];
 
 /* ─── Diferenciais Section ───────────────────────────────────────────────── */
@@ -1644,52 +1765,95 @@ const DiferenciaisSection = () => {
   const beneficios = [
     {
       titulo: "Professores Especialistas",
-      descricao: "Aprenda com profissionais ativos no mercado que trazem a realidade do dia-a-dia empresarial para dentro da sala de aula.",
+      descricao:
+        "Aprenda com profissionais ativos no mercado que trazem a realidade do dia-a-dia empresarial para dentro da sala de aula.",
       icone: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+          />
         </svg>
-      )
+      ),
     },
     {
       titulo: "Componente 100% Prática",
-      descricao: "Chega de teoria exaustiva. A nossa metodologia foca na resolução de problemas reais usando ferramentas modernas.",
+      descricao:
+        "Chega de teoria exaustiva. A nossa metodologia foca na resolução de problemas reais usando ferramentas modernas.",
       icone: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+          />
         </svg>
-      )
+      ),
     },
     {
       titulo: "Laboratórios Equipados",
-      descricao: "Tenha acesso a computadores de alto desempenho e ao software Cegid Primavera já instalado para um treino imersivo.",
+      descricao:
+        "Tenha acesso a computadores de alto desempenho e ao software Cegid Primavera já instalado para um treino imersivo.",
       icone: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+          />
         </svg>
-      )
+      ),
     },
     {
       titulo: "Mercado de Trabalho",
-      descricao: "Certificação de peso e parcerias com empresas locais que ajudam a encaminhar os nossos alunos para o emprego.",
+      descricao:
+        "Certificação de peso e parcerias com empresas locais que ajudam a encaminhar os nossos alunos para o emprego.",
       icone: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+          />
         </svg>
-      )
-    }
+      ),
+    },
   ];
 
   return (
     <section className="py-24 bg-gray-50 overflow-hidden relative border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="mb-16 text-left">
-          <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold uppercase tracking-wider text-red-600 bg-red-50 rounded-full">
-            Diferenciais
+        <div className="mb-16 text-center flex flex-col items-center">
+          <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold uppercase tracking-wider text-red-600 bg-red-50 rounded-[5px]">
+            Vantagens
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">Porquê escolher a Academia Envisio?</h2>
-          <p className="text-lg text-gray-500">
-            A nossa prioridade não é apenas emitir diplomas, mas sim capacitar profissionais para as reais necessidades do tecido empresarial.
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">
+            Porquê escolher a Academia Envisio?
+          </h2>
+          <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+            A nossa prioridade não é apenas emitir diplomas, mas sim capacitar
+            profissionais para as reais necessidades do tecido empresarial.
           </p>
         </div>
 
@@ -1701,13 +1865,16 @@ const DiferenciaisSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, duration: 0.5 }}
-              className="p-4 transition-all duration-300 group flex flex-col items-center text-center"
-            >
+              className="p-4 transition-all duration-300 group flex flex-col items-center text-center">
               <div className="w-16 h-16 rounded-full bg-red-50 text-red-600 mb-6 flex items-center justify-center group-hover:scale-110 group-hover:bg-red-100 transition-all duration-300">
                 {item.icone}
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-red-600 transition-colors">{item.titulo}</h3>
-              <p className="text-gray-500 text-sm leading-relaxed">{item.descricao}</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-red-600 transition-colors">
+                {item.titulo}
+              </h3>
+              <p className="text-gray-500 text-sm leading-relaxed">
+                {item.descricao}
+              </p>
             </motion.div>
           ))}
         </div>
@@ -1718,31 +1885,40 @@ const DiferenciaisSection = () => {
 
 const FaqSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0); // Primeira aberta por padrão
-  const [contactData, setContactData] = useState({ nome: '', email: '', mensagem: '' });
-  const [status, setStatus] = useState('');
+  const [contactData, setContactData] = useState({
+    nome: "",
+    email: "",
+    mensagem: "",
+  });
+  const [status, setStatus] = useState("");
 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!contactData.nome || !contactData.email || !contactData.mensagem) {
-      setStatus('error');
+      setStatus("error");
       return;
     }
-    setStatus('success');
+    setStatus("success");
     setTimeout(() => {
-      setStatus('');
-      setContactData({ nome: '', email: '', mensagem: '' });
+      setStatus("");
+      setContactData({ nome: "", email: "", mensagem: "" });
     }, 3000);
   };
 
   return (
     <section className="py-24 bg-white overflow-hidden relative border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="mb-12 text-left">
-          <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold uppercase tracking-wider text-red-600 bg-red-50 rounded-full">
-            Tira-Teimas
+        <div className="mb-12 text-center flex flex-col items-center">
+          <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold uppercase tracking-wider text-red-600 bg-red-50 rounded-[5px]">
+            FAQ
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">Perguntas Frequentes</h2>
-          <p className="text-lg text-gray-500 max-w-2xl">Tudo o que precisa de saber antes de dar o próximo passo na sua carreira.</p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">
+            Perguntas Frequentes
+          </h2>
+          <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+            Tudo o que precisa de saber antes de dar o próximo passo na sua
+            carreira.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
@@ -1753,18 +1929,27 @@ const FaqSection = () => {
               return (
                 <div
                   key={index}
-                  className={`bg-white border ${isOpen ? 'border-red-200 shadow-md' : 'border-gray-200 shadow-sm'} rounded-[5px] overflow-hidden transition-all duration-200`}
-                >
+                  className={`bg-white border ${isOpen ? "border-red-200 shadow-md" : "border-gray-200 shadow-sm"} rounded-[5px] overflow-hidden transition-all duration-200`}>
                   <button
                     className="w-full px-6 py-5 text-left flex items-center justify-between focus:outline-none"
-                    onClick={() => setOpenIndex(isOpen ? null : index)}
-                  >
-                    <span className={`font-semibold text-lg ${isOpen ? 'text-red-600' : 'text-gray-900'}`}>
+                    onClick={() => setOpenIndex(isOpen ? null : index)}>
+                    <span
+                      className={`font-semibold text-lg ${isOpen ? "text-red-600" : "text-gray-900"}`}>
                       {faq.pergunta}
                     </span>
-                    <div className={`ml-4 flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 ${isOpen ? 'bg-red-50 text-red-600' : 'bg-gray-50 text-gray-400'}`}>
-                      <svg className={`w-5 h-5 transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    <div
+                      className={`ml-4 flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 ${isOpen ? "bg-red-50 text-red-600" : "bg-gray-50 text-gray-400"}`}>
+                      <svg
+                        className={`w-5 h-5 transform transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
                       </svg>
                     </div>
                   </button>
@@ -1774,8 +1959,7 @@ const FaqSection = () => {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
-                      >
+                        transition={{ duration: 0.3, ease: "easeInOut" }}>
                         <div className="px-6 pb-6 pt-0 text-gray-600 leading-relaxed text-base">
                           {faq.resposta}
                         </div>
@@ -1790,57 +1974,85 @@ const FaqSection = () => {
           {/* Contact Form (Right) */}
           <div className="lg:col-span-5">
             <div className="bg-white p-8 rounded-[5px] shadow-md border border-gray-200">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Ainda tem dúvidas?</h3>
-              <p className="text-sm text-gray-500 mb-6">Envie-nos uma mensagem e a nossa equipa entrará em contacto consigo rapidamente.</p>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                Ainda tem dúvidas?
+              </h3>
+              <p className="text-sm text-gray-500 mb-6">
+                Envie-nos uma mensagem e a nossa equipa entrará em contacto
+                consigo rapidamente.
+              </p>
 
-              {status === 'success' ? (
+              {status === "success" ? (
                 <div className="p-4 bg-green-50 text-green-700 rounded border border-green-200 text-center font-medium">
                   Mensagem enviada com sucesso!
                 </div>
               ) : (
                 <form onSubmit={handleContactSubmit} className="space-y-4">
-                  {status === 'error' && (
+                  {status === "error" && (
                     <div className="p-3 bg-red-50 text-red-600 rounded text-sm border border-red-200">
                       Por favor, preencha todos os campos obrigatórios.
                     </div>
                   )}
                   <div>
-                    <label htmlFor="faq-nome" className="block text-sm font-semibold text-gray-700 mb-1">Nome completo *</label>
+                    <label
+                      htmlFor="faq-nome"
+                      className="block text-sm font-semibold text-gray-700 mb-1">
+                      Nome completo *
+                    </label>
                     <input
                       type="text"
                       id="faq-nome"
                       value={contactData.nome}
-                      onChange={(e) => setContactData({...contactData, nome: e.target.value})}
+                      onChange={(e) =>
+                        setContactData({ ...contactData, nome: e.target.value })
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-[3px] focus:outline-none focus:ring-1 focus:ring-red-500"
                       placeholder="Ex: João Silva"
                     />
                   </div>
                   <div>
-                    <label htmlFor="faq-email" className="block text-sm font-semibold text-gray-700 mb-1">E-mail *</label>
+                    <label
+                      htmlFor="faq-email"
+                      className="block text-sm font-semibold text-gray-700 mb-1">
+                      E-mail *
+                    </label>
                     <input
                       type="email"
                       id="faq-email"
                       value={contactData.email}
-                      onChange={(e) => setContactData({...contactData, email: e.target.value})}
+                      onChange={(e) =>
+                        setContactData({
+                          ...contactData,
+                          email: e.target.value,
+                        })
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-[3px] focus:outline-none focus:ring-1 focus:ring-red-500"
                       placeholder="Ex: joao.silva@email.com"
                     />
                   </div>
                   <div>
-                    <label htmlFor="faq-mensagem" className="block text-sm font-semibold text-gray-700 mb-1">Mensagem *</label>
+                    <label
+                      htmlFor="faq-mensagem"
+                      className="block text-sm font-semibold text-gray-700 mb-1">
+                      Mensagem *
+                    </label>
                     <textarea
                       id="faq-mensagem"
                       rows={4}
                       value={contactData.mensagem}
-                      onChange={(e) => setContactData({...contactData, mensagem: e.target.value})}
+                      onChange={(e) =>
+                        setContactData({
+                          ...contactData,
+                          mensagem: e.target.value,
+                        })
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-[3px] focus:outline-none focus:ring-1 focus:ring-red-500 resize-none"
                       placeholder="Como podemos ajudar?"
                     />
                   </div>
                   <button
                     type="submit"
-                    className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-[5px] transition duration-300 transform hover:scale-[1.02] shadow-sm"
-                  >
+                    className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-[5px] transition duration-300 transform hover:scale-[1.02] shadow-sm">
                     Enviar Mensagem
                   </button>
                 </form>
@@ -1852,4 +2064,3 @@ const FaqSection = () => {
     </section>
   );
 };
-

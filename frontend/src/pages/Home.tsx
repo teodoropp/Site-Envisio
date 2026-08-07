@@ -204,7 +204,7 @@ export function HeroSection() {
   // RENDERIZAÇÃO DA HOME
   // ======================
   return (
-    <div className="min-h-screen pb-10 bg-white pt-16">
+    <div className="min-h-screen pb-10 bg-white pt-0">
       {/* Carrossel Desktop */}
       <div className="hidden md:block">
         <DesktopCarousel slides={heroSlides} />
@@ -229,11 +229,11 @@ export function HeroSection() {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 2 }}
                 style={{
-                  fontFamily: "Segoe UI Regular",
+                  fontFamily: "Segoe UI Variable Text",
                 }}
                 className="text-sm uppercase tracking-wider text-gray-900 mb-4 block"></motion.span>
               <h2
-                style={{ fontFamily: "Segoe UI Semibold" }}
+                style={{ fontFamily: "Segoe UI Variable Text" }}
                 className="text-5xl mb-6">
                 Transformando negócios desde 2018
               </h2>
@@ -249,13 +249,13 @@ export function HeroSection() {
                   whileInView={{ opacity: 1, x: 0 }}
                   className="space-y-6">
                   <h3
-                    style={{ fontFamily: "Segoe UI Semibold" }}
+                    style={{ fontFamily: "Segoe UI Variable Text" }}
                     className="text-3xl font-bold">
                     Quem Somos
                   </h3>
                   <p
                     style={{
-                      fontFamily: "Segoe UI Regular",
+                      fontFamily: "Segoe UI Variable Text",
                       fontSize: "16px",
                       marginTop: "20px", // ou "24px" se preferir maior
                     }}
@@ -290,7 +290,7 @@ export function HeroSection() {
                       <div>
                         <h4
                           className="font-semibold mb-1 mt-3"
-                          style={{ fontFamily: "Segoe UI Semibold" }}>
+                          style={{ fontFamily: "Segoe UI Variable Text" }}>
                           Fundação da Empresa
                         </h4>
                       </div>
@@ -303,7 +303,7 @@ export function HeroSection() {
                     onClick={() => navigate("/quem-somos")}
                     className="mt-8 w-full bg-red-600 text-white py-4 px-8 rounded-[5px] flex items-center justify-center group hover:bg-red-700 transition-all"
                     style={{
-                      fontFamily: "Segoe UI Regular",
+                      fontFamily: "Segoe UI Variable Text",
                     }}>
                     Conheça Nossa História Completa
                     <motion.span className="ml-2 group-hover:translate-x-1 transition-transform">
@@ -350,7 +350,7 @@ export function HeroSection() {
           className="text-center mb-20">
           <h2
             className="text-4xl font-bold text-black mt-4 mb-6"
-            style={{ fontFamily: "Segoe UI Semibold" }}>
+            style={{ fontFamily: "Segoe UI Variable Text" }}>
             Nossos Serviços Especializados
           </h2>
           <div className="w-24 h-1 bg-red-600 mx-auto mb-8" />
@@ -423,18 +423,18 @@ export function HeroSection() {
             className="text-center max-w-3xl mx-auto mb-20">
             <span
               className="text-sm uppercase tracking-wider text-red-600  mb-4 block"
-              style={{ fontFamily: "Segoe UI Regular" }}>
+              style={{ fontFamily: "Segoe UI Variable Text" }}>
               Formação Profissional de Elite
             </span>
             <h2
               className="text-5xl text-gray-900 mb-6"
-              style={{ fontFamily: "Segoe UI semibold" }}>
+              style={{ fontFamily: "Segoe UI Variable Text" }}>
               Desenvolva Seu Potencial
             </h2>
             <div className="w-24 h-1 bg-red-600 mx-auto mb-8" />
             <p
               className="text-xl text-gray-600"
-              style={{ fontFamily: "Segoe UI Regular" }}>
+              style={{ fontFamily: "Segoe UI Variable Text" }}>
               Programas exclusivos desenvolvidos por especialistas para
               impulsionar sua carreira ao próximo nível
             </p>
@@ -481,7 +481,7 @@ export function HeroSection() {
                 transition={{ delay: index * 0.2 }}
                 whileHover={{ y: -10 }}
                 className="group relative h-full"
-                style={{ fontFamily: "Segoe UI Regular" }}>
+                style={{ fontFamily: "Segoe UI Variable Text" }}>
                 <div className="bg-white rounded-[5px] p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 h-full flex flex-col">
                   {/* Ícone e Título */}
                   <div className="flex items-center gap-4 mb-8">
@@ -491,12 +491,12 @@ export function HeroSection() {
                     <div>
                       <h3
                         className="text-2xl font-bold text-gray-900 group-hover:text-red-600 transition-colors"
-                        style={{ fontFamily: "Segoe UI semibold" }}>
+                        style={{ fontFamily: "Segoe UI Variable Text" }}>
                         {curso.title}
                       </h3>
                       <p
                         className="text-gray-600"
-                        style={{ fontFamily: "Segoe UI Regular" }}>
+                        style={{ fontFamily: "Segoe UI Variable Text" }}>
                         {curso.subtitle}
                       </p>
                     </div>
@@ -511,7 +511,7 @@ export function HeroSection() {
                         </div>
                         <span
                           className="text-gray-700"
-                          style={{ fontFamily: "Segoe UI Regular" }}>
+                          style={{ fontFamily: "Segoe UI Variable Text" }}>
                           {feature}
                         </span>
                       </div>
@@ -524,7 +524,7 @@ export function HeroSection() {
                       </div>
                       <span
                         className="text-gray-700"
-                        style={{ fontFamily: "Segoe UI Regular" }}>
+                        style={{ fontFamily: "Segoe UI Variable Text" }}>
                         {curso.title === "Certificação Profissional"
                           ? "Inclui acesso a plataforma online"
                           : curso.title === "Mentoria Executiva"
@@ -543,7 +543,7 @@ export function HeroSection() {
                     whileTap={{ scale: 0.98 }}
                     onClick={() => navigate("/academia")}
                     className="mt-auto w-full bg-gradient-to-r from-red-600 to-red-700 text-white py-4 rounded-[5px] flex items-center justify-center group hover:from-red-700 hover:to-red-800 transition-all"
-                    style={{ fontFamily: "Segoe UI Regular" }}>
+                    style={{ fontFamily: "Segoe UI Variable Text" }}>
                     Visita-nos
                     <span className="ml-2 group-hover:translate-x-1 transition-transform">
                       →
@@ -573,13 +573,13 @@ export function HeroSection() {
             </span>
             <h2
               className="text-5xl text-white mb-6"
-              style={{ fontFamily: "Segoe UI semibold" }}>
+              style={{ fontFamily: "Segoe UI Variable Text" }}>
               O Que Nossos Clientes Dizem
             </h2>
             <div className="w-24 h-1 bg-red-600 mx-auto mb-8" />
             <p
               className="text-xl text-gray-300"
-              style={{ fontFamily: "Segoe UI Regular" }}>
+              style={{ fontFamily: "Segoe UI Variable Text" }}>
               Histórias de sucesso e transformação
             </p>
           </motion.div>
@@ -632,7 +632,7 @@ export function HeroSection() {
                   {/* Texto do Depoimento */}
                   <p
                     className="text-gray-100 text-2xl md:text-2xl italic mb-8 text-center drop-shadow"
-                    style={{ fontFamily: "Segoe UI Regular" }}>
+                    style={{ fontFamily: "Segoe UI Variable Text" }}>
                     {
                       Object.values(businessSegments)[currentSlide].testimonial
                         .text
@@ -651,7 +651,7 @@ export function HeroSection() {
                     </div>
                     <h4
                       className="text-white text-lg"
-                      style={{ fontFamily: "Segoe UI semibold" }}>
+                      style={{ fontFamily: "Segoe UI Variable Text" }}>
                       {
                         Object.values(businessSegments)[currentSlide]
                           .testimonial.author
@@ -659,7 +659,7 @@ export function HeroSection() {
                     </h4>
                     <p
                       className="text-red-400 text-sm"
-                      style={{ fontFamily: "Segoe UI Regular" }}>
+                      style={{ fontFamily: "Segoe UI Variable Text" }}>
                       {
                         Object.values(businessSegments)[currentSlide]
                           .testimonial.role
@@ -729,12 +729,12 @@ export function HeroSection() {
             className="text-center max-w-3xl mx-auto mb-20">
             <span
               className="text-xs uppercase tracking-[0.2em] text-red-600 mb-3 block"
-              style={{ fontFamily: "Segoe UI Regular" }}>
+              style={{ fontFamily: "Segoe UI Variable Text" }}>
               Parcerias Estratégicas
             </span>
             <h2
               className="text-5xl font-extrabold mb-4 text-gray-900 drop-shadow-sm"
-              style={{ fontFamily: "Segoe UI semibold" }}>
+              style={{ fontFamily: "Segoe UI Variable Text" }}>
               Nossos Clientes e Parceiros
             </h2>
             <div className="flex justify-center mb-8">
@@ -742,7 +742,7 @@ export function HeroSection() {
             </div>
             <p
               className="text-lg text-gray-500 leading-relaxed"
-              style={{ fontFamily: "Segoe UI Regular" }}>
+              style={{ fontFamily: "Segoe UI Variable Text" }}>
               Colaboramos com as principais empresas do mercado
               <br />
               para oferecer as melhores soluções
@@ -795,12 +795,12 @@ export function HeroSection() {
             >
               <h3
                 className="text-2xl mb-4 text-white text-center"
-                style={{ fontFamily: "Segoe UI semibold" }}>
+                style={{ fontFamily: "Segoe UI Variable Text" }}>
                 Quer se Tornar um Parceiro?
               </h3>
               <p
                 className="text-gray-300 mb-6 max-w-2xl mx-auto text-center text-base"
-                style={{ fontFamily: "Segoe UI Regular" }}>
+                style={{ fontFamily: "Segoe UI Variable Text" }}>
                 Junte-se a nós e faça parte de uma rede de empresas
                 comprometidas com a excelência e inovação
               </p>
@@ -810,7 +810,7 @@ export function HeroSection() {
                   whileTap={{ scale: 0.95 }}
                   onClick={() => navigate("/contato")}
                   className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-[5px] inline-flex items-center group transition-all"
-                  style={{ fontFamily: "Segoe UI Regular" }}>
+                  style={{ fontFamily: "Segoe UI Variable Text" }}>
                   Entre em Contato
                   <span className="ml-2 group-hover:translate-x-1 transition-transform">
                     →

@@ -10,9 +10,9 @@ interface LayoutAcademiaProps {
 
 export default function LayoutAcademia({ children }: LayoutAcademiaProps) {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="academia-container flex flex-col min-h-screen bg-gray-50">
       <NavbarAcademia />
-      <main className="flex-grow pt-16">{children}</main>
+      <main className="flex-grow pt-0">{children}</main>
       <FooterAcademia />
     </div>
   );

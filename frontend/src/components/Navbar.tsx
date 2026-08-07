@@ -1,12 +1,13 @@
 /** @format */
 
 import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [servicosDropdownOpen, setServicosDropdownOpen] = useState(false);
   const [servicosDropdownTimeout, setServicosDropdownTimeout] =
@@ -14,536 +15,341 @@ export default function Navbar() {
   const [apoioDropdownTimeout, setApoioDropdownTimeout] =
     useState<NodeJS.Timeout | null>(null);
   const location = useLocation();
-  const navigate = useNavigate();
 
-  const navItems = [
-    { name: "Home", path: "/" },
-    { name: "Quem Somos", path: "/quem-somos" },
-    { name: "Serviços", path: "/servicos" },
-    { name: "Contato", path: "/contato" }, // Atualizado
-  ];
+  const isServicosActive = () => location.pathname.startsWith("/servicos");
+  const isApoioActive = () =>
+    location.pathname.startsWith("/contato") ||
+    location.pathname.startsWith("/suporte");
 
-  // Função para verificar se está em uma página de serviços
-  const isServicosActive = () => {
-    return location.pathname.startsWith("/servicos");
-  };
-
-  // Função para verificar se está em uma página de apoio
-  const isApoioActive = () => {
-    return location.pathname.startsWith("/apoio");
-  };
-
-  // Detectar scroll e cor da página
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Função para scroll suave até rentingsection
-  const handleRentingClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setServicosDropdownOpen(false);
-    if (location.pathname === "/servicos") {
-      const section = document.getElementById("rentingsection");
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth" });
-      }
-    } else {
-      navigate("/servicos#rentingsection");
-      setTimeout(() => {
-        const section = document.getElementById("rentingsection");
-        if (section) {
-          section.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 400);
-    }
-  };
-
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      style={{
-        fontFamily: "Segoe UI Regular",
-        "--dropdown-offset": "46px",
-        "--menu-height": "48px",
-      }}
-      className="fixed top-0 w-full z-50 transition-all duration-300 bg-white shadow-lg">
-      {/* Container principal do menu */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-18 items-center">
-          {" "}
-          {/* <-- aumente a altura aqui */}
-          <Link to="/" className="flex items-center">
-            {/* Logo e nome da empresa */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex items-center">
-              <img
-                src="/images/Logos/logo.svg"
-                alt="Mais Resultados"
-                className="h-14 w-auto"
-              />
-              <span className="text-xl font-bold ml-2 text-gray-900"></span>
-            </motion.div>
-          </Link>
-          {/* Menu de navegação para desktop */}
-          <div className="hidden md:flex items-center h-full">
-            {/* Mapeamento dos itens do menu */}
-            {navItems.map((item, index) =>
-              item.name === "Serviços" ? (
-                // Dropdown do menu Serviços (igual ao de Apoio)
-                <div
-                  key="servicos"
-                  className="relative h-full flex items-center"
-                  onMouseEnter={() => {
-                    if (servicosDropdownTimeout) {
-                      clearTimeout(servicosDropdownTimeout);
-                      setServicosDropdownTimeout(null);
-                    }
-                    setServicosDropdownOpen(true);
-                  }}
-                  onMouseLeave={() => {
-                    const timeout = setTimeout(() => {
-                      setServicosDropdownOpen(false);
-                    }, 200);
-                    setServicosDropdownTimeout(timeout);
-                  }}>
-                  <span
-                    className={`h-full px-4 text-base font-normal bg-transparent flex items-center transition-all relative cursor-pointer ${
-                      isServicosActive() || servicosDropdownOpen
-                        ? "text-red-600"
-                        : "text-black hover:text-red-600"
-                    }`}
-                    style={{
-                      fontFamily: "Segoe UI Regular",
-                    }}>
-                    Serviços
-                    <svg
-                      className="ml-2 w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                    {/* Barra indicadora */}
-                    {(servicosDropdownOpen || isServicosActive()) && (
-                      <div
-                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"
-                        style={{ bottom: "-17px" }}
-                      />
-                    )}
-                  </span>
-                  {/* Dropdown igual ao de Apoio */}
-                  {servicosDropdownOpen && (
-                    <div
-                      className="absolute min-w-[240px] max-w-[300px] bg-white border border-gray-200 shadow-lg z-50"
-                      style={{
-                        fontFamily: "Segoe UI Regular",
-                        top: "var(--dropdown-offset)",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        marginTop: "-6px",
-                      }}
-                      onMouseEnter={() => {
-                        if (servicosDropdownTimeout) {
-                          clearTimeout(servicosDropdownTimeout);
-                          setServicosDropdownTimeout(null);
-                        }
-                        setServicosDropdownOpen(true);
-                      }}
-                      onMouseLeave={() => {
-                        const timeout = setTimeout(() => {
-                          setServicosDropdownOpen(false);
-                        }, 200);
-                        setServicosDropdownTimeout(timeout);
-                      }}>
-                      <div className="px-2 pt-2 pb-2">
-                        <Link
-                          to="/servicos/hardware"
-                          className="block px-6 py-3 text-base hover:bg-red-50 hover:text-red-600 text-black"
-                          onClick={() => setServicosDropdownOpen(false)}>
-                          Hardware
-                        </Link>
-                        <hr className="my-1 border-gray-200" />
-                        <Link
-                          to="/servicos/software"
-                          className="block px-6 py-3 text-base hover:bg-red-50 hover:text-red-600 text-black"
-                          onClick={() => setServicosDropdownOpen(false)}>
-                          Software
-                        </Link>
-                        <hr className="my-1 border-gray-200" />
-                        <Link
-                          to="/servicos/renting"
-                          className="block px-6 py-3 text-base hover:bg-red-50 hover:text-red-600 text-black"
-                          onClick={() => setServicosDropdownOpen(false)}>
-                          Renting
-                        </Link>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ) : item.name === "Contato" ? (
-                // Dropdown do menu Apoio
-                <div
-                  key="apoio"
-                  className="relative h-full flex items-center"
-                  onMouseEnter={() => {
-                    if (apoioDropdownTimeout) {
-                      clearTimeout(apoioDropdownTimeout);
-                      setApoioDropdownTimeout(null);
-                    }
-                    setDropdownOpen(true);
-                  }}
-                  onMouseLeave={() => {
-                    const timeout = setTimeout(() => {
-                      setDropdownOpen(false);
-                    }, 200);
-                    setApoioDropdownTimeout(timeout);
-                  }}>
-                  <span
-                    className={`h-full px-4 text-base font-normal bg-transparent flex items-center transition-all relative cursor-pointer ${
-                      isApoioActive() || dropdownOpen
-                        ? "text-red-600"
-                        : "text-black hover:text-red-600"
-                    }`}
-                    style={{
-                      fontFamily: "Segoe UI Regular",
-                    }}>
-                    Apoio
-                    <svg
-                      className="ml-2 w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                    {/* Barra indicadora menu apoio*/}
-                    {(dropdownOpen || isApoioActive()) && (
-                      <div
-                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"
-                        style={{ bottom: "-17px" }}
-                      />
-                    )}
-                  </span>
-                  {/* Menu dropdown Apoio */}
-                  {dropdownOpen && (
-                    <div
-                      className="absolute min-w-[240px] max-w-[300px] bg-white border border-gray-200 shadow-lg z-50"
-                      style={{
-                        fontFamily: "Segoe UI Regular",
-                        top: "var(--dropdown-offset)",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        marginTop: "-6px",
-                      }}
-                      onMouseEnter={() => {
-                        if (apoioDropdownTimeout) {
-                          clearTimeout(apoioDropdownTimeout);
-                          setApoioDropdownTimeout(null);
-                        }
-                        setDropdownOpen(true);
-                      }}
-                      onMouseLeave={() => {
-                        const timeout = setTimeout(() => {
-                          setDropdownOpen(false);
-                        }, 200);
-                        setApoioDropdownTimeout(timeout);
-                      }}>
-                      <div className="px-2 pt-2 pb-2">
-                        <Link
-                          to="/contato" // Atualizado
-                          className="block px-6 py-3 text-base hover:bg-red-50 hover:text-red-600 text-black"
-                          onClick={() => setDropdownOpen(false)}>
-                          Contactos
-                        </Link>
-                        <hr className="my-1 border-gray-200" />
-                        <Link
-                          to="/suporte-tecnico" // Atualizado
-                          className="block px-6 py-3 text-base hover:bg-red-50 hover:text-red-600 text-black"
-                          onClick={() => setDropdownOpen(false)}>
-                          Suporte Técnico
-                        </Link>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                // Links normais (Home, Quem Somos)
-                <motion.div
-                  key={item.path}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="relative h-full flex items-center">
-                  <Link
-                    to={item.path}
-                    className={`h-full px-4 text-base font-normal transition-all flex items-center relative ${
-                      location.pathname === item.path
-                        ? "text-red-600"
-                        : "text-black hover:text-red-600"
-                    }`}
-                    style={{
-                      fontFamily: "Segoe UI Regular",
-                    }}>
-                    {item.name}
-                    {/* Barra indicadora */}
-                    {location.pathname === item.path && (
-                      <div
-                        className="absolute left-0 right-0 h-0.5 bg-red-600"
-                        // Remova o style={{ bottom: "-17px" }}
-                        style={{ bottom: "-17px" }}
-                      />
-                    )}
-                  </Link>
-                </motion.div>
-              )
-            )}
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 font-['Segoe_UI_Variable_Text',sans-serif] h-[54px] select-none transition-all duration-300 ${
+        isScrolled
+          ? "bg-white border-b border-[#e6e6e6] shadow-sm text-[#262626]"
+          : "bg-transparent border-none"
+      }`}>
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+        {/* Lado Esquerdo: Apenas o Logótipo Envisio */}
+        <Link to="/" className="flex items-center py-1.5 focus:outline-none group">
+          <img
+            src="/images/Logos/logo.svg"
+            alt="Envisio"
+            className="h-10 w-auto object-contain transition-all duration-200 group-hover:scale-105"
+          />
+        </Link>
 
-            {/* Botão Academia */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5 }}>
-              <Link
-                to="/academia"
-                className="ml-8 px-6 bg-white text-black border border-red-600 font-normal hover:bg-red-50 hover:text-red-700 transition-all duration-300 uppercase flex items-center"
-                style={{
-                  fontFamily: "Segoe UI Regular",
-                  borderRadius: "3px",
-                  height: "40px",
-                }}>
-                Academia
-              </Link>
-            </motion.div>
-          </div>
-          {/* Botão Mobile */}
-          <div className="md:hidden flex items-center">
+        {/* Lado Direito: Todos os Links do Menu Alinhados à Direita (Estilo Academia) */}
+        <div className="hidden md:flex items-center space-x-1 lg:space-x-2 h-full">
+          {/* Link 1: Home */}
+          <Link
+            to="/"
+            className="h-full flex items-center px-3 text-[13px] font-normal transition-colors group">
+            <span
+              className={`py-0.5 border-b-2 transition-all ${
+                location.pathname === "/"
+                  ? "border-red-600 font-semibold text-red-600"
+                  : "border-transparent text-[#262626] group-hover:border-red-600 group-hover:text-red-600"
+              }`}>
+              Início
+            </span>
+          </Link>
+
+          {/* Link 2: Quem Somos */}
+          <Link
+            to="/quem-somos"
+            className="h-full flex items-center px-3 text-[13px] font-normal transition-colors group">
+            <span
+              className={`py-0.5 border-b-2 transition-all ${
+                location.pathname === "/quem-somos"
+                  ? "border-red-600 font-semibold text-red-600"
+                  : "border-transparent text-[#262626] group-hover:border-red-600 group-hover:text-red-600"
+              }`}>
+              Quem Somos
+            </span>
+          </Link>
+
+          {/* Link 3: Serviços Dropdown */}
+          <div
+            className="relative h-full flex items-center"
+            onMouseEnter={() => {
+              if (servicosDropdownTimeout) clearTimeout(servicosDropdownTimeout);
+              setServicosDropdownOpen(true);
+            }}
+            onMouseLeave={() => {
+              const timeout = setTimeout(() => setServicosDropdownOpen(false), 200);
+              setServicosDropdownTimeout(timeout);
+            }}>
             <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg text-black">
-              <div className="w-6 h-6 relative">
-                <motion.span
-                  animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute w-full h-0.5 bg-current transform transition-all"
-                />
-                <motion.span
-                  animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute w-full h-0.5 bg-current top-2.5"
-                />
-                <motion.span
-                  animate={
-                    isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }
-                  }
-                  transition={{ duration: 0.2 }}
-                  className="absolute w-full h-0.5 bg-current top-5"
-                />
-              </div>
+              className={`h-full px-3 text-[13px] font-normal flex items-center transition-colors group focus:outline-none ${
+                isServicosActive() || servicosDropdownOpen
+                  ? "text-red-600 font-semibold"
+                  : "text-[#262626] hover:text-red-600"
+              }`}>
+              <span
+                className={`py-0.5 border-b-2 transition-all flex items-center gap-1 ${
+                  isServicosActive() || servicosDropdownOpen
+                    ? "border-red-600"
+                    : "border-transparent group-hover:border-red-600"
+                }`}>
+                Serviços
+                <ChevronDown size={14} className="mt-0.5" />
+              </span>
             </button>
+
+            {/* Dropdown de Serviços */}
+            {servicosDropdownOpen && (
+              <div
+                className="absolute right-0 top-[53px] min-w-[210px] bg-white border-b border-l border-r border-t-0 border-[#e6e6e6] shadow-xl rounded-b-md py-2 z-40 animate-in fade-in slide-in-from-top-1 duration-150"
+                onMouseEnter={() => {
+                  if (servicosDropdownTimeout) clearTimeout(servicosDropdownTimeout);
+                  setServicosDropdownOpen(true);
+                }}
+                onMouseLeave={() => {
+                  const timeout = setTimeout(() => setServicosDropdownOpen(false), 200);
+                  setServicosDropdownTimeout(timeout);
+                }}>
+                <Link
+                  to="/servicos/hardware"
+                  className="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
+                  onClick={() => setServicosDropdownOpen(false)}>
+                  Hardware
+                </Link>
+                <div className="h-[1px] bg-gray-100 my-1" />
+                <Link
+                  to="/servicos/software"
+                  className="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
+                  onClick={() => setServicosDropdownOpen(false)}>
+                  Software
+                </Link>
+                <div className="h-[1px] bg-gray-100 my-1" />
+                <Link
+                  to="/servicos/renting"
+                  className="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
+                  onClick={() => setServicosDropdownOpen(false)}>
+                  Aluguel de Produtos (Renting)
+                </Link>
+              </div>
+            )}
           </div>
+
+          {/* Link 4: Apoio / Contactos Dropdown */}
+          <div
+            className="relative h-full flex items-center"
+            onMouseEnter={() => {
+              if (apoioDropdownTimeout) clearTimeout(apoioDropdownTimeout);
+              setDropdownOpen(true);
+            }}
+            onMouseLeave={() => {
+              const timeout = setTimeout(() => setDropdownOpen(false), 200);
+              setApoioDropdownTimeout(timeout);
+            }}>
+            <button
+              className={`h-full px-3 text-[13px] font-normal flex items-center transition-colors group focus:outline-none ${
+                isApoioActive() || dropdownOpen
+                  ? "text-red-600 font-semibold"
+                  : "text-[#262626] hover:text-red-600"
+              }`}>
+              <span
+                className={`py-0.5 border-b-2 transition-all flex items-center gap-1 ${
+                  isApoioActive() || dropdownOpen
+                    ? "border-red-600"
+                    : "border-transparent group-hover:border-red-600"
+                }`}>
+                Apoio
+                <ChevronDown size={14} className="mt-0.5" />
+              </span>
+            </button>
+
+            {/* Dropdown de Apoio */}
+            {dropdownOpen && (
+              <div
+                className="absolute right-0 top-[53px] min-w-[200px] bg-white border-b border-l border-r border-t-0 border-[#e6e6e6] shadow-xl rounded-b-md py-2 z-40 animate-in fade-in slide-in-from-top-1 duration-150"
+                onMouseEnter={() => {
+                  if (apoioDropdownTimeout) clearTimeout(apoioDropdownTimeout);
+                  setDropdownOpen(true);
+                }}
+                onMouseLeave={() => {
+                  const timeout = setTimeout(() => setDropdownOpen(false), 200);
+                  setApoioDropdownTimeout(timeout);
+                }}>
+                <Link
+                  to="/contato"
+                  className="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
+                  onClick={() => setDropdownOpen(false)}>
+                  Contactos
+                </Link>
+                <div className="h-[1px] bg-gray-100 my-1" />
+                <Link
+                  to="/suporte-tecnico"
+                  className="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
+                  onClick={() => setDropdownOpen(false)}>
+                  Suporte Técnico
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Botão Especial Academia (Estilo Original Restaurado) */}
+          <div className="pl-4">
+            <Link
+              to="/academia"
+              className="px-6 text-xs font-normal text-black bg-white border border-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-300 uppercase flex items-center justify-center rounded-[3px] h-[38px]"
+              style={{
+                fontFamily: "Segoe UI Regular",
+              }}>
+              Academia
+            </Link>
+          </div>
+        </div>
+
+        {/* Botão Hamburger Mobile */}
+        <div className="md:hidden flex items-center">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 rounded-md text-[#262626] focus:outline-none">
+            <div className="w-6 h-5 relative flex flex-col justify-between">
+              <span
+                className={`w-full h-0.5 bg-current transition-all transform origin-left ${
+                  isOpen ? "rotate-45 translate-x-0.5 -translate-y-0.5" : ""
+                }`}
+              />
+              <span
+                className={`w-full h-0.5 bg-current transition-all ${
+                  isOpen ? "opacity-0" : "opacity-100"
+                }`}
+              />
+              <span
+                className={`w-full h-0.5 bg-current transition-all transform origin-left ${
+                  isOpen ? "-rotate-45 translate-x-0.5 translate-y-0.5" : ""
+                }`}
+              />
+            </div>
+          </button>
         </div>
       </div>
 
-      {/* Menu Mobile */}
+      {/* Menu Mobile Dropdown Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-t border-gray-100">
-            <div className="px-4 py-6 space-y-3">
-              {navItems.map((item, index) =>
-                item.name === "Serviços" ? (
-                  // Serviços com dropdown no mobile (ajustado para os mesmos links do desktop)
-                  <div key="servicos-mobile" className="relative">
-                    <button
-                      type="button"
-                      onClick={() => setServicosDropdownOpen((v) => !v)}
-                      className={`block w-full text-left px-4 py-3 rounded-lg text-base font-medium hover:bg-red-50 hover:text-red-600 focus:outline-none focus:bg-red-50 focus:text-red-600 ${
-                        isServicosActive()
-                          ? "bg-red-50 text-red-600"
-                          : "text-gray-600"
-                      } flex items-center justify-between`}
-                      aria-expanded={servicosDropdownOpen ? "true" : "false"}
-                      aria-controls="servicos-mobile-dropdown">
-                      Serviços
-                      <svg
-                        className={`w-4 h-4 ml-2 transition-transform ${
-                          servicosDropdownOpen ? "rotate-180" : ""
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </button>
-                    <AnimatePresence>
-                      {servicosDropdownOpen && (
-                        <motion.div
-                          id="servicos-mobile-dropdown"
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="overflow-hidden mt-1 ml-0 min-w-[240px] max-w-[300px] bg-white border border-gray-200 rounded-lg shadow-lg z-50"
-                          style={{ fontFamily: "Segoe UI Regular" }}>
-                          <div className="px-2 pt-2 pb-2">
-                            <Link
-                              to="/servicos/hardware"
-                              className="block px-6 py-3 text-base hover:bg-red-50 hover:text-red-600 text-black"
-                              onClick={() => {
-                                setIsOpen(false);
-                                setServicosDropdownOpen(false);
-                              }}>
-                              Hardware
-                            </Link>
-                            <hr className="my-1 border-gray-200" />
-                            <Link
-                              to="/servicos/software"
-                              className="block px-6 py-3 text-base hover:bg-red-50 hover:text-red-600 text-black"
-                              onClick={() => {
-                                setIsOpen(false);
-                                setServicosDropdownOpen(false);
-                              }}>
-                              Software
-                            </Link>
-                            <hr className="my-1 border-gray-200" />
-                            <Link
-                              to="/servicos/renting"
-                              className="block px-6 py-3 text-base hover:bg-red-50 hover:text-red-600 text-black"
-                              onClick={() => {
-                                setIsOpen(false);
-                                setServicosDropdownOpen(false);
-                              }}>
-                              Aluguel de produtos
-                            </Link>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ) : item.name === "Contato" ? (
-                  // Apoio com dropdown no mobile (ajustado para os mesmos links do desktop)
-                  <div key="apoio-mobile" className="relative">
-                    <button
-                      type="button"
-                      onClick={() => setDropdownOpen((v) => !v)}
-                      className={`block w-full text-left px-4 py-3 rounded-lg text-base font-medium hover:bg-red-50 hover:text-red-600 focus:outline-none focus:bg-red-50 focus:text-red-600 ${
-                        isApoioActive()
-                          ? "bg-red-50 text-red-600"
-                          : "text-gray-600"
-                      } flex items-center justify-between`}
-                      aria-expanded={dropdownOpen}
-                      aria-controls="apoio-mobile-dropdown">
-                      Apoio
-                      <svg
-                        className={`w-4 h-4 ml-2 transition-transform ${
-                          dropdownOpen ? "rotate-180" : ""
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </button>
-                    <AnimatePresence>
-                      {dropdownOpen && (
-                        <motion.div
-                          id="apoio-mobile-dropdown"
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="overflow-hidden mt-1 ml-0 min-w-[240px] max-w-[300px] bg-white border border-gray-200 rounded-lg shadow-lg z-50"
-                          style={{ fontFamily: "Segoe UI Regular" }}>
-                          <div className="px-2 pt-2 pb-2">
-                            <Link
-                              to="/contato" // Atualizado
-                              className="block px-6 py-3 text-base hover:bg-red-50 hover:text-red-600 text-black"
-                              onClick={() => {
-                                setIsOpen(false);
-                                setDropdownOpen(false);
-                              }}>
-                              Contato
-                            </Link>
-                            <hr className="my-1 border-gray-200" />
-                            <Link
-                              to="/suporte-tecnico" // Atualizado
-                              className="block px-6 py-3 text-base hover:bg-red-50 hover:text-red-600 text-black"
-                              onClick={() => {
-                                setIsOpen(false);
-                                setDropdownOpen(false);
-                              }}>
-                              Suporte Técnico
-                            </Link>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ) : (
-                  <motion.div
-                    key={item.path}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}>
+            className="md:hidden bg-white border-b border-gray-200 shadow-lg overflow-hidden">
+            <div className="px-4 pt-3 pb-6 space-y-2">
+              <Link
+                to="/"
+                onClick={() => setIsOpen(false)}
+                className={`block px-3 py-2 rounded-md text-sm font-medium ${
+                  location.pathname === "/"
+                    ? "bg-red-50 text-red-600 font-bold"
+                    : "text-gray-700 hover:bg-gray-50"
+                }`}>
+                Início
+              </Link>
+              <Link
+                to="/quem-somos"
+                onClick={() => setIsOpen(false)}
+                className={`block px-3 py-2 rounded-md text-sm font-medium ${
+                  location.pathname === "/quem-somos"
+                    ? "bg-red-50 text-red-600 font-bold"
+                    : "text-gray-700 hover:bg-gray-50"
+                }`}>
+                Quem Somos
+              </Link>
+
+              {/* Submenu Serviços Mobile */}
+              <div className="space-y-1">
+                <button
+                  onClick={() => setServicosDropdownOpen(!servicosDropdownOpen)}
+                  className="w-full flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                  <span>Serviços</span>
+                  <ChevronDown
+                    size={14}
+                    className={`transition-transform ${
+                      servicosDropdownOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {servicosDropdownOpen && (
+                  <div className="pl-4 space-y-1 border-l-2 border-red-100 ml-3">
                     <Link
-                      to={item.path}
+                      to="/servicos/hardware"
                       onClick={() => setIsOpen(false)}
-                      className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
-                        location.pathname === item.path
-                          ? "bg-gray-50 text-black"
-                          : "text-gray-600 hover:bg-red-50 hover:text-red-600"
-                      }`}>
-                      {item.name}
+                      className="block px-3 py-1.5 text-xs text-gray-600 hover:text-red-600">
+                      Hardware
                     </Link>
-                  </motion.div>
-                )
-              )}
-              {/* Botão Academia no mobile */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="pt-4">
+                    <Link
+                      to="/servicos/software"
+                      onClick={() => setIsOpen(false)}
+                      className="block px-3 py-1.5 text-xs text-gray-600 hover:text-red-600">
+                      Software
+                    </Link>
+                    <Link
+                      to="/servicos/renting"
+                      onClick={() => setIsOpen(false)}
+                      className="block px-3 py-1.5 text-xs text-gray-600 hover:text-red-600">
+                      Aluguel de Produtos (Renting)
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* Submenu Apoio Mobile */}
+              <div className="space-y-1">
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="w-full flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                  <span>Apoio</span>
+                  <ChevronDown
+                    size={14}
+                    className={`transition-transform ${
+                      dropdownOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {dropdownOpen && (
+                  <div className="pl-4 space-y-1 border-l-2 border-red-100 ml-3">
+                    <Link
+                      to="/contato"
+                      onClick={() => setIsOpen(false)}
+                      className="block px-3 py-1.5 text-xs text-gray-600 hover:text-red-600">
+                      Contactos
+                    </Link>
+                    <Link
+                      to="/suporte-tecnico"
+                      onClick={() => setIsOpen(false)}
+                      className="block px-3 py-1.5 text-xs text-gray-600 hover:text-red-600">
+                      Suporte Técnico
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* Botão Academia Mobile */}
+              <div className="pt-2">
                 <Link
                   to="/academia"
-                  className="w-full block text-center px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all uppercase"
-                  onClick={() => setIsOpen(false)}>
+                  onClick={() => setIsOpen(false)}
+                  className="w-full flex items-center justify-center h-[40px] px-6 text-xs font-normal text-black bg-white border border-red-600 hover:bg-red-50 hover:text-red-700 transition-all uppercase rounded-[3px]"
+                  style={{
+                    fontFamily: "Segoe UI Regular",
+                  }}>
                   Academia
                 </Link>
-              </motion.div>
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </header>
   );
 }

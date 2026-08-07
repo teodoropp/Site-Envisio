@@ -1,7 +1,7 @@
 /** @format */
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   Target,
@@ -106,55 +106,33 @@ export default function QuemSomos() {
     },
   ];
 
-  const getVisibleItems = () => {
-    if (width >= 1024) return 3; // lg
-    if (width >= 640) return 2; // sm
-    return 1;
+  const getVisibleTeamMembers = () => {
+    const total = membros.length;
+    const prevIndex = (currentIndex - 1 + total) % total;
+    const nextIndex = (currentIndex + 1) % total;
+    return [
+      { ...membros[prevIndex], position: "prev", targetIndex: prevIndex },
+      {
+        ...membros[currentIndex],
+        position: "active",
+        targetIndex: currentIndex,
+      },
+      { ...membros[nextIndex], position: "next", targetIndex: nextIndex },
+    ];
   };
 
-  const visibleItems = getVisibleItems();
-  const extendedMembros = [...membros, ...membros.slice(0, visibleItems)];
-
-  const nextSlide = () => {
-    if (!isTransitioning) return;
-    setCurrentIndex((prev) => prev + visibleItems);
+  const nextTeamMember = () => {
+    setCurrentIndex((prev) => (prev + 1) % membros.length);
   };
 
-  const prevSlide = () => {
-    if (!isTransitioning) return;
-    if (currentIndex === 0) {
-      setIsTransitioning(false);
-      setCurrentIndex(membros.length);
-      setTimeout(() => {
-        setIsTransitioning(true);
-        setCurrentIndex(membros.length - visibleItems);
-      }, 50);
-    } else {
-      setCurrentIndex((prev) => prev - visibleItems);
-    }
+  const prevTeamMember = () => {
+    setCurrentIndex((prev) => (prev - 1 + membros.length) % membros.length);
   };
-
-  React.useEffect(() => {
-    if (currentIndex >= membros.length) {
-      const timer = setTimeout(() => {
-        setIsTransitioning(false);
-        setCurrentIndex(0);
-        setTimeout(() => {
-          setIsTransitioning(true);
-        }, 50);
-      }, 500);
-      return () => clearTimeout(timer);
-    }
-  }, [currentIndex, membros.length]);
-
-  React.useEffect(() => {
-    setCurrentIndex(0);
-  }, [visibleItems]);
 
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* 1. Hero Section (Split Background Style) */}
-      <section className="relative bg-white text-slate-900 overflow-hidden pt-28 pb-12 md:pt-[168px] md:pb-18 mt-[-64px] border-b border-gray-100">
+      <section className="relative bg-white text-slate-900 overflow-hidden min-h-screen lg:h-screen flex flex-col justify-center pt-14 pb-12 border-b border-gray-100">
         {/* Soft Grid Background on Left Side */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#F3F4F6_1px,transparent_1px),linear-gradient(to_bottom,#F3F4F6_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none opacity-50 z-0" />
 
@@ -587,85 +565,114 @@ export default function QuemSomos() {
       </section>
 
       {/* 5. A Nossa Equipa */}
-      <section className="py-24 bg-gray-50/50">
+      <section className="py-24 bg-gray-50/50 overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Coluna da Esquerda: Título e Texto */}
-            <div className="lg:col-span-4 text-left flex flex-col justify-center h-full">
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
-                A nossa equipa
-              </h2>
-              <p className="text-base text-gray-500 leading-relaxed max-w-sm">
-                Conheça os profissionais que ajudam a transformar conhecimento
-                em competência.
-              </p>
-            </div>
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3 tracking-tight">
+              A nossa equipa
+            </h2>
+            <p className="text-base text-gray-500 max-w-xl mx-auto leading-relaxed"></p>
+          </div>
 
-            {/* Coluna da Direita: Slider do Carrossel com Setas nas Extremidades */}
-            <div className="lg:col-span-8 relative px-14 overflow-hidden">
-              {/* Seta Esquerda */}
-              <button
-                onClick={prevSlide}
-                className="absolute left-0 top-[40%] -translate-y-1/2 z-20 text-gray-400 hover:text-red-600 transition-colors p-1"
-                aria-label="Anterior">
-                <ChevronLeft size={40} />
-              </button>
+          {/* Container de Apresentação em Destaque 3D (Compacto e Elegante) */}
+          <div className="relative h-[440px] flex items-center justify-center">
+            {/* Seta Esquerda (Manual) */}
+            <button
+              onClick={prevTeamMember}
+              className="absolute left-2 sm:left-8 z-40 w-10 h-10 rounded-full bg-white shadow-md border border-gray-200 text-gray-700 hover:text-red-600 hover:border-red-300 flex items-center justify-center transition-all hover:scale-110"
+              aria-label="Anterior">
+              <ChevronLeft size={22} />
+            </button>
 
-              {/* Seta Direita */}
-              <button
-                onClick={nextSlide}
-                className="absolute right-0 top-[40%] -translate-y-1/2 z-20 text-gray-400 hover:text-red-600 transition-colors p-1"
-                aria-label="Seguinte">
-                <ChevronRight size={40} />
-              </button>
+            {/* Seta Direita (Manual) */}
+            <button
+              onClick={nextTeamMember}
+              className="absolute right-2 sm:right-8 z-40 w-10 h-10 rounded-full bg-white shadow-lg border border-gray-200 text-gray-700 hover:text-red-600 hover:border-red-300 flex items-center justify-center transition-all hover:scale-110"
+              aria-label="Seguinte">
+              <ChevronRight size={22} />
+            </button>
 
-              {/* Container de visualização das imagens */}
-              <div className="overflow-hidden w-full">
-                <div
-                  className={`flex ${isTransitioning ? "transition-transform duration-500 ease-out" : ""}`}
-                  style={{
-                    transform: `translateX(-${currentIndex * (100 / extendedMembros.length)}%)`,
-                    width: `${(extendedMembros.length * 100) / visibleItems}%`,
-                  }}>
-                  {extendedMembros.map((membro, idx) => (
-                    <div
-                      key={idx}
-                      className="px-3 flex-shrink-0"
-                      style={{ width: `${100 / extendedMembros.length}%` }}>
-                      {/* Card Limpo: Sem fundo, sem borda, sem sombra */}
-                      <div className="flex flex-col text-left">
-                        {/* Imagem Pequena / AspectRatio Reduzido */}
-                        <div className="relative rounded-none overflow-hidden aspect-[4/5] w-full mb-4 shadow-sm">
-                          <img
-                            src={membro.img}
-                            alt={membro.nome}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
-                        </div>
+            <div className="flex justify-center items-center w-full max-w-4xl relative h-full">
+              <AnimatePresence mode="popLayout">
+                {getVisibleTeamMembers().map((item) => {
+                  const isActive = item.position === "active";
+                  const isPrev = item.position === "prev";
 
-                        {/* Infos embaixo da Imagem */}
-                        <h3 className="text-gray-900 font-bold text-base mb-0.5 leading-tight">
-                          {membro.nome}
-                        </h3>
-                        <p className="text-red-600 text-xs font-semibold uppercase tracking-wider mb-3">
-                          {membro.cargo}
-                        </p>
-
-                        {/* Link Ver Mais */}
-                        <div>
-                          <button
-                            onClick={() => setSelectedMembro(membro)}
-                            className="text-[#1e1b4b] hover:text-red-600 text-xs font-bold uppercase tracking-wider flex items-center gap-1 transition-colors duration-200">
-                            Ver mais
-                            <ArrowRight size={14} />
-                          </button>
-                        </div>
+                  return (
+                    <motion.div
+                      key={`${item.nome}-${item.position}`}
+                      onClick={() => {
+                        if (!isActive) setCurrentIndex(item.targetIndex);
+                      }}
+                      initial={{
+                        opacity: 0,
+                        scale: 0.8,
+                        x: isPrev ? -130 : 130,
+                      }}
+                      animate={{
+                        opacity: isActive ? 1 : 0.35,
+                        scale: isActive ? 1.02 : 0.85,
+                        x: isActive ? 0 : isPrev ? "-54%" : "54%",
+                        zIndex: isActive ? 30 : 10,
+                        filter: isActive ? "blur(0px)" : "blur(2.5px)",
+                      }}
+                      exit={{ opacity: 0, scale: 0.8, x: isPrev ? -130 : 130 }}
+                      transition={{ duration: 0.4, ease: "easeInOut" }}
+                      className={`absolute w-[250px] sm:w-[270px] md:w-[350px] bg-white  p-4 border transition-all ${
+                        isActive
+                          ? "border-red-100 shadow-xl ring-1 ring-red-500/10 cursor-default"
+                          : "border-gray-200 shadow-md cursor-pointer hover:opacity-60"
+                      } flex flex-col text-left`}>
+                      {/* Foto do Professor (Compacta com borda de 10px) */}
+                      <div className="relative  overflow-hidden h-[200px] sm:h-[310px] w-full mb-3 shadow-sm bg-gray-100">
+                        <img
+                          src={item.img}
+                          alt={item.nome}
+                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                        />
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+
+                      {/* Informações do Professor */}
+                      <h3 className="text-gray-900 font-bold text-base mb-0.5 leading-tight">
+                        {item.nome}
+                      </h3>
+                      <p className="text-red-600 text-[11px] font-bold uppercase tracking-wider mb-2">
+                        {item.cargo}
+                      </p>
+
+                      {/* Botão Ver Mais */}
+                      <div className="mt-auto pt-1">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedMembro(item);
+                          }}
+                          className="text-[#1e1b4b] hover:text-red-600 text-[11px] font-bold uppercase tracking-wider flex items-center gap-1 transition-colors duration-200">
+                          <span>Ver mais</span>
+                          <ArrowRight size={13} />
+                        </button>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
             </div>
+          </div>
+
+          {/* Pontos de Navegação Manual */}
+          <div className="flex justify-center items-center gap-2.5 mt-8 relative z-40">
+            {membros.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentIndex(idx)}
+                className={`transition-all duration-300 rounded-full ${
+                  currentIndex === idx
+                    ? "w-8 h-2.5 bg-red-600"
+                    : "w-2.5 h-2.5 bg-gray-300 hover:bg-gray-400"
+                }`}
+                aria-label={`Ir para membro ${idx + 1}`}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -755,8 +762,8 @@ export default function QuemSomos() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#F9FAFB_1px,transparent_1px),linear-gradient(to_bottom,#F9FAFB_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none opacity-60 z-0" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Card Centrado, Reduzido (max-w-3xl) com fundo bg-gray-100, curva e sombra flutuante */}
-          <div className="bg-gray-200 border border-gray-200/50 p-8 md:p-12 relative overflow-hidden flex flex-col items-center text-center max-w-3xl mx-auto rounded-3xl shadow-2xl shadow-gray-400/50 transition-transform duration-300 hover:-translate-y-1">
+          {/* Card Centrado, Reduzido (max-w-3xl) com fundo bg-gray-100, borda de 10px e sombra flutuante */}
+          <div className="bg-gray-200 border border-gray-200/50 p-8 md:p-12 relative overflow-hidden flex flex-col items-center text-center max-w-3xl mx-auto rounded-[10px] shadow-2xl shadow-gray-400/50 transition-transform duration-300 hover:-translate-y-1">
             <div className="max-w-2xl flex flex-col items-center mb-8 relative z-10">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-4 leading-tight tracking-tight text-gray-900">
                 Pronto para transformar a sua carreira?
@@ -771,7 +778,7 @@ export default function QuemSomos() {
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center relative z-10">
               <Link
                 to="/academia/cursos"
-                className="inline-flex items-center justify-center px-6 py-3.5 text-sm sm:text-base font-bold text-white bg-red-600 hover:bg-red-700 transition-all duration-300 shadow-sm hover:shadow-red-600/10 text-center rounded-[10px]">
+                className="btn-academia-primary px-6 py-3.5 text-sm sm:text-base font-bold text-center">
                 Conhecer as Formações
                 <ArrowRight size={16} className="ml-2" />
               </Link>
@@ -779,7 +786,7 @@ export default function QuemSomos() {
                 href="https://wa.me/244947137676?text=Olá!%20Gostaria%20de%20falar%20com%20um%20consultor%20da%20Academia%20Envisio."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-6 py-3.5 text-sm sm:text-base font-bold text-gray-900 bg-white hover:bg-gray-50 border border-gray-300 transition-all duration-300 text-center rounded-[10px]">
+                className="btn-academia-secondary px-6 py-3.5 text-sm sm:text-base font-bold text-center">
                 Falar com um Consultor
               </a>
             </div>

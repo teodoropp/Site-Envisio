@@ -98,8 +98,7 @@ const SobreAcademia = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
 
               {/* Badge de Destaque */}
-              <div className="absolute top-6 right-6 bg-white rounded-full px-5 py-2 flex items-center shadow-lg animate-bounce">
-                <Award className="w-5 h-5 text-amber-500 mr-2" />
+              <div className="absolute top-6 right-6 bg-white rounded-[5px] px-5 py-2 flex items-center shadow-lg">
                 <span className="font-medium text-gray-900">
                   Excelência em Educação
                 </span>
@@ -107,7 +106,7 @@ const SobreAcademia = () => {
             </div>
 
             {/* Moldura decorativa */}
-            <div className="absolute -bottom-4 -left-4 w-full h-full border-2 border-red-200 rounded-2xl -z-10"></div>
+            <div className="absolute -bottom-4 -left-4 w-full h-full border-2 border-red-200 rounded-[5px] -z-10"></div>
           </motion.div>
 
           {/* Coluna da direita - Conteúdo */}
@@ -118,9 +117,8 @@ const SobreAcademia = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="space-y-8">
             {/* Destaque */}
-            <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-red-50 to-amber-50 rounded-full border border-red-100 shadow-sm">
-              <Sparkles className="w-5 h-5 text-amber-500 mr-2" />
-              <span className="text-sm font-medium text-amber-700">
+            <div className="inline-flex items-center px-4 py-2 bg-red-50 rounded-[5px] border border-red-100 shadow-sm">
+              <span className="text-sm font-medium text-red-700">
                 Inovando na Educação Digital
               </span>
             </div>
@@ -162,14 +160,14 @@ const SobreAcademia = () => {
             {/* CTAs */}
             <div className="pt-4 flex flex-col sm:flex-row gap-4">
               <Link
-                to="/cursos"
-                className="inline-flex items-center justify-center px-6 py-3.5 bg-gradient-to-r from-red-600 to-red-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                to="/academia/cursos"
+                className="btn-academia-primary inline-flex items-center justify-center px-6 py-3.5 font-medium cursor-pointer">
                 Inicie Sua Jornada Agora
                 <ArrowRight className="ml-2" size={18} />
               </Link>
               <Link
-                to="/sobre"
-                className="inline-flex items-center justify-center px-6 py-3.5 text-gray-700 font-medium rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors duration-300">
+                to="/academia/quem-somos"
+                className="btn-academia-secondary inline-flex items-center justify-center px-6 py-3.5 font-medium cursor-pointer">
                 Conheça Mais Sobre Nós
               </Link>
             </div>

@@ -3,8 +3,20 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
+import {
+  User,
+  Briefcase,
+  FileText,
+  Check,
+  ChevronRight,
+  ChevronLeft,
+  X,
+  Upload,
+  ShieldCheck,
+  AlertCircle,
+} from "lucide-react";
 
-interface FormData {
+interface FormDataState {
   nome: string;
   sobrenome: string;
   email: string;
@@ -13,7 +25,6 @@ interface FormData {
   mensagem: string;
   turno: string;
   nivelExperiencia: string;
-  arquivos: FileList | null;
 }
 
 interface FormularioInscricaoProps {
@@ -24,22 +35,21 @@ interface FormularioInscricaoProps {
   onSuccess?: () => void;
 }
 
-declare module "react" {
-  interface CSSProperties {
-    "&::-webkit-scrollbar"?: CSSProperties;
-    "&::-webkit-scrollbar-track"?: CSSProperties;
-    "&::-webkit-scrollbar-thumb"?: CSSProperties;
-  }
-}
+const STEPS = [
+  { id: 1, title: "Dados Pessoais", description: "Nome e Contato", icon: User },
+  { id: 2, title: "Perfil & Turno", description: "Experiência e Horário", icon: Briefcase },
+  { id: 3, title: "Finalização", description: "Anexos e Mensagem", icon: FileText },
+];
 
 const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
   isOpen,
   onClose,
   cursoNome,
-  cursoArea = "Academia Mais Resultados",
+  cursoArea = "Academia Envisio",
   onSuccess,
 }) => {
-  const [formData, setFormData] = useState<Omit<FormData, "arquivos">>({
+  const [currentStep, setCurrentStep] = useState(1);
+  const [formData, setFormData] = useState<FormDataState>({
     nome: "",
     sobrenome: "",
     email: "",
@@ -62,31 +72,62 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
     }
   };
 
+  const validateStep = (step: number) => {
+    setError("");
+    if (step === 1) {
+      if (!formData.email.trim() || !formData.email.includes("@")) {
+        setError("Por favor, introduza um e-mail válido.");
+        return false;
+      }
+      if (!formData.telefone.trim()) {
+        setError("Por favor, introduza o seu número de telefone / WhatsApp.");
+        return false;
+      }
+      return true;
+    }
+    if (step === 2) {
+      if (!formData.nivelExperiencia) {
+        setError("Por favor, selecione o seu nível de experiência.");
+        return false;
+      }
+      if (!formData.turno) {
+        setError("Por favor, escolha um dos turnos disponíveis.");
+        return false;
+      }
+      return true;
+    }
+    return true;
+  };
+
+  const handleNext = () => {
+    if (validateStep(currentStep)) {
+      setError("");
+      setCurrentStep((prev) => Math.min(prev + 1, STEPS.length));
+    }
+  };
+
+  const handleBack = () => {
+    setError("");
+    setCurrentStep((prev) => Math.max(prev - 1, 1));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validateStep(1) || !validateStep(2)) return;
+
     setLoading(true);
     setError("");
 
-    if (
-      !formData.nome ||
-      !formData.sobrenome ||
-      !formData.email ||
-      !formData.turno
-    ) {
-      setError("Por favor, preencha todos os campos obrigatórios.");
-      setLoading(false);
-      return;
-    }
-
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append("nome", formData.nome);
-      formDataToSend.append("sobrenome", formData.sobrenome);
+      formDataToSend.append("nome", formData.nome || formData.email.split("@")[0]);
+      formDataToSend.append("sobrenome", formData.sobrenome || "");
       formDataToSend.append("email", formData.email);
       formDataToSend.append("telefone", formData.telefone);
       formDataToSend.append("empresa", formData.empresa);
       formDataToSend.append("mensagem", formData.mensagem);
       formDataToSend.append("turno", formData.turno);
+      formDataToSend.append("nivelExperiencia", formData.nivelExperiencia);
       formDataToSend.append("curso", cursoNome);
       formDataToSend.append("area", cursoArea);
 
@@ -100,20 +141,17 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
         ? `${process.env.REACT_APP_API_URL}/api/email`
         : "https://api.maisresultados.co.ao/api/email";
 
-      await axios.post(
-        targetUrl,
-        formDataToSend,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      await axios.post(targetUrl, formDataToSend, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       setSuccess(true);
 
       setTimeout(() => {
         setSuccess(false);
+        setCurrentStep(1);
         setFormData({
           nome: "",
           sobrenome: "",
@@ -131,10 +169,10 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
           onSuccess();
         }
       }, 3000);
-    } catch (error) {
-      console.error("Erro ao enviar inscrição:", error);
+    } catch (err) {
+      console.error("Erro ao enviar inscrição:", err);
       setError(
-        "Ocorreu um erro ao enviar sua inscrição. Por favor, tente novamente."
+        "Ocorreu um erro ao enviar a sua inscrição. Por favor, tente novamente."
       );
     } finally {
       setLoading(false);
@@ -146,29 +184,11 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
       onClose();
       setError("");
       setSuccess(false);
+      setCurrentStep(1);
     }
   };
 
   if (!isOpen) return null;
-
-  const formContainerStyle: React.CSSProperties = {
-    maxHeight: "70vh",
-    overflowY: "auto" as const, // Using 'as const' to ensure type safety
-    paddingRight: "0.5rem",
-    scrollbarWidth: "thin" as const,
-    scrollbarColor: "#9ca3af #e5e7eb",
-    "&::-webkit-scrollbar": {
-      width: "8px",
-      height: "8px",
-    } as React.CSSProperties,
-    "&::-webkit-scrollbar-track": {
-      background: "#e5e7eb",
-    },
-    "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "#9ca3af",
-      borderRadius: "4px",
-    },
-  };
 
   return (
     <AnimatePresence>
@@ -176,385 +196,406 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center overflow-y-auto py-4"
+        className="fixed inset-0 bg-slate-950/70 backdrop-blur-md z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
         onClick={handleClose}>
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          className="w-full max-w-md mx-auto bg-white rounded-[5px] shadow-xl relative overflow-visible"
-          onClick={(e: React.MouseEvent<HTMLDivElement>) =>
-            e.stopPropagation()
-          }>
-          <div className="p-6">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-2xl font-bold text-gray-800">
-                Inscrição {cursoNome}
+          initial={{ opacity: 0, scale: 0.95, y: 15 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 15 }}
+          transition={{ type: "spring", duration: 0.35 }}
+          className="w-full max-w-2xl bg-white rounded-none shadow-2xl border-0 flex flex-col overflow-hidden relative"
+          onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
+          
+          {/* Header */}
+          <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white px-6 sm:px-8 py-5 flex items-center justify-between border-b border-slate-800">
+            <div>
+              <div className="flex items-center gap-2 text-xs text-slate-400 font-normal uppercase tracking-wider mb-0.5">
+                <ShieldCheck size={14} />
+                <span>Inscrição Oficial</span>
+              </div>
+              <h3 className="text-lg sm:text-xl font-normal text-white leading-tight">
+                {cursoNome}
               </h3>
-              <button
-                onClick={handleClose}
-                disabled={loading}
-                className="text-gray-500 hover:text-gray-700 focus:outline-none disabled:cursor-not-allowed">
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
             </div>
+            <button
+              onClick={handleClose}
+              disabled={loading}
+              className="text-slate-400 hover:text-white p-2 rounded-none hover:bg-slate-800 transition-colors border border-slate-700/50"
+              aria-label="Fechar">
+              <X size={18} />
+            </button>
+          </div>
 
+          {/* Stepper Header */}
+          <div className="bg-slate-50 px-6 sm:px-8 py-4 border-b border-slate-200">
+            <div className="grid grid-cols-3 gap-2 relative">
+              {STEPS.map((step) => {
+                const isCurrent = currentStep === step.id;
+                const isCompleted = currentStep > step.id;
+                const IconComponent = step.icon;
+
+                return (
+                  <div key={step.id} className="flex flex-col items-center text-center relative z-10">
+                    <div className="mb-1 flex items-center justify-center">
+                      {isCompleted ? (
+                        <Check size={20} className="text-emerald-600" />
+                      ) : (
+                        <IconComponent
+                          size={20}
+                          className={isCurrent ? "text-slate-900" : "text-slate-400"}
+                        />
+                      )}
+                    </div>
+                    <span
+                      className={`text-xs font-normal transition-colors ${
+                        isCurrent || isCompleted ? "text-slate-900" : "text-slate-400"
+                      }`}>
+                      {step.title}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Body Content */}
+          <div className="p-6 sm:p-8 overflow-y-auto max-h-[60vh]">
             {success ? (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-center py-8">
-                <svg
-                  className="w-16 h-16 text-green-500 mx-auto mb-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <h4 className="text-xl font-semibold text-gray-800 mb-2">
-                  Inscrição Realizada!
-                </h4>
-                <p className="text-gray-600">Em breve entraremos em contato.</p>
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-center py-10 space-y-4">
+                <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-none flex items-center justify-center mx-auto shadow-inner">
+                  <Check size={36} />
+                </div>
+                <h4 className="text-2xl font-normal text-slate-900">Inscrição Enviada!</h4>
+                <p className="text-sm text-slate-600 max-w-md mx-auto font-normal">
+                  A sua vaga foi reservada com sucesso. A nossa equipa entrará em contacto muito em breve para dar segmento à sua matrícula.
+                </p>
               </motion.div>
             ) : (
-              <form
-                onSubmit={handleSubmit}
-                className="space-y-4"
-                style={formContainerStyle}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">
-                      Primeiro Nome *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.nome}
-                      onChange={(e) =>
-                        setFormData({ ...formData, nome: e.target.value })
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-[1px] "
-                      placeholder="Primeiro nome"
-                      disabled={loading}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">
-                      Último Nome *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.sobrenome}
-                      onChange={(e) =>
-                        setFormData({ ...formData, sobrenome: e.target.value })
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-[1px] "
-                      placeholder="Último nome"
-                      disabled={loading}
-                    />
-                  </div>
-                </div>
+              <form onSubmit={handleSubmit}>
+                <AnimatePresence mode="wait">
+                  {/* ETAPA 1: DADOS PESSOAIS */}
+                  {currentStep === 1 && (
+                    <motion.div
+                      key="step1"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.2 }}
+                      className="space-y-4">
+                      <div className="border-b border-slate-100 pb-2 mb-4">
+                        <h4 className="text-sm font-normal text-slate-800 uppercase tracking-wider">
+                          Passo 1: Identificação Pessoal
+                        </h4>
+                        <p className="text-xs text-slate-500 font-normal">
+                          Preencha os seus dados de contacto para o registo na ficha de inscrição.
+                        </p>
+                      </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">
-                    E-mail *
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-[1px]"
-                    placeholder="seu@email.com"
-                    disabled={loading}
-                  />
-                </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-black mb-2">
-                      Selecione o turno*
-                    </label>
-
-                    {/* Turno A */}
-                    <div className="mb-4 border border-gray-200 border-b-gray-300 rounded-[1px] overflow-hidden">
-                      <div className="p-4 bg-gray-100">
-                        <label className="flex items-center cursor-pointer">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-xs font-normal text-slate-700 uppercase tracking-wider mb-1">
+                            E-mail Corporativo / Pessoal *
+                          </label>
                           <input
-                            type="radio"
-                            name="turno"
-                            value="Turno A"
-                            checked={formData.turno === "Turno A"}
-                            onChange={() =>
-                              setFormData({ ...formData, turno: "Turno A" })
+                            type="email"
+                            required
+                            value={formData.email}
+                            onChange={(e) =>
+                              setFormData({ ...formData, email: e.target.value })
                             }
-                            className="h-4 w-4 text-black ring-black border-b-gray-300 border-gray-300"
+                            className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-none text-sm font-normal focus:ring-2 focus:ring-slate-900 focus:border-slate-900 focus:bg-white focus:outline-none transition-all"
+                            placeholder="seu.email@exemplo.com"
                             disabled={loading}
                           />
-                          <span className="ml-3 text-sm font-semibold text-blue-700">
-                            Turno A
-                          </span>
-                        </label>
-                      </div>
-                      {formData.turno === "Turno A" && (
-                        <div className="bg-white p-4 mt-[-10px]">
-                          <div className="space-y-1">
-                            {["Segunda a Sexta - 8h às 17h (Presencial)"].map(
-                              (option) => (
-                                <div
-                                  key={option}
-                                  className="py-2 px-3 hover:bg-gray-50 rounded transition-colors">
-                                  <div className="flex items-center">
-                                    <div className="flex-shrink-0 w-1.5 h-1.5 bg-gray-600 rounded-full mr-3"></div>
-                                    <span className="text-sm text-gray-700">
-                                      {option}
-                                    </span>
-                                  </div>
-                                </div>
-                              )
-                            )}
-                          </div>
                         </div>
-                      )}
-                    </div>
-
-                    {/* Turno B */}
-                    <div className="mb-4 border border-gray-200 border-b-gray-300 rounded-[1px] overflow-hidden">
-                      <div className="p-4 bg-gray-100">
-                        <label className="flex items-center cursor-pointer">
+                        <div>
+                          <label className="block text-xs font-normal text-slate-700 uppercase tracking-wider mb-1">
+                            Telefone / WhatsApp *
+                          </label>
                           <input
-                            type="radio"
-                            name="turno"
-                            value="Turno B"
-                            checked={formData.turno === "Turno B"}
-                            onChange={() =>
-                              setFormData({ ...formData, turno: "Turno B" })
+                            type="tel"
+                            required
+                            value={formData.telefone}
+                            onChange={(e) =>
+                              setFormData({ ...formData, telefone: e.target.value })
                             }
-                            className="h-4 w-4 text-black ring-black border-b-gray-300 border-gray-300"
+                            className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-none text-sm font-normal focus:ring-2 focus:ring-slate-900 focus:border-slate-900 focus:bg-white focus:outline-none transition-all"
+                            placeholder="+244 9XX XXX XXX"
                             disabled={loading}
                           />
-                          <span className="ml-3 text-sm font-semibold text-blue-700">
-                            Turno B
-                          </span>
-                        </label>
-                      </div>
-                      {formData.turno === "Turno B" && (
-                        <div className="bg-white p-4 mt-[-10px]">
-                          <div className="space-y-1">
-                            {[
-                              "Terça - Feira - 19h às 21h (Online)",
-                              "Quarta - Feira - 19h às 21h (Online)",
-                              "Domingo - 9h às 17h (Presencial)",
-                            ].map((option) => (
-                              <div
-                                key={option}
-                                className="py-2 px-3 hover:bg-gray-50 rounded transition-colors">
-                                <div className="flex items-center">
-                                  <div className="flex-shrink-0 w-1.5 h-1.5 bg-gray-600 rounded-full mr-3"></div>
-                                  <span className="text-sm text-gray-700">
-                                    {option}
-                                  </span>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
                         </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {!formData.turno && (
-                    <p className="text-sm text-red-500">
-                      Por favor, selecione um turno
-                    </p>
+                      </div>
+                    </motion.div>
                   )}
-                </div>
 
-                {/* Adicione este bloco após o campo de seleção de turno */}
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">
-                    Nível de Experiência *
-                  </label>
-                  <select
-                    required
-                    value={formData.nivelExperiencia}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        nivelExperiencia: e.target.value,
-                      })
-                    }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-[1px]"
-                    disabled={loading}>
-                    <option value="">Selecione seu nível</option>
-                    <option value="Iniciante">Iniciante</option>
-                    <option value="Intermediário">Intermediário</option>
-                    <option value="Avançado">Avançado</option>
-                  </select>
-                </div>
+                  {/* ETAPA 2: PERFIL & TURNO */}
+                  {currentStep === 2 && (
+                    <motion.div
+                      key="step2"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.2 }}
+                      className="space-y-4">
+                      <div className="border-b border-slate-100 pb-2 mb-4">
+                        <h4 className="text-sm font-normal text-slate-800 uppercase tracking-wider">
+                          Passo 2: Perfil Profissional e Preferência de Horário
+                        </h4>
+                        <p className="text-xs text-slate-500 font-normal">
+                          Selecione o turno em que deseja frequentar a formação.
+                        </p>
+                      </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">
-                    Telefone
-                  </label>
-                  <input
-                    type="tel"
-                    value={formData.telefone}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        telefone: e.target.value,
-                      })
-                    }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-[1px] "
-                    placeholder="(XXX) XXX-XXX-XXXX"
-                    disabled={loading}
-                  />
-                </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-xs font-normal text-slate-700 uppercase tracking-wider mb-1">
+                            Nível de Experiência *
+                          </label>
+                          <select
+                            required
+                            value={formData.nivelExperiencia}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                nivelExperiencia: e.target.value,
+                              })
+                            }
+                            className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-none text-sm font-normal focus:ring-2 focus:ring-slate-900 focus:border-slate-900 focus:bg-white focus:outline-none transition-all"
+                            disabled={loading}>
+                            <option value="">Selecione o seu nível</option>
+                            <option value="Iniciante">Iniciante (Sem conhecimento prévio)</option>
+                            <option value="Intermediário">Intermediário (Uso ocasional de ERP)</option>
+                            <option value="Avançado">Avançado (Experiência profissional consolidada)</option>
+                          </select>
+                        </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">
-                    Empresa
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.empresa}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        empresa: e.target.value,
-                      })
-                    }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-[1px] "
-                    placeholder="Sua empresa (opcional)"
-                    disabled={loading}
-                  />
-                </div>
+                        <div>
+                          <label className="block text-xs font-normal text-slate-700 uppercase tracking-wider mb-1">
+                            Empresa (Opcional)
+                          </label>
+                          <input
+                            type="text"
+                            value={formData.empresa}
+                            onChange={(e) =>
+                              setFormData({ ...formData, empresa: e.target.value })
+                            }
+                            className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-none text-sm font-normal focus:ring-2 focus:ring-slate-900 focus:border-slate-900 focus:bg-white focus:outline-none transition-all"
+                            placeholder="Nome da sua instituição"
+                            disabled={loading}
+                          />
+                        </div>
+                      </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700">
-                    Anexar Ficheiros (PDF) *
-                  </label>
-                  <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                    <div className="space-y-1 text-center">
-                      <svg
-                        className="mx-auto h-12 w-12 text-gray-400"
-                        stroke="currentColor"
-                        fill="none"
-                        viewBox="0 0 48 48"
-                        aria-hidden="true">
-                        <path
-                          d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                          strokeWidth={2}
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
+                      <div>
+                        <label className="block text-xs font-normal text-slate-800 uppercase tracking-wider mb-2">
+                          Selecione o Turno Desejado *
+                        </label>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {/* Turno A */}
+                          <div
+                            onClick={() =>
+                              !loading && setFormData({ ...formData, turno: "Turno A" })
+                            }
+                            className={`p-3.5 rounded-none border cursor-pointer transition-all ${
+                              formData.turno === "Turno A"
+                                ? "border-slate-900 bg-slate-100 ring-2 ring-slate-900/20 shadow-sm"
+                                : "border-slate-200 hover:border-slate-300 bg-white"
+                            }`}>
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-xs font-normal text-slate-900">
+                                Turno A (Manhã / Presencial)
+                              </span>
+                              <input
+                                type="radio"
+                                name="turno"
+                                checked={formData.turno === "Turno A"}
+                                onChange={() => {}}
+                                className="text-slate-900 focus:ring-slate-900"
+                              />
+                            </div>
+                            <p className="text-[11px] text-slate-500 font-normal">
+                              Segunda a Sexta — 8h às 17h (Intensivo Presencial)
+                            </p>
+                          </div>
+
+                          {/* Turno B */}
+                          <div
+                            onClick={() =>
+                              !loading && setFormData({ ...formData, turno: "Turno B" })
+                            }
+                            className={`p-3.5 rounded-none border cursor-pointer transition-all ${
+                              formData.turno === "Turno B"
+                                ? "border-slate-900 bg-slate-100 ring-2 ring-slate-900/20 shadow-sm"
+                                : "border-slate-200 hover:border-slate-300 bg-white"
+                            }`}>
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-xs font-normal text-slate-900">
+                                Turno B (Pós-Laboral / Misto)
+                              </span>
+                              <input
+                                type="radio"
+                                name="turno"
+                                checked={formData.turno === "Turno B"}
+                                onChange={() => {}}
+                                className="text-slate-900 focus:ring-slate-900"
+                              />
+                            </div>
+                            <p className="text-[11px] text-slate-500 font-normal">
+                              Terça/Quarta (19h-21h Online) + Domingo (9h-17h Presencial)
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* ETAPA 3: FINALIZAÇÃO & DOCUMENTOS */}
+                  {currentStep === 3 && (
+                    <motion.div
+                      key="step3"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.2 }}
+                      className="space-y-4">
+                      <div className="border-b border-slate-100 pb-2 mb-4">
+                        <h4 className="text-sm font-normal text-slate-800 uppercase tracking-wider">
+                          Passo 3: Documentação e Observações
+                        </h4>
+                        <p className="text-xs text-slate-500 font-normal">
+                          Poderá anexar o seu CV ou Bilhete de Identidade (opcional) e adicionar uma nota.
+                        </p>
+                      </div>
+
+                      {/* File Upload Box */}
+                      <div>
+                        <label className="block text-xs font-normal text-slate-700 uppercase tracking-wider mb-1.5">
+                          Anexar Documentos (PDF / Imagem)
+                        </label>
+                        <div className="border-2 border-dashed border-slate-200 hover:border-slate-300 rounded-none p-5 text-center bg-slate-50/50 transition-colors">
+                          <Upload className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+                          <label
+                            htmlFor="file-upload-step"
+                            className="cursor-pointer text-xs font-normal text-slate-900 hover:text-black underline">
+                            <span>Clique para carregar ficheiros</span>
+                            <input
+                              id="file-upload-step"
+                              type="file"
+                              className="sr-only"
+                              multiple
+                              accept=".pdf,.png,.jpg,.jpeg"
+                              onChange={handleFileChange}
+                            />
+                          </label>
+                          <p className="text-[10px] text-slate-400 mt-1 font-normal">
+                            PDF, PNG ou JPG até 10MB
+                          </p>
+                        </div>
+                        {fileNames.length > 0 && (
+                          <div className="mt-2 text-xs text-slate-600 bg-slate-100 p-2.5 rounded-none border border-slate-200">
+                            <span className="font-normal text-slate-700 block mb-1">
+                              Ficheiros selecionados:
+                            </span>
+                            <ul className="list-disc pl-4 space-y-0.5 text-[11px] font-normal">
+                              {fileNames.map((name, index) => (
+                                <li key={index}>{name}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Mensagem Opcional */}
+                      <div>
+                        <label className="block text-xs font-normal text-slate-700 uppercase tracking-wider mb-1">
+                          Observações / Dúvidas (Opcional)
+                        </label>
+                        <textarea
+                          value={formData.mensagem}
+                          onChange={(e) =>
+                            setFormData({ ...formData, mensagem: e.target.value })
+                          }
+                          rows={3}
+                          className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-none text-xs font-normal focus:ring-2 focus:ring-slate-900 focus:border-slate-900 focus:bg-white focus:outline-none transition-all"
+                          placeholder="Tem alguma dúvida ou pedido especial sobre o curso?"
+                          disabled={loading}
                         />
-                      </svg>
-                      <div className="flex text-sm text-gray-600">
-                        <label
-                          htmlFor="file-upload"
-                          className="relative cursor-pointer bg-white rounded-md font-medium text-red-600 hover:text-red-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-red-500">
-                          <span>Carregar ficheiros</span>
-                          <input
-                            id="file-upload"
-                            name="file-upload"
-                            type="file"
-                            className="sr-only"
-                            multiple
-                            accept=".pdf"
-                            onChange={handleFileChange}
-                          />
-                        </label>
-                        <p className="pl-1">ou arraste e solte</p>
                       </div>
-                      <p className="text-xs text-gray-500">PDF até 10MB</p>
-                    </div>
-                  </div>
-                  {fileNames.length > 0 && (
-                    <div className="mt-2 text-sm text-gray-600">
-                      <p>Ficheiros selecionados:</p>
-                      <ul className="list-disc pl-5">
-                        {fileNames.map((name, index) => (
-                          <li key={index}>{name}</li>
-                        ))}
-                      </ul>
-                    </div>
+                    </motion.div>
                   )}
-                </div>
+                </AnimatePresence>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">
-                    Mensagem
-                  </label>
-                  <textarea
-                    value={formData.mensagem}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        mensagem: e.target.value,
-                      })
-                    }
-                    rows={3}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-[1px] "
-                    placeholder="Alguma observação ou dúvida?"
-                    disabled={loading}
-                  />
-                </div>
-
+                {/* Error Banner */}
                 {error && (
-                  <div className="text-red-500 text-sm py-2 px-3 bg-red-50 rounded-md">
-                    {error}
+                  <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-none flex items-center gap-2 text-red-700 text-xs font-normal">
+                    <AlertCircle size={16} className="flex-shrink-0" />
+                    <span>{error}</span>
                   </div>
                 )}
 
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-gray-600 text-white py-3 px-4 rounded-[1px] transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
-                  {loading ? (
-                    <span className="flex items-center justify-center">
-                      <svg
-                        className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24">
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"></circle>
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Enviando...
-                    </span>
+                {/* Navigation Footer */}
+                <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                  {currentStep > 1 ? (
+                    <button
+                      type="button"
+                      onClick={handleBack}
+                      disabled={loading}
+                      className="btn-academia-secondary px-4 py-2.5 text-xs uppercase tracking-wider flex items-center gap-1.5 cursor-pointer">
+                      <ChevronLeft size={16} />
+                      <span>Voltar</span>
+                    </button>
                   ) : (
-                    "Confirmar Inscrição"
+                    <div />
                   )}
-                </button>
+
+                  {currentStep < STEPS.length ? (
+                    <button
+                      type="button"
+                      onClick={handleNext}
+                      className="btn-academia-primary px-6 py-2.5 text-xs uppercase tracking-wider flex items-center gap-1.5 ml-auto cursor-pointer">
+                      <span>Próximo Passo</span>
+                      <ChevronRight size={16} />
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="btn-academia-primary px-6 py-2.5 text-xs uppercase tracking-wider flex items-center gap-1.5 ml-auto disabled:opacity-50 cursor-pointer">
+                      {loading ? (
+                        <span className="flex items-center gap-2">
+                          <svg
+                            className="animate-spin h-4 w-4 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24">
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            />
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            />
+                          </svg>
+                          <span>Enviando...</span>
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-1.5">
+                          <span>Confirmar Inscrição</span>
+                          <Check size={16} />
+                        </span>
+                      )}
+                    </button>
+                  )}
+                </div>
               </form>
             )}
           </div>

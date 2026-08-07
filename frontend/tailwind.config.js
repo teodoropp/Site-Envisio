@@ -5,8 +5,9 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                regular: ["Segoe UI Regular", "sans-serif"],
-                semibold: ["Segoe UI Semibold", "sans-serif"],
+                sans: ["'Segoe UI Variable Text'", "'Segoe UI'", "sans-serif"],
+                regular: ["'Segoe UI Variable Text'", "'Segoe UI'", "sans-serif"],
+                semibold: ["'Segoe UI Variable Text'", "'Segoe UI'", "sans-serif"],
             },
             colors: {
                 primary: {

@@ -25,7 +25,7 @@ export const DesktopCarousel = ({ slides }: CarouselProps) => {
   }, [isPaused, slides.length]);
 
   return (
-    <section className="relative px-4 md:px-6 lg:px-10 min-h-[40vh] md:min-h-[50vh] lg:min-h-[63vh] mt-[-20px] w-full flex items-center justify-center overflow-hidden hidden md:flex">
+    <section className="relative px-4 md:px-6 lg:px-10 min-h-[40vh] md:min-h-[50vh] lg:min-h-[65vh] w-full flex items-center justify-center overflow-hidden hidden md:flex">
       <button
         onClick={() => {
           setIsPaused(true);
@@ -65,7 +65,7 @@ export const DesktopCarousel = ({ slides }: CarouselProps) => {
             alt=""
             className="w-full h-full object-cover object-center"
             style={{
-              maxHeight: "calc(100vh - 64px)",
+              maxHeight: "100vh",
               height: "100%",
             }}
           />

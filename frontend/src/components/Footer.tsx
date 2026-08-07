@@ -122,7 +122,7 @@ export default function Footer() {
             <Link to="/">
               <img
                 src="/images/Logos/logo footer.svg"
-                alt="Mais Resultados"
+                alt="Envisio"
                 className="h-14"
               />
             </Link>
@@ -160,7 +160,7 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-gray-200">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <p className="text-white text-sm">
-              © {new Date().getFullYear()} Mais Resultados. Todos os direitos
+              © {new Date().getFullYear()} Envisio. Todos os direitos
               reservados.
             </p>
             <div className="flex gap-4">

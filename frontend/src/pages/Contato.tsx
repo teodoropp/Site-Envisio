@@ -156,7 +156,7 @@ const Contato: React.FC = () => {
 
         <p
           className="mb-8 text-lg text-gray-700 leading-relaxed"
-          style={{ fontFamily: "Segoe UI Regular" }}>
+          style={{ fontFamily: "Segoe UI Variable Text" }}>
           Tem alguma dúvida ou precisa de mais informações? Estamos aqui para
           ajudar!
         </p>
@@ -180,7 +180,7 @@ const Contato: React.FC = () => {
             <div>
               <span
                 className="block text-sm text-gray-500 "
-                style={{ fontFamily: "Segoe UI Regular" }}>
+                style={{ fontFamily: "Segoe UI Variable Text" }}>
                 WhatsApp
               </span>
             </div>
@@ -204,7 +204,7 @@ const Contato: React.FC = () => {
             <div>
               <span
                 className="block text-sm text-gray-500"
-                style={{ fontFamily: "Segoe UI Regular" }}>
+                style={{ fontFamily: "Segoe UI Variable Text" }}>
                 E-mail
               </span>
               <span className="text-lg font-semibold text-gray-800 group-hover:text-blue-700">
@@ -237,7 +237,7 @@ const Contato: React.FC = () => {
             <div>
               <span
                 className="block text-sm text-gray-500"
-                style={{ fontFamily: "Segoe UI Regular" }}>
+                style={{ fontFamily: "Segoe UI Variable Text" }}>
                 Endereço
               </span>
               <span className="text-l font-semibold text-gray-800 group-hover:text-red-700">
@@ -252,18 +252,18 @@ const Contato: React.FC = () => {
         {/* Mapa */}
         <div className="rounded-[5px] overflow-hidden shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300">
           <iframe
-            title="Localização da Mais Resultados"
+            title="Localização da Envisio"
             src="https://www.google.com/maps?q=Condom%C3%ADnio%20Jardins%20do%20Talatona%2C%20Torre%205%20-%20N%C2%BA%20003%2C%20Luanda%2C%20Angola&output=embed"
             width="100%"
             height="280"
             className="border-0"
             allowFullScreen
             loading="lazy"
-            aria-label="Mapa mostrando a localização da Mais Resultados"></iframe>
+            aria-label="Mapa mostrando a localização da Envisio"></iframe>
           <div className="bg-white p-4 border-t border-gray-100">
             <p
               className="text-sm text-gray-600"
-              style={{ fontFamily: "Segoe UI Regular" }}>
+              style={{ fontFamily: "Segoe UI Variable Text" }}>
               <strong>Endereço físico:</strong> Condomínio Jardins do Talatona,
               Torre 5 - Nº 003
             </p>
@@ -300,7 +300,7 @@ const Contato: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`inline-flex items-center justify-center w-10 h-10 rounded-full bg-${social.color}-100 text-${social.color}-600 hover:bg-${social.color}-200 transition-colors shadow-sm`}
-                aria-label={`${social.icon} da Mais Resultados`}>
+                aria-label={`${social.icon} da Envisio`}>
                 <svg
                   className="w-5 h-5"
                   fill="currentColor"

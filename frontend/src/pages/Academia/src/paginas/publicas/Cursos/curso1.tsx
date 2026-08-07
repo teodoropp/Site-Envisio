@@ -1,14 +1,6 @@
 /** @format */
 
-import {
-  JSXElementConstructor,
-  Key,
-  ReactElement,
-  ReactNode,
-  ReactPortal,
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 
 import { useCurso } from "../../../hooks/useCurso";
@@ -16,12 +8,22 @@ import { useModulos } from "../../../hooks/useModulos";
 import {
   Award,
   ArrowLeft,
-  BookOpen,
-  Play,
-  Headphones,
   ChevronDown,
   FileText,
+  Star,
+  Check,
+  Clock,
+  BarChart,
+  Users,
+  ShieldCheck,
+  CheckCircle2,
+  Share2,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Headphones,
 } from "lucide-react";
+import toast from "react-hot-toast";
 import Spinner from "../../../componentes/Spinner";
 import ModalVideo from "../../../componentes/ModalVideo";
 import FormularioInscricao from "../../../componentes/FormularioInscricao"; // Import the FormularioInscricao component
@@ -55,8 +57,37 @@ export default function CursoDetalhe() {
   const [, setMediaAvaliacoes] = useState(0);
   const [, setCarregandoAvaliacoes] = useState(true);
   const [moduloAberto, setModuloAberto] = useState<number | null>(null);
-  const [modalInscricaoAberto, setModalInscricaoAberto] = useState(false); // Add the state for the FormularioInscricao modal
+  const [modalInscricaoAberto, setModalInscricaoAberto] = useState(false);
+  const [depoimentoAtual, setDepoimentoAtual] = useState(0);
+  const [modalFormadorAberto, setModalFormadorAberto] = useState(false);
   const { modulos, carregando: carregandoModulos } = useModulos(id);
+
+  const listaDepoimentos = [
+    {
+      id: 1,
+      autor: "Carlos Mateus",
+      cargo: "Técnico de Contabilidade",
+      texto:
+        "O curso é totalmente prático. Consegui uma oportunidade de trabalho como gestor de stocks logo após concluir o módulo de logística!",
+      estrelas: 5,
+    },
+    {
+      id: 2,
+      autor: "Ana Paula Mendes",
+      cargo: "Analista Financeira",
+      texto:
+        "Excelente formador e material de apoio. A Envisio oferece condições de aprendizagem fantásticas com acompanhamento real.",
+      estrelas: 5,
+    },
+    {
+      id: 3,
+      autor: "Manuel António",
+      cargo: "Gestor Operacional",
+      texto:
+        "Superou todas as minhas expectativas. Domínio técnico impressionante na simulação de cenários reais de ERP em empresa.",
+      estrelas: 5,
+    },
+  ];
 
   // Fallback local para rota fixa (sem :id)
   const cursoLocal: Curso = {
@@ -152,7 +183,7 @@ export default function CursoDetalhe() {
     ].filter(Boolean);
 
     const key = candidates.find(
-      (k) => modulosDict[k] && modulosDict[k].length > 0
+      (k) => modulosDict[k] && modulosDict[k].length > 0,
     );
 
     // Logs úteis de diagnóstico
@@ -160,7 +191,7 @@ export default function CursoDetalhe() {
     console.log("[CursoDetalhe] candidatos normalizados:", candidates);
     console.log(
       "[CursoDetalhe] chave encontrada no dicionário:",
-      key ?? "nenhuma (fallback)"
+      key ?? "nenhuma (fallback)",
     );
 
     return key ? modulosDict[key] : undefined;
@@ -655,314 +686,600 @@ export default function CursoDetalhe() {
   }
 
   return (
-    <div className="bg-gray-50 ">
-      {/* Banner */}
+    <div className="bg-slate-50 min-h-screen font-sans text-slate-800 text-left">
+      {/* ─── 1. HERO SECTION (Coursera / Udemy Dark Header) ───────────────────── */}
+      <section className="bg-slate-900 !text-white relative pt-24 pb-16 lg:pb-24 border-b border-slate-800 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Top Bar: Back Button */}
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-8 text-xs text-slate-300">
+            <button
+              onClick={() => navigate("/academia/cursos")}
+              className="inline-flex items-center gap-2 p-0 bg-transparent border-0 text-slate-300 hover:text-white font-medium transition-colors cursor-pointer">
+              <ArrowLeft size={16} />
+              <span>Voltar para Cursos</span>
+            </button>
+          </div>
 
-      <section className="relative h-[500px]  text-white mt-[-80px]">
-        <div className=" max-w-6xl mx-auto px-4 absolute inset-0 z-10">
-          <button
-            onClick={() => navigate("/academia/cursos")}
-            className="flex items-center text-white hover:text-blue-200 mb-8 mt-12 transition-colors">
-            <ArrowLeft className="mr-2" size={20} />
-            Voltar para Cursos
-          </button>
-          <div className="flex flex-col md:flex-row gap-8 items-start">
-            <div className="flex-1">
-              <span className="inline-block px-3 py-1 bg-white/10 backdrop-blur-sm rounded-[5px] text-sm font-medium mb-4">
-                {cursoExibir.categoria || "Desenvolvimento"}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+            {/* LEFT COLUMN: Hero text (Col-span 12) */}
+            <div className="lg:col-span-12 text-left">
+              {/* Categoria */}
+              <span className="inline-block px-3 py-1 mb-4 text-[10px] font-extrabold uppercase tracking-wider text-red-400 bg-red-500/10 border border-red-500/20 rounded-[4px]">
+                {cursoExibir.categoria || "ERP & Gestão"}
               </span>
-              <h1 className="text-3xl mt-6 md:text-5xl text-white font-bold mb-4">
-                {cursoExibir.titulo}
+
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black !text-white tracking-tight leading-tight mb-4">
+                {cursoExibir.titulo || "Cegid Primavera: Funcionalidades e Módulos"}
               </h1>
-              <p className="text-lg mt-4 text-white max-w-3xl mb-6">
+
+              <p className="!text-slate-200 text-base sm:text-lg leading-relaxed mb-6 max-w-2xl font-normal">
                 {cursoExibir.descricao}
               </p>
 
-              <div className="mt-[-20px] flex flex-wrap gap-4">
-                <motion.button
-                  whileHover={{
-                    scale: 1.05,
-                    backgroundColor: "#4B5563", // Cor ligeiramente mais clara no hover
-                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-                  }}
-                  whileTap={{
-                    scale: 0.98,
-                    boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
-                  }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 10,
-                  }}
+              {/* Botões de Ação na Hero */}
+              <div className="flex flex-wrap items-center gap-3">
+                <button
                   onClick={() => setModalInscricaoAberto(true)}
-                  className="bg-gray-700 text-white px-8 py-3 rounded-[5px] font-medium transition-colors flex items-center">
-                  Inscreva-se Agora
-                </motion.button>
-
-                <motion.a
-                  whileHover={{
-                    scale: 1.02,
-                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                  className="btn-academia-primary px-6 py-3.5 text-xs uppercase tracking-wider cursor-pointer">
+                  Inscrever-se Agora
+                </button>
+                <button
+                  onClick={() => {
+                    const elem = document.getElementById("conteudo-programatico");
+                    if (elem) elem.scrollIntoView({ behavior: "smooth" });
                   }}
-                  whileTap={{
-                    scale: 0.98,
-                  }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 10,
-                  }}
-                  href="https://wa.me/244947137676?text=Olá%20Mais%20Resultados,%20gostaria%20de%20saber%20mais%20sobre%20os%20cursos"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className=" w-[200px] border text-white border-gray-300 bg-transparent  font-semibold py-3 px-8 rounded-[5px] transition-all duration-300 flex items-center justify-center">
-                  Mais informações
-                </motion.a>
+                  className="btn-academia-secondary px-6 py-3.5 text-xs uppercase tracking-wider cursor-pointer">
+                  Saiba Mais
+                </button>
               </div>
             </div>
           </div>
         </div>
-
-        <img
-          src="/academia/pagina home/detalhe.webp"
-          alt="Banner Serviços de Hardware"
-          className="w-full h-full object-cover"
-        />
       </section>
 
-      {/* Conteúdo Principal */}
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Conteúdo Principal */}
-            <div className="lg:col-span-2">
-              {/* Conteúdo Programático */}
-              <div className="bg-white rounded-[5px] shadow-sm p-6 border border-gray-100">
-                <h2 className="text-2xl font-bold mb-6 text-gray-900">
-                  Conteúdo Programático
-                </h2>
-
-                {carregandoModulos ? (
-                  <div className="flex justify-center py-8">
-                    <Spinner />
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    {modulosFonte.length === 0 && (
-                      <div className="text-center py-4 text-gray-500">
-                        Nenhum conteúdo programático disponível.
-                      </div>
-                    )}
-                    {modulosFonte.map((modulo: Modulo, index: number) => (
-                      <div
-                        key={modulo.id}
-                        className="border rounded-[5px] overflow-hidden">
-                        <button
-                          onClick={() =>
-                            setModuloAberto(
-                              moduloAberto === index ? null : index
-                            )
-                          }
-                          className="w-full px-5 py-4 text-left flex justify-between items-center bg-gray-50 hover:bg-gray-100 transition-colors">
-                          <div className="flex items-center">
-                            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
-                              <BookOpen className="text-blue-600" size={16} />
-                            </div>
-                            <h3 className="font-medium text-gray-900">
-                              {modulo.titulo}
-                            </h3>
-                          </div>
-                          <div className="flex items-center">
-                            <ChevronDown
-                              className={`transition-transform duration-200 ${
-                                moduloAberto === index
-                                  ? "transform rotate-180"
-                                  : ""
-                              }`}
-                              size={20}
-                            />
-                          </div>
-                        </button>
-
-                        {moduloAberto === index &&
-                          modulo.aulas &&
-                          modulo.aulas.length > 0 && (
-                            <div className="divide-y divide-gray-100">
-                              {modulo.aulas.map((aula: Aula) => (
-                                <div
-                                  key={aula.id}
-                                  className="px-5 py-3 flex items-center hover:bg-gray-50">
-                                  <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                                    <FileText
-                                      className="text-gray-600"
-                                      size={16}
-                                    />
-                                  </div>
-                                  <div className="flex-1">
-                                    <h4 className="font-medium text-gray-800">
-                                      {aula.titulo}
-                                    </h4>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Requisitos */}
-              <div className="bg-white rounded-[5px] shadow-sm p-6 mt-8 border border-gray-100">
-                <h2 className="text-2xl font-bold mb-6 text-gray-900">
-                  Requisitos
-                </h2>
-                <ul className="space-y-2 text-gray-600">
-                  {cursoExibir.requisitos?.map(
-                    (
-                      requisito:
-                        | string
-                        | number
-                        | bigint
-                        | boolean
-                        | ReactElement<
-                            unknown,
-                            string | JSXElementConstructor<any>
-                          >
-                        | Iterable<ReactNode>
-                        | ReactPortal
-                        | Promise<
-                            | string
-                            | number
-                            | bigint
-                            | boolean
-                            | ReactPortal
-                            | ReactElement<
-                                unknown,
-                                string | JSXElementConstructor<any>
-                              >
-                            | Iterable<ReactNode>
-                            | null
-                            | undefined
-                          >
-                        | null
-                        | undefined,
-                      index: Key | null | undefined
-                    ) => (
-                      <li key={index} className="flex items-start">
-                        <span className="mr-2">•</span>
-                        <span>{requisito}</span>
-                      </li>
-                    )
-                  ) || <li>Nenhum pré-requisito necessário.</li>}
-                </ul>
+      {/* ─── 2. MAIN CONTENT & STICKY SIDEBAR SECTION ───────────────────────────── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 relative items-start">
+          {/* LEFT COLUMN: Course Details (8 Cols) */}
+          <div className="lg:col-span-8 space-y-10">
+            {/* Box 1: O que você vai aprender */}
+            <div className="bg-white rounded-[5px] p-6 sm:p-8 border border-slate-200/80 shadow-sm">
+              <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                <CheckCircle2 size={20} className="text-red-600" />
+                <span>O que você vai aprender neste curso</span>
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-slate-700 font-medium">
+                <div className="flex items-center gap-3">
+                  <CheckCircle2
+                    size={18}
+                    className="text-emerald-500 flex-shrink-0"
+                  />
+                  <span>Competência Sólida</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle2
+                    size={18}
+                    className="text-emerald-500 flex-shrink-0"
+                  />
+                  <span>Reconhecimento Profissional</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle2
+                    size={18}
+                    className="text-emerald-500 flex-shrink-0"
+                  />
+                  <span>Confiança Total</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle2
+                    size={18}
+                    className="text-emerald-500 flex-shrink-0"
+                  />
+                  <span>Networking</span>
+                </div>
               </div>
             </div>
 
-            {/* Barra Lateral */}
-            <div className="space-y-6">
-              {/* Instrutor */}
-              <div className="bg-white rounded-[5px]shadow-sm p-6 border border-gray-100">
-                <h3 className="font-semibold text-lg mb-4">Instrutor</h3>
-                <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
-                    <span className="text-white font-bold text-xl">I</span>
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-900">{"Lucas"}</h4>
-                    <p className="text-sm text-gray-500">{"Especialista"}</p>
-                  </div>
+            {/* Box 2: Conteúdo Programático (Acordeão Expansível) */}
+            <div id="conteudo-programatico" className="bg-white rounded-[5px] p-6 sm:p-8 border border-slate-200/80 shadow-sm scroll-mt-24">
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <div>
+                  <h2 className="text-xl font-bold text-slate-900">
+                    Conteúdo Programático
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-1">
+                    {modulosFonte.length} Módulos organizados sequencialmente
+                  </p>
                 </div>
-                <p className="mt-4 text-sm text-gray-600">
-                  {
-                    "Profissional experiente e apaixonado por compartilhar conhecimento."
-                  }
-                </p>
               </div>
 
-              {/* Informações do Curso */}
-              <div className="bg-white rounded-[5px] shadow-sm p-6 border border-gray-100">
-                <h3 className="font-semibold text-lg mb-4">
-                  Informações do Curso
-                </h3>
-                <ul className="space-y-3">
-                  <li className="flex justify-between text-sm">
-                    <span className="text-gray-500">Duração</span>
-                    <span className="font-medium">130h</span>
-                  </li>
+              {carregandoModulos ? (
+                <div className="flex justify-center py-8">
+                  <Spinner />
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {modulosFonte.length === 0 && (
+                    <div className="text-center py-6 text-slate-500 text-sm">
+                      Nenhum conteúdo programático disponível.
+                    </div>
+                  )}
+                  {modulosFonte.map((modulo: Modulo, index: number) => (
+                    <div
+                      key={modulo.id || index}
+                      className="border border-slate-200/90 rounded-[6px] overflow-hidden bg-white shadow-2xs">
+                      <button
+                        onClick={() =>
+                          setModuloAberto(moduloAberto === index ? null : index)
+                        }
+                        className="w-full px-5 py-4 text-left flex justify-between items-center bg-white hover:bg-slate-50/80 transition-colors">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-full border border-slate-200/90 flex items-center justify-center text-xs text-slate-500 font-normal flex-shrink-0 bg-slate-50/50">
+                            {String(index + 1).padStart(2, "0")}
+                          </div>
+                          <div>
+                            <h3 className="font-normal text-sm sm:text-base text-slate-800 leading-snug">
+                              {modulo.titulo.startsWith("Módulo")
+                                ? modulo.titulo
+                                : `Módulo ${index + 1}: ${modulo.titulo}`}
+                            </h3>
+                            <p className="text-xs text-slate-400 font-normal mt-0.5">
+                              {modulo.aulas
+                                ? `${modulo.aulas.length} tópicos`
+                                : "Tópicos do módulo"}
+                            </p>
+                          </div>
+                        </div>
+                        <ChevronDown
+                          className={`text-slate-400 transition-transform duration-200 flex-shrink-0 ${
+                            moduloAberto === index ? "transform rotate-180 text-slate-700" : ""
+                          }`}
+                          size={18}
+                        />
+                      </button>
 
-                  <li className="flex justify-between text-sm">
-                    <span className="text-gray-500">Idioma</span>
-                    <span className="font-medium">Português</span>
-                  </li>
-                </ul>
+                      {moduloAberto === index &&
+                        modulo.aulas &&
+                        modulo.aulas.length > 0 && (
+                          <div className="divide-y divide-slate-100 bg-white border-t border-slate-200/80">
+                            {modulo.aulas.map((aula: Aula) => (
+                              <div
+                                key={aula.id}
+                                className="px-5 py-3 flex items-center justify-between hover:bg-slate-50/80 transition-colors">
+                                <div className="flex items-center gap-3">
+                                  <FileText
+                                    className="text-slate-400"
+                                    size={15}
+                                  />
+                                  <span className="text-xs font-normal text-slate-600">
+                                    {aula.titulo}
+                                  </span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN: Formador -> Depoimentos -> Requisitos -> Formulário de Inscrição (4 Cols) */}
+          <div className="lg:col-span-4 relative z-30 space-y-6">
+            {/* 1. Card do Formador Responsável (Com botão Ver Mais para o Modal) */}
+            <div className="bg-white rounded-[5px] p-6 border border-slate-200/80 shadow-sm">
+              <h2 className="text-lg font-bold text-slate-900 mb-4">
+                Formador Responsável
+              </h2>
+              <div className="flex items-start gap-4">
+                <img
+                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80"
+                  alt="João Silva"
+                  className="w-16 h-16 rounded-full object-cover border-2 border-slate-200 shadow-sm flex-shrink-0"
+                />
+                <div className="flex-1">
+                  <h3 className="text-base font-bold text-slate-900">
+                    João Silva
+                  </h3>
+                  <p className="text-[10px] font-semibold text-red-600 uppercase tracking-wider mb-2">
+                    CEO & Especialista ERP Primavera
+                  </p>
+                  <p className="text-xs text-slate-600 leading-relaxed mb-3 line-clamp-2">
+                    Com mais de 12 anos de experiência em projetos de
+                    implementação de ERP corporativo em Angola e Portugal.
+                  </p>
+                  <button
+                    onClick={() => setModalFormadorAberto(true)}
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-red-600 hover:text-red-700 hover:underline transition-colors">
+                    <span>Ver mais sobre o formador</span>
+                    <ArrowLeft size={13} className="transform rotate-180" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* 2. Card de Avaliações dos Alunos (Carrossel Horizontal com Setas) */}
+            <div className="bg-white rounded-[5px] p-6 border border-slate-200/80 shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-bold text-slate-900">
+                  O que dizem os nossos alunos
+                </h2>
+                {/* Controlo de Navegação do Carrossel */}
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() =>
+                      setDepoimentoAtual((prev) =>
+                        prev === 0 ? listaDepoimentos.length - 1 : prev - 1,
+                      )
+                    }
+                    className="p-1 rounded-[5px] bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
+                    title="Anterior">
+                    <ChevronLeft size={16} />
+                  </button>
+                  <button
+                    onClick={() =>
+                      setDepoimentoAtual((prev) =>
+                        prev === listaDepoimentos.length - 1 ? 0 : prev + 1,
+                      )
+                    }
+                    className="p-1 rounded-[5px] bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
+                    title="Seguinte">
+                    <ChevronRight size={16} />
+                  </button>
+                </div>
               </div>
 
-              <div className="bg-white rounded-lg border border-gray-200 p-6">
-                <h3 className="font-medium text-base mb-4 text-gray-900">
-                  O que este curso inclui
-                </h3>
-                <ul className="space-y-3">
-                  <li className="flex items-center space-x-3 text-sm">
-                    <Award className="w-4 h-4 text-gray-500" />
-                    <span className="text-gray-600">
-                      Certificado de conclusão
+              {/* Conteúdo do Depoimento Ativo (Horizontal) */}
+              <div className="p-4 bg-slate-50 rounded-[5px] border border-slate-100 min-h-[140px] flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-1 text-amber-400 mb-2">
+                    {[...Array(listaDepoimentos[depoimentoAtual].estrelas)].map(
+                      (_, i) => (
+                        <Star key={i} size={14} fill="currentColor" />
+                      ),
+                    )}
+                  </div>
+                  <p className="text-xs text-slate-600 italic mb-3 leading-relaxed">
+                    "{listaDepoimentos[depoimentoAtual].texto}"
+                  </p>
+                </div>
+                <div>
+                  <strong className="text-xs font-bold text-slate-900 block">
+                    {listaDepoimentos[depoimentoAtual].autor}
+                  </strong>
+                  <span className="text-[10px] text-slate-400">
+                    {listaDepoimentos[depoimentoAtual].cargo}
+                  </span>
+                </div>
+              </div>
+
+              {/* Indicadores de Pontos (Dots) */}
+              <div className="flex justify-center items-center gap-1.5 mt-3">
+                {listaDepoimentos.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setDepoimentoAtual(idx)}
+                    className={`h-1.5 rounded-full transition-all ${
+                      depoimentoAtual === idx
+                        ? "w-5 bg-red-600"
+                        : "w-1.5 bg-slate-300 hover:bg-slate-400"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* 3. Card dos Requisitos da Formação */}
+            <div className="bg-white rounded-[5px] p-6 border border-slate-200/80 shadow-sm">
+              <h2 className="text-lg font-bold text-slate-900 mb-4">
+                Requisitos da Formação
+              </h2>
+              <ul className="space-y-3 text-xs text-slate-600">
+                {cursoExibir.requisitos?.map((req: any, idx: number) => (
+                  <li key={idx} className="flex items-start gap-2.5">
+                    <Check
+                      size={16}
+                      className="text-red-600 mt-0.5 flex-shrink-0"
+                    />
+                    <span>{req}</span>
+                  </li>
+                )) || (
+                  <li className="flex items-start gap-2.5">
+                    <Check
+                      size={16}
+                      className="text-red-600 mt-0.5 flex-shrink-0"
+                    />
+                    <span>
+                      Computador portátil com acesso à internet e
+                      disponibilidade para aulas presenciais/práticas.
                     </span>
                   </li>
-                  <li className="flex items-center space-x-3 text-sm">
-                    <FileText className="w-4 h-4 text-gray-500" />
-                    <span className="text-gray-600">Material complementar</span>
-                  </li>
-                  <li className="flex items-center space-x-3 text-sm">
-                    <Headphones className="w-4 h-4 text-gray-500" />
-                    <span className="text-gray-600">Suporte ao aluno</span>
-                  </li>
-                  <li className="flex items-center space-x-3 text-sm">
-                    <Play className="w-4 h-4 text-gray-500" />
-                    <span className="text-gray-600">Exercícios práticos</span>
-                  </li>
-                </ul>
+                )}
+              </ul>
+            </div>
+
+            {/* 3. Card de Informações e Inscrição */}
+            <div className="bg-white rounded-[5px] border border-slate-200 shadow-xl overflow-hidden">
+              {/* Imagem do Curso no Card */}
+              <div className="relative h-48 bg-slate-100 overflow-hidden border-b border-slate-100">
+                <img
+                  src={
+                    (cursoExibir as any).imagem ||
+                    cursoExibir.imagemUrl ||
+                    "/academia/primavera.svg"
+                  }
+                  alt={cursoExibir.titulo}
+                  className="w-full h-full object-cover"
+                />
               </div>
 
-              {/* Benefícios do Curso */}
-              <div className="bg-white rounded-lg border border-gray-200 p-6 mt-6">
-                <h3 className="font-medium text-base mb-4 text-gray-900">
-                  O que você vai conquistar:
-                </h3>
-                <ul className="space-y-4">
-                  <li className="flex items-start text-sm">
-                    <span className="text-gray-500 mr-2">✅</span>
-                    <div>
-                      <span className="font-medium">Competência Sólida</span>
-                    </div>
+              {/* Card Body */}
+              <div className="p-6">
+                {/* Título do Curso */}
+                <div className="mb-6">
+                  <h3 className="text-xl font-black text-slate-900 leading-snug mb-2">
+                    {cursoExibir.titulo}
+                  </h3>
+                  <p className="text-xs text-emerald-600 font-semibold flex items-center gap-1">
+                    <ShieldCheck size={14} />
+                    <span>Inscrição com Garantia de Vaga</span>
+                  </p>
+                </div>
+
+                {/* Este Curso Inclui */}
+                <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-4">
+                  Este curso inclui:
+                </h4>
+                <ul className="space-y-3 text-xs text-slate-600 mb-6">
+                  <li className="flex items-center gap-3">
+                    <Clock size={16} className="text-slate-400" />
+                    <span>
+                      <strong>120 Horas</strong> de formação intensiva
+                    </span>
                   </li>
-                  <li className="flex items-start text-sm">
-                    <span className="text-gray-500 mr-2">✅</span>
-                    <div>
-                      <span className="font-medium">
-                        Reconhecimento Profissional
-                      </span>
-                    </div>
+                  <li className="flex items-center gap-3">
+                    <BarChart size={16} className="text-slate-400" />
+                    <span>
+                      Nível <strong>Intermédio a Avançado</strong>
+                    </span>
                   </li>
-                  <li className="flex items-start text-sm">
-                    <span className="text-gray-500 mr-2">✅</span>
-                    <div>
-                      <span className="font-medium">Confiança Total</span>
-                    </div>
+                  <li className="flex items-center gap-3">
+                    <Award size={16} className="text-slate-400" />
+                    <span>
+                      <strong>Certificado de Conclusão</strong> Oficial
+                    </span>
                   </li>
-                  <li className="flex items-start text-sm">
-                    <span className="text-gray-500 mr-2">✅</span>
-                    <div>
-                      <span className="font-medium">Networking</span>
-                    </div>
+                  <li className="flex items-center gap-3">
+                    <FileText size={16} className="text-slate-400" />
+                    <span>
+                      Material didático e <strong>Manuais Práticos</strong>
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Headphones size={16} className="text-slate-400" />
+                    <span>Suporte contínuo com o formador</span>
                   </li>
                 </ul>
+
+                {/* Link de Inscrição */}
+                <div className="text-center mt-10 mb-8">
+                  <button
+                    onClick={() => setModalInscricaoAberto(true)}
+                    className="inline-flex items-center gap-1 text-xs font-bold text-slate-900 hover:text-red-600 uppercase tracking-wider transition-colors duration-200 cursor-pointer">
+                    <span>Inscreva-se Agora</span>
+                  </button>
+                </div>
+
+                {/* Share Button com Funcionalidade Completa */}
+                <div className="pt-4 border-t border-slate-100 text-center">
+                  <button
+                    onClick={async () => {
+                      if (navigator.share) {
+                        try {
+                          await navigator.share({
+                            title: cursoExibir.titulo,
+                            text: `Confira o curso de ${cursoExibir.titulo} na Envisio Training Academy!`,
+                            url: window.location.href,
+                          });
+                        } catch (err) {
+                          navigator.clipboard.writeText(window.location.href);
+                          toast.success(
+                            "Link copiado para a área de transferência!",
+                          );
+                        }
+                      } else {
+                        navigator.clipboard.writeText(window.location.href);
+                        toast.success(
+                          "Link copiado para a área de transferência!",
+                        );
+                      }
+                    }}
+                    className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-800 font-medium transition-colors">
+                    <Share2 size={13} />
+                    <span>Partilhar este curso</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* ─── 3. OUTRAS FORMAÇÕES RECOMENDADAS ──────────────────────────────────── */}
+      <section className="bg-slate-100/70 py-16 border-t border-slate-200/80 text-left">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header Centralizado */}
+          <div className="text-center max-w-3xl mx-auto mb-10 flex flex-col items-center">
+            <span className="inline-block px-3 py-1 mb-2 text-[10px] font-extrabold uppercase tracking-wider text-red-600 bg-red-50 border border-red-100 rounded-[4px]">
+              Evolução Contínua
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              Outras Formações Recomendadas
+            </h2>
+            <p className="text-slate-500 text-xs mt-2 font-normal max-w-lg">
+              Explore formações práticas e especializadas para impulsionar a sua carreira no mercado corporativo.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {/* Card 1: Primavera ERP */}
+            <div
+              onClick={() => navigate("/academia/curso1")}
+              className="bg-white rounded-[5px] overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group flex flex-col">
+              <div className="h-36 overflow-hidden relative bg-slate-900/5">
+                <img
+                  src="/academia/primavera.svg"
+                  alt="Cegid Primavera ERP"
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
+                <span className="absolute top-2.5 left-2.5 bg-slate-900/90 backdrop-blur-md text-white text-[9px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase tracking-wider shadow-sm border border-slate-700/50">
+                  ERP & Gestão
+                </span>
+              </div>
+              <div className="p-4 flex flex-col flex-1 bg-white">
+                <div className="flex items-center gap-1 text-amber-500 font-bold text-[11px] mb-1.5">
+                  <Star size={12} fill="currentColor" />
+                  <span>4.9</span>
+                  <span className="text-slate-400 font-normal text-[10px]">(128)</span>
+                </div>
+                <h3 className="font-bold text-sm text-slate-900 group-hover:text-red-600 transition-colors mb-1.5 line-clamp-1">
+                  Cegid Primavera ERP
+                </h3>
+                <p className="text-[11px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
+                  Operação e parametrização nos módulos de Vendas, Compras e RH.
+                </p>
+                <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
+                  <span className="text-slate-400 font-medium text-[10px]">120 Horas</span>
+                  <span className="text-red-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 text-[11px] font-bold">
+                    Saber mais &rarr;
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 2: Frontend */}
+            <div
+              onClick={() => navigate("/academia/curso2")}
+              className="bg-white rounded-[5px] overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group flex flex-col">
+              <div className="h-36 overflow-hidden relative bg-slate-900/5">
+                <img
+                  src="/academia/frontend.jpg"
+                  alt="Programação Web Frontend"
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
+                <span className="absolute top-2.5 left-2.5 bg-slate-900/90 backdrop-blur-md text-white text-[9px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase tracking-wider shadow-sm border border-slate-700/50">
+                  Programação Web
+                </span>
+              </div>
+              <div className="p-4 flex flex-col flex-1 bg-white">
+                <div className="flex items-center gap-1 text-amber-500 font-bold text-[11px] mb-1.5">
+                  <Star size={12} fill="currentColor" />
+                  <span>4.9</span>
+                  <span className="text-slate-400 font-normal text-[10px]">(96)</span>
+                </div>
+                <h3 className="font-bold text-sm text-slate-900 group-hover:text-red-600 transition-colors mb-1.5 line-clamp-1">
+                  Programação Web & React
+                </h3>
+                <p className="text-[11px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
+                  HTML5, CSS3, JavaScript ES6+ e React.js para interfaces modernas.
+                </p>
+                <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
+                  <span className="text-slate-400 font-medium text-[10px]">80 Horas</span>
+                  <span className="text-red-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 text-[11px] font-bold">
+                    Saber mais &rarr;
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 3: Cibersegurança / Lógica */}
+            <div
+              onClick={() => navigate("/academia/curso3")}
+              className="bg-white rounded-[5px] overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group flex flex-col">
+              <div className="h-36 overflow-hidden relative bg-slate-900/5">
+                <img
+                  src="/academia/logica.png"
+                  alt="Redes & Cibersegurança"
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
+                <span className="absolute top-2.5 left-2.5 bg-slate-900/90 backdrop-blur-md text-white text-[9px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase tracking-wider shadow-sm border border-slate-700/50">
+                  Cibersegurança
+                </span>
+              </div>
+              <div className="p-4 flex flex-col flex-1 bg-white">
+                <div className="flex items-center gap-1 text-amber-500 font-bold text-[11px] mb-1.5">
+                  <Star size={12} fill="currentColor" />
+                  <span>4.9</span>
+                  <span className="text-slate-400 font-normal text-[10px]">(84)</span>
+                </div>
+                <h3 className="font-bold text-sm text-slate-900 group-hover:text-red-600 transition-colors mb-1.5 line-clamp-1">
+                  Redes & Segurança de Informação
+                </h3>
+                <p className="text-[11px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
+                  Infraestrutura Cisco, Firewalls, VPNs e ciberdefesa empresarial.
+                </p>
+                <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
+                  <span className="text-slate-400 font-medium text-[10px]">100 Horas</span>
+                  <span className="text-red-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 text-[11px] font-bold">
+                    Saber mais &rarr;
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 4: SQL Server */}
+            <div
+              onClick={() => navigate("/academia/curso4")}
+              className="bg-white rounded-[5px] overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group flex flex-col">
+              <div className="h-36 overflow-hidden relative bg-slate-900/5">
+                <img
+                  src="/academia/sql.png"
+                  alt="SQL Server Base de Dados"
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
+                <span className="absolute top-2.5 left-2.5 bg-slate-900/90 backdrop-blur-md text-white text-[9px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase tracking-wider shadow-sm border border-slate-700/50">
+                  Base de Dados
+                </span>
+              </div>
+              <div className="p-4 flex flex-col flex-1 bg-white">
+                <div className="flex items-center gap-1 text-amber-500 font-bold text-[11px] mb-1.5">
+                  <Star size={12} fill="currentColor" />
+                  <span>4.9</span>
+                  <span className="text-slate-400 font-normal text-[10px]">(112)</span>
+                </div>
+                <h3 className="font-bold text-sm text-slate-900 group-hover:text-red-600 transition-colors mb-1.5 line-clamp-1">
+                  Base de Dados SQL Server
+                </h3>
+                <p className="text-[11px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
+                  Modelagem relacional, T-SQL, Stored Procedures e Backup.
+                </p>
+                <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
+                  <span className="text-slate-400 font-medium text-[10px]">120 Horas</span>
+                  <span className="text-red-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 text-[11px] font-bold">
+                    Saber mais &rarr;
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-8">
+            <button
+              onClick={() => navigate("/academia/cursos")}
+              className="inline-flex items-center justify-center px-5 py-2.5 bg-slate-900 hover:bg-red-600 text-white font-bold text-xs uppercase tracking-wider rounded-[5px] transition-all shadow-sm cursor-pointer">
+              <span>Ver Todos os Cursos</span>
+              <ArrowLeft size={14} className="ml-2 transform rotate-180" />
+            </button>
+          </div>
+        </div>
+      </section>
+
 
       {/* Modal de Vídeo */}
       <ModalVideo
@@ -981,6 +1298,88 @@ export default function CursoDetalhe() {
           setModalInscricaoAberto(false);
         }}
       />
+
+      {/* Modal de Detalhes do Formador (Réplica Exata da Imagem) */}
+      {modalFormadorAberto && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className="bg-white rounded-[8px] overflow-hidden shadow-2xl relative w-full max-w-3xl border border-slate-100">
+            {/* Close Button Floating */}
+            <button
+              onClick={() => setModalFormadorAberto(false)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 z-10 bg-white hover:bg-slate-100 p-2 rounded-full shadow-md transition-colors border border-slate-100"
+              aria-label="Fechar">
+              <X size={18} />
+            </button>
+
+            <div className="grid grid-cols-1 md:grid-cols-12 items-stretch min-h-[440px]">
+              {/* Left Column: Image (5 cols) */}
+              <div className="md:col-span-5 h-64 md:h-auto w-full relative">
+                <img
+                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                  alt="João Silva"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Right Column: Info (7 cols) */}
+              <div className="md:col-span-7 p-6 sm:p-8 flex flex-col justify-center text-left max-h-[500px] overflow-y-auto">
+                <h3 className="text-2xl sm:text-3xl font-bold text-[#1e1b4b] mb-1 leading-tight">
+                  João Silva
+                </h3>
+                <p className="text-xs font-bold text-red-600 uppercase tracking-wide mb-6">
+                  CEO & FORMADOR PRIMAVERA
+                </p>
+
+                {/* Formação Académica */}
+                <div className="mb-5">
+                  <span className="text-[10px] font-bold text-slate-800 uppercase tracking-wider block mb-1">
+                    FORMAÇÃO ACADÉMICA
+                  </span>
+                  <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                    Mestre em Gestão de Informação - Universidade Nova de Lisboa
+                  </p>
+                </div>
+
+                {/* Sobre o Especialista */}
+                <div className="mb-5">
+                  <span className="text-[10px] font-bold text-slate-800 uppercase tracking-wider block mb-1">
+                    SOBRE O ESPECIALISTA
+                  </span>
+                  <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                    Líder e estrategista com vasta experiência em implementação
+                    de ERPs, o João guia nossos alunos no desenvolvimento de
+                    competências voltadas para liderança empresarial e
+                    otimização de processos corporativos.
+                  </p>
+                </div>
+
+                {/* Áreas de Foco */}
+                <div>
+                  <span className="text-[10px] font-bold text-slate-800 uppercase tracking-wider block mb-2">
+                    ÁREAS DE FOCO
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="px-3 py-1.5 bg-slate-100 text-slate-800 text-[10px] font-bold uppercase rounded-[3px] tracking-wider">
+                      ERP PRIMAVERA
+                    </span>
+                    <span className="px-3 py-1.5 bg-slate-100 text-slate-800 text-[10px] font-bold uppercase rounded-[3px] tracking-wider">
+                      GESTÃO ESTRATÉGICA
+                    </span>
+                    <span className="px-3 py-1.5 bg-slate-100 text-slate-800 text-[10px] font-bold uppercase rounded-[3px] tracking-wider">
+                      BUSINESS INTELLIGENCE
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }

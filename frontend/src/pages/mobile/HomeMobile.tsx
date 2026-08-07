@@ -116,7 +116,7 @@ export function HomeMobile() {
           className="text-center mb-8">
           <h2
             className="text-3xl font-bold mb-4"
-            style={{ fontFamily: "Segoe UI Semibold" }}>
+            style={{ fontFamily: "Segoe UI Variable Text" }}>
             Transformando negócios desde 2018
           </h2>
           <div className="w-16 h-1 bg-red-600 mx-auto mb-6" />
@@ -127,12 +127,12 @@ export function HomeMobile() {
           <div className="space-y-4">
             <h3
               className="text-2xl font-bold"
-              style={{ fontFamily: "Segoe UI Semibold" }}>
+              style={{ fontFamily: "Segoe UI Variable Text" }}>
               Quem Somos
             </h3>
             <p
               className="text-gray-600 text-sm leading-relaxed"
-              style={{ fontFamily: "Segoe UI Regular" }}>
+              style={{ fontFamily: "Segoe UI Variable Text" }}>
               A ENVISIO, é uma empresa de direito Angolano, orientada para os
               problemas e soluções locais, que atua no mercado da Consultoria e
               provedor de serviços e soluções de tecnologia de informações
@@ -161,7 +161,7 @@ export function HomeMobile() {
             <div>
               <h4
                 className="font-semibold mt-3"
-                style={{ fontFamily: "Segoe UI Semibold" }}>
+                style={{ fontFamily: "Segoe UI Variable Text" }}>
                 Fundação da Empresa
               </h4>
             </div>
@@ -197,7 +197,7 @@ export function HomeMobile() {
           className="text-center mb-8">
           <h2
             className="text-3xl font-bold mb-4"
-            style={{ fontFamily: "Segoe UI Semibold" }}>
+            style={{ fontFamily: "Segoe UI Variable Text" }}>
             Nossos Serviços
           </h2>
           <div className="w-16 h-1 bg-red-600 mx-auto mb-6" />
@@ -243,7 +243,7 @@ export function HomeMobile() {
           </span>
           <h2
             className="text-3xl font-bold mb-4"
-            style={{ fontFamily: "Segoe UI Semibold" }}>
+            style={{ fontFamily: "Segoe UI Variable Text" }}>
             Desenvolva Seu Potencial
           </h2>
           <div className="w-16 h-1 bg-red-600 mx-auto mb-6" />
@@ -317,7 +317,7 @@ export function HomeMobile() {
           className="text-center mb-8">
           <h2
             className="text-3xl font-bold text-white mb-4"
-            style={{ fontFamily: "Segoe UI Semibold" }}>
+            style={{ fontFamily: "Segoe UI Variable Text" }}>
             O Que Nossos Clientes Dizem
           </h2>
           <div className="w-16 h-1 bg-red-600 mx-auto mb-6" />
@@ -396,7 +396,7 @@ export function HomeMobile() {
           </span>
           <h2
             className="text-3xl font-bold mb-4"
-            style={{ fontFamily: "Segoe UI Semibold" }}>
+            style={{ fontFamily: "Segoe UI Variable Text" }}>
             Nossos Parceiros
           </h2>
           <div className="w-16 h-1 bg-red-600 mx-auto mb-6" />

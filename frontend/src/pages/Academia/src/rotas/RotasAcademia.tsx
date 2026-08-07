@@ -9,6 +9,7 @@ import LayoutInstrutor from "../componentes/LayoutInstrutor";
 import AcademiaHome from "../paginas/academia";
 import QuemSomos from "../paginas/QuemSomos";
 import CursosAcademia from "../paginas/publicas/Cursos";
+import ContatoAcademia from "../paginas/publicas/ContatoAcademia";
 import CursoDetalhe from "../paginas/publicas/CursoDetalhe";
 import Curso1 from "../paginas/publicas/Cursos/curso1";
 import Curso2 from "../paginas/publicas/Cursos/curso2";
@@ -18,7 +19,12 @@ import LoginAcademia from "../paginas/autenticacao/Login";
 import CadastroAcademia from "../paginas/autenticacao/Cadastro";
 import RecuperarSenha from "../paginas/autenticacao/RecuperarSenha";
 
+import LayoutAdmin from "../componentes/LayoutAdmin";
 import AdminPainel from "../paginas/admin/Painel";
+import GerirCursos from "../paginas/admin/GerirCursos";
+import GerirDestaques from "../paginas/admin/GerirDestaques";
+import GerirCategorias from "../paginas/admin/GerirCategorias";
+import GerirInscricoes from "../paginas/admin/GerirInscricoes";
 import GerenciarUsuarios from "../paginas/admin/GerenciarUsuarios";
 import Relatorios from "../paginas/admin/Relatorios";
 import Configuracoes from "../paginas/admin/Configuracoes";
@@ -74,41 +80,71 @@ const RotasAcademia = () => {
             }
           />
 
-          {/* Rotas Protegidas - Admin */}
+          {/* Rotas Admin */}
           <Route
             path="/admin"
             element={
-              <LayoutAcademia>
+              <LayoutAdmin>
                 <AdminPainel />
-              </LayoutAcademia>
+              </LayoutAdmin>
+            }
+          />
+          <Route
+            path="/admin/cursos"
+            element={
+              <LayoutAdmin>
+                <GerirCursos />
+              </LayoutAdmin>
+            }
+          />
+          <Route
+            path="/admin/destaques"
+            element={
+              <LayoutAdmin>
+                <GerirDestaques />
+              </LayoutAdmin>
+            }
+          />
+          <Route
+            path="/admin/categorias"
+            element={
+              <LayoutAdmin>
+                <GerirCategorias />
+              </LayoutAdmin>
+            }
+          />
+          <Route
+            path="/admin/inscricoes"
+            element={
+              <LayoutAdmin>
+                <GerirInscricoes />
+              </LayoutAdmin>
             }
           />
           <Route
             path="/admin/usuarios"
             element={
-              <LayoutAcademia>
+              <LayoutAdmin>
                 <GerenciarUsuarios />
-              </LayoutAcademia>
+              </LayoutAdmin>
             }
           />
           <Route
             path="/admin/relatorios"
             element={
-              <LayoutAcademia>
+              <LayoutAdmin>
                 <Relatorios />
-              </LayoutAcademia>
+              </LayoutAdmin>
             }
           />
           <Route
             path="/admin/configuracoes"
             element={
-              <LayoutAcademia>
+              <LayoutAdmin>
                 <Configuracoes />
-              </LayoutAcademia>
+              </LayoutAdmin>
             }
-          />
-
-          {/* Rotas Protegidas - Instrutor */}
+          />{/* Rotas Protegidas - Instrutor */}
           <Route
             path="/instrutor"
             element={
@@ -246,6 +282,14 @@ const RotasAcademia = () => {
             element={
               <LayoutAcademia>
                 <QuemSomos />
+              </LayoutAcademia>
+            }
+          />
+          <Route
+            path="/contato"
+            element={
+              <LayoutAcademia>
+                <ContatoAcademia />
               </LayoutAcademia>
             }
           />

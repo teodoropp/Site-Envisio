@@ -103,7 +103,7 @@ const QuemSomosMobile = () => {
               transition={{ duration: 0.8 }}
               className="text-[23px] sm:text-3xl md:text-5xl lg:text-5xl font-bold mb-1 md:mb-6"
               style={{
-                fontFamily: "Segoe UI semibold",
+                fontFamily: "Segoe UI Variable Text",
               }}>
               <span className="text-white">Quem somos</span>
             </motion.h1>
@@ -127,7 +127,7 @@ const QuemSomosMobile = () => {
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
               className="text-3xl font-semibold text-gray-900 mb-2"
-              style={{ fontFamily: "Segoe UI semibold" }}>
+              style={{ fontFamily: "Segoe UI Variable Text" }}>
               Sobre Nós
             </motion.h2>
             <motion.p

@@ -1,0 +1,266 @@
+/* ==========================================
+   ACADEMIA DESIGN SYSTEM - ENVISIO
+   ==========================================
+   Sistema de Design centralizado para a Academia.
+   Qualquer alteração aqui reflete em toda a secção da Academia.
+*/
+
+:root {
+  /* Paleta de Cores */
+  --academia-red: #dc2626;         /* Vermelho suave / não carregado */
+  --academia-red-hover: #b91c1c;   /* Vermelho hover */
+  --academia-red-light: #fef2f2;   /* Vermelho ultra leve para destaques */
+  
+  --academia-black: #111827;       /* Preto principal */
+  --academia-black-pure: #000000;
+  
+  --academia-gray-50: #f9fafb;     /* Fundo extra claro */
+  --academia-gray-100: #f3f4f6;    /* Fundo de cartões/botões secundários */
+  --academia-gray-200: #e5e7eb;    /* Bordas suaves */
+  --academia-gray-300: #d1d5db;    /* Bordas neutras */
+  --academia-gray-600: #4b5563;    /* Texto secundário */
+  --academia-gray-700: #374151;    /* Texto de botões secundários */
+  --academia-gray-900: #111827;    /* Texto escuro */
+  
+  --academia-white: #ffffff;
+
+  /* Bordas e Raios */
+  --academia-button-radius: 0px;   /* Botões estritamente quadrados */
+  --academia-card-radius: 5px;     /* Cards com borda de 5px */
+}
+
+/* Ocultar barras de scroll visíveis (mantendo a rolagem ativa) */
+.no-scrollbar,
+.overflow-x-auto,
+.overflow-y-auto,
+.scrollbar-none {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar,
+.overflow-x-auto::-webkit-scrollbar,
+.overflow-y-auto::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari, Opera */
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* ==========================================
+   SHADCN UI COMPONENT DESIGN SYSTEM
+   ========================================== */
+.shadcn-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  padding: 0.125rem 0.625rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.shadcn-badge-outline {
+  border-color: #e2e8f0;
+  color: #1e293b;
+  background-color: #ffffff;
+}
+
+.shadcn-badge-secondary {
+  border-color: transparent;
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.shadcn-badge-destructive {
+  border-color: #fecaca;
+  background-color: #fef2f2;
+  color: #991b1b;
+}
+
+.shadcn-badge-success {
+  border-color: #a7f3d0;
+  background-color: #ecfdf5;
+  color: #065f46;
+}
+
+.shadcn-card {
+  border-radius: 0.375rem;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================================
+   TIPOGRAFIA & TÍTULOS
+   ==========================================
+   Regra: Apenas os títulos ficam em negrito.
+   Tipo de letra mantido (Segoe UI Variable Text / Segoe UI / sans-serif).
+*/
+
+.academia-container {
+  font-family: 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--academia-gray-900);
+}
+
+/* Forçar apenas títulos (h1, h2, h3, h4, h5, h6, .academia-title) em negrito */
+.academia-container h1,
+.academia-container h2,
+.academia-container h3,
+.academia-container h4,
+.academia-container h5,
+.academia-container h6,
+.academia-title {
+  font-weight: 700 !important;
+}
+
+/* Textos gerais (parágrafos, spans, inputs, botões) possuem peso normal */
+.academia-container p,
+.academia-container span,
+.academia-container label,
+.academia-container input,
+.academia-container select,
+.academia-container textarea,
+.academia-container li,
+.academia-container a,
+.academia-container button {
+  font-weight: 400;
+}
+
+/* Exceções explícitas de sub-rótulos nos botões/badges se necessário */
+.academia-bold-title {
+  font-weight: 700 !important;
+}
+
+/* ==========================================
+   BOTÕES (SQUARE BORDER / SOBER RED & GRAY / NO SHADOW)
+   ========================================== */
+
+/* Botão Primário: Vermelho suave, quadrado, sem sombra, com hover */
+.btn-academia-primary,
+.btn-primary-square {
+  background-color: var(--academia-red) !important;
+  color: var(--academia-white) !important;
+  border-radius: var(--academia-button-radius) !important;
+  border: 1px solid var(--academia-red) !important;
+  box-shadow: none !important;
+  font-weight: 500 !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-academia-primary:hover,
+.btn-primary-square:hover {
+  background-color: var(--academia-red-hover) !important;
+  border-color: var(--academia-red-hover) !important;
+  color: var(--academia-white) !important;
+  box-shadow: none !important;
+}
+
+/* Botão Secundário: Cinza, quadrado, sem sombra, com hover */
+.btn-academia-secondary,
+.btn-secondary-square {
+  background-color: var(--academia-gray-100) !important;
+  color: var(--academia-gray-700) !important;
+  border-radius: var(--academia-button-radius) !important;
+  border: 1px solid var(--academia-gray-200) !important;
+  box-shadow: none !important;
+  font-weight: 500 !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-academia-secondary:hover,
+.btn-secondary-square:hover {
+  background-color: var(--academia-gray-200) !important;
+  border-color: var(--academia-gray-300) !important;
+  color: var(--academia-black) !important;
+  box-shadow: none !important;
+}
+
+/* Botão Outline / Transparente */
+.btn-academia-outline {
+  background-color: transparent !important;
+  color: var(--academia-black) !important;
+  border-radius: var(--academia-button-radius) !important;
+  border: 1px solid var(--academia-gray-300) !important;
+  box-shadow: none !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-academia-outline:hover {
+  background-color: var(--academia-gray-100) !important;
+  border-color: var(--academia-gray-600) !important;
+}
+
+/* ==========================================
+   CARDS (BORDA DE 5PX)
+   ========================================== */
+
+.card-academia,
+.academia-card {
+  border-radius: var(--academia-card-radius) !important;
+  background-color: var(--academia-white);
+  border: 1px solid var(--academia-gray-200);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.card-academia:hover,
+.academia-card:hover {
+  border-color: var(--academia-gray-300);
+}
+
+/* ==========================================
+   ÍCONES (SEM FUNDO / PRETO OU VERMELHO)
+   ========================================== */
+
+.icon-academia,
+.icon-academia-red {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--academia-red) !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.icon-academia-black {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--academia-black) !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.icon-academia-gray {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--academia-gray-600) !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* Forçar reset de fundos nos ícones em componentes descendentes da academia */
+.academia-container .icon-wrapper,
+.academia-container [class*="bg-red-"],
+.academia-container [class*="bg-gray-"] {
+  /* Preservar botões e badges mas manter ícones sem fundo de recipiente */
+}
+
+/* Utilitário global para botões com canto reto */
+.rounded-square {
+  border-radius: 0px !important;
+}
+
+.rounded-card-5 {
+  border-radius: 5px !important;
+}

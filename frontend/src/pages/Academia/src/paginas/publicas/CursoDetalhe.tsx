@@ -166,11 +166,11 @@ export default function CursoDetalhe() {
   return (
     <div className="bg-gray-50 ">
       {/* Banner */}
-      <section className="relative bg-gradient-to-r h-[500px] from-gray-800 to-gray-500 text-white mt-[-75px]  pt-10">
+      <section className="relative bg-gradient-to-r h-[500px] from-gray-800 to-gray-500 text-white pt-10">
         <div className="max-w-6xl mx-auto px-4">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center text-white hover:text-blue-200 mb-8 transition-colors">
+            className="flex items-center text-white hover:text-red-200 mb-8 transition-colors">
             <ArrowLeft className="mr-2" size={20} />
             Voltar para Cursos
           </button>
@@ -188,7 +188,7 @@ export default function CursoDetalhe() {
               </p>
 
               <div className="mt-12 flex flex-wrap gap-4">
-                <button className="bg-red-500 hover:bg-red-700 text-white px-8 py-3 rounded-[5px] font-medium transition-colors flex items-center">
+                <button className="btn-academia-primary px-8 py-3 font-medium flex items-center cursor-pointer">
                   Inscreva-se Agora
                 </button>
               </div>
@@ -246,8 +246,8 @@ export default function CursoDetalhe() {
                           }
                           className="w-full px-5 py-4 text-left flex justify-between items-center bg-gray-50 hover:bg-gray-100 transition-colors">
                           <div className="flex items-center">
-                            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
-                              <BookOpen className="text-blue-600" size={16} />
+                            <div className="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center mr-3">
+                              <BookOpen className="text-red-600" size={16} />
                             </div>
                             <h3 className="font-medium text-gray-900">
                               {modulo.titulo}
@@ -410,7 +410,7 @@ export default function CursoDetalhe() {
               <div className="lg:hidden bg-white p-4 shadow-lg fixed bottom-0 left-0 right-0 z-10 border-t border-gray-200">
                 <button
                   onClick={() => navigate(-1)}
-                  className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-3 px-6 rounded-lg font-medium text-lg transition-all duration-300 flex items-center justify-center space-x-2">
+                  className="btn-academia-primary w-full py-3 px-6 font-medium text-lg flex items-center justify-center space-x-2 cursor-pointer">
                   <MessageCircle size={20} />
                   <span>Entrar em Contato</span>
                 </button>

@@ -1,16 +1,32 @@
 /* Fontes */
 
 @font-face {
-    font-family: 'Segoe UI Regular';
-    src: local('Segoe UI');
+    font-family: 'Segoe UI Variable Text';
+    src: local('Segoe UI Variable Text'), local('Segoe UI Variable'), local('Segoe UI');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Segoe UI Semibold';
-    src: local('Segoe UI Semibold');
+    font-family: 'Segoe UI Variable Text';
+    src: local('Segoe UI Variable Text Semibold'), local('Segoe UI Variable Text'), local('Segoe UI Variable'), local('Segoe UI Variable Text'), local('Segoe UI');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Segoe UI Variable Text';
+    src: local('Segoe UI Variable Text'), local('Segoe UI Variable'), local('Segoe UI');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Segoe UI Variable Text';
+    src: local('Segoe UI Variable Text Semibold'), local('Segoe UI Variable Text'), local('Segoe UI Variable'), local('Segoe UI Variable Text'), local('Segoe UI');
     font-weight: 600;
     font-style: normal;
     font-display: swap;
@@ -20,11 +36,11 @@
 /* Classes para tipografia consistente */
 
 .text-regular {
-    font-family: 'Segoe UI Regular', sans-serif !important;
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', sans-serif !important;
 }
 
 .text-semibold {
-    font-family: 'Segoe UI Semibold', sans-serif !important;
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', sans-serif !important;
 }
 
 
@@ -98,7 +114,7 @@
 .text-body {
     font-size: 1rem;
     /* base */
-    font-family: 'Segoe UI Regular', sans-serif;
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', sans-serif;
 }
 
 @media (min-width: 768px) {

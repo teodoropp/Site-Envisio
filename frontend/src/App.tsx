@@ -34,6 +34,8 @@ import { AuthProvider } from "./pages/Academia/src/contextos/AuthContext";
 import RotasAcademia from "./pages/Academia/src/rotas/RotasAcademia";
 import ErrorBoundary from "./components/ErrorBoundary";
 import "./index.css";
+import TermosCondicoes from "./pages/TermosCondicoes";
+import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
 
 export function App() {
   const { isMobile } = useWindowSize();
@@ -154,6 +156,27 @@ export function App() {
               />
 
               {/* Rota de fallback */}
+              <Route
+                path="/termos"
+                element={
+                  <>
+                    <Navbar />
+                    <TermosCondicoes />
+                    <Footer />
+                  </>
+                }
+              />
+              <Route
+                path="/privacidade"
+                element={
+                  <>
+                    <Navbar />
+                    <PoliticaPrivacidade />
+                    <Footer />
+                  </>
+                }
+              />
+              <Route path="/academia/*" element={<RotasAcademia />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </AuthProvider>

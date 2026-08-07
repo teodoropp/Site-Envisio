@@ -28,7 +28,7 @@ export const DiamondGrid: React.FC<DiamondGridProps> = ({
   const defaultImages = [
     {
       src: "/images/imagem quem somos/História.webp",
-      alt: "MAIS RESULTADOS História",
+      alt: "ENVISIO História",
       delay: 0.1,
     },
     {
@@ -43,7 +43,7 @@ export const DiamondGrid: React.FC<DiamondGridProps> = ({
     },
     {
       src: "/images/banner_quem.webp",
-      alt: "Equipa MAIS RESULTADOS",
+      alt: "Equipa ENVISIO",
       delay: 0.4,
     },
   ];
