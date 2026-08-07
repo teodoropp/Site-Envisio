@@ -244,7 +244,7 @@ const CursoCardMicrosoft = ({
       <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:underline decoration-red-600 decoration-2 underline-offset-4">
         {curso.titulo}
       </h3>
-      <p className="text-[15px] text-slate-700 leading-relaxed mb-6">
+      <p className="text-[12px] text-slate-700 leading-relaxed mb-6">
         {curso.descricao}
       </p>
 
@@ -304,11 +304,11 @@ const CursoCard = ({
           {curso.titulo}
         </h3>
 
-        <p className="text-[13px] text-slate-500 line-clamp-2 leading-relaxed mb-4 flex-grow">
+        <p className="text-[12px] text-slate-500 line-clamp-2 leading-relaxed mb-4 flex-grow">
           {curso.descricao}
         </p>
 
-        <div className="flex items-center gap-1.5 text-[13px] text-slate-500 font-medium mb-5">
+        <div className="flex items-center gap-1.5 text-[12px] text-slate-500 font-medium mb-5">
           <User size={14} className="text-slate-400" />
           <span>{curso.professor}</span>
         </div>
@@ -316,18 +316,18 @@ const CursoCard = ({
         {/* Rodapé (Duração, Nível, Botão) */}
         <div className="mt-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1 text-slate-600 text-[11px] font-semibold">
+            <span className="flex items-center gap-1 text-slate-600 text-[12px] font-semibold">
               <Clock size={12} className="text-slate-400" />
               {curso.duracao}
             </span>
-            <span className="flex items-center gap-1 text-slate-600 text-[11px] font-semibold">
+            <span className="flex items-center gap-1 text-slate-600 text-[12px] font-semibold">
               <BarChart size={12} className="text-slate-400" />
               {curso.nivel}
             </span>
           </div>
           <button
             onClick={() => navigate(destino)}
-            className="text-slate-900 text-[11px] font-bold hover:text-red-600 transition-colors flex items-center gap-1 cursor-pointer">
+            className="text-slate-900 text-[12px] font-bold hover:text-red-600 transition-colors flex items-center gap-1 cursor-pointer">
             Ver curso <ArrowRight size={12} />
           </button>
         </div>

@@ -1148,7 +1148,7 @@ export default function CursoDetalhe() {
                 <h3 className="font-bold text-sm text-slate-900 group-hover:text-red-600 transition-colors mb-1.5 line-clamp-1">
                   Cegid Primavera ERP
                 </h3>
-                <p className="text-[11px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
+                <p className="text-[12px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
                   Operação e parametrização nos módulos de Vendas, Compras e RH.
                 </p>
                 <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
@@ -1184,7 +1184,7 @@ export default function CursoDetalhe() {
                 <h3 className="font-bold text-sm text-slate-900 group-hover:text-red-600 transition-colors mb-1.5 line-clamp-1">
                   Programação Web & React
                 </h3>
-                <p className="text-[11px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
+                <p className="text-[12px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
                   HTML5, CSS3, JavaScript ES6+ e React.js para interfaces modernas.
                 </p>
                 <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
@@ -1220,7 +1220,7 @@ export default function CursoDetalhe() {
                 <h3 className="font-bold text-sm text-slate-900 group-hover:text-red-600 transition-colors mb-1.5 line-clamp-1">
                   Redes & Segurança de Informação
                 </h3>
-                <p className="text-[11px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
+                <p className="text-[12px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
                   Infraestrutura Cisco, Firewalls, VPNs e ciberdefesa empresarial.
                 </p>
                 <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
@@ -1256,7 +1256,7 @@ export default function CursoDetalhe() {
                 <h3 className="font-bold text-sm text-slate-900 group-hover:text-red-600 transition-colors mb-1.5 line-clamp-1">
                   Base de Dados SQL Server
                 </h3>
-                <p className="text-[11px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
+                <p className="text-[12px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
                   Modelagem relacional, T-SQL, Stored Procedures e Backup.
                 </p>
                 <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
