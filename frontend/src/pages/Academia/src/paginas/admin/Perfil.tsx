@@ -236,92 +236,110 @@ export default function PerfilAdmin() {
       {/* TAB 1: INFORMAÇÕES PESSOAIS */}
       {activeTab === "dados" && (
         <>
-          {/* MODO DE LEITURA (Padrão ao carregar a página) */}
+          {/* MODO DE LEITURA (2 Cards bem organizados, meio quadrados, sem texto negritado) */}
           {!isEditing ? (
-            <div className="bg-white p-6 sm:p-8 rounded-none border border-slate-200 shadow-xs space-y-6">
-              <div className="border-b border-slate-100 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="space-y-6">
+              {/* Barra de Ações do Perfil */}
+              <div className="bg-white p-5 rounded-none border border-slate-200 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-base font-bold text-slate-900">
-                    Dados Pessoais do Administrador
+                  <h2 className="text-base font-semibold text-slate-900">
+                    Dados do Perfil
                   </h2>
                   <p className="text-xs text-slate-500 mt-0.5">
-                    Consulte as informações e contactos registados na sua conta.
+                    Informações pessoais e profissionais associadas ao administrador.
                   </p>
                 </div>
 
                 <button
                   type="button"
                   onClick={() => setIsEditing(true)}
-                  className="px-5 py-2.5 bg-red-800 hover:bg-red-900 text-white font-bold text-xs rounded-none transition-all shadow-xs flex items-center gap-2 cursor-pointer self-start sm:self-auto">
+                  className="px-5 py-2 bg-red-800 hover:bg-red-900 text-white font-medium text-xs rounded-none transition-all shadow-2xs flex items-center gap-2 cursor-pointer self-start sm:self-auto">
                   <Pencil size={14} />
                   <span>Editar Perfil</span>
                 </button>
               </div>
 
-              {/* Grelha de Leitura dos Dados */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div className="bg-slate-50/80 p-4 border border-slate-200/80">
-                  <span className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">
-                    Nome Completo
-                  </span>
-                  <span className="text-sm font-bold text-slate-900">
-                    {perfil.nome} {perfil.sobrenome}
-                  </span>
+              {/* 2 CARDS APENAS */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* CARD 1: Informações Pessoais & Contacto */}
+                <div className="bg-white p-6 rounded-none border border-slate-200 shadow-2xs space-y-4">
+                  <div className="border-b border-slate-100 pb-3 flex items-center gap-2">
+                    <User size={16} className="text-red-800" />
+                    <h3 className="text-sm font-semibold text-slate-800">
+                      Informações Pessoais
+                    </h3>
+                  </div>
+
+                  <div className="space-y-3 text-xs">
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[11px] text-slate-400">Nome Completo:</span>
+                      <span className="text-slate-800 font-normal text-xs">
+                        {perfil.nome} {perfil.sobrenome}
+                      </span>
+                    </div>
+
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[11px] text-slate-400">E-mail Corporativo:</span>
+                      <span className="text-slate-800 font-normal text-xs">
+                        {perfil.email}
+                      </span>
+                    </div>
+
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[11px] text-slate-400">Telefone / WhatsApp:</span>
+                      <span className="text-slate-800 font-normal text-xs">
+                        {perfil.telefone}
+                      </span>
+                    </div>
+
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[11px] text-slate-400">Localização / Endereço:</span>
+                      <span className="text-slate-800 font-normal text-xs">
+                        {perfil.localizacao}
+                      </span>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="bg-slate-50/80 p-4 border border-slate-200/80">
-                  <span className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">
-                    E-mail Corporativo
-                  </span>
-                  <span className="text-sm font-bold text-slate-900">
-                    {perfil.email}
-                  </span>
-                </div>
+                {/* CARD 2: Função & Departamento */}
+                <div className="bg-white p-6 rounded-none border border-slate-200 shadow-2xs space-y-4">
+                  <div className="border-b border-slate-100 pb-3 flex items-center gap-2">
+                    <Building size={16} className="text-red-800" />
+                    <h3 className="text-sm font-semibold text-slate-800">
+                      Função & Departamento
+                    </h3>
+                  </div>
 
-                <div className="bg-slate-50/80 p-4 border border-slate-200/80">
-                  <span className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">
-                    Telefone / WhatsApp
-                  </span>
-                  <span className="text-sm font-bold text-slate-900">
-                    {perfil.telefone}
-                  </span>
-                </div>
+                  <div className="space-y-3 text-xs">
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[11px] text-slate-400">Cargo / Função:</span>
+                      <span className="text-slate-800 font-normal text-xs">
+                        {perfil.cargo}
+                      </span>
+                    </div>
 
-                <div className="bg-slate-50/80 p-4 border border-slate-200/80">
-                  <span className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">
-                    Cargo / Função
-                  </span>
-                  <span className="text-sm font-bold text-slate-900">
-                    {perfil.cargo}
-                  </span>
-                </div>
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[11px] text-slate-400">Departamento:</span>
+                      <span className="text-slate-800 font-normal text-xs">
+                        {perfil.departamento}
+                      </span>
+                    </div>
 
-                <div className="bg-slate-50/80 p-4 border border-slate-200/80">
-                  <span className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">
-                    Departamento
-                  </span>
-                  <span className="text-sm font-bold text-slate-900">
-                    {perfil.departamento}
-                  </span>
-                </div>
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[11px] text-slate-400">Membro Desde:</span>
+                      <span className="text-slate-800 font-normal text-xs">
+                        {perfil.dataAdmissao}
+                      </span>
+                    </div>
 
-                <div className="bg-slate-50/80 p-4 border border-slate-200/80">
-                  <span className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">
-                    Localização / Endereço
-                  </span>
-                  <span className="text-sm font-bold text-slate-900">
-                    {perfil.localizacao}
-                  </span>
+                    <div className="flex flex-col gap-0.5 pt-1">
+                      <span className="text-[11px] text-slate-400">Resumo Profissional / Biografia:</span>
+                      <p className="text-slate-700 font-normal text-xs leading-relaxed">
+                        {perfil.biografia}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-
-              <div className="bg-slate-50/80 p-4 border border-slate-200/80">
-                <span className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">
-                  Biografia / Resumo Profissional
-                </span>
-                <p className="text-xs text-slate-700 leading-relaxed font-medium">
-                  {perfil.biografia}
-                </p>
               </div>
             </div>
           ) : (
