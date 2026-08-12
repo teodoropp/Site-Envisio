@@ -28,6 +28,7 @@ import GerirInscricoes from "../paginas/admin/GerirInscricoes";
 import GerenciarUsuarios from "../paginas/admin/GerenciarUsuarios";
 import Relatorios from "../paginas/admin/Relatorios";
 import Configuracoes from "../paginas/admin/Configuracoes";
+import PerfilAdmin from "../paginas/admin/Perfil";
 import InstrutorPainel from "../paginas/instrutor/Painel";
 import { default as GerenciarCursos } from "../paginas/instrutor/GerenciarCursos";
 import Estatisticas from "../paginas/instrutor/Estatisticas";
@@ -142,6 +143,14 @@ const RotasAcademia = () => {
             element={
               <LayoutAdmin>
                 <Configuracoes />
+              </LayoutAdmin>
+            }
+          />
+          <Route
+            path="/admin/perfil"
+            element={
+              <LayoutAdmin>
+                <PerfilAdmin />
               </LayoutAdmin>
             }
           />{/* Rotas Protegidas - Instrutor */}

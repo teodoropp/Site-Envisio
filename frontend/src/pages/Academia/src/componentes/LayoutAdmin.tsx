@@ -97,7 +97,7 @@ const adminMenuGrupos: MenuGrupo[] = [
         icone: <FileText size={15} />,
       },
       {
-        nome: "Configurações",
+        nome: "Definições",
         rota: "/academia/admin/configuracoes",
         icone: <Settings size={15} />,
       },
@@ -115,7 +115,7 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
     "MENU PRINCIPAL": true,
     "GESTÃO ACADÉMICA": false,
     "EQUIPA & PERFIS": false,
-    "SISTEMA": false,
+    SISTEMA: false,
   });
 
   const location = useLocation();
@@ -164,10 +164,15 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
           sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}>
         {/* Topo da Sidebar: Logo Centralizada sem o ícone 'E' e com a linha divisória restaurada */}
-        <div className="h-16 px-4 border-b border-slate-100 flex items-center justify-between lg:justify-center bg-white flex-shrink-0 relative">
-          <Link to="/academia/admin" className="flex items-center group mx-auto">
-            <span className="font-extrabold text-sm tracking-tight text-slate-900">
-              Envisio <span className="text-red-800 text-xs font-bold">Academy</span>
+        <div className="bg-[#0F172A] h-[80px] px-2 rounded-b-[30px] flex items-center justify-between lg:justify-center  flex-shrink-0 relative">
+          <Link
+            to="/academia/admin"
+            className="flex items-center group mx-auto">
+            <span className="font-extrabold text-white text-[18px] tracking-tight text-slate-900">
+              Envisio{" "}
+              <span className="text-red-800 text-[18px]  font-bold">
+                Academy
+              </span>
             </span>
           </Link>
 
@@ -179,10 +184,12 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
         </div>
 
         {/* Corpo de Navegação com Opções Posicionadas de Baixo para Cima (justify-end) */}
-        <div className="p-3 pb-6 space-y-4 overflow-y-auto flex-1 scrollbar-none [scrollbar-width:none] flex flex-col justify-end">
+        <div className="mt-[10%] p-3 pb-6 space-y-4 overflow-y-auto flex-1 scrollbar-none [scrollbar-width:none]">
           {adminMenuGrupos.map((grupo) => {
             const isGroupOpen = openGroups[grupo.titulo] ?? false;
-            const hasActiveChild = grupo.items.some((item) => isActive(item.rota));
+            const hasActiveChild = grupo.items.some((item) =>
+              isActive(item.rota),
+            );
 
             return (
               <div key={grupo.titulo} className="space-y-1">
@@ -191,11 +198,18 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
                   <button
                     onClick={() => toggleGroup(grupo.titulo)}
                     className="w-full px-2 py-1 flex items-center justify-between text-[9px] font-extrabold uppercase tracking-widest text-slate-400 hover:text-slate-700 transition-colors group cursor-pointer">
-                    <span className={hasActiveChild ? "text-red-800 font-bold" : ""}>
+                    <span
+                      className={
+                        hasActiveChild ? "text-red-800 font-bold" : ""
+                      }>
                       {grupo.titulo}
                     </span>
                     <span className="text-slate-400 group-hover:text-slate-600 transition-transform">
-                      {isGroupOpen ? <ChevronDown size={11} /> : <ChevronRight size={11} />}
+                      {isGroupOpen ? (
+                        <ChevronDown size={11} />
+                      ) : (
+                        <ChevronRight size={11} />
+                      )}
                     </span>
                   </button>
                 ) : (
@@ -213,9 +227,9 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
                         <Link
                           key={item.rota}
                           to={item.rota}
-                          className={`flex items-center justify-between px-2.5 py-1.5 rounded-[4px] text-[11px] font-semibold transition-all ${
+                          className={`flex items-center justify-between px-2.5 py-1.5  text-[11px] font-semibold transition-all ${
                             active
-                              ? "bg-slate-900 text-white shadow-2xs border-l-2 border-l-red-800"
+                              ? "bg-slate-900 text-white shadow-2xs rounded-[4px]"
                               : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"
                           }`}>
                           <div className="flex items-center gap-2">
@@ -241,7 +255,7 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
         <div className="p-3 border-t border-slate-100 bg-slate-50/70 flex flex-col flex-shrink-0">
           <div className="flex flex-col space-y-0.5">
             <Link
-              to="/academia/admin/configuracoes"
+              to="/academia/admin/perfil"
               className="flex items-center gap-2.5 px-3 py-1.5 rounded-[4px] text-[11px] font-semibold text-slate-600 hover:bg-white hover:text-slate-900 transition-all border border-transparent hover:border-slate-200/60 shadow-2xs">
               <User size={14} className="text-slate-400" />
               <span>Perfil</span>
@@ -378,6 +392,13 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
                       admin@envisio.co.ao
                     </p>
                   </div>
+
+                  <Link
+                    to="/academia/admin/perfil"
+                    className="px-4 py-2.5 hover:bg-slate-50 flex items-center gap-2 text-slate-700 font-semibold transition-colors">
+                    <User size={14} />
+                    <span>Meu Perfil</span>
+                  </Link>
 
                   <Link
                     to="/academia/admin/configuracoes"
