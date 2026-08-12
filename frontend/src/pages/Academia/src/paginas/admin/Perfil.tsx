@@ -23,12 +23,15 @@ import {
   BookOpen,
   Users,
   Activity,
+  Pencil,
+  X,
 } from "lucide-react";
 
 export default function PerfilAdmin() {
   const [activeTab, setActiveTab] = useState<
     "dados" | "seguranca" | "preferencias" | "atividade"
   >("dados");
+  const [isEditing, setIsEditing] = useState(false);
   const [salvo, setSalvo] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -118,14 +121,18 @@ export default function PerfilAdmin() {
 
       {/* ── 1. BANNER HERO DO PERFIL (Borda Quadrada, Azul Sólido #0F172A) ── */}
       <div className="bg-white rounded-none border border-slate-200 shadow-xs overflow-hidden">
-        {/* Banner Superior Azul Sólido Executivo */}
-        <div className="h-32 bg-[#0F172A] relative flex items-center justify-end px-6"></div>
+        {/* Banner Superior Azul Sólido com título Perfil */}
+        <div className="h-28 bg-[#0F172A] relative flex items-center justify-between px-6">
+          <div className="bg-slate-900/90 text-white text-xl font-extrabold px-3 py-1 rounded-none uppercase tracking-wider border border-white/20">
+            Perfil
+          </div>
+        </div>
 
-        {/* Informações Principais do Administrador */}
-        <div className="px-6 pb-6 pt-0 relative flex flex-col md:flex-row items-start md:items-end justify-between gap-6 -mt-12">
-          <div className="flex flex-col sm:flex-row items-start sm:items-end gap-5">
-            {/* Foto de Perfil com Botão de Alteração */}
-            <div className="relative group">
+        {/* Informações Principais do Administrador com nome 100% visível */}
+        <div className="px-6 pb-6 pt-4 relative flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+            {/* Foto de Perfil com Botão de Alteração (-mt-14 puxa apenas a foto para cima) */}
+            <div className="relative group -mt-14 flex-shrink-0">
               <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#0F172A] text-white font-black text-2xl flex items-center justify-center border-4 border-white shadow-md overflow-hidden">
                 {perfil.fotoUrl &&
                 perfil.fotoUrl !== "/academia/admin-avatar.jpg" ? (
@@ -158,12 +165,12 @@ export default function PerfilAdmin() {
               </label>
             </div>
 
-            {/* Nome, Cargo e Detalhes bem visíveis */}
-            <div className="space-y-1.5 mb-1">
+            {/* Nome, Cargo e Detalhes 100% nítidos e visíveis sobre fundo branco */}
+            <div className="space-y-1.5 pt-1 sm:pt-0">
               <div className="flex items-center gap-2.5">
-                <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-none">
                   {perfil.nome} {perfil.sobrenome}
-                </h1>
+                </h2>
               </div>
               <p className="text-xs font-bold text-red-800 flex items-center gap-1.5">
                 <Shield size={14} className="text-red-700" />
