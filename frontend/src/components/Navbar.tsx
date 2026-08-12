@@ -34,11 +34,13 @@ export default function Navbar() {
       className={`fixed top-0 left-0 right-0 z-50 font-['Segoe_UI_Variable_Text',sans-serif] h-[54px] select-none transition-all duration-300 ${
         isScrolled
           ? "bg-white border-b border-[#e6e6e6] shadow-sm text-[#262626]"
-          : "bg-transparent border-none"
+          : "bg-white border-b border-[#e6e6e6]"
       }`}>
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
         {/* Lado Esquerdo: Apenas o Logótipo Envisio */}
-        <Link to="/" className="flex items-center py-1.5 focus:outline-none group">
+        <Link
+          to="/"
+          className="flex items-center py-1.5 focus:outline-none group">
           <img
             src="/images/Logos/logo.svg"
             alt="Envisio"
@@ -80,11 +82,15 @@ export default function Navbar() {
           <div
             className="relative h-full flex items-center"
             onMouseEnter={() => {
-              if (servicosDropdownTimeout) clearTimeout(servicosDropdownTimeout);
+              if (servicosDropdownTimeout)
+                clearTimeout(servicosDropdownTimeout);
               setServicosDropdownOpen(true);
             }}
             onMouseLeave={() => {
-              const timeout = setTimeout(() => setServicosDropdownOpen(false), 200);
+              const timeout = setTimeout(
+                () => setServicosDropdownOpen(false),
+                200,
+              );
               setServicosDropdownTimeout(timeout);
             }}>
             <button
@@ -109,11 +115,15 @@ export default function Navbar() {
               <div
                 className="absolute right-0 top-[53px] min-w-[210px] bg-white border-b border-l border-r border-t-0 border-[#e6e6e6] shadow-xl rounded-b-md py-2 z-40 animate-in fade-in slide-in-from-top-1 duration-150"
                 onMouseEnter={() => {
-                  if (servicosDropdownTimeout) clearTimeout(servicosDropdownTimeout);
+                  if (servicosDropdownTimeout)
+                    clearTimeout(servicosDropdownTimeout);
                   setServicosDropdownOpen(true);
                 }}
                 onMouseLeave={() => {
-                  const timeout = setTimeout(() => setServicosDropdownOpen(false), 200);
+                  const timeout = setTimeout(
+                    () => setServicosDropdownOpen(false),
+                    200,
+                  );
                   setServicosDropdownTimeout(timeout);
                 }}>
                 <Link

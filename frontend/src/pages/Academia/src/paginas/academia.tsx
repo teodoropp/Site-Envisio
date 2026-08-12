@@ -241,7 +241,7 @@ const Academia = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, duration: 0.6 }}
-                    className="text-4xl sm:text-5xl md:text-6xl font-extrabold !text-white tracking-tight leading-tight mb-4">
+                    className="text-3xl sm:text-4xl md:text-5xl font-extrabold !text-white tracking-tight leading-tight mb-4">
                     {slides[currentSlide].titulo}
                   </motion.h1>
 
@@ -250,7 +250,7 @@ const Academia = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4, duration: 0.6 }}
-                    className="text-base sm:text-lg md:text-xl !text-white mb-8 max-w-lg leading-relaxed">
+                    className="text-[12px] sm:text-[12px] md:text-[12px] !text-white mb-8 max-w-lg leading-relaxed">
                     {slides[currentSlide].subtitulo}
                   </motion.p>
 
@@ -280,7 +280,7 @@ const Academia = () => {
                     ) : (
                       <Link
                         to={slides[currentSlide].link}
-                        className="btn-academia-primary px-6 py-3 transition duration-300 transform hover:scale-105">
+                        className="btn-academia-primary text-[14px] px-6 py-3 transition duration-300 transform hover:scale-105">
                         {slides[currentSlide].cta}
                         <svg
                           className="w-5 h-5 ml-2"
@@ -420,7 +420,7 @@ const Academia = () => {
             <h2 className="text-4xl font-extrabold text-gray-900 sm:text-5xl tracking-tight">
               Cegid Primavera ERP
             </h2>
-            <p className="mt-4 text-xl text-gray-500 max-w-2xl mx-auto">
+            <p className="mt-4 text-[12px] text-gray-500 max-w-2xl mx-auto">
               Formação prática de alto nível para dominar as funcionalidades do
               sistema de gestão líder do mercado.
             </p>
@@ -433,13 +433,11 @@ const Academia = () => {
               <div className="lg:col-span-7 p-8 sm:p-12 flex flex-col justify-center bg-gradient-to-br from-gray-900 to-gray-800 text-white">
                 <div className="flex items-center space-x-2 text-red-400 text-sm font-semibold uppercase mb-4">
                   <span>Qualificação Profissional</span>
-                  <span>•</span>
-                  <span>Certificação Envisio</span>
                 </div>
                 <h3 className="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
                   Cegid Primavera: Funcionalidades e Módulos Corporativos
                 </h3>
-                <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-8">
+                <p className="text-gray-300 text-[12px] sm:text-[12px] leading-relaxed mb-8">
                   {cursoExibir.descricao ||
                     "O software de gestão mais robusto de Portugal não precisa ser um mistério. Aprenda na prática, do zero ao avançado, e torne-se o profissional que resolve problemas, não que os cria."}
                 </p>
@@ -447,20 +445,26 @@ const Academia = () => {
                 {/* Métricas e Características Rápidas */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-6 border-t border-white/10">
                   <div>
-                    <span className="block text-gray-400 text-sm">Duração</span>
-                    <span className="text-xl font-semibold text-white">
+                    <span className="block text-gray-400 text-[14px]">
+                      Duração
+                    </span>
+                    <span className="text-[11px] font-semibold text-white">
                       120 Horas
                     </span>
                   </div>
                   <div>
-                    <span className="block text-gray-400 text-sm">Formato</span>
-                    <span className="text-xl font-semibold text-white">
+                    <span className="block text-gray-400 text-[14px]">
+                      Formato
+                    </span>
+                    <span className="text-[11px] font-semibold text-white">
                       Presencial
                     </span>
                   </div>
                   <div>
-                    <span className="block text-gray-400 text-sm">Idioma</span>
-                    <span className="text-xl font-semibold text-white">
+                    <span className="block text-gray-400 text-[14px]">
+                      Idioma
+                    </span>
+                    <span className="text-[11px] font-semibold text-white">
                       Português
                     </span>
                   </div>
@@ -489,17 +493,17 @@ const Academia = () => {
                   <h3 className="text-2xl font-bold text-gray-900">
                     Conteúdo Programático
                   </h3>
-                  <p className="text-gray-500 text-sm mt-1">
+                  <p className="text-gray-500 text-[12px] mt-1">
                     Explore os módulos práticos estruturados pelos nossos
                     especialistas.
                   </p>
                 </div>
-                <span className="px-3 py-1 bg-red-50 text-red-700 rounded-full text-xs font-semibold">
+                <span className="px-3 py-1 text-red-700 rounded- text-xs ">
                   {modules.length} Módulos
                 </span>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-4 text-[12px]">
                 {modules.map((module, index) => (
                   <ModuleCard
                     key={index}
@@ -519,7 +523,7 @@ const Academia = () => {
               <div className="mt-8 pt-6 border-t border-gray-100 flex justify-center">
                 <Link
                   to="/academia/curso1"
-                  className="inline-flex justify-center items-center px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-lg transition duration-300 transform hover:scale-105 shadow-sm">
+                  className="inline-flex justify-center items-center px-4 py-2 text-[12px] bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-lg transition duration-300 transform hover:scale-105 shadow-sm">
                   <svg
                     className="w-5 h-5 mr-2 text-gray-600"
                     fill="none"
@@ -553,13 +557,13 @@ const Academia = () => {
 
                 {/* Conteúdo do Card de Ação */}
                 <div className="p-6">
-                  <h3 className="font-bold text-gray-900 text-lg mb-4">
+                  <h3 className="font-bold text-gray-900 text-[12px] mb-4">
                     Inicie a sua Inscrição
                   </h3>
 
                   <div className="space-y-4 mb-6">
-                    <div className="flex items-center space-x-3 text-sm text-gray-600">
-                      <div className="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center text-red-600 flex-shrink-0">
+                    <div className="flex items-center space-x-3 text-[12px] text-gray-600">
+                      <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 flex-shrink-0">
                         <svg
                           className="w-4 h-4"
                           fill="none"
@@ -583,8 +587,8 @@ const Academia = () => {
                       </div>
                     </div>
 
-                    <div className="flex items-center space-x-3 text-sm text-gray-600">
-                      <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 flex-shrink-0">
+                    <div className="flex items-center space-x-3 text-[12px] text-gray-600">
+                      <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 flex-shrink-0">
                         <svg
                           className="w-4 h-4"
                           fill="none"
@@ -642,7 +646,7 @@ const Academia = () => {
             <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight">
               Formações que transformam a sua carreira
             </h2>
-            <p className="mt-2 text-base text-gray-500 max-w-2xl mx-auto">
+            <p className="mt-2 text-[12px] text-gray-500 max-w-2xl mx-auto">
               Desde fundamentos técnicos até soluções empresariais, a Envisio
               apoia o seu desenvolvimento profissional.
             </p>
@@ -661,7 +665,7 @@ const Academia = () => {
                 <button
                   key={tab.key}
                   onClick={() => setActiveCourseTab(tab.key)}
-                  className={`whitespace-nowrap px-4 py-3 text-sm font-semibold border-b-2 transition-all duration-200 ${
+                  className={`whitespace-nowrap px-4 py-3 text-[12px]  border-b-2 transition-all duration-200 ${
                     activeCourseTab === tab.key
                       ? "border-red-600 text-red-700"
                       : "border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-300"
@@ -934,10 +938,10 @@ const Academia = () => {
                   </div>
                   <div className="p-6 flex flex-col flex-grow">
                     <h3
-                      className={`text-lg font-bold text-gray-900 leading-tight transition-colors duration-200 mb-2 line-clamp-1 ${curso.titleHover}`}>
+                      className={`text-[14px] font-bold text-gray-900 leading-tight transition-colors duration-200 mb-2 line-clamp-1 ${curso.titleHover}`}>
                       {curso.title}
                     </h3>
-                    <p className="text-sm text-gray-500 leading-relaxed flex-grow mb-6 line-clamp-2">
+                    <p className="text-[11px] text-gray-500 leading-relaxed flex-grow mb-6 line-clamp-2">
                       {curso.desc}
                     </p>
                     <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
@@ -945,14 +949,14 @@ const Academia = () => {
                         {curso.tags.map((tag, i) => (
                           <span
                             key={i}
-                            className="text-xs font-semibold text-black">
+                            className="text-[11px] font-semibold text-black">
                             {tag}
                           </span>
                         ))}
                       </div>
                       <Link
                         to={curso.link}
-                        className={`text-sm font-bold text-gray-900 transition-colors duration-200 flex items-center gap-1 group-hover:${curso.iconColor}`}>
+                        className={`text-[11px] font-bold text-gray-900 transition-colors duration-200 flex items-center gap-1 group-hover:${curso.iconColor}`}>
                         Ver curso &rarr;
                       </Link>
                     </div>
@@ -1448,7 +1452,7 @@ const DepoimentosCarrossel = () => {
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">
             O que dizem os nossos alunos
           </h2>
-          <p className="text-base text-gray-500 max-w-2xl mx-auto">
+          <p className="text-[12px] text-gray-500 max-w-2xl mx-auto">
             Histórias reais de profissionais que impulsionaram as suas carreiras
             com as formações práticas da Academia Envisio.
           </p>
@@ -1621,10 +1625,8 @@ const ModuleCard: React.FC<ModuleCardProps> = ({
             </span>
           </div>
           <div className="text-left">
-            <h3 className="text-base font-medium text-gray-700">
-              {module.title}
-            </h3>
-            <p className="text-xs text-gray-500">
+            <h3 className="text-[14px] text-gray-700">{module.title}</h3>
+            <p className="text-[12px] text-gray-500">
               {module.topics.length} tópicos
             </p>
           </div>
@@ -1851,7 +1853,7 @@ const DiferenciaisSection = () => {
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">
             Porquê escolher a Academia Envisio?
           </h2>
-          <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+          <p className="text-[12px] text-gray-500 max-w-2xl mx-auto">
             A nossa prioridade não é apenas emitir diplomas, mas sim capacitar
             profissionais para as reais necessidades do tecido empresarial.
           </p>
@@ -1872,7 +1874,7 @@ const DiferenciaisSection = () => {
               <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-red-600 transition-colors">
                 {item.titulo}
               </h3>
-              <p className="text-gray-500 text-sm leading-relaxed">
+              <p className="text-gray-500 text-[12px] leading-relaxed">
                 {item.descricao}
               </p>
             </motion.div>
@@ -1915,7 +1917,7 @@ const FaqSection = () => {
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">
             Perguntas Frequentes
           </h2>
-          <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+          <p className="text-[12px] text-gray-500 max-w-2xl mx-auto">
             Tudo o que precisa de saber antes de dar o próximo passo na sua
             carreira.
           </p>
@@ -1960,7 +1962,7 @@ const FaqSection = () => {
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}>
-                        <div className="px-6 pb-6 pt-0 text-gray-600 leading-relaxed text-base">
+                        <div className="px-6 pb-6 pt-0 text-gray-600 leading-relaxed text-[12px]">
                           {faq.resposta}
                         </div>
                       </motion.div>
