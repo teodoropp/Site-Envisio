@@ -19,6 +19,7 @@ import {
   Bell,
   ChevronDown,
   ChevronRight,
+  User,
 } from "lucide-react";
 
 interface LayoutAdminProps {
@@ -162,27 +163,40 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
         className={`fixed top-0 left-0 z-40 h-screen w-64 bg-white text-slate-700 border-r border-slate-200/80 flex flex-col justify-between transition-transform duration-200 ease-in-out shadow-xs ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}>
-        {/* Topo da Sidebar: Cabeçalho Executivo Elegante ENVISIO TRAINING ACADEMY */}
-        <div className="h-16 px-5 border-b border-slate-100 flex items-center justify-between bg-white flex-shrink-0">
-          <Link to="/academia/admin" className="flex items-center gap-2.5 group">
-            <div className="w-7 h-7 rounded-[3px] bg-red-900 text-white flex items-center justify-center font-black text-xs shadow-2xs group-hover:bg-slate-900 transition-colors">
-              E
-            </div>
-            <div className="flex flex-col">
-              <span className="font-black text-[12px] tracking-wide text-slate-900 leading-none">
-                ENVISIO
+        {/* Topo da Sidebar: Marca Envisio + Cartão de Perfil (Estilo Smartech / Sophia Tompson) */}
+        <div className="p-4 border-b border-slate-100 bg-white flex-shrink-0 flex flex-col gap-3">
+          {/* Marca Envisio Training Academy */}
+          <div className="flex items-center justify-between">
+            <Link to="/academia/admin" className="flex items-center gap-2 group">
+              <div className="w-6 h-6 rounded-[3px] bg-red-900 text-white flex items-center justify-center font-black text-xs shadow-2xs group-hover:bg-slate-900 transition-colors">
+                E
+              </div>
+              <span className="font-extrabold text-sm tracking-tight text-slate-900">
+                Envisio <span className="text-red-800 text-xs font-bold">Academy</span>
               </span>
-              <span className="text-[8px] font-extrabold text-red-800 uppercase tracking-widest mt-0.5">
-                TRAINING ACADEMY
-              </span>
-            </div>
-          </Link>
+            </Link>
 
-          <button
-            onClick={() => setSidebarOpen(false)}
-            className="lg:hidden p-1 text-slate-400 hover:text-slate-700 rounded-[3px]">
-            <X size={16} />
-          </button>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="lg:hidden p-1 text-slate-400 hover:text-slate-700 rounded-[3px]">
+              <X size={16} />
+            </button>
+          </div>
+
+          {/* Cartão de Perfil em Destaque abaixo da marca */}
+          <div className="flex items-center gap-3 pt-1.5 pb-0.5 border-t border-slate-100/80">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-slate-900 to-slate-800 text-white font-black text-xs flex items-center justify-center ring-2 ring-slate-100 shadow-2xs flex-shrink-0">
+              AD
+            </div>
+            <div className="flex flex-col text-left overflow-hidden">
+              <span className="font-extrabold text-[12px] text-slate-900 leading-tight truncate">
+                Super Admin
+              </span>
+              <span className="text-[10px] text-slate-400 font-medium truncate">
+                Direção Executiva
+              </span>
+            </div>
+          </div>
         </div>
 
         {/* Corpo de Navegação com Letra Reduzida e Accordions / Dropdowns */}
@@ -244,29 +258,28 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
           })}
         </div>
 
-        {/* Rodapé Executivo Aprimorado da Sidebar */}
-        <div className="p-3 border-t border-slate-100 bg-slate-50/70 flex flex-col gap-2 flex-shrink-0">
-          <div className="flex items-center justify-between px-2.5 py-2 bg-white rounded-[4px] border border-slate-200/80 shadow-2xs">
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-[3px] bg-slate-900 text-white font-extrabold text-[10px] flex items-center justify-center">
-                AD
-              </div>
-              <div className="flex flex-col text-left">
-                <span className="font-extrabold text-[10px] text-slate-900 leading-tight">
-                  Super Admin
-                </span>
-                <span className="text-[9px] font-bold text-emerald-700 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                  <span>Online</span>
-                </span>
-              </div>
-            </div>
+        {/* Rodapé da Sidebar: Opções em Coluna Organizada (Perfil, Definições, Sair) */}
+        <div className="p-3 border-t border-slate-100 bg-slate-50/70 flex flex-col flex-shrink-0">
+          <div className="flex flex-col space-y-0.5">
+            <Link
+              to="/academia/admin/configuracoes"
+              className="flex items-center gap-2.5 px-3 py-1.5 rounded-[4px] text-[11px] font-semibold text-slate-600 hover:bg-white hover:text-slate-900 transition-all border border-transparent hover:border-slate-200/60 shadow-2xs">
+              <User size={14} className="text-slate-400" />
+              <span>Perfil</span>
+            </Link>
+
+            <Link
+              to="/academia/admin/configuracoes"
+              className="flex items-center gap-2.5 px-3 py-1.5 rounded-[4px] text-[11px] font-semibold text-slate-600 hover:bg-white hover:text-slate-900 transition-all border border-transparent hover:border-slate-200/60 shadow-2xs">
+              <Settings size={14} className="text-slate-400" />
+              <span>Definições</span>
+            </Link>
 
             <button
               onClick={handleLogout}
-              className="p-1.5 text-slate-400 hover:text-red-700 hover:bg-red-50 rounded-[3px] transition-colors cursor-pointer"
-              title="Encerrar Sessão">
-              <LogOut size={13} />
+              className="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-[4px] text-[11px] font-bold text-red-700 hover:bg-red-50 transition-all cursor-pointer text-left">
+              <LogOut size={14} className="text-red-600" />
+              <span>Sair</span>
             </button>
           </div>
         </div>
