@@ -163,40 +163,22 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
         className={`fixed top-0 left-0 z-40 h-screen w-64 bg-white text-slate-700 border-r border-slate-200/80 flex flex-col justify-between transition-transform duration-200 ease-in-out shadow-xs ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}>
-        {/* Topo da Sidebar: Marca Envisio + Cartão de Perfil (Estilo Smartech / Sophia Tompson) */}
-        <div className="p-4 border-b border-slate-100 bg-white flex-shrink-0 flex flex-col gap-3">
-          {/* Marca Envisio Training Academy */}
-          <div className="flex items-center justify-between">
-            <Link to="/academia/admin" className="flex items-center gap-2 group">
-              <div className="w-6 h-6 rounded-[3px] bg-red-900 text-white flex items-center justify-center font-black text-xs shadow-2xs group-hover:bg-slate-900 transition-colors">
-                E
-              </div>
-              <span className="font-extrabold text-sm tracking-tight text-slate-900">
-                Envisio <span className="text-red-800 text-xs font-bold">Academy</span>
-              </span>
-            </Link>
-
-            <button
-              onClick={() => setSidebarOpen(false)}
-              className="lg:hidden p-1 text-slate-400 hover:text-slate-700 rounded-[3px]">
-              <X size={16} />
-            </button>
-          </div>
-
-          {/* Cartão de Perfil em Destaque abaixo da marca */}
-          <div className="flex items-center gap-3 pt-1.5 pb-0.5 border-t border-slate-100/80">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-slate-900 to-slate-800 text-white font-black text-xs flex items-center justify-center ring-2 ring-slate-100 shadow-2xs flex-shrink-0">
-              AD
+        {/* Topo da Sidebar: Logo Centralizada (mantendo a altura de 16/64px) */}
+        <div className="h-16 px-4 border-b border-slate-100 flex items-center justify-between lg:justify-center bg-white flex-shrink-0 relative">
+          <Link to="/academia/admin" className="flex items-center gap-2 group mx-auto">
+            <div className="w-6 h-6 rounded-[3px] bg-red-900 text-white flex items-center justify-center font-black text-xs shadow-2xs group-hover:bg-slate-900 transition-colors">
+              E
             </div>
-            <div className="flex flex-col text-left overflow-hidden">
-              <span className="font-extrabold text-[12px] text-slate-900 leading-tight truncate">
-                Super Admin
-              </span>
-              <span className="text-[10px] text-slate-400 font-medium truncate">
-                Direção Executiva
-              </span>
-            </div>
-          </div>
+            <span className="font-extrabold text-sm tracking-tight text-slate-900">
+              Envisio <span className="text-red-800 text-xs font-bold">Academy</span>
+            </span>
+          </Link>
+
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="lg:hidden absolute right-3 p-1 text-slate-400 hover:text-slate-700 rounded-[3px]">
+            <X size={16} />
+          </button>
         </div>
 
         {/* Corpo de Navegação com Letra Reduzida e Accordions / Dropdowns */}
