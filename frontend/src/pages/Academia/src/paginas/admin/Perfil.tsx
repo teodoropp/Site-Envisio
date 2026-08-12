@@ -26,7 +26,9 @@ import {
 } from "lucide-react";
 
 export default function PerfilAdmin() {
-  const [activeTab, setActiveTab] = useState<"dados" | "seguranca" | "preferencias" | "atividade">("dados");
+  const [activeTab, setActiveTab] = useState<
+    "dados" | "seguranca" | "preferencias" | "atividade"
+  >("dados");
   const [salvo, setSalvo] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -104,29 +106,29 @@ export default function PerfilAdmin() {
         <div className="fixed top-20 right-8 z-50 bg-slate-900 text-white px-5 py-3 rounded-[5px] shadow-2xl flex items-center gap-3 border border-slate-700 animate-in fade-in slide-in-from-top-4 duration-300">
           <CheckCircle2 size={18} className="text-emerald-400" />
           <div>
-            <p className="font-extrabold text-xs">Alterações salvas com sucesso!</p>
-            <p className="text-[10px] text-slate-300">O seu perfil foi atualizado no sistema.</p>
+            <p className="font-extrabold text-xs">
+              Alterações salvas com sucesso!
+            </p>
+            <p className="text-[10px] text-slate-300">
+              O seu perfil foi atualizado no sistema.
+            </p>
           </div>
         </div>
       )}
 
-      {/* ── 1. BANNER HERO DO PERFIL ── */}
-      <div className="bg-white rounded-[8px] border border-slate-200/80 shadow-xs overflow-hidden">
-        {/* Banner Superior com Gradiente Corporativo */}
-        <div className="h-36 bg-gradient-to-r from-slate-950 via-slate-900 to-red-950 relative">
-          <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px] opacity-10" />
-          <div className="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-extrabold px-3 py-1 rounded-[4px] uppercase tracking-wider border border-white/10">
-            Administrador do Sistema
-          </div>
-        </div>
+      {/* ── 1. BANNER HERO DO PERFIL (Borda Quadrada, Azul Sólido #0F172A) ── */}
+      <div className="bg-white rounded-none border border-slate-200 shadow-xs overflow-hidden">
+        {/* Banner Superior Azul Sólido Executivo */}
+        <div className="h-32 bg-[#0F172A] relative flex items-center justify-end px-6"></div>
 
         {/* Informações Principais do Administrador */}
         <div className="px-6 pb-6 pt-0 relative flex flex-col md:flex-row items-start md:items-end justify-between gap-6 -mt-12">
           <div className="flex flex-col sm:flex-row items-start sm:items-end gap-5">
             {/* Foto de Perfil com Botão de Alteração */}
             <div className="relative group">
-              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-slate-900 text-white font-black text-2xl flex items-center justify-center border-4 border-white shadow-md overflow-hidden bg-gradient-to-tr from-slate-950 to-slate-800">
-                {perfil.fotoUrl && perfil.fotoUrl !== "/academia/admin-avatar.jpg" ? (
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#0F172A] text-white font-black text-2xl flex items-center justify-center border-4 border-white shadow-md overflow-hidden">
+                {perfil.fotoUrl &&
+                perfil.fotoUrl !== "/academia/admin-avatar.jpg" ? (
                   <img
                     src={perfil.fotoUrl}
                     alt={perfil.nome}
@@ -156,44 +158,31 @@ export default function PerfilAdmin() {
               </label>
             </div>
 
-            {/* Nome, Cargo e Detalhes Rápido */}
-            <div className="space-y-1 mb-1">
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+            {/* Nome, Cargo e Detalhes bem visíveis */}
+            <div className="space-y-1.5 mb-1">
+              <div className="flex items-center gap-2.5">
+                <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
                   {perfil.nome} {perfil.sobrenome}
                 </h1>
-                <span className="bg-emerald-50 text-emerald-700 text-[10px] font-extrabold px-2 py-0.5 rounded-[3px] border border-emerald-200">
-                  ● Ativo
-                </span>
               </div>
               <p className="text-xs font-bold text-red-800 flex items-center gap-1.5">
-                <Shield size={13} />
+                <Shield size={14} className="text-red-700" />
                 <span>{perfil.cargo}</span>
                 <span className="text-slate-300">•</span>
-                <span className="text-slate-500 font-medium">{perfil.departamento}</span>
+                <span className="text-slate-600 font-semibold">
+                  {perfil.departamento}
+                </span>
               </p>
-              <div className="flex flex-wrap items-center gap-4 pt-1 text-[11px] text-slate-500">
+              <div className="flex flex-wrap items-center gap-4 pt-1 text-[11px] font-medium text-slate-500">
                 <span className="flex items-center gap-1">
-                  <MapPin size={12} className="text-slate-400" />
+                  <MapPin size={13} className="text-slate-400" />
                   {perfil.localizacao}
                 </span>
                 <span className="flex items-center gap-1">
-                  <Calendar size={12} className="text-slate-400" />
+                  <Calendar size={13} className="text-slate-400" />
                   Membro desde {perfil.dataAdmissao}
                 </span>
               </div>
-            </div>
-          </div>
-
-          {/* Indicadores de Métricas Rápidas */}
-          <div className="flex items-center gap-3 w-full md:w-auto border-t md:border-t-0 pt-4 md:pt-0 border-slate-100">
-            <div className="bg-slate-50 px-4 py-2.5 rounded-[6px] border border-slate-200/80 text-center flex-1 md:flex-initial">
-              <span className="block text-[10px] font-bold text-slate-400 uppercase">Cursos</span>
-              <span className="text-base font-black text-slate-900">14 Active</span>
-            </div>
-            <div className="bg-slate-50 px-4 py-2.5 rounded-[6px] border border-slate-200/80 text-center flex-1 md:flex-initial">
-              <span className="block text-[10px] font-bold text-slate-400 uppercase">Alunos</span>
-              <span className="text-base font-black text-slate-900">418 Regist.</span>
             </div>
           </div>
         </div>
@@ -242,9 +231,12 @@ export default function PerfilAdmin() {
         <form onSubmit={handleSalvarPerfil} className="space-y-6">
           <div className="bg-white p-6 sm:p-8 rounded-[8px] border border-slate-200/80 shadow-xs space-y-6">
             <div className="border-b border-slate-100 pb-4">
-              <h2 className="text-base font-bold text-slate-900">Editar Dados do Administrador</h2>
+              <h2 className="text-base font-bold text-slate-900">
+                Editar Dados do Administrador
+              </h2>
               <p className="text-xs text-slate-500 mt-0.5">
-                Atualize as suas informações de contacto e dados de identificação na plataforma.
+                Atualize as suas informações de contacto e dados de
+                identificação na plataforma.
               </p>
             </div>
 
@@ -254,11 +246,16 @@ export default function PerfilAdmin() {
                   Primeiro Nome
                 </label>
                 <div className="relative">
-                  <User size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <User
+                    size={15}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                  />
                   <input
                     type="text"
                     value={perfil.nome}
-                    onChange={(e) => setPerfil({ ...perfil, nome: e.target.value })}
+                    onChange={(e) =>
+                      setPerfil({ ...perfil, nome: e.target.value })
+                    }
                     className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
                     required
                   />
@@ -270,11 +267,16 @@ export default function PerfilAdmin() {
                   Sobrenome / Apelido
                 </label>
                 <div className="relative">
-                  <User size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <User
+                    size={15}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                  />
                   <input
                     type="text"
                     value={perfil.sobrenome}
-                    onChange={(e) => setPerfil({ ...perfil, sobrenome: e.target.value })}
+                    onChange={(e) =>
+                      setPerfil({ ...perfil, sobrenome: e.target.value })
+                    }
                     className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
                     required
                   />
@@ -286,11 +288,16 @@ export default function PerfilAdmin() {
                   E-mail Corporativo
                 </label>
                 <div className="relative">
-                  <Mail size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <Mail
+                    size={15}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                  />
                   <input
                     type="email"
                     value={perfil.email}
-                    onChange={(e) => setPerfil({ ...perfil, email: e.target.value })}
+                    onChange={(e) =>
+                      setPerfil({ ...perfil, email: e.target.value })
+                    }
                     className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
                     required
                   />
@@ -302,11 +309,16 @@ export default function PerfilAdmin() {
                   Telefone / WhatsApp
                 </label>
                 <div className="relative">
-                  <Phone size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <Phone
+                    size={15}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                  />
                   <input
                     type="text"
                     value={perfil.telefone}
-                    onChange={(e) => setPerfil({ ...perfil, telefone: e.target.value })}
+                    onChange={(e) =>
+                      setPerfil({ ...perfil, telefone: e.target.value })
+                    }
                     className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
                   />
                 </div>
@@ -317,11 +329,16 @@ export default function PerfilAdmin() {
                   Cargo / Função
                 </label>
                 <div className="relative">
-                  <Building size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <Building
+                    size={15}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                  />
                   <input
                     type="text"
                     value={perfil.cargo}
-                    onChange={(e) => setPerfil({ ...perfil, cargo: e.target.value })}
+                    onChange={(e) =>
+                      setPerfil({ ...perfil, cargo: e.target.value })
+                    }
                     className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
                   />
                 </div>
@@ -334,7 +351,9 @@ export default function PerfilAdmin() {
                 <input
                   type="text"
                   value={perfil.departamento}
-                  onChange={(e) => setPerfil({ ...perfil, departamento: e.target.value })}
+                  onChange={(e) =>
+                    setPerfil({ ...perfil, departamento: e.target.value })
+                  }
                   className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
                 />
               </div>
@@ -345,11 +364,16 @@ export default function PerfilAdmin() {
                 Localização / Endereço
               </label>
               <div className="relative">
-                <MapPin size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                <MapPin
+                  size={15}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                />
                 <input
                   type="text"
                   value={perfil.localizacao}
-                  onChange={(e) => setPerfil({ ...perfil, localizacao: e.target.value })}
+                  onChange={(e) =>
+                    setPerfil({ ...perfil, localizacao: e.target.value })
+                  }
                   className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
                 />
               </div>
@@ -362,7 +386,9 @@ export default function PerfilAdmin() {
               <textarea
                 rows={3}
                 value={perfil.biografia}
-                onChange={(e) => setPerfil({ ...perfil, biografia: e.target.value })}
+                onChange={(e) =>
+                  setPerfil({ ...perfil, biografia: e.target.value })
+                }
                 className="w-full p-3 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
               />
             </div>
@@ -383,13 +409,18 @@ export default function PerfilAdmin() {
       {activeTab === "seguranca" && (
         <div className="space-y-6">
           {/* Formulário de Alteração de Senha */}
-          <form onSubmit={handleSalvarSenha} className="bg-white p-6 sm:p-8 rounded-[8px] border border-slate-200/80 shadow-xs space-y-6">
+          <form
+            onSubmit={handleSalvarSenha}
+            className="bg-white p-6 sm:p-8 rounded-[8px] border border-slate-200/80 shadow-xs space-y-6">
             <div className="border-b border-slate-100 pb-4 flex items-center gap-2">
               <Key size={18} className="text-red-800" />
               <div>
-                <h2 className="text-base font-bold text-slate-900">Alterar Senha de Acesso</h2>
+                <h2 className="text-base font-bold text-slate-900">
+                  Alterar Senha de Acesso
+                </h2>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Garanta a segurança da sua conta definindo uma palavra-passe forte.
+                  Garanta a segurança da sua conta definindo uma palavra-passe
+                  forte.
                 </p>
               </div>
             </div>
@@ -400,11 +431,16 @@ export default function PerfilAdmin() {
                   Senha Atual
                 </label>
                 <div className="relative">
-                  <Lock size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <Lock
+                    size={15}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                  />
                   <input
                     type={showPassword ? "text" : "password"}
                     value={senha.atual}
-                    onChange={(e) => setSenha({ ...senha, atual: e.target.value })}
+                    onChange={(e) =>
+                      setSenha({ ...senha, atual: e.target.value })
+                    }
                     className="w-full pl-9 pr-9 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
                     placeholder="••••••••"
                     required
@@ -423,11 +459,16 @@ export default function PerfilAdmin() {
                   Nova Senha
                 </label>
                 <div className="relative">
-                  <Lock size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <Lock
+                    size={15}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                  />
                   <input
                     type={showPassword ? "text" : "password"}
                     value={senha.nova}
-                    onChange={(e) => setSenha({ ...senha, nova: e.target.value })}
+                    onChange={(e) =>
+                      setSenha({ ...senha, nova: e.target.value })
+                    }
                     className="w-full pl-9 pr-9 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
                     placeholder="Mínimo 8 caracteres"
                     required
@@ -440,11 +481,16 @@ export default function PerfilAdmin() {
                   Confirmar Nova Senha
                 </label>
                 <div className="relative">
-                  <Lock size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <Lock
+                    size={15}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                  />
                   <input
                     type={showPassword ? "text" : "password"}
                     value={senha.confirmar}
-                    onChange={(e) => setSenha({ ...senha, confirmar: e.target.value })}
+                    onChange={(e) =>
+                      setSenha({ ...senha, confirmar: e.target.value })
+                    }
                     className="w-full pl-9 pr-9 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
                     placeholder="Repita a nova senha"
                     required
@@ -466,23 +512,34 @@ export default function PerfilAdmin() {
           {/* Configurações Adicionais de Segurança */}
           <div className="bg-white p-6 sm:p-8 rounded-[8px] border border-slate-200/80 shadow-xs space-y-6">
             <div className="border-b border-slate-100 pb-4">
-              <h3 className="text-sm font-bold text-slate-900">Políticas de Acesso & Proteção</h3>
+              <h3 className="text-sm font-bold text-slate-900">
+                Políticas de Acesso & Proteção
+              </h3>
               <p className="text-xs text-slate-500 mt-0.5">
-                Defina os parâmetros de verificação para o seu acesso administrativo.
+                Defina os parâmetros de verificação para o seu acesso
+                administrativo.
               </p>
             </div>
 
             <div className="space-y-4">
               <div className="flex items-center justify-between p-3.5 bg-slate-50 rounded-[6px] border border-slate-200/60">
                 <div>
-                  <p className="text-xs font-bold text-slate-800">Autenticação de Dois Fatores (2FA)</p>
-                  <p className="text-[11px] text-slate-500">Exigir código de verificação via app ou email ao iniciar sessão.</p>
+                  <p className="text-xs font-bold text-slate-800">
+                    Autenticação de Dois Fatores (2FA)
+                  </p>
+                  <p className="text-[11px] text-slate-500">
+                    Exigir código de verificação via app ou email ao iniciar
+                    sessão.
+                  </p>
                 </div>
                 <input
                   type="checkbox"
                   checked={segurancaConfig.autenticacaoDoisFatores}
                   onChange={(e) =>
-                    setSegurancaConfig({ ...segurancaConfig, autenticacaoDoisFatores: e.target.checked })
+                    setSegurancaConfig({
+                      ...segurancaConfig,
+                      autenticacaoDoisFatores: e.target.checked,
+                    })
                   }
                   className="w-4 h-4 text-red-800 rounded focus:ring-red-800 cursor-pointer"
                 />
@@ -490,14 +547,22 @@ export default function PerfilAdmin() {
 
               <div className="flex items-center justify-between p-3.5 bg-slate-50 rounded-[6px] border border-slate-200/60">
                 <div>
-                  <p className="text-xs font-bold text-slate-800">Alertas de Login em Novos Dispositivos</p>
-                  <p className="text-[11px] text-slate-500">Enviar um alerta por email sempre que o sistema detetar um novo endereço IP.</p>
+                  <p className="text-xs font-bold text-slate-800">
+                    Alertas de Login em Novos Dispositivos
+                  </p>
+                  <p className="text-[11px] text-slate-500">
+                    Enviar um alerta por email sempre que o sistema detetar um
+                    novo endereço IP.
+                  </p>
                 </div>
                 <input
                   type="checkbox"
                   checked={segurancaConfig.notificarLoginNovo}
                   onChange={(e) =>
-                    setSegurancaConfig({ ...segurancaConfig, notificarLoginNovo: e.target.checked })
+                    setSegurancaConfig({
+                      ...segurancaConfig,
+                      notificarLoginNovo: e.target.checked,
+                    })
                   }
                   className="w-4 h-4 text-red-800 rounded focus:ring-red-800 cursor-pointer"
                 />
@@ -511,9 +576,12 @@ export default function PerfilAdmin() {
       {activeTab === "preferencias" && (
         <div className="bg-white p-6 sm:p-8 rounded-[8px] border border-slate-200/80 shadow-xs space-y-6">
           <div className="border-b border-slate-100 pb-4">
-            <h2 className="text-base font-bold text-slate-900">Preferências & Notificações</h2>
+            <h2 className="text-base font-bold text-slate-900">
+              Preferências & Notificações
+            </h2>
             <p className="text-xs text-slate-500 mt-0.5">
-              Personalize como recebe alertas e relatórios do portal da Academia Envisio.
+              Personalize como recebe alertas e relatórios do portal da Academia
+              Envisio.
             </p>
           </div>
 
@@ -524,7 +592,9 @@ export default function PerfilAdmin() {
               </label>
               <select
                 value={preferencias.idioma}
-                onChange={(e) => setPreferencias({ ...preferencias, idioma: e.target.value })}
+                onChange={(e) =>
+                  setPreferencias({ ...preferencias, idioma: e.target.value })
+                }
                 className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 font-semibold focus:outline-none focus:border-red-800">
                 <option value="Português (AO)">Português (Angola)</option>
                 <option value="English (US)">English (United States)</option>
@@ -537,23 +607,37 @@ export default function PerfilAdmin() {
               </label>
               <select
                 value={preferencias.fusoHorario}
-                onChange={(e) => setPreferencias({ ...preferencias, fusoHorario: e.target.value })}
+                onChange={(e) =>
+                  setPreferencias({
+                    ...preferencias,
+                    fusoHorario: e.target.value,
+                  })
+                }
                 className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 font-semibold focus:outline-none focus:border-red-800">
-                <option value="WAT (UTC+1) — Luanda">WAT (UTC+1) — Luanda / Lisboa</option>
-                <option value="UTC (UTC+0)">UTC — Coordinated Universal Time</option>
+                <option value="WAT (UTC+1) — Luanda">
+                  WAT (UTC+1) — Luanda / Lisboa
+                </option>
+                <option value="UTC (UTC+0)">
+                  UTC — Coordinated Universal Time
+                </option>
               </select>
             </div>
           </div>
 
           <div className="pt-4 border-t border-slate-100 space-y-3">
-            <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Notificações por E-mail</h3>
+            <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+              Notificações por E-mail
+            </h3>
 
             <label className="flex items-center gap-3 cursor-pointer">
               <input
                 type="checkbox"
                 checked={preferencias.notificacoesEmailInscricoes}
                 onChange={(e) =>
-                  setPreferencias({ ...preferencias, notificacoesEmailInscricoes: e.target.checked })
+                  setPreferencias({
+                    ...preferencias,
+                    notificacoesEmailInscricoes: e.target.checked,
+                  })
                 }
                 className="w-4 h-4 text-red-800 rounded focus:ring-red-800"
               />
@@ -567,7 +651,10 @@ export default function PerfilAdmin() {
                 type="checkbox"
                 checked={preferencias.notificacoesEmailRelatorios}
                 onChange={(e) =>
-                  setPreferencias({ ...preferencias, notificacoesEmailRelatorios: e.target.checked })
+                  setPreferencias({
+                    ...preferencias,
+                    notificacoesEmailRelatorios: e.target.checked,
+                  })
                 }
                 className="w-4 h-4 text-red-800 rounded focus:ring-red-800"
               />
