@@ -109,12 +109,12 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
   const [notifOpen, setNotifOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
-  // Estado dos grupos de dropdown do menu
+  // Estado dos grupos de dropdown do menu (Fechado por padrão, exceto se contiver a rota ativa)
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
     "MENU PRINCIPAL": true,
-    "GESTÃO ACADÉMICA": true,
-    "EQUIPA & PERFIS": true,
-    "SISTEMA": true,
+    "GESTÃO ACADÉMICA": false,
+    "EQUIPA & PERFIS": false,
+    "SISTEMA": false,
   });
 
   const location = useLocation();
@@ -162,23 +162,18 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
         className={`fixed top-0 left-0 z-40 h-screen w-64 bg-white text-slate-700 border-r border-slate-200/80 flex flex-col justify-between transition-transform duration-200 ease-in-out shadow-xs ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}>
-        {/* Topo da Sidebar: Header Executivo Elegante */}
-        <div className="h-16 px-4 border-b border-slate-100 flex items-center justify-between bg-white flex-shrink-0">
-          <Link to="/academia/admin" className="flex items-center gap-2.5">
-            <img
-              src="/academia/logo.svg"
-              alt="Envisio Academy"
-              className="h-8 w-auto object-contain"
-              onError={(e) => {
-                e.currentTarget.style.display = "none";
-              }}
-            />
-            <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-xs tracking-tight text-slate-900">
-                ENVISIO <span className="text-red-800 font-bold">ACADEMY</span>
+        {/* Topo da Sidebar: Cabeçalho Executivo Elegante ENVISIO TRAINING ACADEMY */}
+        <div className="h-16 px-5 border-b border-slate-100 flex items-center justify-between bg-white flex-shrink-0">
+          <Link to="/academia/admin" className="flex items-center gap-2.5 group">
+            <div className="w-7 h-7 rounded-[3px] bg-red-900 text-white flex items-center justify-center font-black text-xs shadow-2xs group-hover:bg-slate-900 transition-colors">
+              E
+            </div>
+            <div className="flex flex-col">
+              <span className="font-black text-[12px] tracking-wide text-slate-900 leading-none">
+                ENVISIO
               </span>
-              <span className="px-1 py-0.2 bg-red-900 text-white text-[8px] font-mono font-extrabold rounded-[2px]">
-                ADMIN
+              <span className="text-[8px] font-extrabold text-red-800 uppercase tracking-widest mt-0.5">
+                TRAINING ACADEMY
               </span>
             </div>
           </Link>
@@ -193,7 +188,7 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
         {/* Corpo de Navegação com Letra Reduzida e Accordions / Dropdowns */}
         <div className="py-4 px-3 space-y-4 overflow-y-auto flex-1 scrollbar-none [scrollbar-width:none]">
           {adminMenuGrupos.map((grupo) => {
-            const isGroupOpen = openGroups[grupo.titulo] ?? true;
+            const isGroupOpen = openGroups[grupo.titulo] ?? false;
             const hasActiveChild = grupo.items.some((item) => isActive(item.rota));
 
             return (
