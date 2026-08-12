@@ -123,7 +123,7 @@ export default function PerfilAdmin() {
       <div className="bg-white rounded-none border border-slate-200 shadow-xs overflow-hidden">
         {/* Banner Superior Azul Sólido com título Perfil */}
         <div className="h-28 bg-[#0F172A] relative flex items-center justify-between px-6">
-          <div className="bg-slate-900/90 text-white text-xl font-extrabold px-3 py-1 rounded-none uppercase tracking-wider border border-white/20">
+          <div className="bg-slate-900/90 text-white text-xl font-extrabold px-[90%] py-1 rounded-none uppercase tracking-wider">
             Perfil
           </div>
         </div>
@@ -235,181 +235,295 @@ export default function PerfilAdmin() {
 
       {/* TAB 1: INFORMAÇÕES PESSOAIS */}
       {activeTab === "dados" && (
-        <form onSubmit={handleSalvarPerfil} className="space-y-6">
-          <div className="bg-white p-6 sm:p-8 rounded-[8px] border border-slate-200/80 shadow-xs space-y-6">
-            <div className="border-b border-slate-100 pb-4">
-              <h2 className="text-base font-bold text-slate-900">
-                Editar Dados do Administrador
-              </h2>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Atualize as suas informações de contacto e dados de
-                identificação na plataforma.
-              </p>
-            </div>
+        <>
+          {/* MODO DE LEITURA (Padrão ao carregar a página) */}
+          {!isEditing ? (
+            <div className="bg-white p-6 sm:p-8 rounded-none border border-slate-200 shadow-xs space-y-6">
+              <div className="border-b border-slate-100 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <h2 className="text-base font-bold text-slate-900">
+                    Dados Pessoais do Administrador
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Consulte as informações e contactos registados na sua conta.
+                  </p>
+                </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                  Primeiro Nome
-                </label>
-                <div className="relative">
-                  <User
-                    size={15}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
-                  />
-                  <input
-                    type="text"
-                    value={perfil.nome}
-                    onChange={(e) =>
-                      setPerfil({ ...perfil, nome: e.target.value })
-                    }
-                    className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
-                    required
-                  />
+                <button
+                  type="button"
+                  onClick={() => setIsEditing(true)}
+                  className="px-5 py-2.5 bg-red-800 hover:bg-red-900 text-white font-bold text-xs rounded-none transition-all shadow-xs flex items-center gap-2 cursor-pointer self-start sm:self-auto">
+                  <Pencil size={14} />
+                  <span>Editar Perfil</span>
+                </button>
+              </div>
+
+              {/* Grelha de Leitura dos Dados */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="bg-slate-50/80 p-4 border border-slate-200/80">
+                  <span className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">
+                    Nome Completo
+                  </span>
+                  <span className="text-sm font-bold text-slate-900">
+                    {perfil.nome} {perfil.sobrenome}
+                  </span>
+                </div>
+
+                <div className="bg-slate-50/80 p-4 border border-slate-200/80">
+                  <span className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">
+                    E-mail Corporativo
+                  </span>
+                  <span className="text-sm font-bold text-slate-900">
+                    {perfil.email}
+                  </span>
+                </div>
+
+                <div className="bg-slate-50/80 p-4 border border-slate-200/80">
+                  <span className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">
+                    Telefone / WhatsApp
+                  </span>
+                  <span className="text-sm font-bold text-slate-900">
+                    {perfil.telefone}
+                  </span>
+                </div>
+
+                <div className="bg-slate-50/80 p-4 border border-slate-200/80">
+                  <span className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">
+                    Cargo / Função
+                  </span>
+                  <span className="text-sm font-bold text-slate-900">
+                    {perfil.cargo}
+                  </span>
+                </div>
+
+                <div className="bg-slate-50/80 p-4 border border-slate-200/80">
+                  <span className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">
+                    Departamento
+                  </span>
+                  <span className="text-sm font-bold text-slate-900">
+                    {perfil.departamento}
+                  </span>
+                </div>
+
+                <div className="bg-slate-50/80 p-4 border border-slate-200/80">
+                  <span className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">
+                    Localização / Endereço
+                  </span>
+                  <span className="text-sm font-bold text-slate-900">
+                    {perfil.localizacao}
+                  </span>
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                  Sobrenome / Apelido
-                </label>
-                <div className="relative">
-                  <User
-                    size={15}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
-                  />
-                  <input
-                    type="text"
-                    value={perfil.sobrenome}
-                    onChange={(e) =>
-                      setPerfil({ ...perfil, sobrenome: e.target.value })
-                    }
-                    className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                  E-mail Corporativo
-                </label>
-                <div className="relative">
-                  <Mail
-                    size={15}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
-                  />
-                  <input
-                    type="email"
-                    value={perfil.email}
-                    onChange={(e) =>
-                      setPerfil({ ...perfil, email: e.target.value })
-                    }
-                    className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                  Telefone / WhatsApp
-                </label>
-                <div className="relative">
-                  <Phone
-                    size={15}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
-                  />
-                  <input
-                    type="text"
-                    value={perfil.telefone}
-                    onChange={(e) =>
-                      setPerfil({ ...perfil, telefone: e.target.value })
-                    }
-                    className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                  Cargo / Função
-                </label>
-                <div className="relative">
-                  <Building
-                    size={15}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
-                  />
-                  <input
-                    type="text"
-                    value={perfil.cargo}
-                    onChange={(e) =>
-                      setPerfil({ ...perfil, cargo: e.target.value })
-                    }
-                    className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                  Departamento
-                </label>
-                <input
-                  type="text"
-                  value={perfil.departamento}
-                  onChange={(e) =>
-                    setPerfil({ ...perfil, departamento: e.target.value })
-                  }
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
-                />
+              <div className="bg-slate-50/80 p-4 border border-slate-200/80">
+                <span className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">
+                  Biografia / Resumo Profissional
+                </span>
+                <p className="text-xs text-slate-700 leading-relaxed font-medium">
+                  {perfil.biografia}
+                </p>
               </div>
             </div>
+          ) : (
+            /* MODO DE EDIÇÃO (Abre somente ao clicar em Editar Perfil) */
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              setIsEditing(false);
+              setSalvo(true);
+              setTimeout(() => setSalvo(false), 3500);
+            }} className="space-y-6 animate-in fade-in duration-200">
+              <div className="bg-white p-6 sm:p-8 rounded-none border border-slate-200 shadow-xs space-y-6">
+                <div className="border-b border-slate-100 pb-4 flex items-center justify-between">
+                  <div>
+                    <h2 className="text-base font-bold text-slate-900">
+                      Editar Dados do Administrador
+                    </h2>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      Atualize os seus campos de contacto e identificação.
+                    </p>
+                  </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                Localização / Endereço
-              </label>
-              <div className="relative">
-                <MapPin
-                  size={15}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
-                />
-                <input
-                  type="text"
-                  value={perfil.localizacao}
-                  onChange={(e) =>
-                    setPerfil({ ...perfil, localizacao: e.target.value })
-                  }
-                  className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
-                />
+                  <button
+                    type="button"
+                    onClick={() => setIsEditing(false)}
+                    className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-none transition-colors"
+                    title="Cancelar edição">
+                    <X size={18} />
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                      Primeiro Nome
+                    </label>
+                    <div className="relative">
+                      <User
+                        size={15}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                      />
+                      <input
+                        type="text"
+                        value={perfil.nome}
+                        onChange={(e) =>
+                          setPerfil({ ...perfil, nome: e.target.value })
+                        }
+                        className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                      Sobrenome / Apelido
+                    </label>
+                    <div className="relative">
+                      <User
+                        size={15}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                      />
+                      <input
+                        type="text"
+                        value={perfil.sobrenome}
+                        onChange={(e) =>
+                          setPerfil({ ...perfil, sobrenome: e.target.value })
+                        }
+                        className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                      E-mail Corporativo
+                    </label>
+                    <div className="relative">
+                      <Mail
+                        size={15}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                      />
+                      <input
+                        type="email"
+                        value={perfil.email}
+                        onChange={(e) =>
+                          setPerfil({ ...perfil, email: e.target.value })
+                        }
+                        className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                      Telefone / WhatsApp
+                    </label>
+                    <div className="relative">
+                      <Phone
+                        size={15}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                      />
+                      <input
+                        type="text"
+                        value={perfil.telefone}
+                        onChange={(e) =>
+                          setPerfil({ ...perfil, telefone: e.target.value })
+                        }
+                        className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                      Cargo / Função
+                    </label>
+                    <div className="relative">
+                      <Building
+                        size={15}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                      />
+                      <input
+                        type="text"
+                        value={perfil.cargo}
+                        onChange={(e) =>
+                          setPerfil({ ...perfil, cargo: e.target.value })
+                        }
+                        className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                      Departamento
+                    </label>
+                    <input
+                      type="text"
+                      value={perfil.departamento}
+                      onChange={(e) =>
+                        setPerfil({ ...perfil, departamento: e.target.value })
+                      }
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                    Localização / Endereço
+                  </label>
+                  <div className="relative">
+                    <MapPin
+                      size={15}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                    />
+                    <input
+                      type="text"
+                      value={perfil.localizacao}
+                      onChange={(e) =>
+                        setPerfil({ ...perfil, localizacao: e.target.value })
+                      }
+                      className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                    Biografia / Resumo Profissional
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={perfil.biografia}
+                    onChange={(e) =>
+                      setPerfil({ ...perfil, biografia: e.target.value })
+                    }
+                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-none text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
+                  />
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setIsEditing(false)}
+                    className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-none transition-all cursor-pointer">
+                    Cancelar
+                  </button>
+
+                  <button
+                    type="submit"
+                    className="px-6 py-2.5 bg-red-800 hover:bg-red-900 text-white font-bold text-xs rounded-none transition-all shadow-xs flex items-center gap-2 cursor-pointer">
+                    <Save size={15} />
+                    <span>Salvar Alterações</span>
+                  </button>
+                </div>
               </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                Biografia / Resumo Profissional
-              </label>
-              <textarea
-                rows={3}
-                value={perfil.biografia}
-                onChange={(e) =>
-                  setPerfil({ ...perfil, biografia: e.target.value })
-                }
-                className="w-full p-3 bg-slate-50 border border-slate-200 rounded-[5px] text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-red-800 transition-all font-semibold"
-              />
-            </div>
-
-            <div className="pt-4 border-t border-slate-100 flex justify-end">
-              <button
-                type="submit"
-                className="px-6 py-2.5 bg-red-800 hover:bg-red-900 text-white font-bold text-xs rounded-[5px] transition-all shadow-xs flex items-center gap-2 cursor-pointer">
-                <Save size={15} />
-                <span>Salvar Informações</span>
-              </button>
-            </div>
-          </div>
-        </form>
+            </form>
+          )}
+        </>
       )}
 
       {/* TAB 2: SEGURANÇA & SENHA */}
