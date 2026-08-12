@@ -17,6 +17,8 @@ import {
   ExternalLink,
   Search,
   Bell,
+  ChevronDown,
+  ChevronRight,
 } from "lucide-react";
 
 interface LayoutAdminProps {
@@ -27,72 +29,76 @@ interface MenuItem {
   nome: string;
   rota: string;
   icone: React.ReactNode;
-  badge?: string | number;
 }
 
 interface MenuGrupo {
   titulo: string;
+  collapsible?: boolean;
   items: MenuItem[];
 }
 
 const adminMenuGrupos: MenuGrupo[] = [
   {
     titulo: "MENU PRINCIPAL",
+    collapsible: false,
     items: [
       {
         nome: "Dashboard",
         rota: "/academia/admin",
-        icone: <LayoutDashboard size={18} />,
+        icone: <LayoutDashboard size={15} />,
       },
     ],
   },
   {
     titulo: "GESTÃO ACADÉMICA",
+    collapsible: true,
     items: [
       {
         nome: "Cursos",
         rota: "/academia/admin/cursos",
-        icone: <BookOpen size={18} />,
+        icone: <BookOpen size={15} />,
       },
       {
         nome: "Destaques",
         rota: "/academia/admin/destaques",
-        icone: <Star size={18} />,
+        icone: <Star size={15} />,
       },
       {
         nome: "Categorias",
         rota: "/academia/admin/categorias",
-        icone: <Tags size={18} />,
+        icone: <Tags size={15} />,
       },
       {
         nome: "Alunos",
         rota: "/academia/admin/inscricoes",
-        icone: <UserCheck size={18} />,
+        icone: <UserCheck size={15} />,
       },
     ],
   },
   {
     titulo: "EQUIPA & PERFIS",
+    collapsible: true,
     items: [
       {
         nome: "Utilizadores",
         rota: "/academia/admin/usuarios",
-        icone: <Users size={18} />,
+        icone: <Users size={15} />,
       },
     ],
   },
   {
     titulo: "SISTEMA",
+    collapsible: true,
     items: [
       {
         nome: "Relatórios",
         rota: "/academia/admin/relatorios",
-        icone: <FileText size={18} />,
+        icone: <FileText size={15} />,
       },
       {
         nome: "Configurações",
         rota: "/academia/admin/configuracoes",
-        icone: <Settings size={18} />,
+        icone: <Settings size={15} />,
       },
     ],
   },
@@ -102,6 +108,15 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+
+  // Estado dos grupos de dropdown do menu
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
+    "MENU PRINCIPAL": true,
+    "GESTÃO ACADÉMICA": true,
+    "EQUIPA & PERFIS": true,
+    "SISTEMA": true,
+  });
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -110,6 +125,23 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
       return location.pathname === "/academia/admin";
     }
     return location.pathname.startsWith(path);
+  };
+
+  // Garante que o grupo com a rota ativa fique aberto automaticamente
+  useEffect(() => {
+    adminMenuGrupos.forEach((grupo) => {
+      const temItemAtivo = grupo.items.some((item) => isActive(item.rota));
+      if (temItemAtivo) {
+        setOpenGroups((prev) => ({ ...prev, [grupo.titulo]: true }));
+      }
+    });
+  }, [location.pathname]);
+
+  const toggleGroup = (titulo: string) => {
+    setOpenGroups((prev) => ({
+      ...prev,
+      [titulo]: !prev[titulo],
+    }));
   };
 
   const handleLogout = () => {
@@ -125,82 +157,129 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
 
   return (
     <div className="min-h-screen bg-[#f8fafc] flex flex-col font-['Segoe_UI_Variable_Text','Segoe_UI',sans-serif] text-slate-800 relative">
-      {/* ── 1. SIDEBAR LATERAL QUE VAI ATÉ AO TOPO (Z-40, Top-0, H-screen) ── */}
+      {/* ── 1. SIDEBAR LATERAL EXECUTIVA COMPACTA ── */}
       <aside
-        className={`fixed top-0 left-0 z-40 h-screen w-64 bg-white text-slate-700 border-r border-slate-200/80 flex flex-col justify-between transition-transform duration-200 ease-in-out ${
+        className={`fixed top-0 left-0 z-40 h-screen w-64 bg-white text-slate-700 border-r border-slate-200/80 flex flex-col justify-between transition-transform duration-200 ease-in-out shadow-xs ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}>
-        {/* Topo da Sidebar: Logo da Envisio Training Academy */}
-        <div className="h-20 px-10 border-b border-slate-100 flex items-center justify-between bg-white flex-shrink-0">
-          <Link to="/academia/admin" className="flex items-center gap-2">
+        {/* Topo da Sidebar: Header Executivo Elegante */}
+        <div className="h-16 px-4 border-b border-slate-100 flex items-center justify-between bg-white flex-shrink-0">
+          <Link to="/academia/admin" className="flex items-center gap-2.5">
             <img
               src="/academia/logo.svg"
               alt="Envisio Academy"
-              className="h-12 w-auto object-contain"
+              className="h-8 w-auto object-contain"
               onError={(e) => {
-                // Fallback caso a imagem não carregue
                 e.currentTarget.style.display = "none";
               }}
             />
+            <div className="flex items-center gap-1.5">
+              <span className="font-extrabold text-xs tracking-tight text-slate-900">
+                ENVISIO <span className="text-red-800 font-bold">ACADEMY</span>
+              </span>
+              <span className="px-1 py-0.2 bg-red-900 text-white text-[8px] font-mono font-extrabold rounded-[2px]">
+                ADMIN
+              </span>
+            </div>
           </Link>
 
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden p-1.5 text-slate-400 hover:text-slate-700 rounded-[5px]">
-            <X size={18} />
+            className="lg:hidden p-1 text-slate-400 hover:text-slate-700 rounded-[3px]">
+            <X size={16} />
           </button>
         </div>
 
-        {/* Corpo de Navegação com Espaçamento Amplo ("Deixa respirar") */}
-        <div className="py-6 px-4 space-y-7 overflow-y-auto flex-1 scrollbar-none [scrollbar-width:none]">
-          {adminMenuGrupos.map((grupo, gIdx) => (
-            <div key={gIdx} className="space-y-2">
-              <p className="px-3 text-[10px] font-extrabold uppercase tracking-widest text-slate-400 mb-2">
-                {grupo.titulo}
-              </p>
-              <div className="space-y-1">
-                {grupo.items.map((item) => {
-                  const active = isActive(item.rota);
-                  return (
-                    <Link
-                      key={item.rota}
-                      to={item.rota}
-                      className={`flex items-center justify-between px-3 py-2 rounded-[5px] text-[11px] font-semibold transition-all ${
-                        active
-                          ? "bg-slate-900 text-white shadow-2xs"
-                          : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-                      }`}>
-                      <div className="flex items-center gap-2.5">
-                        <span
-                          className={
-                            active ? "text-red-400" : "text-slate-400"
-                          }>
-                          {item.icone}
-                        </span>
-                        <span>{item.nome}</span>
-                      </div>
-                    </Link>
-                  );
-                })}
+        {/* Corpo de Navegação com Letra Reduzida e Accordions / Dropdowns */}
+        <div className="py-4 px-3 space-y-4 overflow-y-auto flex-1 scrollbar-none [scrollbar-width:none]">
+          {adminMenuGrupos.map((grupo) => {
+            const isGroupOpen = openGroups[grupo.titulo] ?? true;
+            const hasActiveChild = grupo.items.some((item) => isActive(item.rota));
+
+            return (
+              <div key={grupo.titulo} className="space-y-1">
+                {/* Cabeçalho do Grupo (Dropdown Toggle) */}
+                {grupo.collapsible ? (
+                  <button
+                    onClick={() => toggleGroup(grupo.titulo)}
+                    className="w-full px-2 py-1 flex items-center justify-between text-[9px] font-extrabold uppercase tracking-widest text-slate-400 hover:text-slate-700 transition-colors group cursor-pointer">
+                    <span className={hasActiveChild ? "text-red-800 font-bold" : ""}>
+                      {grupo.titulo}
+                    </span>
+                    <span className="text-slate-400 group-hover:text-slate-600 transition-transform">
+                      {isGroupOpen ? <ChevronDown size={11} /> : <ChevronRight size={11} />}
+                    </span>
+                  </button>
+                ) : (
+                  <p className="px-2 py-1 text-[9px] font-extrabold uppercase tracking-widest text-slate-400">
+                    {grupo.titulo}
+                  </p>
+                )}
+
+                {/* Lista de Itens do Grupo com animação de visibilidade */}
+                {isGroupOpen && (
+                  <div className="space-y-0.5 pl-1 animate-in fade-in duration-150">
+                    {grupo.items.map((item) => {
+                      const active = isActive(item.rota);
+                      return (
+                        <Link
+                          key={item.rota}
+                          to={item.rota}
+                          className={`flex items-center justify-between px-2.5 py-1.5 rounded-[4px] text-[11px] font-semibold transition-all ${
+                            active
+                              ? "bg-slate-900 text-white shadow-2xs border-l-2 border-l-red-800"
+                              : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"
+                          }`}>
+                          <div className="flex items-center gap-2">
+                            <span
+                              className={
+                                active ? "text-red-400" : "text-slate-400"
+                              }>
+                              {item.icone}
+                            </span>
+                            <span>{item.nome}</span>
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Rodapé Executivo Aprimorado da Sidebar */}
+        <div className="p-3 border-t border-slate-100 bg-slate-50/70 flex flex-col gap-2 flex-shrink-0">
+          <div className="flex items-center justify-between px-2.5 py-2 bg-white rounded-[4px] border border-slate-200/80 shadow-2xs">
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 rounded-[3px] bg-slate-900 text-white font-extrabold text-[10px] flex items-center justify-center">
+                AD
+              </div>
+              <div className="flex flex-col text-left">
+                <span className="font-extrabold text-[10px] text-slate-900 leading-tight">
+                  Super Admin
+                </span>
+                <span className="text-[9px] font-bold text-emerald-700 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                  <span>Online</span>
+                </span>
               </div>
             </div>
-          ))}
-        </div>
 
-        {/* Rodapé da Sidebar */}
-        <div className="p-3.5 border-t border-slate-100 bg-slate-50/50 flex items-center justify-end text-[11px] text-slate-400 flex-shrink-0">
-          <button
-            onClick={handleLogout}
-            className="text-slate-500 hover:text-red-700 font-semibold flex items-center gap-1 cursor-pointer transition-colors">
-            <LogOut size={13} />
-            <span>Sair</span>
-          </button>
+            <button
+              onClick={handleLogout}
+              className="p-1.5 text-slate-400 hover:text-red-700 hover:bg-red-50 rounded-[3px] transition-colors cursor-pointer"
+              title="Encerrar Sessão">
+              <LogOut size={13} />
+            </button>
+          </div>
         </div>
       </aside>
 
-      {/* ── 2. TOPBAR SUPERIOR (Sem Borda Inferior!) ── */}
-      <header className="h-16 fixed top-0 left-0 lg:left-64 right-0 z-30 flex items-center justify-between px-6 sm:px-8 bg-slate-50/90 backdrop-blur-md">
-        {/* Esquerda: Botão Mobile (Sem texto do logo!) */}
+      {/* ── 2. TOPBAR SUPERIOR ── */}
+      <header className="h-16 fixed top-0 left-0 lg:left-64 right-0 z-30 flex items-center justify-between px-6 sm:px-8 bg-slate-50/90 backdrop-blur-md border-b border-slate-200/60">
+        {/* Esquerda: Botão Mobile & Pesquisa */}
         <div className="flex items-center gap-3">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -343,7 +422,7 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
         </div>
       </header>
 
-      {/* ── 3. CONTEÚDO PRINCIPAL (Margin Left lg:ml-64, Padding Amplo) ── */}
+      {/* ── 3. CONTEÚDO PRINCIPAL ── */}
       <div className="flex pt-16 flex-1 lg:ml-64">
         {/* Mobile Backdrop */}
         {sidebarOpen && (
