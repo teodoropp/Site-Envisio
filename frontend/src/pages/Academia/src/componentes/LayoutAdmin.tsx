@@ -163,8 +163,8 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
         className={`fixed top-0 left-0 z-40 h-screen w-64 bg-white text-slate-700 border-r border-slate-200/80 flex flex-col justify-between transition-transform duration-200 ease-in-out shadow-xs ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}>
-        {/* Topo da Sidebar: Logo Centralizada (mantendo a altura de 16/64px) */}
-        <div className="h-16 px-4 border-b border-slate-100 flex items-center justify-between lg:justify-center bg-white flex-shrink-0 relative">
+        {/* Topo da Sidebar: Logo Centralizada (sem linha divisória) */}
+        <div className="h-16 px-4 flex items-center justify-between lg:justify-center bg-white flex-shrink-0 relative">
           <Link to="/academia/admin" className="flex items-center gap-2 group mx-auto">
             <div className="w-6 h-6 rounded-[3px] bg-red-900 text-white flex items-center justify-center font-black text-xs shadow-2xs group-hover:bg-slate-900 transition-colors">
               E
@@ -181,8 +181,8 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
           </button>
         </div>
 
-        {/* Corpo de Navegação com Letra Reduzida e Accordions / Dropdowns */}
-        <div className="py-4 px-3 space-y-4 overflow-y-auto flex-1 scrollbar-none [scrollbar-width:none]">
+        {/* Corpo de Navegação com Espaçamento Amplo no Topo (pt-6) */}
+        <div className="pt-6 pb-4 px-3 space-y-5 overflow-y-auto flex-1 scrollbar-none [scrollbar-width:none]">
           {adminMenuGrupos.map((grupo) => {
             const isGroupOpen = openGroups[grupo.titulo] ?? false;
             const hasActiveChild = grupo.items.some((item) => isActive(item.rota));
