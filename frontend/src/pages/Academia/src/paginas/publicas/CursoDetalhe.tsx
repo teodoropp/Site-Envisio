@@ -31,11 +31,8 @@ import ModalVideo from "../../componentes/ModalVideo";
 import FormularioInscricao from "../../componentes/FormularioInscricao";
 import LayoutAcademia from "../../componentes/LayoutAcademia";
 import { isCursoAtivo } from "../../servicos/cursoService";
-import { useIsMobile } from "../../hooks/useIsMobile";
-import CursoDetalheMobile from "../aluno/mobile/CursoDetalheMobile";
 
 export default function CursoDetalhe() {
-  const isMobile = useIsMobile();
   const { id } = useParams<{ id: string }>();
   const courseId = id || "gestao-recursos-humanos";
   const { curso, carregando, erro } = useCurso(courseId);
@@ -75,10 +72,6 @@ export default function CursoDetalhe() {
       estrelas: 5,
     },
   ];
-
-  if (isMobile) {
-    return <CursoDetalheMobile />;
-  }
 
   if (carregando) return <Spinner />;
 
