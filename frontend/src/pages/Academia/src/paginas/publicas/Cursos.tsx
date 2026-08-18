@@ -13,7 +13,7 @@ import {
   BookOpen,
   Lock,
 } from "lucide-react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCursos } from "../../hooks/useCursos";
 import { Curso } from "../../tipos/Curso";
 import { isCursoAtivo } from "../../servicos/cursoService";
@@ -329,73 +329,66 @@ export default function Cursos() {
               </h2>
             </div>
 
-            {/* Banner card retangular compacto */}
-            <div className="bg-[#0b1120] rounded-[6px] shadow-lg overflow-hidden mb-12 border border-slate-800/80 transition-all duration-300">
-              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[280px] lg:min-h-[320px]">
+            {/* Banner card retangular com bordas quadradas */}
+            <div
+              onClick={() => navigate(`/academia/curso/${cursoDestaque.id}`)}
+              className="bg-[#0f172a] rounded-none shadow-xl overflow-hidden mb-12 border border-slate-800 transition-all duration-300 cursor-pointer group">
+              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[380px] lg:min-h-[360px]">
                 {/* Informações da Capa do Curso */}
-                <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-center text-white relative z-10">
-                  <div className="text-red-500 text-[11px] font-bold uppercase tracking-wider mb-2">
-                    <span>{cursoDestaque.categoria || "QUALIFICAÇÃO PROFISSIONAL"}</span>
+                <div className="lg:col-span-7 p-8 sm:p-10 lg:p-12 flex flex-col justify-center text-white relative z-10">
+                  <div className="text-red-500 text-xs font-semibold uppercase tracking-wider mb-3">
+                    <span>
+                      {cursoDestaque.categoria || "QUALIFICAÇÃO PROFISSIONAL"}
+                    </span>
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2.5 leading-tight">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 leading-tight">
                     {cursoDestaque.titulo}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-slate-300 text-xs sm:text-[13px] leading-relaxed mb-6 max-w-xl font-normal">
+                  <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-8 max-w-xl font-normal">
                     {cursoDestaque.descricao}
                   </p>
 
-                  {/* Specs Row */}
-                  <div className="flex flex-wrap items-center gap-8 text-left mb-6">
+                  {/* Linha divisória e Specs Grid */}
+                  <div className="grid grid-cols-3 gap-6 pt-6 border-t border-slate-700/90 text-left">
                     <div>
-                      <span className="block text-slate-400 text-[11px]">
+                      <span className="block text-slate-400 text-xs font-normal mb-1">
                         Duração
                       </span>
-                      <span className="text-xs font-semibold text-white">
+                      <span className="text-xs sm:text-sm font-semibold text-white">
                         {cursoDestaque.duracao}
                       </span>
                     </div>
                     <div>
-                      <span className="block text-slate-400 text-[11px]">
+                      <span className="block text-slate-400 text-xs font-normal mb-1">
                         Formato
                       </span>
-                      <span className="text-xs font-semibold text-white">
+                      <span className="text-xs sm:text-sm font-semibold text-white">
                         {cursoDestaque.format || "Presencial"}
                       </span>
                     </div>
                     <div>
-                      <span className="block text-slate-400 text-[11px]">
+                      <span className="block text-slate-400 text-xs font-normal mb-1">
                         Idioma
                       </span>
-                      <span className="text-xs font-semibold text-white">
+                      <span className="text-xs sm:text-sm font-semibold text-white">
                         {cursoDestaque.idioma || "Português"}
                       </span>
                     </div>
                   </div>
-
-                  {/* Botão Ver Programa com borda suave */}
-                  <div>
-                    <Link
-                      to={`/academia/curso/${cursoDestaque.id}`}
-                      className="inline-flex items-center justify-center px-5 py-2 rounded border border-slate-600/90 hover:border-slate-400 text-white text-xs font-medium bg-slate-800/50 hover:bg-slate-800 transition-all cursor-pointer shadow-xs">
-                      Ver Programa
-                    </Link>
-                  </div>
                 </div>
 
                 {/* Capa Visual do Curso */}
-                <div className="lg:col-span-5 relative min-h-[220px] sm:min-h-[260px] lg:min-h-full overflow-hidden bg-slate-950">
+                <div className="lg:col-span-5 relative min-h-[260px] sm:min-h-[320px] lg:min-h-full overflow-hidden bg-slate-950">
                   <img
                     src={cursoDestaque.imagemUrl || "/academia/RH.png"}
                     alt={cursoDestaque.titulo}
-                    className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
+                    className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#0b1120] via-[#0b1120]/40 to-transparent pointer-events-none hidden lg:block" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b1120] via-transparent to-transparent pointer-events-none lg:hidden" />
                 </div>
               </div>
             </div>
