@@ -12,7 +12,6 @@ import {
   List,
   BookOpen,
   Lock,
-  Sparkles,
 } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { useCursos } from "../../hooks/useCursos";
@@ -319,9 +318,9 @@ export default function Cursos() {
         <section className="py-16 lg:py-20 bg-white relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left">
             {/* Section label */}
-            <div className="mb-6">
+            <div className="mb-8">
               <h2
-                className="text-xl sm:text-2xl font-extrabold text-slate-900 inline-block border-b-2 border-slate-900 pb-1"
+                className="text-2xl font-extrabold text-slate-900 inline-block border-b-2 border-slate-900 pb-1"
                 style={{
                   fontFamily:
                     "'Segoe UI Variable Text', 'Segoe UI', sans-serif",
@@ -330,29 +329,29 @@ export default function Cursos() {
               </h2>
             </div>
 
-            {/* Banner card compacto estilo executivo */}
-            <div className="bg-[#0B111E] rounded-none shadow-md overflow-hidden mb-16 transition-all duration-300 hover:shadow-lg border border-slate-800 relative">
-              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[300px] lg:min-h-[340px] items-stretch">
+            {/* Banner card retangular compacto */}
+            <div className="bg-[#0b1120] rounded-[6px] shadow-lg overflow-hidden mb-12 border border-slate-800/80 transition-all duration-300">
+              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[280px] lg:min-h-[320px]">
                 {/* Informações da Capa do Curso */}
                 <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-center text-white relative z-10">
-                  <span className="text-red-500 text-[11px] font-bold tracking-wider uppercase mb-2 block">
-                    QUALIFICAÇÃO PROFISSIONAL
-                  </span>
+                  <div className="text-red-500 text-[11px] font-bold uppercase tracking-wider mb-2">
+                    <span>{cursoDestaque.categoria || "QUALIFICAÇÃO PROFISSIONAL"}</span>
+                  </div>
 
                   {/* Title */}
-                  <h3 className="text-xl sm:text-2xl lg:text-[24px] font-bold text-white mb-3 leading-snug">
+                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2.5 leading-tight">
                     {cursoDestaque.titulo}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-slate-300 text-xs leading-relaxed mb-6 max-w-xl font-normal">
+                  <p className="text-slate-300 text-xs sm:text-[13px] leading-relaxed mb-6 max-w-xl font-normal">
                     {cursoDestaque.descricao}
                   </p>
 
-                  {/* Specs Grid */}
-                  <div className="flex flex-wrap items-center gap-8 mb-6">
+                  {/* Specs Row */}
+                  <div className="flex flex-wrap items-center gap-8 text-left mb-6">
                     <div>
-                      <span className="block text-slate-400 text-[11px] font-normal mb-0.5">
+                      <span className="block text-slate-400 text-[11px]">
                         Duração
                       </span>
                       <span className="text-xs font-semibold text-white">
@@ -360,7 +359,7 @@ export default function Cursos() {
                       </span>
                     </div>
                     <div>
-                      <span className="block text-slate-400 text-[11px] font-normal mb-0.5">
+                      <span className="block text-slate-400 text-[11px]">
                         Formato
                       </span>
                       <span className="text-xs font-semibold text-white">
@@ -368,7 +367,7 @@ export default function Cursos() {
                       </span>
                     </div>
                     <div>
-                      <span className="block text-slate-400 text-[11px] font-normal mb-0.5">
+                      <span className="block text-slate-400 text-[11px]">
                         Idioma
                       </span>
                       <span className="text-xs font-semibold text-white">
@@ -377,25 +376,26 @@ export default function Cursos() {
                     </div>
                   </div>
 
-                  {/* Botão Ver Programa */}
+                  {/* Botão Ver Programa com borda suave */}
                   <div>
                     <Link
                       to={`/academia/curso/${cursoDestaque.id}`}
-                      className="inline-flex items-center justify-center px-4 py-2 bg-[#151D2E] hover:bg-[#1E293B] border border-slate-700/80 text-white text-xs font-medium rounded-[4px] transition-colors">
+                      className="inline-flex items-center justify-center px-5 py-2 rounded border border-slate-600/90 hover:border-slate-400 text-white text-xs font-medium bg-slate-800/50 hover:bg-slate-800 transition-all cursor-pointer shadow-xs">
                       Ver Programa
                     </Link>
                   </div>
                 </div>
 
                 {/* Capa Visual do Curso */}
-                <div className="lg:col-span-5 relative min-h-[240px] lg:min-h-[340px] overflow-hidden bg-[#0B111E]">
+                <div className="lg:col-span-5 relative min-h-[220px] sm:min-h-[260px] lg:min-h-full overflow-hidden bg-slate-950">
                   <img
                     src={cursoDestaque.imagemUrl || "/academia/RH.png"}
                     alt={cursoDestaque.titulo}
                     className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#0B111E] via-[#0B111E]/40 to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#0b1120] via-[#0b1120]/40 to-transparent pointer-events-none hidden lg:block" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b1120] via-transparent to-transparent pointer-events-none lg:hidden" />
                 </div>
               </div>
             </div>
