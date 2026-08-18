@@ -319,9 +319,9 @@ export default function Cursos() {
         <section className="py-16 lg:py-20 bg-white relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left">
             {/* Section label */}
-            <div className="mb-8">
+            <div className="mb-6">
               <h2
-                className="text-2xl font-extrabold text-slate-900 inline-block border-b-2 border-slate-900 pb-1"
+                className="text-xl sm:text-2xl font-extrabold text-slate-900 inline-block border-b-2 border-slate-900 pb-1"
                 style={{
                   fontFamily:
                     "'Segoe UI Variable Text', 'Segoe UI', sans-serif",
@@ -330,79 +330,72 @@ export default function Cursos() {
               </h2>
             </div>
 
-            {/* Banner card com mesmo tamanho e proporções da página home */}
-            <div className="bg-white rounded-none shadow-md overflow-hidden mb-16 transition-all duration-300 hover:shadow-lg border border-slate-800">
-              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[490px] lg:min-h-[560px]">
+            {/* Banner card compacto estilo executivo */}
+            <div className="bg-[#0B111E] rounded-none shadow-md overflow-hidden mb-16 transition-all duration-300 hover:shadow-lg border border-slate-800 relative">
+              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[300px] lg:min-h-[340px] items-stretch">
                 {/* Informações da Capa do Curso */}
-                <div className="lg:col-span-6 p-8 sm:p-12 lg:p-14 flex flex-col justify-center bg-gradient-to-br from-gray-900 to-gray-800 text-white relative z-10">
-                  <div className="flex items-center space-x-2 text-red-400 text-sm font-semibold uppercase mb-4">
-                    <Sparkles size={16} />
-                    <span>
-                      {cursoDestaque.categoria || "Qualificação Profissional"}
-                    </span>
-                  </div>
+                <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-center text-white relative z-10">
+                  <span className="text-red-500 text-[11px] font-bold tracking-wider uppercase mb-2 block">
+                    QUALIFICAÇÃO PROFISSIONAL
+                  </span>
 
                   {/* Title */}
-                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight tracking-tight">
+                  <h3 className="text-xl sm:text-2xl lg:text-[24px] font-bold text-white mb-3 leading-snug">
                     {cursoDestaque.titulo}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-gray-300 text-[12px] sm:text-[12px] leading-relaxed mb-8 max-w-xl">
+                  <p className="text-slate-300 text-xs leading-relaxed mb-6 max-w-xl font-normal">
                     {cursoDestaque.descricao}
                   </p>
 
                   {/* Specs Grid */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-6 border-t border-white/10 mb-8">
+                  <div className="flex flex-wrap items-center gap-8 mb-6">
                     <div>
-                      <span className="block text-gray-400 text-[11px]">
+                      <span className="block text-slate-400 text-[11px] font-normal mb-0.5">
                         Duração
                       </span>
-                      <span className="text-[11px] font-semibold text-white">
+                      <span className="text-xs font-semibold text-white">
                         {cursoDestaque.duracao}
                       </span>
                     </div>
                     <div>
-                      <span className="block text-gray-400 text-[11px]">
+                      <span className="block text-slate-400 text-[11px] font-normal mb-0.5">
                         Formato
                       </span>
-                      <span className="text-[11px] font-semibold text-white">
-                        {cursoDestaque.format || "Presencial ou misto"}
+                      <span className="text-xs font-semibold text-white">
+                        {cursoDestaque.format || "Presencial"}
                       </span>
                     </div>
                     <div>
-                      <span className="block text-gray-400 text-[11px]">
+                      <span className="block text-slate-400 text-[11px] font-normal mb-0.5">
                         Idioma
                       </span>
-                      <span className="text-[11px] font-semibold text-white">
+                      <span className="text-xs font-semibold text-white">
                         {cursoDestaque.idioma || "Português"}
                       </span>
                     </div>
                   </div>
 
-                  {/* Link alinhado à esquerda com linha sublinhada */}
-                  <div className="flex items-center pt-2">
+                  {/* Botão Ver Programa */}
+                  <div>
                     <Link
                       to={`/academia/curso/${cursoDestaque.id}`}
-                      className="inline-flex items-center gap-2.5 text-white hover:text-red-400 text-[11px] sm:text-[11px] font-bold uppercase tracking-wider underline underline-offset-8 decoration-2 decoration-red-500 hover:decoration-red-400 transition-all group cursor-pointer">
-                      <span>Ver Programa</span>
-                      <ArrowRight
-                        size={16}
-                        className="group-hover:translate-x-1.5 transition-transform"
-                      />
+                      className="inline-flex items-center justify-center px-4 py-2 bg-[#151D2E] hover:bg-[#1E293B] border border-slate-700/80 text-white text-xs font-medium rounded-[4px] transition-colors">
+                      Ver Programa
                     </Link>
                   </div>
                 </div>
 
-                {/* Capa Visual do Curso (Mesma altura e enquadramento object-top da home) */}
-                <div className="lg:col-span-6 relative min-h-[380px] sm:min-h-[440px] lg:min-h-[520px] overflow-hidden bg-slate-950">
+                {/* Capa Visual do Curso */}
+                <div className="lg:col-span-5 relative min-h-[240px] lg:min-h-[340px] overflow-hidden bg-[#0B111E]">
                   <img
                     src={cursoDestaque.imagemUrl || "/academia/RH.png"}
                     alt={cursoDestaque.titulo}
                     className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#0B111E] via-[#0B111E]/40 to-transparent pointer-events-none" />
                 </div>
               </div>
             </div>
