@@ -333,7 +333,7 @@ export default function Cursos() {
             <div
               onClick={() => navigate(`/academia/curso/${cursoDestaque.id}`)}
               className="bg-[#0f172a] rounded-none shadow-xl overflow-hidden mb-12 border border-slate-800 transition-all duration-300 cursor-pointer group">
-              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[340px] lg:min-h-[340px]">
+              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[320px] lg:min-h-[320px]">
                 {/* Informações da Capa do Curso */}
                 <div className="lg:col-span-7 p-8 sm:p-10 lg:p-12 flex flex-col justify-center text-white relative z-10">
                   <div className="text-red-500 text-xs font-semibold uppercase tracking-wider mb-3">
@@ -343,38 +343,38 @@ export default function Cursos() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 leading-tight">
+                  <h3 className="text-2xl sm:text-2xl lg:text-3xl font-bold text-white mb-4 leading-tight">
                     {cursoDestaque.titulo}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-8 max-w-xl font-normal">
+                  <p className="text-slate-300 text-[12px] sm:text-[12px] leading-relaxed mb-8 max-w-xl font-normal">
                     {cursoDestaque.descricao}
                   </p>
 
                   {/* Linha divisória e Specs Grid */}
-                  <div className="grid grid-cols-3 gap-6 pt-6 border-t border-slate-700/90 text-left mb-6">
+                  <div className="grid grid-cols-3 gap-6 pt-6 border-t border-slate-700/90 text-left ">
                     <div>
-                      <span className="block text-slate-400 text-xs font-normal mb-1">
+                      <span className="block text-slate-400 text-[11px] font-normal">
                         Duração
                       </span>
-                      <span className="text-xs sm:text-sm font-semibold text-white">
+                      <span className="text-[11px] sm:text-[11px] font-semibold text-white">
                         {cursoDestaque.duracao}
                       </span>
                     </div>
                     <div>
-                      <span className="block text-slate-400 text-xs font-normal mb-1">
+                      <span className="block text-slate-400 text-[11px] font-normal">
                         Formato
                       </span>
-                      <span className="text-xs sm:text-sm font-semibold text-white">
+                      <span className="text-[11px] sm:text-[11px] font-semibold text-white">
                         {cursoDestaque.format || "Presencial"}
                       </span>
                     </div>
                     <div>
-                      <span className="block text-slate-400 text-xs font-normal mb-1">
+                      <span className="block text-slate-400 text-[11px] font-normal">
                         Idioma
                       </span>
-                      <span className="text-xs sm:text-sm font-semibold text-white">
+                      <span className="text-[11px] sm:text-[11px] font-semibold text-white">
                         {cursoDestaque.idioma || "Português"}
                       </span>
                     </div>
@@ -387,7 +387,7 @@ export default function Cursos() {
                         e.stopPropagation();
                         navigate(`/academia/curso/${cursoDestaque.id}`);
                       }}
-                      className="inline-flex items-center justify-center px-5 py-2 rounded-[4px] border border-slate-600 hover:border-slate-400 text-white text-xs sm:text-sm font-medium bg-[#0f172a] hover:bg-slate-800/80 transition-all cursor-pointer shadow-xs">
+                      className="mt-2 inline-flex items-center justify-center px-5 py-2 rounded-[4px] border border-slate-600 hover:border-slate-400 text-white text-xs sm:text-sm font-medium bg-[#0f172a] hover:bg-slate-800/80 transition-all cursor-pointer shadow-xs">
                       Ver Programa
                     </button>
                   </div>

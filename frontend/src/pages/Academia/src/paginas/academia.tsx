@@ -465,17 +465,19 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
           </div>
 
           {/* Grid Principal: Detalhes, Capa e Apresentação do Curso */}
-          <div className="bg-white rounded-none shadow-md overflow-hidden mb-16 transition-all duration-300 hover:shadow-lg">
-            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[490px] lg:min-h-[560px]">
+          <div
+            onClick={() => navigate("/academia/curso/gestao-recursos-humanos")}
+            className="bg-[#0f172a] rounded-none shadow-xl overflow-hidden mb-16 border border-slate-800 transition-all duration-300 cursor-pointer group">
+            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[320px] lg:min-h-[320px]">
               {/* Informações da Capa do Curso */}
-              <div className="lg:col-span-6 p-8 sm:p-12 lg:p-14 flex flex-col justify-center bg-gradient-to-br from-gray-900 to-gray-800 text-white">
-                <div className="flex items-center space-x-2 text-red-400 text-sm font-semibold uppercase mb-4">
+              <div className="lg:col-span-7 p-8 sm:p-10 lg:p-12 flex flex-col justify-center text-white relative z-10 text-left">
+                <div className="text-red-500 text-xs font-semibold uppercase tracking-wider mb-3">
                   <span>Qualificação Profissional</span>
                 </div>
-                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight tracking-tight">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 leading-tight">
                   Gestão de Recursos Humanos
                 </h3>
-                <p className="text-gray-300 text-[13px] sm:text-[13px] leading-relaxed mb-8 max-w-xl">
+                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-8 max-w-xl font-normal">
                   Dotar os participantes de competências técnicas, jurídicas e
                   operacionais que lhes permitam gerir, de forma íntegra e
                   eficiente, o ciclo completo da relação laboral - da admissão
@@ -483,44 +485,55 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
                   Administração.
                 </p>
 
-                {/* Métricas e Características Rápidas */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-6 border-t border-white/10">
+                {/* Linha divisória e Specs Grid */}
+                <div className="grid grid-cols-3 gap-6 pt-6 border-t border-slate-700/90 text-left mb-6">
                   <div>
-                    <span className="block text-gray-400 text-[11px]">
+                    <span className="block text-slate-400 text-xs font-normal mb-1">
                       Duração
                     </span>
-                    <span className="text-[11px] font-semibold text-white">
+                    <span className="text-xs sm:text-sm font-semibold text-white">
                       60 Horas
                     </span>
                   </div>
                   <div>
-                    <span className="block text-gray-400 text-[11px]">
+                    <span className="block text-slate-400 text-xs font-normal mb-1">
                       Formato
                     </span>
-                    <span className="text-[11px] font-semibold text-white">
-                      Presencial ou misto
+                    <span className="text-xs sm:text-sm font-semibold text-white">
+                      Presencial
                     </span>
                   </div>
                   <div>
-                    <span className="block text-gray-400 text-[11px]">
+                    <span className="block text-slate-400 text-xs font-normal mb-1">
                       Idioma
                     </span>
-                    <span className="text-[11px] font-semibold text-white">
+                    <span className="text-xs sm:text-sm font-semibold text-white">
                       Português
                     </span>
                   </div>
                 </div>
+
+                {/* Botão Ver Programa */}
+                <div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate("/academia/curso/gestao-recursos-humanos");
+                    }}
+                    className="inline-flex items-center justify-center px-5 py-2 rounded-[4px] border border-slate-600 hover:border-slate-400 text-white text-xs sm:text-sm font-medium bg-[#0f172a] hover:bg-slate-800/80 transition-all cursor-pointer shadow-xs">
+                    Ver Programa
+                  </button>
+                </div>
               </div>
 
-              {/* Capa Visual do Curso (Altura aumentada e enquadramento perfeito) */}
-              <div className="lg:col-span-6 relative min-h-[380px] sm:min-h-[440px] lg:min-h-[520px] overflow-hidden bg-slate-950">
+              {/* Capa Visual do Curso */}
+              <div className="lg:col-span-5 relative min-h-[260px] sm:min-h-[320px] lg:min-h-full overflow-hidden bg-slate-950">
                 <img
                   src="/academia/RH.png"
                   alt="Capa do Curso Gestão de Recursos Humanos"
-                  className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
+                  className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
               </div>
             </div>
           </div>
