@@ -333,7 +333,7 @@ export default function Cursos() {
             <div
               onClick={() => navigate(`/academia/curso/${cursoDestaque.id}`)}
               className="bg-[#0f172a] rounded-none shadow-xl overflow-hidden mb-12 border border-slate-800 transition-all duration-300 cursor-pointer group">
-              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[380px] lg:min-h-[360px]">
+              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[340px] lg:min-h-[340px]">
                 {/* Informações da Capa do Curso */}
                 <div className="lg:col-span-7 p-8 sm:p-10 lg:p-12 flex flex-col justify-center text-white relative z-10">
                   <div className="text-red-500 text-xs font-semibold uppercase tracking-wider mb-3">
@@ -353,7 +353,7 @@ export default function Cursos() {
                   </p>
 
                   {/* Linha divisória e Specs Grid */}
-                  <div className="grid grid-cols-3 gap-6 pt-6 border-t border-slate-700/90 text-left">
+                  <div className="grid grid-cols-3 gap-6 pt-6 border-t border-slate-700/90 text-left mb-6">
                     <div>
                       <span className="block text-slate-400 text-xs font-normal mb-1">
                         Duração
@@ -378,6 +378,18 @@ export default function Cursos() {
                         {cursoDestaque.idioma || "Português"}
                       </span>
                     </div>
+                  </div>
+
+                  {/* Botão Ver Programa */}
+                  <div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/academia/curso/${cursoDestaque.id}`);
+                      }}
+                      className="inline-flex items-center justify-center px-5 py-2 rounded-[4px] border border-slate-600 hover:border-slate-400 text-white text-xs sm:text-sm font-medium bg-[#0f172a] hover:bg-slate-800/80 transition-all cursor-pointer shadow-xs">
+                      Ver Programa
+                    </button>
                   </div>
                 </div>
 
