@@ -27,7 +27,6 @@ const mainNavItems = [
 export default function NavbarAcademia() {
   const [megaMenuAberto, setMegaMenuAberto] = useState(false);
   const [searchAberto, setSearchAberto] = useState(false);
-  const [userMenuAberto, setUserMenuAberto] = useState(false);
   const [mobileMenuAberto, setMobileMenuAberto] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
@@ -35,7 +34,6 @@ export default function NavbarAcademia() {
   const navigate = useNavigate();
   const searchInputRef = useRef<HTMLInputElement>(null);
   const megaMenuRef = useRef<HTMLDivElement>(null);
-  const userMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,7 +59,6 @@ export default function NavbarAcademia() {
   useEffect(() => {
     setMegaMenuAberto(false);
     setSearchAberto(false);
-    setUserMenuAberto(false);
     setMobileMenuAberto(false);
   }, [location]);
 
@@ -72,12 +69,6 @@ export default function NavbarAcademia() {
         !megaMenuRef.current.contains(event.target as Node)
       ) {
         setMegaMenuAberto(false);
-      }
-      if (
-        userMenuRef.current &&
-        !userMenuRef.current.contains(event.target as Node)
-      ) {
-        setUserMenuAberto(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -173,7 +164,6 @@ export default function NavbarAcademia() {
               onClick={() => {
                 setMegaMenuAberto(!megaMenuAberto);
                 setSearchAberto(false);
-                setUserMenuAberto(false);
               }}
               className={`flex items-center space-x-1 px-3 py-1.5 text-[13px] font-normal rounded border border-transparent transition-all ${
                 megaMenuAberto
@@ -371,7 +361,6 @@ export default function NavbarAcademia() {
                 onClick={() => {
                   setSearchAberto(true);
                   setMegaMenuAberto(false);
-                  setUserMenuAberto(false);
                 }}
                 className={`p-2 rounded transition-colors ${
                   isRightControlWhite
@@ -381,65 +370,6 @@ export default function NavbarAcademia() {
                 title="Pesquisar">
                 <Search size={18} />
               </button>
-            )}
-          </div>
-
-          {/* User Profile Avatar ("EA") - Links Desabilitados */}
-          <div className="relative" ref={userMenuRef}>
-            <button
-              onClick={() => {
-                setUserMenuAberto(!userMenuAberto);
-                setMegaMenuAberto(false);
-                setSearchAberto(false);
-              }}
-              className={`w-8 h-8 rounded-full border flex items-center justify-center text-xs font-semibold transition-colors focus:outline-none ml-1 ${
-                isRightControlWhite
-                  ? "border-white/70 text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] hover:border-white hover:bg-white/10"
-                  : "border-gray-400 text-[#262626] hover:border-black hover:bg-gray-100"
-              }`}
-              title="Sua Conta">
-              <span className="tracking-tighter">EA</span>
-            </button>
-
-            {/* Menu Suspenso de Utilizador Desabilitado */}
-            {userMenuAberto && (
-              <div className="absolute right-0 top-[43px] w-60 bg-white border-b border-l border-r border-t-0 border-[#e6e6e6] shadow-xl rounded-b-md py-2 z-40 animate-in fade-in slide-in-from-top-1 duration-150 text-[#262626]">
-                <div className="px-4 py-2 border-b border-gray-100">
-                  <p className="text-[13px] font-bold text-gray-900">
-                    Envisio Training Academy
-                  </p>
-                  <p className="text-[11px] text-gray-500 truncate">
-                    Plataforma E-learning
-                  </p>
-                </div>
-
-                {/* Itens Habilitados */}
-                <div className="py-1 space-y-0.5">
-                  <Link
-                    to="/academia/aluno"
-                    onClick={() => setUserMenuAberto(false)}
-                    className="flex items-center px-4 py-2 text-[13px] text-red-800 font-bold hover:bg-red-50 transition-colors">
-                    <GraduationCap size={14} className="mr-2.5 text-red-800" />
-                    <span>Portal do Aluno</span>
-                  </Link>
-
-                  <Link
-                    to="/academia/login"
-                    onClick={() => setUserMenuAberto(false)}
-                    className="flex items-center px-4 py-2 text-[13px] text-gray-700 hover:bg-gray-100 hover:text-black transition-colors">
-                    <User size={14} className="mr-2.5 text-gray-500" />
-                    <span>Iniciar Sessão</span>
-                  </Link>
-
-                  <Link
-                    to="/academia/cadastro"
-                    onClick={() => setUserMenuAberto(false)}
-                    className="flex items-center px-4 py-2 text-[13px] text-gray-700 hover:bg-gray-100 hover:text-black transition-colors">
-                    <User size={14} className="mr-2.5 text-gray-500" />
-                    <span>Criar Conta</span>
-                  </Link>
-                </div>
-              </div>
             )}
           </div>
 
@@ -488,21 +418,6 @@ export default function NavbarAcademia() {
               {item.nome}
             </Link>
           ))}
-
-          <div className="pt-2 flex flex-col space-y-2">
-            <Link
-              to="/academia/login"
-              onClick={() => setMobileMenuAberto(false)}
-              className="w-full text-center py-2 text-xs font-semibold border border-gray-300 rounded text-gray-800 hover:bg-gray-50">
-              Entrar na Plataforma
-            </Link>
-            <Link
-              to="/academia/cadastro"
-              onClick={() => setMobileMenuAberto(false)}
-              className="w-full text-center py-2 text-xs font-semibold bg-red-600 text-white rounded hover:bg-red-700">
-              Criar Conta
-            </Link>
-          </div>
         </div>
       )}
     </header>
