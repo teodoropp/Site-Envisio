@@ -176,8 +176,18 @@ export default function CursoDetalhe() {
       duracaoTotal: "",
       ordem: 1,
       aulas: [
-        { id: "m4-1-a1", titulo: "Conceitos de SGBD e Modelo Relacional", tipo: "texto", duracao: "" },
-        { id: "m4-1-a2", titulo: "Instalação do SQL Server e SSMS", tipo: "texto", duracao: "" },
+        {
+          id: "m4-1-a1",
+          titulo: "Conceitos de SGBD e Modelo Relacional",
+          tipo: "texto",
+          duracao: "",
+        },
+        {
+          id: "m4-1-a2",
+          titulo: "Instalação do SQL Server e SSMS",
+          tipo: "texto",
+          duracao: "",
+        },
       ],
     },
     {
@@ -186,8 +196,18 @@ export default function CursoDetalhe() {
       duracaoTotal: "",
       ordem: 2,
       aulas: [
-        { id: "m4-2-a1", titulo: "CREATE, ALTER, DROP e Restrições (PK, FK)", tipo: "texto", duracao: "" },
-        { id: "m4-2-a2", titulo: "INSERT, UPDATE, DELETE e SELECT", tipo: "texto", duracao: "" },
+        {
+          id: "m4-2-a1",
+          titulo: "CREATE, ALTER, DROP e Restrições (PK, FK)",
+          tipo: "texto",
+          duracao: "",
+        },
+        {
+          id: "m4-2-a2",
+          titulo: "INSERT, UPDATE, DELETE e SELECT",
+          tipo: "texto",
+          duracao: "",
+        },
       ],
     },
     {
@@ -196,8 +216,18 @@ export default function CursoDetalhe() {
       duracaoTotal: "",
       ordem: 3,
       aulas: [
-        { id: "m4-3-a1", titulo: "INNER, LEFT, RIGHT, FULL OUTER JOIN", tipo: "texto", duracao: "" },
-        { id: "m4-3-a2", titulo: "Agrupamentos (GROUP BY, HAVING) e Funções de Agregação", tipo: "texto", duracao: "" },
+        {
+          id: "m4-3-a1",
+          titulo: "INNER, LEFT, RIGHT, FULL OUTER JOIN",
+          tipo: "texto",
+          duracao: "",
+        },
+        {
+          id: "m4-3-a2",
+          titulo: "Agrupamentos (GROUP BY, HAVING) e Funções de Agregação",
+          tipo: "texto",
+          duracao: "",
+        },
       ],
     },
     {
@@ -206,14 +236,26 @@ export default function CursoDetalhe() {
       duracaoTotal: "",
       ordem: 4,
       aulas: [
-        { id: "m4-4-a1", titulo: "Criação de Stored Procedures e Triggers", tipo: "texto", duracao: "" },
-        { id: "m4-4-a2", titulo: "Estratégias de Backup, Restore e Otimização", tipo: "texto", duracao: "" },
+        {
+          id: "m4-4-a1",
+          titulo: "Criação de Stored Procedures e Triggers",
+          tipo: "texto",
+          duracao: "",
+        },
+        {
+          id: "m4-4-a2",
+          titulo: "Estratégias de Backup, Restore e Otimização",
+          tipo: "texto",
+          duracao: "",
+        },
       ],
     },
   ];
 
   const modulosFonte: Modulo[] =
-    (modulosDefinidosAqui && modulosDefinidosAqui.length > 0 && modulosDefinidosAqui) ||
+    (modulosDefinidosAqui &&
+      modulosDefinidosAqui.length > 0 &&
+      modulosDefinidosAqui) ||
     (dictById && dictById.length > 0 && dictById) ||
     (modulos && modulos.length > 0 && modulos) ||
     modulosDataFallback;
@@ -222,11 +264,8 @@ export default function CursoDetalhe() {
 
   return (
     <div className="bg-slate-50 min-h-screen font-sans text-slate-800 text-left">
-      {/* HERO SECTION: Dark Violet Theme */}
-      <section className="bg-[#180e29] !text-white relative pt-24 pb-16 lg:pb-24 border-b border-slate-800 overflow-hidden">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-10 w-72 h-72 bg-violet-600/15 rounded-full blur-3xl pointer-events-none" />
-
+      {/* HERO SECTION: Dark Blue (bg-slate-900) igual ao curso1 */}
+      <section className="bg-slate-900 !text-white relative pt-24 pb-16 lg:pb-24 border-b border-slate-800 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-8 text-xs text-slate-300">
             <button
@@ -243,11 +282,11 @@ export default function CursoDetalhe() {
                 {cursoExibir.categoria || "Base de Dados"}
               </span>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black !text-white tracking-tight leading-tight mb-4">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold !text-white tracking-tight leading-tight mb-3">
                 {cursoExibir.titulo}
               </h1>
 
-              <p className="!text-slate-200 text-base sm:text-lg leading-relaxed mb-6 max-w-2xl font-normal">
+              <p className="!text-slate-200 text-[14px] leading-relaxed mb-6 max-w-2xl font-normal">
                 {cursoExibir.descricao}
               </p>
 
@@ -260,7 +299,9 @@ export default function CursoDetalhe() {
                 </button>
                 <button
                   onClick={() => {
-                    const elem = document.getElementById("conteudo-programatico");
+                    const elem = document.getElementById(
+                      "conteudo-programatico",
+                    );
                     if (elem) elem.scrollIntoView({ behavior: "smooth" });
                   }}
                   className="btn-academia-secondary px-6 py-3.5 text-xs uppercase tracking-wider cursor-pointer">
@@ -283,28 +324,44 @@ export default function CursoDetalhe() {
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-slate-700 font-medium">
                 <div className="flex items-center gap-3">
-                  <CheckCircle2 size={18} className="text-emerald-500 flex-shrink-0" />
+                  <CheckCircle2
+                    size={18}
+                    className="text-emerald-500 flex-shrink-0"
+                  />
                   <span>Competência Sólida</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <CheckCircle2 size={18} className="text-emerald-500 flex-shrink-0" />
+                  <CheckCircle2
+                    size={18}
+                    className="text-emerald-500 flex-shrink-0"
+                  />
                   <span>Reconhecimento Profissional</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <CheckCircle2 size={18} className="text-emerald-500 flex-shrink-0" />
+                  <CheckCircle2
+                    size={18}
+                    className="text-emerald-500 flex-shrink-0"
+                  />
                   <span>Confiança Total</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <CheckCircle2 size={18} className="text-emerald-500 flex-shrink-0" />
+                  <CheckCircle2
+                    size={18}
+                    className="text-emerald-500 flex-shrink-0"
+                  />
                   <span>Networking</span>
                 </div>
               </div>
             </div>
 
-            <div id="conteudo-programatico" className="bg-white rounded-[5px] p-6 sm:p-8 border border-slate-200/80 shadow-sm scroll-mt-24">
+            <div
+              id="conteudo-programatico"
+              className="bg-white rounded-[5px] p-6 sm:p-8 border border-slate-200/80 shadow-sm scroll-mt-24">
               <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                 <div>
-                  <h2 className="text-xl font-bold text-slate-900">Conteúdo Programático</h2>
+                  <h2 className="text-xl font-bold text-slate-900">
+                    Conteúdo Programático
+                  </h2>
                   <p className="text-xs text-slate-500 mt-1">
                     {modulosFonte.length} Módulos organizados sequencialmente
                   </p>
@@ -345,26 +402,35 @@ export default function CursoDetalhe() {
                         </div>
                         <ChevronDown
                           className={`text-slate-400 transition-transform duration-200 flex-shrink-0 ${
-                            moduloAberto === index ? "transform rotate-180 text-slate-700" : ""
+                            moduloAberto === index
+                              ? "transform rotate-180 text-slate-700"
+                              : ""
                           }`}
                           size={18}
                         />
                       </button>
 
-                      {moduloAberto === index && modulo.aulas && modulo.aulas.length > 0 && (
-                        <div className="divide-y divide-slate-100 bg-white border-t border-slate-200/80">
-                          {modulo.aulas.map((aula: Aula) => (
-                            <div
-                              key={aula.id}
-                              className="px-5 py-3 flex items-center justify-between hover:bg-slate-50/80 transition-colors">
-                              <div className="flex items-center gap-3">
-                                <FileText className="text-slate-400" size={15} />
-                                <span className="text-xs font-normal text-slate-600">{aula.titulo}</span>
+                      {moduloAberto === index &&
+                        modulo.aulas &&
+                        modulo.aulas.length > 0 && (
+                          <div className="divide-y divide-slate-100 bg-white border-t border-slate-200/80">
+                            {modulo.aulas.map((aula: Aula) => (
+                              <div
+                                key={aula.id}
+                                className="px-5 py-3 flex items-center justify-between hover:bg-slate-50/80 transition-colors">
+                                <div className="flex items-center gap-3">
+                                  <FileText
+                                    className="text-slate-400"
+                                    size={15}
+                                  />
+                                  <span className="text-xs font-normal text-slate-600">
+                                    {aula.titulo}
+                                  </span>
+                                </div>
                               </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
+                            ))}
+                          </div>
+                        )}
                     </div>
                   ))}
                 </div>
@@ -384,12 +450,15 @@ export default function CursoDetalhe() {
                   className="w-16 h-16 rounded-full object-cover border-2 border-slate-200 shadow-sm flex-shrink-0"
                 />
                 <div className="flex-1">
-                  <h3 className="text-base font-bold text-slate-900">Dra. Maria Mendes</h3>
+                  <h3 className="text-base font-bold text-slate-900">
+                    Dra. Maria Mendes
+                  </h3>
                   <p className="text-[10px] font-semibold text-purple-600 uppercase tracking-wider mb-2">
                     Arquiteta de Dados & DBA SQL Server
                   </p>
                   <p className="text-xs text-slate-600 leading-relaxed mb-3 line-clamp-2">
-                    Mais de 11 anos de experiência no desenho de arquiteturas de dados de alta disponibilidade.
+                    Mais de 11 anos de experiência no desenho de arquiteturas de
+                    dados de alta disponibilidade.
                   </p>
                   <button
                     onClick={() => setModalFormadorAberto(true)}
@@ -403,7 +472,9 @@ export default function CursoDetalhe() {
 
             <div className="bg-white rounded-[5px] p-6 border border-slate-200/80 shadow-sm">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold text-slate-900">O que dizem os nossos alunos</h2>
+                <h2 className="text-lg font-bold text-slate-900">
+                  O que dizem os nossos alunos
+                </h2>
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() =>
@@ -429,9 +500,11 @@ export default function CursoDetalhe() {
               <div className="p-4 bg-slate-50 rounded-[5px] border border-slate-100 min-h-[140px] flex flex-col justify-between">
                 <div>
                   <div className="flex items-center gap-1 text-amber-400 mb-2">
-                    {[...Array(listaDepoimentos[depoimentoAtual].estrelas)].map((_, i) => (
-                      <Star key={i} size={14} fill="currentColor" />
-                    ))}
+                    {[...Array(listaDepoimentos[depoimentoAtual].estrelas)].map(
+                      (_, i) => (
+                        <Star key={i} size={14} fill="currentColor" />
+                      ),
+                    )}
                   </div>
                   <p className="text-xs text-slate-600 italic mb-3 leading-relaxed">
                     "{listaDepoimentos[depoimentoAtual].texto}"
@@ -449,16 +522,24 @@ export default function CursoDetalhe() {
             </div>
 
             <div className="bg-white rounded-[5px] p-6 border border-slate-200/80 shadow-sm">
-              <h2 className="text-lg font-bold text-slate-900 mb-4">Requisitos da Formação</h2>
+              <h2 className="text-lg font-bold text-slate-900 mb-4">
+                Requisitos da Formação
+              </h2>
               <ul className="space-y-3 text-xs text-slate-600">
                 {cursoExibir.requisitos?.map((req: any, idx: number) => (
                   <li key={idx} className="flex items-start gap-2.5">
-                    <Check size={16} className="text-purple-600 mt-0.5 flex-shrink-0" />
+                    <Check
+                      size={16}
+                      className="text-purple-600 mt-0.5 flex-shrink-0"
+                    />
                     <span>{req}</span>
                   </li>
                 )) || (
                   <li className="flex items-start gap-2.5">
-                    <Check size={16} className="text-purple-600 mt-0.5 flex-shrink-0" />
+                    <Check
+                      size={16}
+                      className="text-purple-600 mt-0.5 flex-shrink-0"
+                    />
                     <span>Computador portátil com acesso à internet.</span>
                   </li>
                 )}
@@ -496,23 +577,29 @@ export default function CursoDetalhe() {
                 <ul className="space-y-3 text-xs text-slate-600 mb-6">
                   <li className="flex items-center gap-3">
                     <Clock size={16} className="text-slate-400" />
-                    <span><strong>120 Horas</strong> de formação prática</span>
+                    <span>
+                      <strong>120 Horas</strong> de formação prática
+                    </span>
                   </li>
                   <li className="flex items-center gap-3">
                     <BarChart size={16} className="text-slate-400" />
-                    <span>Nível <strong>Intermédio a Avançado</strong></span>
+                    <span>
+                      Nível <strong>Intermédio a Avançado</strong>
+                    </span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Award size={16} className="text-slate-400" />
-                    <span><strong>Certificado de Conclusão</strong> Oficial</span>
+                    <span>
+                      <strong>Certificado de Conclusão</strong> Oficial
+                    </span>
                   </li>
                 </ul>
 
-                <div className="text-center mt-10 mb-8">
+                <div className="text-center ml-[75px] mt-8 mb-6">
                   <button
                     onClick={() => setModalInscricaoAberto(true)}
-                    className="inline-flex items-center gap-1 text-xs font-bold text-slate-900 hover:text-red-600 uppercase tracking-wider transition-colors duration-200 cursor-pointer">
-                    <span>Inscreva-se Agora</span>
+                    className="px-6 py-2 bg-red-600 hover:bg-red-700  text-xs font-bold text-white uppercase tracking-wider transition-colors duration-200 cursor-pointer shadow-xs rounded-none flex items-center justify-center">
+                    <span>INSCREVA-SE AGORA</span>
                   </button>
                 </div>
 
@@ -528,11 +615,15 @@ export default function CursoDetalhe() {
                           });
                         } catch (err) {
                           navigator.clipboard.writeText(window.location.href);
-                          toast.success("Link copiado para a área de transferência!");
+                          toast.success(
+                            "Link copiado para a área de transferência!",
+                          );
                         }
                       } else {
                         navigator.clipboard.writeText(window.location.href);
-                        toast.success("Link copiado para a área de transferência!");
+                        toast.success(
+                          "Link copiado para a área de transferência!",
+                        );
                       }
                     }}
                     className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-800 font-medium transition-colors">
@@ -558,7 +649,8 @@ export default function CursoDetalhe() {
               Outras Formações Recomendadas
             </h2>
             <p className="text-slate-500 text-xs mt-2 font-normal max-w-lg">
-              Explore formações práticas e especializadas para impulsionar a sua carreira no mercado corporativo.
+              Explore formações práticas e especializadas para impulsionar a sua
+              carreira no mercado corporativo.
             </p>
           </div>
 
@@ -582,7 +674,9 @@ export default function CursoDetalhe() {
                 <div className="flex items-center gap-1 text-amber-500 font-bold text-[11px] mb-1.5">
                   <Star size={12} fill="currentColor" />
                   <span>4.9</span>
-                  <span className="text-slate-400 font-normal text-[10px]">(128)</span>
+                  <span className="text-slate-400 font-normal text-[10px]">
+                    (128)
+                  </span>
                 </div>
                 <h3 className="font-bold text-sm text-slate-900 group-hover:text-purple-600 transition-colors mb-1.5 line-clamp-1">
                   Cegid Primavera ERP
@@ -591,7 +685,9 @@ export default function CursoDetalhe() {
                   Operação e parametrização nos módulos de Vendas, Compras e RH.
                 </p>
                 <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
-                  <span className="text-slate-400 font-medium text-[10px]">120 Horas</span>
+                  <span className="text-slate-400 font-medium text-[10px]">
+                    120 Horas
+                  </span>
                   <span className="text-purple-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 text-[11px] font-bold">
                     Saber mais &rarr;
                   </span>
@@ -618,16 +714,21 @@ export default function CursoDetalhe() {
                 <div className="flex items-center gap-1 text-amber-500 font-bold text-[11px] mb-1.5">
                   <Star size={12} fill="currentColor" />
                   <span>4.9</span>
-                  <span className="text-slate-400 font-normal text-[10px]">(96)</span>
+                  <span className="text-slate-400 font-normal text-[10px]">
+                    (96)
+                  </span>
                 </div>
                 <h3 className="font-bold text-sm text-slate-900 group-hover:text-purple-600 transition-colors mb-1.5 line-clamp-1">
                   Programação Web & React
                 </h3>
                 <p className="text-[11px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
-                  HTML5, CSS3, JavaScript ES6+ e React.js para interfaces modernas.
+                  HTML5, CSS3, JavaScript ES6+ e React.js para interfaces
+                  modernas.
                 </p>
                 <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
-                  <span className="text-slate-400 font-medium text-[10px]">80 Horas</span>
+                  <span className="text-slate-400 font-medium text-[10px]">
+                    80 Horas
+                  </span>
                   <span className="text-purple-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 text-[11px] font-bold">
                     Saber mais &rarr;
                   </span>
@@ -654,16 +755,21 @@ export default function CursoDetalhe() {
                 <div className="flex items-center gap-1 text-amber-500 font-bold text-[11px] mb-1.5">
                   <Star size={12} fill="currentColor" />
                   <span>4.9</span>
-                  <span className="text-slate-400 font-normal text-[10px]">(84)</span>
+                  <span className="text-slate-400 font-normal text-[10px]">
+                    (84)
+                  </span>
                 </div>
                 <h3 className="font-bold text-sm text-slate-900 group-hover:text-purple-600 transition-colors mb-1.5 line-clamp-1">
                   Redes & Segurança de Informação
                 </h3>
                 <p className="text-[11px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
-                  Infraestrutura Cisco, Firewalls, VPNs e ciberdefesa empresarial.
+                  Infraestrutura Cisco, Firewalls, VPNs e ciberdefesa
+                  empresarial.
                 </p>
                 <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
-                  <span className="text-slate-400 font-medium text-[10px]">100 Horas</span>
+                  <span className="text-slate-400 font-medium text-[10px]">
+                    100 Horas
+                  </span>
                   <span className="text-purple-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 text-[11px] font-bold">
                     Saber mais &rarr;
                   </span>
@@ -690,7 +796,9 @@ export default function CursoDetalhe() {
                 <div className="flex items-center gap-1 text-amber-500 font-bold text-[11px] mb-1.5">
                   <Star size={12} fill="currentColor" />
                   <span>4.9</span>
-                  <span className="text-slate-400 font-normal text-[10px]">(112)</span>
+                  <span className="text-slate-400 font-normal text-[10px]">
+                    (112)
+                  </span>
                 </div>
                 <h3 className="font-bold text-sm text-slate-900 group-hover:text-purple-600 transition-colors mb-1.5 line-clamp-1">
                   Base de Dados SQL Server
@@ -699,7 +807,9 @@ export default function CursoDetalhe() {
                   Modelagem relacional, T-SQL, Stored Procedures e Backup.
                 </p>
                 <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
-                  <span className="text-slate-400 font-medium text-[10px]">120 Horas</span>
+                  <span className="text-slate-400 font-medium text-[10px]">
+                    120 Horas
+                  </span>
                   <span className="text-purple-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 text-[11px] font-bold">
                     Saber mais &rarr;
                   </span>
@@ -719,8 +829,11 @@ export default function CursoDetalhe() {
         </div>
       </section>
 
-
-      <ModalVideo isOpen={modalAberto} onClose={() => setModalAberto(false)} videoUrl={videoUrl} />
+      <ModalVideo
+        isOpen={modalAberto}
+        onClose={() => setModalAberto(false)}
+        videoUrl={videoUrl}
+      />
       <FormularioInscricao
         isOpen={modalInscricaoAberto}
         onClose={() => setModalInscricaoAberto(false)}
@@ -775,7 +888,9 @@ export default function CursoDetalhe() {
                     SOBRE A ESPECIALISTA
                   </span>
                   <p className="text-xs text-slate-600 leading-relaxed font-normal">
-                    Especialista em administração de servidores SQL Server, Tuning de performance, Business Intelligence e Data Warehousing.
+                    Especialista em administração de servidores SQL Server,
+                    Tuning de performance, Business Intelligence e Data
+                    Warehousing.
                   </p>
                 </div>
 

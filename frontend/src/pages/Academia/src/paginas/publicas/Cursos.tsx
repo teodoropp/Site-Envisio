@@ -5,254 +5,87 @@ import {
   ChevronRight,
   ChevronLeft,
   ArrowRight,
-  Star,
   Clock,
   BarChart,
   User,
-  Search,
   LayoutGrid,
   List,
-  Trophy,
-  Calendar,
-  FileText,
-  PlayCircle,
-  Users,
   BookOpen,
+  Lock,
+  Sparkles,
 } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
+import { useCursos } from "../../hooks/useCursos";
+import { Curso } from "../../tipos/Curso";
+import { isCursoAtivo } from "../../servicos/cursoService";
 
-// Interface estendida do Curso para exibição rica de dados offline
-interface CursoEstatico {
-  id: string;
-  titulo: string;
-  descricao: string;
-  categoria: string;
-  status: "disponivel" | "breve";
-  imagemUrl: string;
-  duracao: string;
-  estrelas: number;
-  avaliacoes: number;
-  professor: string;
-  nivel: string;
-  preco?: string;
-  novo?: boolean;
-}
+// Helper para obter nome do instrutor
+const getInstrutorNome = (instrutor?: any) => {
+  if (!instrutor) return "Formador Envisio";
+  if (typeof instrutor === "string") return instrutor;
+  return instrutor.nome || "Formador Envisio";
+};
 
-const CURSOS_ESTATICOS: CursoEstatico[] = [
-  {
-    id: "cegid-primavera",
-    titulo: "Cegid Primavera: Funcionalidades e Boas Práticas",
-    descricao:
-      "Domine o Cegid Primavera: conceitos, parametrização e boas práticas no ERP.",
-    categoria: "ERP & Gestão",
-    status: "disponivel",
-    imagemUrl: "/academia/primavera.svg",
-    duracao: "120h",
-    estrelas: 4.9,
-    avaliacoes: 128,
-    professor: "João Silva",
-    nivel: "Intermédio",
-  },
-  {
-    id: "programacao-web-frontend",
-    titulo: "Programação Web Front-end Completo",
-    descricao:
-      "HTML, CSS e JavaScript modernos. Crie interfaces responsivas de altíssimo nível.",
-    categoria: "Programação",
-    status: "disponivel",
-    imagemUrl: "/academia/frontend.jpg",
-    duracao: "80h",
-    estrelas: 4.8,
-    avaliacoes: 96,
-    professor: "Pedro Costa",
-    nivel: "Iniciante",
-  },
-  {
-    id: "power-bi",
-    titulo: "Power BI — Business Intelligence na Prática",
-    descricao:
-      "Desenvolva relatórios interativos e dashboards avançados para decisão.",
-    categoria: "Dados & BI",
-    status: "disponivel",
-    imagemUrl: "/academia/pagina home/inscricao.webp",
-    duracao: "50h",
-    estrelas: 4.9,
-    avaliacoes: 110,
-    professor: "Ana Santos",
-    nivel: "Intermédio",
-  },
-  {
-    id: "sql-server",
-    titulo: "SQL Server — Banco de Dados Essencial",
-    descricao:
-      "Consultas SQL, modelagem relacional, procedures e noções de administração.",
-    categoria: "Dados & BI",
-    status: "disponivel",
-    imagemUrl: "/academia/sql.png",
-    duracao: "60h",
-    estrelas: 4.8,
-    avaliacoes: 82,
-    professor: "Ana Santos",
-    nivel: "Intermédio",
-  },
-  {
-    id: "logica-de-programacao",
-    titulo: "Lógica de Programação e Algoritmos",
-    descricao:
-      "Fundamentos essenciais: variáveis, decisões, loops e estruturas de dados.",
-    categoria: "Programação",
-    status: "disponivel",
-    imagemUrl: "/academia/logica.png",
-    duracao: "40h",
-    estrelas: 4.7,
-    avaliacoes: 64,
-    professor: "Pedro Costa",
-    nivel: "Iniciante",
-  },
-  {
-    id: "excel-avancado",
-    titulo: "Microsoft Excel Corporativo Avançado",
-    descricao:
-      "Automatize tarefas, crie análises avançadas e relatórios profissionais.",
-    categoria: "Produtividade",
-    status: "disponivel",
-    imagemUrl: "/academia/co-working-people-working-together.jpg",
-    duracao: "40h",
-    estrelas: 4.8,
-    avaliacoes: 154,
-    professor: "Patrícia Ramos",
-    nivel: "Avançado",
-  },
-  {
-    id: "gestao-projetos-agile",
-    titulo: "Gestão de Projetos & Metodologias Ágeis",
-    descricao:
-      "Aprenda a liderar equipas de tecnologia com Scrum, Kanban e gestão.",
-    categoria: "Gestão & Liderança",
-    status: "disponivel",
-    imagemUrl: "/academia/pagina home/inscricao.webp",
-    duracao: "45h",
-    estrelas: 4.9,
-    avaliacoes: 68,
-    professor: "Eng. Fernando Costa",
-    nivel: "Intermédio",
-  },
-  {
-    id: "ciberseguranca-redes",
-    titulo: "Cibersegurança & Defesa de Redes",
-    descricao:
-      "Proteja sistemas e dados contra ameaças e vulnerabilidades corporativas.",
-    categoria: "Redes & Segurança",
-    status: "disponivel",
-    imagemUrl: "/academia/logica.png",
-    duracao: "65h",
-    estrelas: 4.9,
-    avaliacoes: 94,
-    professor: "Eng. Pedro Santos",
-    nivel: "Intermédio",
-  },
-];
-
-// Dados extra para as Novidades (simulação)
-const NOVIDADES_ESTATICOS: CursoEstatico[] = [
-  {
-    id: "ia-fundamentos",
-    titulo: "Inteligência Artificial Fundamentos",
-    descricao: "Conceitos básicos de Machine Learning e Aplicações IA.",
-    categoria: "IA",
-    status: "disponivel",
-    imagemUrl: "/academia/logica.png",
-    duracao: "30h",
-    estrelas: 5.0,
-    avaliacoes: 12,
-    professor: "Rafael Lima",
-    nivel: "Iniciante",
-    novo: true,
-  },
-  {
-    id: "cegid-retail",
-    titulo: "Cegid Retail — Gestão Comercial Completa",
-    descricao: "Domine o POS e gestão de lojas do Cegid Retail.",
-    categoria: "ERP & Gestão",
-    status: "disponivel",
-    imagemUrl: "/academia/primavera.svg",
-    duracao: "25h",
-    estrelas: 4.5,
-    avaliacoes: 8,
-    professor: "João Silva",
-    nivel: "Iniciante",
-    novo: true,
-  },
-  {
-    id: "python-zero",
-    titulo: "Python do Zero ao Avançado",
-    descricao: "A linguagem que domina dados, automação e web.",
-    categoria: "Programação",
-    status: "disponivel",
-    imagemUrl: "/academia/frontend.jpg",
-    duracao: "60h",
-    estrelas: 4.9,
-    avaliacoes: 45,
-    professor: "Lucas Mendes",
-    nivel: "Iniciante",
-    novo: true,
-  },
-  {
-    id: "sql-analise",
-    titulo: "SQL para Análise de Dados",
-    descricao: "Focado em extração de valor para Business Intelligence.",
-    categoria: "Dados & BI",
-    status: "disponivel",
-    imagemUrl: "/academia/sql.png",
-    duracao: "35h",
-    estrelas: 4.8,
-    avaliacoes: 22,
-    professor: "Ana Santos",
-    nivel: "Iniciante",
-    novo: true,
-  },
-];
-
-// Componente para Destaques baseado no mockup da Microsoft
+// Componente para Destaques (layout limpo/Microsoft)
 const CursoCardMicrosoft = ({
   curso,
   navigate,
-  destino,
 }: {
-  curso: CursoEstatico;
+  curso: Curso;
   navigate: any;
-  destino: string;
 }) => {
+  const ativo = isCursoAtivo(curso);
+
   return (
     <div
-      className="flex flex-col text-left group cursor-pointer h-full"
-      onClick={() => navigate(destino)}>
+      className={`flex flex-col text-left group h-full transition-all duration-300 ${
+        ativo
+          ? "cursor-pointer"
+          : "opacity-75 bg-slate-50/50 border border-slate-200/80 rounded-[5px] p-2"
+      }`}
+      onClick={() => ativo && navigate(`/academia/curso/${curso.id}`)}>
       {/* Imagem */}
-      <div className="relative w-full aspect-[16/10] overflow-hidden bg-slate-100 mb-5">
+      <div className="relative w-full aspect-[16/10] overflow-hidden bg-slate-100 mb-5 rounded-[4px]">
         <img
-          src={curso.imagemUrl}
+          src={curso.imagemUrl || "/academia/RH.png"}
           alt={curso.titulo}
-          className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${
-            curso.id === "sql-server"
-              ? "p-4 bg-white border border-slate-200"
-              : ""
+          className={`w-full h-full object-cover object-top transition-transform duration-700 ${
+            ativo
+              ? "group-hover:scale-105"
+              : "grayscale filter opacity-75 contrast-90"
           }`}
         />
+        {!ativo && (
+          <span className="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-md text-amber-300 font-extrabold text-[10px] uppercase tracking-wider px-2.5 py-1 rounded shadow-sm">
+            Em breve
+          </span>
+        )}
       </div>
 
       {/* Título e Descrição */}
-      <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:underline decoration-red-600 decoration-2 underline-offset-4">
+      <h3
+        className={`text-xl font-bold mb-2 ${
+          ativo
+            ? "text-slate-900 group-hover:underline decoration-red-600 decoration-2 underline-offset-4"
+            : "text-slate-700"
+        }`}>
         {curso.titulo}
       </h3>
-      <p className="text-[12px] text-slate-700 leading-relaxed mb-6">
+      <p className="text-[12px] text-slate-600 leading-relaxed mb-6 line-clamp-3">
         {curso.descricao}
       </p>
 
-      {/* Links */}
-      <div className="mt-auto flex items-center gap-6">
-        <span className="text-red-600 text-[15px] font-semibold flex items-center gap-1 group-hover:underline">
-          Ver curso <ChevronRight size={16} />
-        </span>
+      {/* Footer / Ação */}
+      <div className="mt-auto flex items-center justify-between pt-2 border-t border-slate-100">
+        {ativo ? (
+          <span className="text-red-600 text-[15px] font-semibold flex items-center gap-1 group-hover:underline">
+            Ver curso <ChevronRight size={16} />
+          </span>
+        ) : (
+          <span className="text-slate-400 text-[12px] font-bold flex items-center gap-1 uppercase tracking-wider">
+            <Lock size={13} className="text-slate-400" /> Indisponível
+          </span>
+        )}
       </div>
     </div>
   );
@@ -262,45 +95,64 @@ const CursoCardMicrosoft = ({
 const CursoCard = ({
   curso,
   navigate,
-  destino,
   layout = "grid",
 }: {
-  curso: CursoEstatico;
+  curso: Curso;
   navigate: any;
-  destino: string;
   layout?: "grid" | "list";
 }) => {
+  const ativo = isCursoAtivo(curso);
+
   return (
     <div
-      className={`bg-white rounded-[5px] border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group ${layout === "list" ? "flex flex-row h-full items-stretch" : "flex flex-col h-full"}`}>
+      className={`rounded-[5px] border overflow-hidden transition-all duration-300 ${
+        ativo
+          ? "bg-white border-slate-200 shadow-sm hover:shadow-md group"
+          : "bg-slate-50/90 border-slate-200/80 opacity-75"
+      } ${layout === "list" ? "flex flex-row h-full items-stretch" : "flex flex-col h-full"}`}>
       {/* Imagem do curso com badge de categoria */}
       <div
-        className={`relative overflow-hidden flex-shrink-0 bg-slate-100 ${layout === "list" ? "w-64 min-h-[200px]" : "h-44 w-full"}`}>
+        className={`relative overflow-hidden flex-shrink-0 bg-slate-100 ${
+          layout === "list" ? "w-64 min-h-[200px]" : "h-48 w-full"
+        }`}>
         <img
-          src={curso.imagemUrl}
+          src={curso.imagemUrl || "/academia/RH.png"}
           alt={curso.titulo}
-          className={`w-full h-full object-cover object-center scale-[1.03] transition-transform duration-700 group-hover:scale-110 ${
-            curso.id === "sql-server"
-              ? "p-4 bg-white border border-slate-200 !scale-100 group-hover:!scale-105"
-              : ""
+          className={`w-full h-full object-cover object-top ${
+            ativo
+              ? "scale-[1.03] transition-transform duration-700 group-hover:scale-110"
+              : "grayscale filter opacity-75 contrast-90"
           }`}
         />
+
         {/* Categoria tag flutuante estilo pill overlay */}
-        <span className="absolute top-4 left-4 bg-slate-900/40 backdrop-blur-md border border-white/20 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm z-10">
+        <span className="absolute top-4 left-4 bg-slate-900/50 backdrop-blur-md border border-white/20 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm z-10">
           {curso.categoria}
         </span>
-        {curso.novo && (
-          <span className="absolute top-4 right-4 bg-white text-slate-900 px-2 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider shadow-sm z-10">
-            Novo
+
+        {/* Badge de status */}
+        {!ativo ? (
+          <span className="absolute top-4 right-4 bg-amber-500 text-slate-950 px-2.5 py-1 rounded-full text-[9px] font-extrabold uppercase tracking-wider shadow-sm z-10">
+            Em breve
           </span>
+        ) : (
+          curso.novo && (
+            <span className="absolute top-4 right-4 bg-white text-slate-900 px-2 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider shadow-sm z-10">
+              Novo
+            </span>
+          )
         )}
       </div>
 
       {/* Conteúdo (Título, Descrição, Formador) */}
       <div className="p-5 flex flex-col flex-grow text-left bg-white">
         <h3
-          onClick={() => navigate(destino)}
-          className="text-[17px] font-bold text-slate-900 mb-2 leading-snug cursor-pointer group-hover:text-red-600 transition-colors">
+          onClick={() => ativo && navigate(`/academia/curso/${curso.id}`)}
+          className={`text-[17px] font-bold mb-2 leading-snug ${
+            ativo
+              ? "text-slate-900 cursor-pointer group-hover:text-red-600 transition-colors"
+              : "text-slate-700 cursor-not-allowed"
+          }`}>
           {curso.titulo}
         </h3>
 
@@ -310,11 +162,11 @@ const CursoCard = ({
 
         <div className="flex items-center gap-1.5 text-[12px] text-slate-500 font-medium mb-5">
           <User size={14} className="text-slate-400" />
-          <span>{curso.professor}</span>
+          <span>{getInstrutorNome(curso.instrutor)}</span>
         </div>
 
         {/* Rodapé (Duração, Nível, Botão) */}
-        <div className="mt-auto flex items-center justify-between">
+        <div className="mt-auto flex items-center justify-between pt-3 border-t border-slate-100">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1 text-slate-600 text-[12px] font-semibold">
               <Clock size={12} className="text-slate-400" />
@@ -325,11 +177,18 @@ const CursoCard = ({
               {curso.nivel}
             </span>
           </div>
-          <button
-            onClick={() => navigate(destino)}
-            className="text-slate-900 text-[12px] font-bold hover:text-red-600 transition-colors flex items-center gap-1 cursor-pointer">
-            Ver curso <ArrowRight size={12} />
-          </button>
+
+          {ativo ? (
+            <button
+              onClick={() => navigate(`/academia/curso/${curso.id}`)}
+              className="text-slate-900 text-[12px] font-bold hover:text-red-600 transition-colors flex items-center gap-1 cursor-pointer">
+              Ver curso <ArrowRight size={12} />
+            </button>
+          ) : (
+            <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+              <Lock size={12} /> Brevemente
+            </span>
+          )}
         </div>
       </div>
     </div>
@@ -338,6 +197,8 @@ const CursoCard = ({
 
 export default function Cursos() {
   const navigate = useNavigate();
+  const { cursos } = useCursos();
+
   const [busca, setBusca] = useState("");
   const [activeCategory, setActiveCategory] = useState("Todos");
   const [activeNiveis, setActiveNiveis] = useState<string[]>([]);
@@ -346,7 +207,6 @@ export default function Cursos() {
   // Filtros collapsíveis
   const [isCategoriaOpen, setIsCategoriaOpen] = useState(true);
   const [isNivelOpen, setIsNivelOpen] = useState(true);
-  const [isDuracaoOpen, setIsDuracaoOpen] = useState(true);
 
   // Ordenação e visualização
   const [ordenacao, setOrdenacao] = useState("Mais relevantes");
@@ -355,6 +215,15 @@ export default function Cursos() {
   const [paginaAtual, setPaginaAtual] = useState(1);
   const cursosPorPagina = 6;
 
+  // Obter curso em destaque ativo (Gestão de RH)
+  const cursoDestaque = useMemo(() => {
+    return (
+      cursos.find((c) => c.id === "gestao-recursos-humanos") ||
+      cursos.find((c) => isCursoAtivo(c)) ||
+      cursos[0]
+    );
+  }, [cursos]);
+
   // Reset da página ao alterar os filtros
   React.useEffect(() => {
     setPaginaAtual(1);
@@ -362,30 +231,37 @@ export default function Cursos() {
 
   // Filtro de Cursos dinâmico
   const cursosFiltrados = useMemo(() => {
-    let result = [...CURSOS_ESTATICOS, ...NOVIDADES_ESTATICOS].filter((c) => {
+    let result = cursos.filter((c) => {
       const matchCategory =
-        activeCategory === "Todos" || c.categoria === activeCategory;
+        activeCategory === "Todos" ||
+        c.categoria.toLowerCase().includes(activeCategory.toLowerCase());
+
       const matchSearch =
         c.titulo.toLowerCase().includes(busca.toLowerCase()) ||
         c.descricao.toLowerCase().includes(busca.toLowerCase()) ||
         c.categoria.toLowerCase().includes(busca.toLowerCase());
 
       const matchNivel =
-        activeNiveis.length === 0 || activeNiveis.includes(c.nivel);
+        activeNiveis.length === 0 ||
+        activeNiveis.some((n) =>
+          c.nivel.toLowerCase().includes(n.toLowerCase()),
+        );
+
       const matchDuracao =
-        activeDuracao.length === 0 || activeDuracao.includes(c.duracao);
+        activeDuracao.length === 0 ||
+        activeDuracao.some((d) => String(c.duracao).includes(d));
 
       return matchCategory && matchSearch && matchNivel && matchDuracao;
     });
 
     if (ordenacao === "Mais recentes") {
-      result = result.reverse();
+      result = [...result].reverse();
     } else if (ordenacao === "Mais bem avaliados") {
-      result.sort((a, b) => b.estrelas - a.estrelas);
+      result = [...result].sort((a, b) => (isCursoAtivo(a) ? -1 : 1));
     }
 
     return result;
-  }, [busca, activeCategory, activeNiveis, activeDuracao, ordenacao]);
+  }, [cursos, busca, activeCategory, activeNiveis, activeDuracao, ordenacao]);
 
   const totalPaginas = Math.ceil(cursosFiltrados.length / cursosPorPagina);
 
@@ -396,7 +272,7 @@ export default function Cursos() {
 
   return (
     <div className="bg-slate-50/60 min-h-screen text-slate-800 font-['Inter',sans-serif]">
-      {/* ─── 1. Hero Section (Mockup 1) ─────────────────────────────────────────────── */}
+      {/* ─── 1. Hero Section ─────────────────────────────────────────────── */}
       <section className="relative w-full min-h-screen lg:h-screen bg-[#efefef] overflow-hidden border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full h-full relative z-10">
           <div className="flex flex-col lg:flex-row h-full">
@@ -423,12 +299,12 @@ export default function Cursos() {
               </button>
             </div>
 
-            {/* Imagem Jovem Estudante Meio Corpo Virado para a Frente */}
+            {/* Imagem Hero Estudante */}
             <div className="w-full lg:w-1/2 relative flex justify-center lg:justify-end items-end h-full mt-8 lg:mt-0">
               <div className="relative w-full max-w-[620px] lg:max-w-[660px] group flex justify-center items-end">
                 <img
                   src="/academia/student-hero-front.png"
-                  alt="Estudante meio corpo virado para a frente"
+                  alt="Estudante virado para a frente"
                   className="w-full h-auto object-contain transform lg:scale-110 group-hover:scale-115 transition-transform duration-700 origin-bottom block"
                   style={{ marginBottom: 0, paddingBottom: 0 }}
                 />
@@ -438,169 +314,141 @@ export default function Cursos() {
         </div>
       </section>
 
-      {/* ─── 3. Curso em Destaque Premium ──────────────────────────────────── */}
-      <section className="py-16 lg:py-20 bg-white relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section label */}
-          <div className="mb-8">
-            <h2
-              className="text-2xl font-extrabold text-slate-900 inline-block border-b-2 border-slate-900 pb-1"
-              style={{
-                fontFamily: "'Segoe UI Variable Text', 'Segoe UI', sans-serif",
-              }}>
-              Curso em Destaque
-            </h2>
-          </div>
+      {/* ─── 2. Curso em Destaque Premium ──────────────────────────────────── */}
+      {cursoDestaque && (
+        <section className="py-16 lg:py-20 bg-white relative">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left">
+            {/* Section label */}
+            <div className="mb-8">
+              <h2
+                className="text-2xl font-extrabold text-slate-900 inline-block border-b-2 border-slate-900 pb-1"
+                style={{
+                  fontFamily:
+                    "'Segoe UI Variable Text', 'Segoe UI', sans-serif",
+                }}>
+                Curso em Destaque
+              </h2>
+            </div>
 
-          {/* Banner card — slim, square corners, image fills right edge */}
-          <div className="relative bg-gray-900 overflow-hidden rounded-none shadow-sm">
-            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[380px]">
-              {/* Left: Content — compact with smaller title font */}
-              <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-center relative z-10">
-                <div className="flex items-center space-x-2 text-red-400 text-xs font-bold uppercase tracking-wider mb-2">
-                  <span>Qualificação Profissional</span>
-                  <span>•</span>
-                  <span>Certificação Envisio</span>
-                </div>
-
-                {/* Title — Font Size reduzida para ficar mais ajustada */}
-                <h2 className="text-xl sm:text-2xl font-bold text-white leading-tight tracking-tight mb-3">
-                  Cegid Primavera: Funcionalidades e Módulos Corporativos
-                </h2>
-
-                {/* Description */}
-                <p className="text-xs sm:text-sm text-gray-300 mb-5 leading-relaxed max-w-xl">
-                  O software de gestão mais robusto de Portugal não precisa ser
-                  um mistério. Aprenda na prática, do zero ao avançado, e
-                  torne-se o profissional que resolve problemas, não que os
-                  cria.
-                </p>
-
-                {/* Specs Grid */}
-                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/10 mb-6 text-xs">
-                  <div>
-                    <span className="block text-gray-400 text-[11px]">
-                      Duração
-                    </span>
-                    <span className="text-sm sm:text-base font-bold text-white">
-                      120 Horas
+            {/* Banner card com mesmo tamanho e proporções da página home */}
+            <div className="bg-white rounded-none shadow-md overflow-hidden mb-16 transition-all duration-300 hover:shadow-lg border border-slate-800">
+              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[490px] lg:min-h-[560px]">
+                {/* Informações da Capa do Curso */}
+                <div className="lg:col-span-6 p-8 sm:p-12 lg:p-14 flex flex-col justify-center bg-gradient-to-br from-gray-900 to-gray-800 text-white relative z-10">
+                  <div className="flex items-center space-x-2 text-red-400 text-sm font-semibold uppercase mb-4">
+                    <Sparkles size={16} />
+                    <span>
+                      {cursoDestaque.categoria || "Qualificação Profissional"}
                     </span>
                   </div>
-                  <div>
-                    <span className="block text-gray-400 text-[11px]">
-                      Formato
-                    </span>
-                    <span className="text-sm sm:text-base font-bold text-white">
-                      Presencial
-                    </span>
+
+                  {/* Title */}
+                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight tracking-tight">
+                    {cursoDestaque.titulo}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-gray-300 text-[12px] sm:text-[12px] leading-relaxed mb-8 max-w-xl">
+                    {cursoDestaque.descricao}
+                  </p>
+
+                  {/* Specs Grid */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-6 border-t border-white/10 mb-8">
+                    <div>
+                      <span className="block text-gray-400 text-[11px]">
+                        Duração
+                      </span>
+                      <span className="text-[11px] font-semibold text-white">
+                        {cursoDestaque.duracao}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="block text-gray-400 text-[11px]">
+                        Formato
+                      </span>
+                      <span className="text-[11px] font-semibold text-white">
+                        {cursoDestaque.format || "Presencial ou misto"}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="block text-gray-400 text-[11px]">
+                        Idioma
+                      </span>
+                      <span className="text-[11px] font-semibold text-white">
+                        {cursoDestaque.idioma || "Português"}
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <span className="block text-gray-400 text-[11px]">
-                      Idioma
-                    </span>
-                    <span className="text-sm sm:text-base font-bold text-white">
-                      Português
-                    </span>
+
+                  {/* Link alinhado à esquerda com linha sublinhada */}
+                  <div className="flex items-center pt-2">
+                    <Link
+                      to={`/academia/curso/${cursoDestaque.id}`}
+                      className="inline-flex items-center gap-2.5 text-white hover:text-red-400 text-[11px] sm:text-[11px] font-bold uppercase tracking-wider underline underline-offset-8 decoration-2 decoration-red-500 hover:decoration-red-400 transition-all group cursor-pointer">
+                      <span>Ver Programa</span>
+                      <ArrowRight
+                        size={16}
+                        className="group-hover:translate-x-1.5 transition-transform"
+                      />
+                    </Link>
                   </div>
                 </div>
 
-                {/* Buttons — design system */}
-                <div className="flex flex-wrap items-center gap-3">
-                  <Link
-                    to="/academia/curso1"
-                    className="btn-academia-primary px-5 py-2.5 text-xs font-bold rounded-[5px] flex items-center gap-2 cursor-pointer">
-                    <span>Começar Curso</span>
-                    <ArrowRight size={15} />
-                  </Link>
-
-                  <Link
-                    to="/academia/curso1"
-                    className="px-5 py-2.5 bg-transparent hover:bg-white/10 text-white border border-white/30 text-xs font-bold rounded-[5px] transition-colors cursor-pointer">
-                    Ver Programa
-                  </Link>
+                {/* Capa Visual do Curso (Mesma altura e enquadramento object-top da home) */}
+                <div className="lg:col-span-6 relative min-h-[380px] sm:min-h-[440px] lg:min-h-[520px] overflow-hidden bg-slate-950">
+                  <img
+                    src={cursoDestaque.imagemUrl || "/academia/RH.png"}
+                    alt={cursoDestaque.titulo}
+                    className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
                 </div>
-              </div>
-
-              {/* Right: Image — 5 cols (7+5=12) com a ilustração 3D da Imagem 3 + Gradiente Suave */}
-              <div className="lg:col-span-5 relative min-h-[260px] lg:min-h-full overflow-hidden">
-                <img
-                  src="/academia/erp-course-featured.png"
-                  alt="Ilustração 3D Cegid Primavera ERP"
-                  className="absolute inset-0 w-full h-full object-cover object-left"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/50 to-transparent pointer-events-none" />
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* ─── 4. Secção: Destaques (Mockup 1) ───────────────────────────────────────────── */}
+      {/* ─── 3. Secção: Formações Recomendadas ───────────────────────────────────────────── */}
       <section
         id="secao-cursos"
         className="py-16 bg-slate-50/80 border-y border-slate-200/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-extrabold text-slate-900">
-              Destaques
+            <h2 className="text-2xl font-extrabold text-slate-900 text-left">
+              Formações Recomendadas
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
-            {CURSOS_ESTATICOS.slice(0, 4).map((curso) => (
+            {cursos.slice(0, 4).map((curso) => (
               <CursoCardMicrosoft
                 key={curso.id}
                 curso={curso}
                 navigate={navigate}
-                destino={`/academia/curso1`}
               />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ─── 5. Secção: Mais Populares (Mockup 1) ──────────────────────────────────────── */}
+      {/* ─── 4. Secção: Mais Populares ──────────────────────────────────────── */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-extrabold text-slate-900">
+            <h2 className="text-2xl font-extrabold text-slate-900 text-left">
               Mais populares
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {CURSOS_ESTATICOS.slice(4, 8).map((curso) => (
-              <CursoCard
-                key={curso.id}
-                curso={curso}
-                navigate={navigate}
-                destino={`/academia/curso1`}
-              />
+            {cursos.slice(4, 8).map((curso) => (
+              <CursoCard key={curso.id} curso={curso} navigate={navigate} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ─── 6. Secção: Novidades (Mockup 1) ───────────────────────────────────────────── */}
-      <section className="py-16 bg-slate-50/80 border-y border-slate-200/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-extrabold text-slate-900">
-              Novidades
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {NOVIDADES_ESTATICOS.map((curso) => (
-              <CursoCard
-                key={curso.id}
-                curso={curso}
-                navigate={navigate}
-                destino={`/academia/curso1`}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── 7. Catálogo Completo: Todos os Cursos (Sidebar + Grid) (Mockup 1) ─────────── */}
+      {/* ─── 5. Catálogo Completo: Todos os Cursos (Sidebar + Grid) ─────────── */}
       <section className="py-16 bg-white border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-extrabold text-slate-900 mb-10 text-left">
@@ -650,6 +498,7 @@ export default function Cursos() {
                 {isCategoriaOpen && (
                   <div className="space-y-3">
                     {[
+                      "Gestão & RH",
                       "ERP",
                       "Programação",
                       "Dados & BI",
@@ -726,56 +575,6 @@ export default function Cursos() {
                   </div>
                 )}
               </div>
-
-              {/* Filtro Duração */}
-              <div className="mb-6 border-b border-slate-100 pb-6">
-                <div
-                  className="flex justify-between items-center mb-4 cursor-pointer"
-                  onClick={() => setIsDuracaoOpen(!isDuracaoOpen)}>
-                  <h5 className="text-sm font-bold text-slate-800">Duração</h5>
-                  <ChevronDown
-                    size={16}
-                    className={`text-slate-400 transition-transform ${isDuracaoOpen ? "rotate-180" : ""}`}
-                  />
-                </div>
-                {isDuracaoOpen && (
-                  <div className="space-y-3">
-                    {[
-                      "16h",
-                      "25h",
-                      "30h",
-                      "35h",
-                      "40h",
-                      "50h",
-                      "60h",
-                      "65h",
-                      "80h",
-                      "120h",
-                    ].map((dur, i) => (
-                      <label
-                        key={i}
-                        className="flex items-center gap-3 cursor-pointer group">
-                        <input
-                          type="checkbox"
-                          checked={activeDuracao.includes(dur)}
-                          onChange={(e) => {
-                            if (e.target.checked)
-                              setActiveDuracao([...activeDuracao, dur]);
-                            else
-                              setActiveDuracao(
-                                activeDuracao.filter((d) => d !== dur),
-                              );
-                          }}
-                          className="w-4 h-4 cursor-pointer rounded border-slate-300 text-red-600 focus:ring-red-600"
-                        />
-                        <span className="text-sm text-slate-600 truncate">
-                          {dur}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                )}
-              </div>
             </div>
 
             {/* Content Direita (Grelha) */}
@@ -817,7 +616,7 @@ export default function Cursos() {
                 </div>
               </div>
 
-              {/* Grid de Cursos (Limitado a 6 por página) */}
+              {/* Grid de Cursos */}
               {cursosFiltrados.length === 0 ? (
                 <div className="text-center py-16 bg-slate-50 border border-slate-200 rounded-[5px]">
                   <BookOpen size={48} className="mx-auto text-slate-300 mb-4" />
@@ -834,13 +633,12 @@ export default function Cursos() {
                         key={curso.id}
                         curso={curso}
                         navigate={navigate}
-                        destino={`/academia/curso1`}
                         layout={viewMode}
                       />
                     ))}
                   </div>
 
-                  {/* Paginação Numérica Redonda sem borda/fundo nas setas */}
+                  {/* Paginação Numérica */}
                   {totalPaginas > 1 && (
                     <div className="mt-10 flex items-center justify-center gap-2">
                       <button

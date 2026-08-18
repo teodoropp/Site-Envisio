@@ -215,45 +215,37 @@ const RotasAcademia = () => {
             }
           />
 
-          {/* Rotas Protegidas - Aluno - COM LAYOUT ESPECÍFICO */}
+          {/* Rotas Protegidas - Aluno */}
           <Route
             path="/aluno"
             element={
-              <LayoutAcademia>
-                <LayoutAluno>
-                  <AlunoPainel />
-                </LayoutAluno>
-              </LayoutAcademia>
+              <LayoutAluno>
+                <AlunoPainel />
+              </LayoutAluno>
             }
           />
           <Route
             path="/aluno/cursos"
             element={
-              <LayoutAcademia>
-                <LayoutAluno>
-                  <MeusCursos />
-                </LayoutAluno>
-              </LayoutAcademia>
+              <LayoutAluno>
+                <MeusCursos />
+              </LayoutAluno>
             }
           />
           <Route
             path="/aluno/certificados"
             element={
-              <LayoutAcademia>
-                <LayoutAluno>
-                  <Certificados />
-                </LayoutAluno>
-              </LayoutAcademia>
+              <LayoutAluno>
+                <Certificados />
+              </LayoutAluno>
             }
           />
           <Route
             path="/aluno/favoritos"
             element={
-              <LayoutAcademia>
-                <LayoutAluno>
-                  <Favoritos />
-                </LayoutAluno>
-              </LayoutAcademia>
+              <LayoutAluno>
+                <Favoritos />
+              </LayoutAluno>
             }
           />
           <Route
@@ -267,21 +259,25 @@ const RotasAcademia = () => {
           <Route
             path="/aluno/configuracoes"
             element={
-              <LayoutAcademia>
-                <LayoutAluno>
-                  <AlunoConfiguracoes />
-                </LayoutAluno>
-              </LayoutAcademia>
+              <LayoutAluno>
+                <AlunoConfiguracoes />
+              </LayoutAluno>
             }
           />
           <Route
-            path="/curso/:id/modulo/:moduloId/licao/:licaoId"
+            path="/aluno/aula/:id"
             element={
-              <LayoutAcademia>
-                <LayoutAluno>
-                  <Aula />
-                </LayoutAluno>
-              </LayoutAcademia>
+              <LayoutAluno>
+                <Aula />
+              </LayoutAluno>
+            }
+          />
+          <Route
+            path="/aluno/curso/:id"
+            element={
+              <LayoutAluno>
+                <CursoDetalhe />
+              </LayoutAluno>
             }
           />
 
@@ -342,14 +338,7 @@ const RotasAcademia = () => {
               </LayoutAcademia>
             }
           />
-          <Route
-            path="/curso/:id"
-            element={
-              <LayoutAcademia>
-                <CursoDetalhe />
-              </LayoutAcademia>
-            }
-          />
+          <Route path="/curso/:id" element={<CursoDetalhe />} />
 
           <Route path="*" element={<Navigate to="/academia" replace />} />
         </Routes>

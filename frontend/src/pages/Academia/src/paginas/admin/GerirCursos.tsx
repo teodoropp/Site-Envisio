@@ -16,6 +16,8 @@ import {
   Filter,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
+  ChevronDown,
   BookOpen,
   Calendar,
   CheckCircle,
@@ -166,6 +168,242 @@ const INITIAL_CURSOS: CursoItem[] = [
   },
 ];
 
+// Base de dados fictícia de Formadores
+interface FormadorDB {
+  id: string;
+  nome: string;
+  cargo: string;
+  biografia: string;
+}
+
+const FORMADORES_DATABASE: FormadorDB[] = [
+  {
+    id: "f1",
+    nome: "Eng. Mateus Silva",
+    cargo: "Consultor Técnico Sénior Cegid Primavera",
+    biografia:
+      "Profissional certificado com mais de 10 anos de experiência em implementação ERP, gestão financeira e formação corporativa em Angola.",
+  },
+  {
+    id: "f2",
+    nome: "Dra. Arminda Costa",
+    cargo: "Especialista em Recursos Humanos & Legislação Laboral",
+    biografia:
+      "Consultora sénior em Gestão de Pessoas, processamento salarial, IRT/INSS e conformidade legal com vasta experiência docente.",
+  },
+  {
+    id: "f3",
+    nome: "Dr. Nelson Quipacala",
+    cargo: "Consultor em Contabilidade, Tesouraria & Fiscalidade AGT",
+    biografia:
+      "Especialista em contabilidade analítica, reconciliação bancária, auditoria fiscal e comunicação SAF-T com a AGT.",
+  },
+  {
+    id: "f4",
+    nome: "Lic. Carlos Fonseca",
+    cargo: "Engenheiro de Software & Lead Frontend UI/UX",
+    biografia:
+      "Desenvolvedor de sistemas web corporativos, apaixonado por React, arquitetura de software e boas práticas de desenvolvimento.",
+  },
+  {
+    id: "f5",
+    nome: "Dra. Teresa Bento",
+    cargo: "Especialista em Inteligência Artificial & Ciência de Dados",
+    biografia:
+      "Investigadora e formadora em sistemas inteligentes, análise de dados e ferramentas generativas aplicadas ao ambiente corporativo.",
+  },
+];
+
+// Base de dados fictícia de Cursos para modelo
+const CURSOS_DATABASE_TEMPLATE = [
+  {
+    id: "c1",
+    titulo: "Cegid Primavera — Módulos Corporativos",
+    duracao: "120h",
+    categoria: "ERP & Gestão",
+    preco: "85.000 Kz",
+  },
+  {
+    id: "c2",
+    titulo: "Lógica de Programação e Algoritmos",
+    duracao: "60h",
+    categoria: "Programação",
+    preco: "45.000 Kz",
+  },
+  {
+    id: "c3",
+    titulo: "Programação Web Frontend com React & Tailwind",
+    duracao: "90h",
+    categoria: "Programação",
+    preco: "60.000 Kz",
+  },
+  {
+    id: "c4",
+    titulo: "Microsoft Excel Avançado com VBA e Macros",
+    duracao: "50h",
+    categoria: "Produtividade",
+    preco: "40.000 Kz",
+  },
+  {
+    id: "c5",
+    titulo: "SQL Server & Modelação de Bases de Dados",
+    duracao: "70h",
+    categoria: "Dados & BI",
+    preco: "50.000 Kz",
+  },
+  {
+    id: "c6",
+    titulo: "Power BI para Tomada de Decisão Executiva",
+    duracao: "40h",
+    categoria: "Dados & BI",
+    preco: "65.000 Kz",
+  },
+];
+
+export interface TopicoModulo {
+  id: string;
+  numero: string;
+  titulo: string;
+  duracao: string;
+}
+
+export interface ModuloItem {
+  id: string;
+  numero: number;
+  prefixo: string;
+  nome: string;
+  duracaoTotal: string;
+  descricao: string;
+  topicos: TopicoModulo[];
+}
+
+export interface PdfDocumentItem {
+  id: string;
+  nome: string;
+  filename: string;
+  tamanho: string;
+  dataAdicao: string;
+}
+
+const INITIAL_PDFS_DEFAULT: PdfDocumentItem[] = [
+  {
+    id: "pdf_1",
+    nome: "Manual de Instalação e Arquitetura ERP Primavera v10",
+    filename: "Manual_Primavera_ERP_v10.pdf",
+    tamanho: "4.2 MB",
+    dataAdicao: "12/08/2026",
+  },
+  {
+    id: "pdf_2",
+    nome: "Guia Prático de Comunicação SAF-T (AO) com a AGT",
+    filename: "Guia_SAFT_Angola_AGT.pdf",
+    tamanho: "1.8 MB",
+    dataAdicao: "12/08/2026",
+  },
+];
+
+const INITIAL_MODULOS_DEFAULT: ModuloItem[] = [
+  {
+    id: "m1",
+    numero: 1,
+    prefixo: "Módulo 1 — ",
+    nome: "Conceitos Base de ERP",
+    duracaoTotal: "20h",
+    descricao: "Instalação do ambiente, parametrização inicial e segurança.",
+    topicos: [
+      { id: "t1_1", numero: "1.1", titulo: "O que é um ERP", duracao: "3h" },
+      {
+        id: "t1_2",
+        numero: "1.2",
+        titulo: "História e evolução do ERP",
+        duracao: "3h",
+      },
+      {
+        id: "t1_3",
+        numero: "1.3",
+        titulo: "Por que é importante",
+        duracao: "3h",
+      },
+      {
+        id: "t1_4",
+        numero: "1.4",
+        titulo: "Como funciona um sistema ERP",
+        duracao: "4h",
+      },
+      {
+        id: "t1_5",
+        numero: "1.5",
+        titulo: "Tipos de implementação de ERP",
+        duracao: "3h",
+      },
+      {
+        id: "t1_6",
+        numero: "1.6",
+        titulo: "Seis principais benefícios do ERP",
+        duracao: "4h",
+      },
+    ],
+  },
+  {
+    id: "m2",
+    numero: 2,
+    prefixo: "Módulo 2 — ",
+    nome: "Funcionalidades Operacionais & Facturação",
+    duracaoTotal: "40h",
+    descricao:
+      "Emissão de facturas, recibos, proformas e comunicação SAF-T AGT.",
+    topicos: [
+      {
+        id: "t2_1",
+        numero: "2.1",
+        titulo: "Parametrização de artigos, famílias e séries de facturação",
+        duracao: "10h",
+      },
+      {
+        id: "t2_2",
+        numero: "2.2",
+        titulo: "Emissão de documentos comerciais e notas de crédito",
+        duracao: "15h",
+      },
+      {
+        id: "t2_3",
+        numero: "2.3",
+        titulo: "Gerador de ficheiro audit SAF-T (AO) para a AGT",
+        duracao: "15h",
+      },
+    ],
+  },
+  {
+    id: "m3",
+    numero: 3,
+    prefixo: "Módulo 3 — ",
+    nome: "Recursos Humanos, Tesouraria & Contabilidade",
+    duracaoTotal: "35h",
+    descricao:
+      "Processamento de salários, IRT, INSS, reconciliação e balancetes.",
+    topicos: [
+      {
+        id: "t3_1",
+        numero: "3.1",
+        titulo: "Cadastro de colaboradores, vencimentos e taxas legais",
+        duracao: "12h",
+      },
+      {
+        id: "t3_2",
+        numero: "3.2",
+        titulo: "Processamento de salários, mapas de IRT e INSS",
+        duracao: "13h",
+      },
+      {
+        id: "t3_3",
+        numero: "3.3",
+        titulo: "Gestão de tesouraria, bancos e reconciliação",
+        duracao: "10h",
+      },
+    ],
+  },
+];
+
 const ITENS_POR_PAGINA = 5;
 
 export default function AdminGerirCursos() {
@@ -184,9 +422,43 @@ export default function AdminGerirCursos() {
 
   // Assistente Multi-Passos no Modal
   const [modalStep, setModalStep] = useState<1 | 2 | 3 | 4>(1);
-  const [pdfFile, setPdfFile] = useState<string>(
-    "Manual_Formacao_Cegid_v10.pdf",
-  );
+
+  // Estado dos Recursos PDF no Modal (Lista de PDFs + Formulário de Adicionar)
+  const [pdfList, setPdfList] =
+    useState<PdfDocumentItem[]>(INITIAL_PDFS_DEFAULT);
+  const [newPdfNome, setNewPdfNome] = useState("");
+  const [newPdfFile, setNewPdfFile] = useState<File | null>(null);
+  const [newPdfFilename, setNewPdfFilename] = useState("");
+
+  const handleAddPdf = () => {
+    if (!newPdfNome.trim()) {
+      alert("Por favor, digite o nome/título para o documento PDF.");
+      return;
+    }
+    if (!newPdfFilename) {
+      alert("Por favor, selecione um ficheiro PDF do seu dispositivo.");
+      return;
+    }
+
+    const newPdf: PdfDocumentItem = {
+      id: `pdf_${Date.now()}`,
+      nome: newPdfNome.trim(),
+      filename: newPdfFilename,
+      tamanho: newPdfFile
+        ? `${(newPdfFile.size / (1024 * 1024)).toFixed(1)} MB`
+        : "2.5 MB",
+      dataAdicao: new Date().toLocaleDateString("pt-PT"),
+    };
+
+    setPdfList((prev) => [...prev, newPdf]);
+    setNewPdfNome("");
+    setNewPdfFile(null);
+    setNewPdfFilename("");
+  };
+
+  const handleRemovePdf = (id: string) => {
+    setPdfList((prev) => prev.filter((p) => p.id !== id));
+  };
 
   // Modal Criar / Editar
   const [modalOpen, setModalOpen] = useState(false);
@@ -197,6 +469,28 @@ export default function AdminGerirCursos() {
     "/academia/primavera.svg",
   );
 
+  // Seleções da Base de Dados Fictícia
+  const [selectedFormadorId, setSelectedFormadorId] = useState<string>("f1");
+  const [selectedCursoTemplateId, setSelectedCursoTemplateId] =
+    useState<string>("");
+  const [instrutorBio, setInstrutorBio] = useState<string>(
+    "Profissional certificado com sólida experiência na formação técnica corporativa em Angola. Mais de 10 anos de prática no setor.",
+  );
+
+  // Estado dos Módulos e Tópicos no Modal
+  const [modulosList, setModulosList] = useState<ModuloItem[]>(
+    INITIAL_MODULOS_DEFAULT,
+  );
+  const [expandedModuloId, setExpandedModuloId] = useState<string | null>("m1");
+
+  // Estado do Sub-Modal de Adicionar/Editar Módulo
+  const [subModalModuloOpen, setSubModalModuloOpen] = useState(false);
+  const [editModuloIndex, setEditModuloIndex] = useState<number | null>(null);
+  const [tempModuloNome, setTempModuloNome] = useState("");
+  const [tempModuloDuracao, setTempModuloDuracao] = useState("20h");
+  const [tempModuloDescricao, setTempModuloDescricao] = useState("");
+  const [tempTopicos, setTempTopicos] = useState<TopicoModulo[]>([]);
+
   // Form State
   const [formData, setFormData] = useState({
     titulo: "",
@@ -205,12 +499,147 @@ export default function AdminGerirCursos() {
     nivel: "Intermédio",
     duracao: "60h",
     preco: "50.000 Kz",
-    instrutor: "",
-    instrutorCargo: "",
+    instrutor: "Eng. Mateus Silva",
+    instrutorCargo: "Consultor Técnico Sénior Cegid Primavera",
     imagemUrl: "/academia/primavera.svg",
     status: "publicado" as "publicado" | "rascunho",
     destaque: false,
   });
+
+  // Handlers para Seleção de Formador da BD
+  const handleSelectFormador = (id: string) => {
+    setSelectedFormadorId(id);
+    const found = FORMADORES_DATABASE.find((f) => f.id === id);
+    if (found) {
+      setFormData((prev) => ({
+        ...prev,
+        instrutor: found.nome,
+        instrutorCargo: found.cargo,
+      }));
+      setInstrutorBio(found.biografia);
+    }
+  };
+
+  // Handler para Seleção de Modelo de Curso
+  const handleSelectCursoTemplate = (id: string) => {
+    setSelectedCursoTemplateId(id);
+    const found = CURSOS_DATABASE_TEMPLATE.find((c) => c.id === id);
+    if (found) {
+      setFormData((prev) => ({
+        ...prev,
+        titulo: found.titulo,
+        duracao: found.duracao,
+        categoria: found.categoria,
+        preco: found.preco,
+      }));
+    }
+  };
+
+  // Sub-Modal de Gestão de Módulos & Tópicos
+  const handleOpenAddModulo = () => {
+    setEditModuloIndex(null);
+    setTempModuloNome("");
+    setTempModuloDuracao("20h");
+    setTempModuloDescricao("");
+    const nextModNum = modulosList.length + 1;
+    setTempTopicos([
+      {
+        id: Date.now().toString() + "_1",
+        numero: `${nextModNum}.1`,
+        titulo: "Introdução ao módulo e conceitos gerais",
+        duracao: "5h",
+      },
+    ]);
+    setSubModalModuloOpen(true);
+  };
+
+  const handleOpenEditModulo = (index: number) => {
+    const mod = modulosList[index];
+    setEditModuloIndex(index);
+    setTempModuloNome(mod.nome);
+    setTempModuloDuracao(mod.duracaoTotal);
+    setTempModuloDescricao(mod.descricao);
+    setTempTopicos([...mod.topicos]);
+    setSubModalModuloOpen(true);
+  };
+
+  const handleSaveModulo = () => {
+    if (!tempModuloNome.trim()) return;
+
+    if (editModuloIndex !== null) {
+      const updated = [...modulosList];
+      const mod = updated[editModuloIndex];
+      updated[editModuloIndex] = {
+        ...mod,
+        nome: tempModuloNome,
+        duracaoTotal: tempModuloDuracao,
+        descricao: tempModuloDescricao,
+        topicos: tempTopicos,
+      };
+      setModulosList(updated);
+    } else {
+      const newNum = modulosList.length + 1;
+      const newMod: ModuloItem = {
+        id: Date.now().toString(),
+        numero: newNum,
+        prefixo: `Módulo ${newNum} — `,
+        nome: tempModuloNome,
+        duracaoTotal: tempModuloDuracao || "20h",
+        descricao:
+          tempModuloDescricao || "Descrição do programa formativo do módulo.",
+        topicos: tempTopicos,
+      };
+      setModulosList([...modulosList, newMod]);
+    }
+    setSubModalModuloOpen(false);
+  };
+
+  const handleDeleteModulo = (index: number) => {
+    const updated = modulosList.filter((_, i) => i !== index);
+    const renumbered = updated.map((m, idx) => {
+      const num = idx + 1;
+      return {
+        ...m,
+        numero: num,
+        prefixo: `Módulo ${num} — `,
+        topicos: m.topicos.map((t, tIdx) => ({
+          ...t,
+          numero: `${num}.${tIdx + 1}`,
+        })),
+      };
+    });
+    setModulosList(renumbered);
+  };
+
+  const handleAddTopicoInSubModal = () => {
+    const moduloNum =
+      editModuloIndex !== null
+        ? modulosList[editModuloIndex].numero
+        : modulosList.length + 1;
+    const nextTopicoNum = `${moduloNum}.${tempTopicos.length + 1}`;
+    setTempTopicos([
+      ...tempTopicos,
+      {
+        id: Date.now().toString() + "_" + tempTopicos.length,
+        numero: nextTopicoNum,
+        titulo: "",
+        duracao: "5h",
+      },
+    ]);
+  };
+
+  const handleRemoveTopicoInSubModal = (tIndex: number) => {
+    const moduloNum =
+      editModuloIndex !== null
+        ? modulosList[editModuloIndex].numero
+        : modulosList.length + 1;
+    const filtered = tempTopicos.filter((_, i) => i !== tIndex);
+    const renumbered = filtered.map((t, idx) => ({
+      ...t,
+      numero: `${moduloNum}.${idx + 1}`,
+    }));
+    setTempTopicos(renumbered);
+  };
 
   useEffect(() => {
     const fetchCursos = async () => {
@@ -297,6 +726,690 @@ export default function AdminGerirCursos() {
     }
     setModalOpen(false);
   };
+
+  // Renderizador dos Passos do Modal
+  const renderStepsContent = () => {
+    return (
+      <>
+        {/* PASSO 1: DADOS GERAIS */}
+        {modalStep === 1 && (
+          <div className="space-y-4 animate-in fade-in duration-150">
+            <div className="space-y-1">
+              <label className="font-bold text-slate-700 block">
+                Título do Curso *
+              </label>
+              <input
+                type="text"
+                required
+                value={formData.titulo}
+                onChange={(e) =>
+                  setFormData({ ...formData, titulo: e.target.value })
+                }
+                placeholder="Ex: Cegid Primavera — Módulos Corporativos"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-900 focus:outline-none focus:border-slate-400"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1">
+                <label className="font-bold text-slate-700 block">
+                  Categoria *
+                </label>
+                <select
+                  value={formData.categoria}
+                  onChange={(e) =>
+                    setFormData({ ...formData, categoria: e.target.value })
+                  }
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-800">
+                  <option value="ERP & Gestão">ERP & Gestão</option>
+                  <option value="Programação">Programação</option>
+                  <option value="Dados & BI">Dados & BI</option>
+                  <option value="Produtividade">Produtividade</option>
+                  <option value="IA">Inteligência Artificial</option>
+                </select>
+              </div>
+
+              <div className="space-y-1">
+                <label className="font-bold text-slate-700 block">
+                  Nível de Dificuldade
+                </label>
+                <select
+                  value={formData.nivel}
+                  onChange={(e) =>
+                    setFormData({ ...formData, nivel: e.target.value })
+                  }
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-800">
+                  <option value="Iniciante">Iniciante</option>
+                  <option value="Intermédio">Intermédio</option>
+                  <option value="Avançado">Avançado</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1">
+                <label className="font-bold text-slate-700 block">
+                  Carga Horária (Ex: 120h) *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.duracao}
+                  onChange={(e) =>
+                    setFormData({ ...formData, duracao: e.target.value })
+                  }
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-800"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="font-bold text-slate-700 block">
+                  Preço (Ex: 85.000 Kz) *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.preco}
+                  onChange={(e) =>
+                    setFormData({ ...formData, preco: e.target.value })
+                  }
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-800"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <label className="font-bold text-slate-700 block">
+                Descrição do Programa *
+              </label>
+              <textarea
+                required
+                rows={3}
+                value={formData.descricao}
+                onChange={(e) =>
+                  setFormData({ ...formData, descricao: e.target.value })
+                }
+                placeholder="Objetivos gerais do programa formativo e competências desenvolvidas..."
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] text-slate-800 focus:outline-none focus:border-slate-400"
+              />
+            </div>
+
+            <div className="space-y-2 pt-2 border-t border-slate-100">
+              <label className="font-bold text-slate-700 block">
+                Imagem da Capa do Curso
+              </label>
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 bg-slate-100 border border-slate-200 rounded-[2px] flex items-center justify-center p-1 flex-shrink-0">
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="max-h-full max-w-full object-contain"
+                  />
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageFileChange}
+                  className="text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-[2px] file:border-0 file:text-xs file:font-bold file:bg-slate-900 file:text-white hover:file:bg-slate-800 cursor-pointer"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* PASSO 2: FORMADOR & EQUIPA */}
+        {modalStep === 2 && (
+          <div className="space-y-4 animate-in fade-in duration-150">
+            <div className="p-3 bg-slate-50 border border-slate-200/60 rounded-[2px] flex items-center gap-2 text-slate-700">
+              <User size={16} className="text-red-800 flex-shrink-0" />
+              <span>
+                Atribua o formador responsável e as especificações de instrução
+                da turma.
+              </span>
+            </div>
+
+            {/* SELEÇÃO DO FORMADOR DA BD (REQUISITO DA PRIMEIRA IMAGEM) */}
+            <div className="space-y-1">
+              <label className="font-bold text-slate-800 block text-xs">
+                Selecionar Formador (Base de Dados) *
+              </label>
+              <select
+                value={selectedFormadorId}
+                onChange={(e) => handleSelectFormador(e.target.value)}
+                className="w-full px-3 py-2 bg-white border border-slate-300 rounded-[2px] font-bold text-slate-900 focus:outline-none focus:border-red-800">
+                <option value="">-- Selecione um Formador Registado --</option>
+                {FORMADORES_DATABASE.map((f) => (
+                  <option key={f.id} value={f.id}>
+                    {f.nome} — {f.cargo}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1">
+                <label className="font-bold text-slate-700 block">
+                  Nome do Formador *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.instrutor}
+                  onChange={(e) =>
+                    setFormData({ ...formData, instrutor: e.target.value })
+                  }
+                  placeholder="Ex: Eng. Mateus Silva"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-800"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="font-bold text-slate-700 block">
+                  Especialidade *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.instrutorCargo}
+                  onChange={(e) =>
+                    setFormData({ ...formData, instrutorCargo: e.target.value })
+                  }
+                  placeholder="Ex: Consultor Técnico Sénior Cegid Primavera"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] text-slate-800"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <label className="font-bold text-slate-700 block">
+                Biografia do Formador
+              </label>
+              <textarea
+                rows={3}
+                value={instrutorBio}
+                onChange={(e) => setInstrutorBio(e.target.value)}
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] text-slate-800 focus:outline-none focus:border-slate-400"
+              />
+            </div>
+            {/* NOTA: O bloco verde 'Emitir Certificado...' foi REMOVIDO conforme solicitado na Terceira Imagem */}
+          </div>
+        )}
+
+        {/* PASSO 3: MÓDULOS & CONTEÚDO PROGRAMÁTICO */}
+        {modalStep === 3 && (
+          <div className="space-y-4 animate-in fade-in duration-150 relative">
+            <div className="flex items-center justify-between">
+              <p className="text-slate-600 font-medium text-xs">
+                Defina os módulos programáticos que compõem esta formação
+                corporativa.
+              </p>
+              <button
+                type="button"
+                onClick={handleOpenAddModulo}
+                className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-[2px] flex items-center gap-1.5 shadow-2xs transition-colors cursor-pointer text-xs">
+                <Plus size={14} />
+                <span>Adicionar Módulo</span>
+              </button>
+            </div>
+
+            {/* LISTA COMPACTA DE MÓDULOS (BORDAS QUADRADAS CONFORME SOLICITADO) */}
+            <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
+              {modulosList.length === 0 ? (
+                <div className="p-3 bg-slate-50 border border-dashed border-slate-300 text-center rounded-[2px]">
+                  <p className="text-slate-500 font-medium text-xs">
+                    Nenhum módulo adicionado ainda.
+                  </p>
+                </div>
+              ) : (
+                modulosList.map((mod, idx) => {
+                  const isExpanded = expandedModuloId === mod.id;
+                  const formattedIndex = String(idx + 1).padStart(2, "0");
+                  return (
+                    <div
+                      key={mod.id}
+                      className="bg-white border border-slate-200 rounded-[2px] shadow-2xs overflow-hidden transition-all">
+                      {/* BARRA DE TOPO DO MÓDULO (CONFORME DESIGN DA IMAGEM, BORDAS QUADRADAS E COMPACTO) */}
+                      <div
+                        onClick={() =>
+                          setExpandedModuloId(isExpanded ? null : mod.id)
+                        }
+                        className="w-full flex items-center justify-between p-2.5 sm:p-3 bg-white hover:bg-slate-50/50 cursor-pointer transition-colors text-left select-none">
+                        <div className="flex items-center">
+                          {/* BADGE CIRCULAR COM NÚMERO DE DOIS DÍGITOS PEQUENO */}
+                          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-slate-200 bg-slate-50 flex items-center justify-center font-bold text-slate-500 text-[11px] font-mono flex-shrink-0 mr-3 shadow-2xs">
+                            {formattedIndex}
+                          </div>
+                          <div>
+                            <h4 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug">
+                              Módulo {idx + 1}: {mod.nome}
+                            </h4>
+                            <p className="text-[11px] text-slate-400 font-medium mt-0.5">
+                              {mod.topicos ? mod.topicos.length : 0} tópicos
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* BOTÕES DE AÇÃO + CHEVRON */}
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleOpenEditModulo(idx);
+                            }}
+                            className="p-1 text-slate-400 hover:text-slate-800 rounded-[2px] transition-colors"
+                            title="Editar Módulo">
+                            <Edit size={13} />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteModulo(idx);
+                            }}
+                            className="p-1 text-slate-400 hover:text-red-600 rounded-[2px] transition-colors"
+                            title="Eliminar Módulo">
+                            <Trash2 size={13} />
+                          </button>
+                          {isExpanded ? (
+                            <ChevronUp
+                              size={16}
+                              className="text-slate-600 ml-1"
+                            />
+                          ) : (
+                            <ChevronDown
+                              size={16}
+                              className="text-slate-600 ml-1"
+                            />
+                          )}
+                        </div>
+                      </div>
+
+                      {/* LISTA EXPANDIDA DE TÓPICOS COM ÍCONE DE DOCUMENTO */}
+                      {isExpanded && mod.topicos && mod.topicos.length > 0 && (
+                        <div className="border-t border-slate-100 divide-y divide-slate-100 bg-white">
+                          {mod.topicos.map((top) => (
+                            <div
+                              key={top.id}
+                              className="py-2 px-3.5 flex items-center justify-between hover:bg-slate-50/60 transition-colors">
+                              <div className="flex items-center">
+                                <FileText
+                                  size={14}
+                                  className="text-slate-400 flex-shrink-0 mr-2.5"
+                                />
+                                <span className="text-xs font-normal text-slate-700">
+                                  {top.titulo}
+                                </span>
+                              </div>
+                              {top.duracao && (
+                                <span className="text-[10px] font-mono text-slate-400 ml-2">
+                                  {top.duracao}
+                                </span>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
+              )}
+            </div>
+
+            {/* FORMULÁRIO SUB-MODAL DE ADICIONAR / EDITAR MÓDULO */}
+            {subModalModuloOpen && (
+              <div className="fixed inset-0 bg-slate-950/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
+                <div className="bg-white rounded-[2px] border border-slate-200 shadow-2xl w-full max-w-lg p-5 space-y-4 animate-in fade-in zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto">
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <div className="flex items-center gap-2">
+                      <Layers size={16} className="text-red-800" />
+                      <h4 className="font-extrabold text-xs uppercase tracking-wider text-slate-900">
+                        {editModuloIndex !== null
+                          ? `Editar ${modulosList[editModuloIndex].prefixo}`
+                          : `Novo Módulo (Módulo ${modulosList.length + 1})`}
+                      </h4>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setSubModalModuloOpen(false)}
+                      className="text-slate-400 hover:text-slate-700">
+                      <X size={16} />
+                    </button>
+                  </div>
+
+                  <div className="space-y-3 text-xs">
+                    {/* PREFIXO FIXO + CAMPO DE NOME DO MÓDULO */}
+                    <div className="space-y-1">
+                      <label className="font-bold text-slate-700 block">
+                        Nome do Módulo *
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <span className="px-3 py-2 bg-slate-900 text-white font-mono font-bold text-xs rounded-[2px] flex-shrink-0 select-none shadow-2xs">
+                          Módulo{" "}
+                          {editModuloIndex !== null
+                            ? modulosList[editModuloIndex].numero
+                            : modulosList.length + 1}{" "}
+                          —
+                        </span>
+                        <input
+                          type="text"
+                          required
+                          value={tempModuloNome}
+                          onChange={(e) => setTempModuloNome(e.target.value)}
+                          placeholder="Digite apenas o nome do módulo (Ex: Conceitos Base de ERP)"
+                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-900 focus:outline-none focus:border-red-800"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-1">
+                        <label className="font-bold text-slate-700 block">
+                          Duração Total *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={tempModuloDuracao}
+                          onChange={(e) => setTempModuloDuracao(e.target.value)}
+                          placeholder="Ex: 20h"
+                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-mono text-slate-800"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="font-bold text-slate-700 block">
+                        Descrição Resumida
+                      </label>
+                      <textarea
+                        rows={2}
+                        value={tempModuloDescricao}
+                        onChange={(e) => setTempModuloDescricao(e.target.value)}
+                        placeholder="Breve resumo dos tópicos abordados neste módulo..."
+                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] text-slate-800 focus:outline-none focus:border-slate-400"
+                      />
+                    </div>
+
+                    {/* TÓPICOS DO MÓDULO COM ÍCONE EM VEZ DO BADGE 1.1 */}
+                    <div className="space-y-2 pt-2 border-t border-slate-100">
+                      <div className="flex items-center justify-between">
+                        <label className="font-extrabold text-slate-800 block text-xs">
+                          Tópicos do Módulo ({tempTopicos.length})
+                        </label>
+                        <button
+                          type="button"
+                          onClick={handleAddTopicoInSubModal}
+                          className="px-2.5 py-1 bg-red-800 hover:bg-red-900 text-white font-bold text-[11px] rounded-[2px] flex items-center gap-1 transition-colors cursor-pointer shadow-2xs">
+                          <Plus size={12} />
+                          <span>Adicionar Tópico</span>
+                        </button>
+                      </div>
+
+                      <div className="space-y-1 max-h-52 overflow-y-auto pr-1 border border-slate-100 rounded-[2px] p-2 bg-slate-50/40">
+                        {tempTopicos.map((top, tIdx) => {
+                          return (
+                            <div
+                              key={top.id}
+                              className="py-1.5 px-1 flex items-center gap-2 border-b border-slate-200/60 last:border-b-0">
+                              {/* ÍCONE DE DOCUMENTO SEM FUNDO NEM BORDAS NOS CAMPOS */}
+                              <FileText
+                                size={15}
+                                className="text-slate-400 flex-shrink-0"
+                              />
+                              <input
+                                type="text"
+                                value={top.titulo}
+                                onChange={(e) => {
+                                  const updated = [...tempTopicos];
+                                  updated[tIdx].titulo = e.target.value;
+                                  setTempTopicos(updated);
+                                }}
+                                placeholder="Nome do tópico..."
+                                className="flex-1 px-1 py-1 bg-transparent border-0 font-semibold text-slate-900 text-xs focus:outline-none focus:ring-0 placeholder:text-slate-400"
+                              />
+                              <input
+                                type="text"
+                                value={top.duracao}
+                                onChange={(e) => {
+                                  const updated = [...tempTopicos];
+                                  updated[tIdx].duracao = e.target.value;
+                                  setTempTopicos(updated);
+                                }}
+                                placeholder="Carga"
+                                className="w-14 px-1 py-1 bg-transparent border-0 font-mono text-slate-500 text-xs focus:outline-none focus:ring-0 text-right placeholder:text-slate-400"
+                              />
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleRemoveTopicoInSubModal(tIdx)
+                                }
+                                className="p-1 text-slate-400 hover:text-red-600 transition-colors">
+                                <Trash2 size={13} />
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+                    <button
+                      type="button"
+                      onClick={() => setSubModalModuloOpen(false)}
+                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-[2px] text-xs">
+                      Cancelar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSaveModulo}
+                      className="px-4 py-1.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-[2px] text-xs flex items-center gap-1.5 shadow-2xs">
+                      <Save size={13} />
+                      <span>Guardar Módulo</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* PASSO 4: RECURSOS PDF & MATERIAIS */}
+        {modalStep === 4 && (
+          <div className="space-y-4 animate-in fade-in duration-150">
+            <div className="p-3 bg-slate-50 border border-slate-200/60 rounded-[2px] space-y-1">
+              <div className="flex items-center gap-2 font-bold text-slate-900 text-xs">
+                <FileText size={16} className="text-red-800" />
+                <span>Gestão de Manuais & Documentos PDF da Formação</span>
+              </div>
+              <p className="text-[11px] text-slate-500">
+                Adicione e gira os manuais práticos, guias de exercício ou
+                e-books que ficarão disponíveis para download pelos formandos.
+              </p>
+            </div>
+
+            {/* FORMULÁRIO DE ADICIONAR NOVO PDF (2 CAMPOS: NOME DO PDF E SELEÇÃO DE FICHEIRO) */}
+            <div className="p-4 bg-slate-50/80 border border-slate-200 rounded-[2px] space-y-3">
+              <h4 className="font-extrabold text-xs uppercase tracking-wider text-slate-900 flex items-center gap-1.5 border-b border-slate-200/60 pb-2">
+                <Plus size={14} className="text-red-800" />
+                <span>Adicionar Novo Documento PDF</span>
+              </h4>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                {/* CAMPO 1: NOME / TÍTULO DO PDF */}
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-700 block">
+                    Nome do Documento PDF *
+                  </label>
+                  <input
+                    type="text"
+                    value={newPdfNome}
+                    onChange={(e) => setNewPdfNome(e.target.value)}
+                    placeholder="Ex: Manual do Módulo 1 - Conceitos ERP"
+                    className="w-full px-3 py-2 bg-white border border-slate-300 rounded-[2px] font-semibold text-slate-900 focus:outline-none focus:border-red-800"
+                  />
+                </div>
+
+                {/* CAMPO 2: SELECIONAR FICHEIRO PDF */}
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-700 block">
+                    Selecionar Ficheiro PDF *
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="file"
+                      accept=".pdf"
+                      id="pdf-file-picker-field"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          setNewPdfFile(file);
+                          setNewPdfFilename(file.name);
+                          if (!newPdfNome) {
+                            const nameWithoutExt = file.name.replace(
+                              /\.[^/.]+$/,
+                              "",
+                            );
+                            setNewPdfNome(nameWithoutExt);
+                          }
+                        }
+                      }}
+                    />
+                    <label
+                      htmlFor="pdf-file-picker-field"
+                      className="flex-1 px-3 py-2 bg-white border border-slate-300 rounded-[2px] text-slate-700 cursor-pointer flex items-center justify-between hover:bg-slate-100/60 transition-colors font-medium text-xs truncate">
+                      <span className="truncate">
+                        {newPdfFilename
+                          ? newPdfFilename
+                          : "Clique para escolher o PDF..."}
+                      </span>
+                      <UploadCloud
+                        size={14}
+                        className="text-slate-400 flex-shrink-0 ml-2"
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              {/* BOTÃO ADICIONAR PDF */}
+              <div className="flex justify-end pt-1">
+                <button
+                  type="button"
+                  onClick={handleAddPdf}
+                  className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-[2px] flex items-center gap-1.5 shadow-2xs transition-colors cursor-pointer">
+                  <Plus size={14} />
+                  <span> Adicionar PDF </span>
+                </button>
+              </div>
+            </div>
+
+            {/* LISTA DE PDFS JÁ ADICIONADOS AO CURSO */}
+            <div className="space-y-2 pt-1">
+              <div className="flex items-center justify-between">
+                <label className="font-extrabold text-xs uppercase tracking-wider text-slate-800">
+                  Manuais & PDFs Adicionados ({pdfList.length})
+                </label>
+              </div>
+
+              {pdfList.length === 0 ? (
+                <div className="p-4 bg-slate-50 border border-dashed border-slate-300 text-center rounded-[2px]">
+                  <p className="text-slate-500 font-medium text-xs">
+                    Nenhum documento PDF adicionado ainda. Preencha os dois
+                    campos acima para adicionar.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
+                  {pdfList.map((pdf) => (
+                    <div
+                      key={pdf.id}
+                      className="p-3 bg-white border border-slate-200 rounded-[2px] flex items-center justify-between shadow-2xs hover:border-slate-300 transition-all">
+                      <div className="flex items-center gap-3 min-w-0 pr-2">
+                        <div className="w-8 h-8 rounded-full bg-red-50 border border-red-200/80 flex items-center justify-center flex-shrink-0">
+                          <FileText size={16} className="text-red-800" />
+                        </div>
+                        <div className="min-w-0">
+                          <h5 className="font-bold text-xs text-slate-900 truncate">
+                            {pdf.nome}
+                          </h5>
+                          <p className="text-[10px] font-mono text-slate-400 flex items-center gap-2 mt-0.5 truncate">
+                            <span>{pdf.filename}</span>
+                            <span>•</span>
+                            <span>{pdf.tamanho}</span>
+                            <span>•</span>
+                            <span>{pdf.dataAdicao}</span>
+                          </p>
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => handleRemovePdf(pdf.id)}
+                        className="p-1.5 text-slate-400 hover:text-red-600 rounded-[2px] transition-colors flex-shrink-0"
+                        title="Eliminar PDF">
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </>
+    );
+  };
+
+  {
+    /* Modal Conteúdo Principal */
+  }
+  const renderFormInModal = () => (
+    <form
+      onSubmit={handleSave}
+      className="p-6 overflow-y-auto space-y-4 text-xs flex-1">
+      {renderStepsContent()}
+
+      {/* Barra de Controlo e Navegação do Assistente */}
+      <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-4">
+        {modalStep > 1 ? (
+          <button
+            type="button"
+            onClick={() => setModalStep((prev) => (prev - 1) as 1 | 2 | 3 | 4)}
+            className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-[2px] flex items-center gap-1">
+            <ChevronLeft size={15} />
+            <span>Anterior</span>
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setModalOpen(false)}
+            className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-[2px]">
+            Cancelar
+          </button>
+        )}
+
+        {modalStep < 4 ? (
+          <button
+            type="button"
+            onClick={() => setModalStep((prev) => (prev + 1) as 1 | 2 | 3 | 4)}
+            className="px-5 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-[2px] flex items-center gap-1.5 shadow-xs cursor-pointer">
+            <span>Seguinte</span>
+            <ChevronRight size={15} />
+          </button>
+        ) : (
+          <button
+            type="submit"
+            className="px-6 py-2 bg-red-800 hover:bg-red-900 text-white font-bold rounded-[2px] flex items-center gap-2 shadow-xs cursor-pointer">
+            <Save size={15} />
+            <span>Finalizar & Guardar Formação</span>
+          </button>
+        )}
+      </div>
+    </form>
+  );
 
   const handleDelete = (id: string) => {
     if (
@@ -697,7 +1810,7 @@ export default function AdminGerirCursos() {
             {/* Imagem Oficial da Capa */}
             <div className="bg-white p-6 rounded-[2px] border border-slate-200/80 shadow-xs space-y-3">
               <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 border-b border-slate-100 pb-2.5">
-                Imagem Oficial da Capa
+                Imagem da Capa
               </h3>
               <div className="flex items-center justify-center p-3 bg-slate-50 rounded-[2px] min-h-[140px] border border-slate-200/60">
                 <img
@@ -723,45 +1836,34 @@ export default function AdminGerirCursos() {
               </div>
 
               <div className="space-y-2.5">
-                <div className="p-3 bg-slate-50 border border-slate-200/60 rounded-[2px] flex items-center justify-between hover:border-slate-300 transition-colors">
-                  <div className="flex items-center gap-2.5">
-                    <Paperclip size={16} className="text-red-800 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-bold text-slate-900 text-xs">
-                        Manual Prático Oficial
-                      </h4>
-                      <p className="text-[10px] text-slate-500 font-mono">
-                        {pdfFile || "Manual_Oficial_Formacao_v10.pdf"} • 14.8 MB
-                      </p>
+                {pdfList.map((pdf) => (
+                  <div
+                    key={pdf.id}
+                    className="p-3 bg-slate-50 border border-slate-200/60 rounded-[2px] flex items-center justify-between hover:border-slate-300 transition-colors">
+                    <div className="flex items-center gap-2.5">
+                      <Paperclip
+                        size={16}
+                        className="text-red-800 flex-shrink-0"
+                      />
+                      <div>
+                        <h4 className="font-bold text-slate-900 text-xs">
+                          {pdf.nome}
+                        </h4>
+                        <p className="text-[10px] text-slate-500 font-mono">
+                          {pdf.filename} • {pdf.tamanho}
+                        </p>
+                      </div>
                     </div>
+                    <button
+                      onClick={() =>
+                        alert(`A transferir ficheiro PDF: ${pdf.filename}`)
+                      }
+                      className="p-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-[2px] cursor-pointer transition-colors shadow-2xs"
+                      title="Baixar Manual PDF">
+                      <Download size={13} />
+                    </button>
                   </div>
-                  <button
-                    onClick={() => alert(`A transferir ficheiro PDF: ${pdfFile}`)}
-                    className="p-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-[2px] cursor-pointer transition-colors shadow-2xs"
-                    title="Baixar Manual PDF">
-                    <Download size={13} />
-                  </button>
-                </div>
-
-                <div className="p-3 bg-slate-50 border border-slate-200/60 rounded-[2px] flex items-center justify-between hover:border-slate-300 transition-colors">
-                  <div className="flex items-center gap-2.5">
-                    <Paperclip size={16} className="text-red-800 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-bold text-slate-900 text-xs">
-                        Guia de Exercícios & Casos Práticos
-                      </h4>
-                      <p className="text-[10px] text-slate-500 font-mono">
-                        Guia_Exercicios_Praticos_2026.pdf • 5.2 MB
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => alert("A transferir Guia de Exercícios PDF")}
-                    className="p-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-[2px] cursor-pointer transition-colors shadow-2xs"
-                    title="Baixar Guia PDF">
-                    <Download size={13} />
-                  </button>
-                </div>
+                ))}
               </div>
             </div>
           </div>
@@ -771,13 +1873,14 @@ export default function AdminGerirCursos() {
         {modalOpen && (
           <div className="fixed inset-0 bg-slate-950/60 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-in fade-in duration-150">
             <div className="bg-white rounded-[2px] border border-slate-200 shadow-2xl w-full max-w-2xl overflow-hidden max-h-[92vh] flex flex-col">
-              
               {/* Topo do Modal */}
               <div className="p-4 bg-slate-900 text-white flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <BookOpen size={16} className="text-red-400" />
                   <h3 className="font-extrabold text-xs uppercase tracking-wider">
-                    {editingCurso ? "Editar Formação Formativa" : "Criação de Formação Corporativa Completa"}
+                    {editingCurso
+                      ? "Editar Formação Formativa"
+                      : "Criação de Formação Corporativa Completa"}
                   </h3>
                 </div>
                 <button
@@ -788,352 +1891,75 @@ export default function AdminGerirCursos() {
               </div>
 
               {/* Barra de Passos do Assistente */}
-              <div className="grid grid-cols-4 bg-slate-100 border-b border-slate-200 text-xs font-bold divide-x divide-slate-200">
+              <div className="grid grid-cols-4 bg-slate-100 border-b border-slate-200 text-xs font-bold">
                 <button
                   type="button"
                   onClick={() => setModalStep(1)}
-                  className={`p-3 flex items-center justify-center gap-1.5 cursor-pointer transition-colors ${
+                  className={`p-3 sm:p-3.5 flex items-center justify-center gap-1.5 cursor-pointer transition-all relative ${
                     modalStep === 1
-                      ? "bg-white text-red-800 border-b-2 border-red-800"
-                      : "text-slate-600 hover:bg-slate-200/60"
+                      ? "bg-white text-red-800 font-extrabold border-b-2 border-red-800 -mb-[1px]"
+                      : "text-slate-500 hover:text-slate-900 hover:bg-slate-200/50 font-semibold"
                   }`}>
-                  <BookOpen size={14} />
+                  <BookOpen
+                    size={14}
+                    className={
+                      modalStep === 1 ? "text-red-800" : "text-slate-400"
+                    }
+                  />
                   <span>1. Geral</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setModalStep(2)}
-                  className={`p-3 flex items-center justify-center gap-1.5 cursor-pointer transition-colors ${
+                  className={`p-3 sm:p-3.5 flex items-center justify-center gap-1.5 cursor-pointer transition-all relative ${
                     modalStep === 2
-                      ? "bg-white text-red-800 border-b-2 border-red-800"
-                      : "text-slate-600 hover:bg-slate-200/60"
+                      ? "bg-white text-red-800 font-extrabold border-b-2 border-red-800 -mb-[1px]"
+                      : "text-slate-500 hover:text-slate-900 hover:bg-slate-200/50 font-semibold"
                   }`}>
-                  <User size={14} />
+                  <User
+                    size={14}
+                    className={
+                      modalStep === 2 ? "text-red-800" : "text-slate-400"
+                    }
+                  />
                   <span>2. Formador</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setModalStep(3)}
-                  className={`p-3 flex items-center justify-center gap-1.5 cursor-pointer transition-colors ${
+                  className={`p-3 sm:p-3.5 flex items-center justify-center gap-1.5 cursor-pointer transition-all relative ${
                     modalStep === 3
-                      ? "bg-white text-red-800 border-b-2 border-red-800"
-                      : "text-slate-600 hover:bg-slate-200/60"
+                      ? "bg-white text-red-800 font-extrabold border-b-2 border-red-800 -mb-[1px]"
+                      : "text-slate-500 hover:text-slate-900 hover:bg-slate-200/50 font-semibold"
                   }`}>
-                  <Layers size={14} />
+                  <Layers
+                    size={14}
+                    className={
+                      modalStep === 3 ? "text-red-800" : "text-slate-400"
+                    }
+                  />
                   <span>3. Módulos</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setModalStep(4)}
-                  className={`p-3 flex items-center justify-center gap-1.5 cursor-pointer transition-colors ${
+                  className={`p-3 sm:p-3.5 flex items-center justify-center gap-1.5 cursor-pointer transition-all relative ${
                     modalStep === 4
-                      ? "bg-white text-red-800 border-b-2 border-red-800"
-                      : "text-slate-600 hover:bg-slate-200/60"
+                      ? "bg-white text-red-800 font-extrabold border-b-2 border-red-800 -mb-[1px]"
+                      : "text-slate-500 hover:text-slate-900 hover:bg-slate-200/50 font-semibold"
                   }`}>
-                  <FileText size={14} />
+                  <FileText
+                    size={14}
+                    className={
+                      modalStep === 4 ? "text-red-800" : "text-slate-400"
+                    }
+                  />
                   <span>4. Recursos PDF</span>
                 </button>
               </div>
 
-              {/* Conteúdo dos Passos */}
-              <form onSubmit={handleSave} className="p-6 overflow-y-auto space-y-4 text-xs flex-1">
-                
-                {/* PASSO 1: DADOS GERAIS */}
-                {modalStep === 1 && (
-                  <div className="space-y-4 animate-in fade-in duration-150">
-                    <div className="space-y-1">
-                      <label className="font-bold text-slate-700 block">Título Oficial do Curso *</label>
-                      <input
-                        type="text"
-                        required
-                        value={formData.titulo}
-                        onChange={(e) => setFormData({ ...formData, titulo: e.target.value })}
-                        placeholder="Ex: Cegid Primavera — Módulos Corporativos"
-                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-900 focus:outline-none focus:border-slate-400"
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                        <label className="font-bold text-slate-700 block">Categoria *</label>
-                        <select
-                          value={formData.categoria}
-                          onChange={(e) => setFormData({ ...formData, categoria: e.target.value })}
-                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-800">
-                          <option value="ERP & Gestão">ERP & Gestão</option>
-                          <option value="Programação">Programação</option>
-                          <option value="Dados & BI">Dados & BI</option>
-                          <option value="Produtividade">Produtividade</option>
-                          <option value="IA">Inteligência Artificial</option>
-                        </select>
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="font-bold text-slate-700 block">Nível de Dificuldade</label>
-                        <select
-                          value={formData.nivel}
-                          onChange={(e) => setFormData({ ...formData, nivel: e.target.value })}
-                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-800">
-                          <option value="Iniciante">Iniciante</option>
-                          <option value="Intermédio">Intermédio</option>
-                          <option value="Avançado">Avançado</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                        <label className="font-bold text-slate-700 block">Carga Horária Total (Ex: 120h) *</label>
-                        <input
-                          type="text"
-                          required
-                          value={formData.duracao}
-                          onChange={(e) => setFormData({ ...formData, duracao: e.target.value })}
-                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-800"
-                        />
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="font-bold text-slate-700 block">Preço da Propina (Ex: 85.000 Kz) *</label>
-                        <input
-                          type="text"
-                          required
-                          value={formData.preco}
-                          onChange={(e) => setFormData({ ...formData, preco: e.target.value })}
-                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-800"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="font-bold text-slate-700 block">Descrição Resumida do Programa *</label>
-                      <textarea
-                        required
-                        rows={3}
-                        value={formData.descricao}
-                        onChange={(e) => setFormData({ ...formData, descricao: e.target.value })}
-                        placeholder="Objetivos gerais do programa formativo e competências desenvolvidas..."
-                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] text-slate-800 focus:outline-none focus:border-slate-400"
-                      />
-                    </div>
-
-                    <div className="space-y-2 pt-2 border-t border-slate-100">
-                      <label className="font-bold text-slate-700 block">Imagem Oficial da Capa do Curso</label>
-                      <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 bg-slate-100 border border-slate-200 rounded-[2px] flex items-center justify-center p-1 flex-shrink-0">
-                          <img src={imagePreview} alt="Preview" className="max-h-full max-w-full object-contain" />
-                        </div>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleImageFileChange}
-                          className="text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-[2px] file:border-0 file:text-xs file:font-bold file:bg-slate-900 file:text-white hover:file:bg-slate-800 cursor-pointer"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* PASSO 2: FORMADOR & EQUIPA */}
-                {modalStep === 2 && (
-                  <div className="space-y-4 animate-in fade-in duration-150">
-                    <div className="p-3 bg-slate-50 border border-slate-200/60 rounded-[2px] flex items-center gap-2 text-slate-700">
-                      <User size={16} className="text-red-800 flex-shrink-0" />
-                      <span>Atribua o formador responsável e as especificações de instrução da turma.</span>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                        <label className="font-bold text-slate-700 block">Nome do Formador Responsável *</label>
-                        <input
-                          type="text"
-                          required
-                          value={formData.instrutor}
-                          onChange={(e) => setFormData({ ...formData, instrutor: e.target.value })}
-                          placeholder="Ex: Eng. Mateus Silva"
-                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-800"
-                        />
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="font-bold text-slate-700 block">Cargo / Especialidade *</label>
-                        <input
-                          type="text"
-                          required
-                          value={formData.instrutorCargo}
-                          onChange={(e) => setFormData({ ...formData, instrutorCargo: e.target.value })}
-                          placeholder="Ex: Consultor Técnico Sénior Cegid Primavera"
-                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] text-slate-800"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="font-bold text-slate-700 block">Biografia Resumida do Formador</label>
-                      <textarea
-                        rows={3}
-                        defaultValue="Profissional certificado com sólida experiência na formação técnica corporativa em Angola. Mais de 10 anos de prática no setor."
-                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] text-slate-800 focus:outline-none focus:border-slate-400"
-                      />
-                    </div>
-
-                    <div className="p-3 bg-emerald-50/70 border border-emerald-200 rounded-[2px] flex items-center justify-between text-emerald-900 font-medium">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 size={16} className="text-emerald-700" />
-                        <span>Emitir Certificado de Conclusão Assinado pelo Formador</span>
-                      </div>
-                      <span className="font-bold text-[10px] uppercase bg-emerald-700 text-white px-2 py-0.5 rounded-[2px]">ATIVO</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* PASSO 3: MÓDULOS & CONTEÚDO PROGRAMÁTICO */}
-                {modalStep === 3 && (
-                  <div className="space-y-4 animate-in fade-in duration-150">
-                    <div className="flex items-center justify-between">
-                      <p className="text-slate-600 font-medium">
-                        Defina os módulos programáticos que compõem esta formação corporativa.
-                      </p>
-                      <button
-                        type="button"
-                        onClick={() => alert("Novo módulo adicionado com sucesso ao programa.")}
-                        className="px-3 py-1 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-[2px] flex items-center gap-1">
-                        <Plus size={13} />
-                        <span>Adicionar Módulo</span>
-                      </button>
-                    </div>
-
-                    <div className="space-y-2.5 max-h-64 overflow-y-auto pr-1">
-                      <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-[2px] space-y-1">
-                        <div className="flex items-center justify-between font-bold text-slate-900">
-                          <span>Módulo 1 — Conceitos Base de ERP & Instalação</span>
-                          <span className="text-[10px] font-mono text-slate-500">20h</span>
-                        </div>
-                        <p className="text-[11px] text-slate-500">Instalação do ambiente, parametrização inicial e segurança.</p>
-                      </div>
-
-                      <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-[2px] space-y-1">
-                        <div className="flex items-center justify-between font-bold text-slate-900">
-                          <span>Módulo 2 — Funcionalidades Operacionais & Facturação</span>
-                          <span className="text-[10px] font-mono text-slate-500">40h</span>
-                        </div>
-                        <p className="text-[11px] text-slate-500">Emissão de facturas, recibos, proformas e comunicação SAF-T AGT.</p>
-                      </div>
-
-                      <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-[2px] space-y-1">
-                        <div className="flex items-center justify-between font-bold text-slate-900">
-                          <span>Módulo 3 — Recursos Humanos, Tesouraria & Contabilidade</span>
-                          <span className="text-[10px] font-mono text-slate-500">35h</span>
-                        </div>
-                        <p className="text-[11px] text-slate-500">Processamento de salários, IRT, INSS, reconciliação e balancetes.</p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* PASSO 4: RECURSOS PDF & MATERIAIS */}
-                {modalStep === 4 && (
-                  <div className="space-y-4 animate-in fade-in duration-150">
-                    <div className="p-3 bg-slate-50 border border-slate-200/60 rounded-[2px] space-y-1">
-                      <div className="flex items-center gap-2 font-bold text-slate-900">
-                        <FileText size={16} className="text-red-800" />
-                        <span>Manuais de Apoio & Documentos da Formação (PDF)</span>
-                      </div>
-                      <p className="text-[11px] text-slate-500">
-                        Anexe manuais práticos, e-books ou guias de exercícios em formato PDF para os formandos.
-                      </p>
-                    </div>
-
-                    <div className="p-4 border-2 border-dashed border-slate-300 hover:border-slate-400 bg-slate-50/50 rounded-[2px] text-center space-y-2">
-                      <UploadCloud size={28} className="mx-auto text-slate-400" />
-                      <div>
-                        <p className="font-bold text-slate-800 text-xs">Arraste manuais PDF ou clique para selecionar</p>
-                        <p className="text-[10px] text-slate-400 font-mono">Formatos aceites: .pdf, .docx (Máx: 50MB)</p>
-                      </div>
-                      <input
-                        type="file"
-                        accept=".pdf,.docx"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) setPdfFile(file.name);
-                        }}
-                        className="hidden"
-                        id="pdf-upload-input-detail"
-                      />
-                      <label
-                        htmlFor="pdf-upload-input-detail"
-                        className="inline-block px-4 py-1.5 bg-slate-900 text-white font-bold text-xs rounded-[2px] cursor-pointer hover:bg-slate-800 transition-colors">
-                        Selecionar Ficheiro PDF
-                      </label>
-                    </div>
-
-                    {pdfFile && (
-                      <div className="p-3 bg-slate-900 text-white rounded-[2px] flex items-center justify-between">
-                        <div className="flex items-center gap-2.5">
-                          <Paperclip size={15} className="text-red-400" />
-                          <div>
-                            <p className="font-bold text-xs">{pdfFile}</p>
-                            <p className="text-[10px] text-slate-400 font-mono">Manual Oficial de Apoio • Anexado</p>
-                          </div>
-                        </div>
-                        <span className="px-2 py-0.5 bg-emerald-600 text-white text-[9px] font-extrabold uppercase rounded-[2px]">
-                          PRONTO
-                        </span>
-                      </div>
-                    )}
-
-                    <div className="pt-2 border-t border-slate-100">
-                      <label className="flex items-center gap-2 cursor-pointer text-slate-700 font-bold">
-                        <input
-                          type="checkbox"
-                          checked={formData.destaque}
-                          onChange={(e) => setFormData({ ...formData, destaque: e.target.checked })}
-                          className="rounded-[2px] text-red-800 focus:ring-0"
-                        />
-                        <span>Destacar como Curso Hero no Portal Público</span>
-                      </label>
-                    </div>
-                  </div>
-                )}
-
-                {/* Barra de Controlo e Navegação do Assistente */}
-                <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-4">
-                  {modalStep > 1 ? (
-                    <button
-                      type="button"
-                      onClick={() => setModalStep((prev) => (prev - 1) as 1 | 2 | 3 | 4)}
-                      className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-[2px] flex items-center gap-1">
-                      <ChevronLeft size={15} />
-                      <span>Anterior</span>
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setModalOpen(false)}
-                      className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-[2px]">
-                      Cancelar
-                    </button>
-                  )}
-
-                  {modalStep < 4 ? (
-                    <button
-                      type="button"
-                      onClick={() => setModalStep((prev) => (prev + 1) as 1 | 2 | 3 | 4)}
-                      className="px-5 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-[2px] flex items-center gap-1.5 shadow-xs cursor-pointer">
-                      <span>Seguinte</span>
-                      <ChevronRight size={15} />
-                    </button>
-                  ) : (
-                    <button
-                      type="submit"
-                      className="px-6 py-2 bg-red-800 hover:bg-red-900 text-white font-bold rounded-[2px] flex items-center gap-2 shadow-xs cursor-pointer">
-                      <Save size={15} />
-                      <span>Finalizar & Guardar Formação</span>
-                    </button>
-                  )}
-                </div>
-
-              </form>
+              {/* Conteúdo do Formulário */}
+              {renderFormInModal()}
             </div>
           </div>
         )}
@@ -1581,13 +2407,11 @@ export default function AdminGerirCursos() {
         <div className="fixed inset-0 bg-slate-950/60 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-in fade-in duration-150">
           <div className="bg-white rounded-[2px] border border-slate-200 shadow-2xl w-full max-w-2xl overflow-hidden max-h-[92vh] flex flex-col">
             {/* Topo do Modal */}
-            <div className="p-4 bg-slate-900 text-white flex items-center justify-between">
+            <div className="p-4 bg-slate-900  flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <BookOpen size={16} className="text-red-400" />
-                <h3 className="font-extrabold text-xs uppercase tracking-wider">
-                  {editingCurso
-                    ? "Editar Formação Formativa"
-                    : "Criação de Formação Corporativa Completa"}
+                <h3 className="font-extrabold text-white text-xs uppercase tracking-wider">
+                  {editingCurso ? "Editar curso" : "Criar curso"}
                 </h3>
               </div>
               <button
@@ -1598,451 +2422,75 @@ export default function AdminGerirCursos() {
             </div>
 
             {/* Barra de Passos do Assistente (Suave & Organizado) */}
-            <div className="grid grid-cols-4 bg-slate-100 border-b border-slate-200 text-xs font-bold divide-x divide-slate-200">
+            <div className="grid grid-cols-4 bg-slate-100 border-b border-slate-200 text-xs font-bold">
               <button
                 type="button"
                 onClick={() => setModalStep(1)}
-                className={`p-3 flex items-center justify-center gap-1.5 cursor-pointer transition-colors ${
+                className={`p-3 sm:p-3.5 flex items-center justify-center gap-1.5 cursor-pointer transition-all relative ${
                   modalStep === 1
-                    ? "bg-white text-red-800 border-b-2 border-red-800"
-                    : "text-slate-600 hover:bg-slate-200/60"
+                    ? "bg-white text-red-800 font-extrabold border-b-2 border-red-800 -mb-[1px]"
+                    : "text-slate-500 hover:text-slate-900 hover:bg-slate-200/50 font-semibold"
                 }`}>
-                <BookOpen size={14} />
+                <BookOpen
+                  size={14}
+                  className={
+                    modalStep === 1 ? "text-red-800" : "text-slate-400"
+                  }
+                />
                 <span>1. Geral</span>
               </button>
               <button
                 type="button"
                 onClick={() => setModalStep(2)}
-                className={`p-3 flex items-center justify-center gap-1.5 cursor-pointer transition-colors ${
+                className={`p-3 sm:p-3.5 flex items-center justify-center gap-1.5 cursor-pointer transition-all relative ${
                   modalStep === 2
-                    ? "bg-white text-red-800 border-b-2 border-red-800"
-                    : "text-slate-600 hover:bg-slate-200/60"
+                    ? "bg-white text-red-800 font-extrabold border-b-2 border-red-800 -mb-[1px]"
+                    : "text-slate-500 hover:text-slate-900 hover:bg-slate-200/50 font-semibold"
                 }`}>
-                <User size={14} />
+                <User
+                  size={14}
+                  className={
+                    modalStep === 2 ? "text-red-800" : "text-slate-400"
+                  }
+                />
                 <span>2. Formador</span>
               </button>
               <button
                 type="button"
                 onClick={() => setModalStep(3)}
-                className={`p-3 flex items-center justify-center gap-1.5 cursor-pointer transition-colors ${
+                className={`p-3 sm:p-3.5 flex items-center justify-center gap-1.5 cursor-pointer transition-all relative ${
                   modalStep === 3
-                    ? "bg-white text-red-800 border-b-2 border-red-800"
-                    : "text-slate-600 hover:bg-slate-200/60"
+                    ? "bg-white text-red-800 font-extrabold border-b-2 border-red-800 -mb-[1px]"
+                    : "text-slate-500 hover:text-slate-900 hover:bg-slate-200/50 font-semibold"
                 }`}>
-                <Layers size={14} />
+                <Layers
+                  size={14}
+                  className={
+                    modalStep === 3 ? "text-red-800" : "text-slate-400"
+                  }
+                />
                 <span>3. Módulos</span>
               </button>
               <button
                 type="button"
                 onClick={() => setModalStep(4)}
-                className={`p-3 flex items-center justify-center gap-1.5 cursor-pointer transition-colors ${
+                className={`p-3 sm:p-3.5 flex items-center justify-center gap-1.5 cursor-pointer transition-all relative ${
                   modalStep === 4
-                    ? "bg-white text-red-800 border-b-2 border-red-800"
-                    : "text-slate-600 hover:bg-slate-200/60"
+                    ? "bg-white text-red-800 font-extrabold border-b-2 border-red-800 -mb-[1px]"
+                    : "text-slate-500 hover:text-slate-900 hover:bg-slate-200/50 font-semibold"
                 }`}>
-                <FileText size={14} />
+                <FileText
+                  size={14}
+                  className={
+                    modalStep === 4 ? "text-red-800" : "text-slate-400"
+                  }
+                />
                 <span>4. Recursos PDF</span>
               </button>
             </div>
 
             {/* Conteúdo dos Passos */}
-            <form
-              onSubmit={handleSave}
-              className="p-6 overflow-y-auto space-y-4 text-xs flex-1">
-              {/* PASSO 1: DADOS GERAIS */}
-              {modalStep === 1 && (
-                <div className="space-y-4 animate-in fade-in duration-150">
-                  <div className="space-y-1">
-                    <label className="font-bold text-slate-700 block">
-                      Título Oficial do Curso *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.titulo}
-                      onChange={(e) =>
-                        setFormData({ ...formData, titulo: e.target.value })
-                      }
-                      placeholder="Ex: Cegid Primavera — Módulos Corporativos"
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-900 focus:outline-none focus:border-slate-400"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="font-bold text-slate-700 block">
-                        Categoria *
-                      </label>
-                      <select
-                        value={formData.categoria}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            categoria: e.target.value,
-                          })
-                        }
-                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-800">
-                        <option value="ERP & Gestão">ERP & Gestão</option>
-                        <option value="Programação">Programação</option>
-                        <option value="Dados & BI">Dados & BI</option>
-                        <option value="Produtividade">Produtividade</option>
-                        <option value="IA">Inteligência Artificial</option>
-                      </select>
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="font-bold text-slate-700 block">
-                        Nível de Dificuldade
-                      </label>
-                      <select
-                        value={formData.nivel}
-                        onChange={(e) =>
-                          setFormData({ ...formData, nivel: e.target.value })
-                        }
-                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-800">
-                        <option value="Iniciante">Iniciante</option>
-                        <option value="Intermédio">Intermédio</option>
-                        <option value="Avançado">Avançado</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="font-bold text-slate-700 block">
-                        Carga Horária Total (Ex: 120h) *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={formData.duracao}
-                        onChange={(e) =>
-                          setFormData({ ...formData, duracao: e.target.value })
-                        }
-                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-800"
-                      />
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="font-bold text-slate-700 block">
-                        Preço da Propina (Ex: 85.000 Kz) *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={formData.preco}
-                        onChange={(e) =>
-                          setFormData({ ...formData, preco: e.target.value })
-                        }
-                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-800"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1">
-                    <label className="font-bold text-slate-700 block">
-                      Descrição Resumida do Programa *
-                    </label>
-                    <textarea
-                      required
-                      rows={3}
-                      value={formData.descricao}
-                      onChange={(e) =>
-                        setFormData({ ...formData, descricao: e.target.value })
-                      }
-                      placeholder="Objetivos gerais do programa formativo e competências desenvolvidas..."
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] text-slate-800 focus:outline-none focus:border-slate-400"
-                    />
-                  </div>
-
-                  <div className="space-y-2 pt-2 border-t border-slate-100">
-                    <label className="font-bold text-slate-700 block">
-                      Imagem Oficial da Capa do Curso
-                    </label>
-                    <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 bg-slate-100 border border-slate-200 rounded-[2px] flex items-center justify-center p-1 flex-shrink-0">
-                        <img
-                          src={imagePreview}
-                          alt="Preview"
-                          className="max-h-full max-w-full object-contain"
-                        />
-                      </div>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageFileChange}
-                        className="text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-[2px] file:border-0 file:text-xs file:font-bold file:bg-slate-900 file:text-white hover:file:bg-slate-800 cursor-pointer"
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* PASSO 2: FORMADOR & EQUIPA */}
-              {modalStep === 2 && (
-                <div className="space-y-4 animate-in fade-in duration-150">
-                  <div className="p-3 bg-slate-50 border border-slate-200/60 rounded-[2px] flex items-center gap-2 text-slate-700">
-                    <User size={16} className="text-red-800 flex-shrink-0" />
-                    <span>
-                      Atribua o formador responsável e as especificações de
-                      instrução da turma.
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="font-bold text-slate-700 block">
-                        Nome do Formador Responsável *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={formData.instrutor}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            instrutor: e.target.value,
-                          })
-                        }
-                        placeholder="Ex: Eng. Mateus Silva"
-                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] font-semibold text-slate-800"
-                      />
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="font-bold text-slate-700 block">
-                        Cargo / Especialidade *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={formData.instrutorCargo}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            instrutorCargo: e.target.value,
-                          })
-                        }
-                        placeholder="Ex: Consultor Técnico Sénior Cegid Primavera"
-                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] text-slate-800"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1">
-                    <label className="font-bold text-slate-700 block">
-                      Biografia Resumida do Formador
-                    </label>
-                    <textarea
-                      rows={3}
-                      defaultValue="Profissional certificado com sólida experiência na formação técnica corporativa em Angola. Mais de 10 anos de prática no setor."
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[2px] text-slate-800 focus:outline-none focus:border-slate-400"
-                    />
-                  </div>
-
-                  <div className="p-3 bg-emerald-50/70 border border-emerald-200 rounded-[2px] flex items-center justify-between text-emerald-900 font-medium">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle2 size={16} className="text-emerald-700" />
-                      <span>
-                        Emitir Certificado de Conclusão Assinado pelo Formador
-                      </span>
-                    </div>
-                    <span className="font-bold text-[10px] uppercase bg-emerald-700 text-white px-2 py-0.5 rounded-[2px]">
-                      ATIVO
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {/* PASSO 3: MÓDULOS & CONTEÚDO PROGRAMÁTICO */}
-              {modalStep === 3 && (
-                <div className="space-y-4 animate-in fade-in duration-150">
-                  <div className="flex items-center justify-between">
-                    <p className="text-slate-600 font-medium">
-                      Defina os módulos programáticos que compõem esta formação
-                      corporativa.
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        alert("Novo módulo adicionado com sucesso ao programa.")
-                      }
-                      className="px-3 py-1 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-[2px] flex items-center gap-1">
-                      <Plus size={13} />
-                      <span>Adicionar Módulo</span>
-                    </button>
-                  </div>
-
-                  <div className="space-y-2.5 max-h-64 overflow-y-auto pr-1">
-                    <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-[2px] space-y-1">
-                      <div className="flex items-center justify-between font-bold text-slate-900">
-                        <span>
-                          Módulo 1 — Conceitos Base de ERP & Instalação
-                        </span>
-                        <span className="text-[10px] font-mono text-slate-500">
-                          20h
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-slate-500">
-                        Instalação do ambiente, parametrização inicial e
-                        segurança.
-                      </p>
-                    </div>
-
-                    <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-[2px] space-y-1">
-                      <div className="flex items-center justify-between font-bold text-slate-900">
-                        <span>
-                          Módulo 2 — Funcionalidades Operacionais & Facturação
-                        </span>
-                        <span className="text-[10px] font-mono text-slate-500">
-                          40h
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-slate-500">
-                        Emissão de facturas, recibos, proformas e comunicação
-                        SAF-T AGT.
-                      </p>
-                    </div>
-
-                    <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-[2px] space-y-1">
-                      <div className="flex items-center justify-between font-bold text-slate-900">
-                        <span>
-                          Módulo 3 — Recursos Humanos, Tesouraria &
-                          Contabilidade
-                        </span>
-                        <span className="text-[10px] font-mono text-slate-500">
-                          35h
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-slate-500">
-                        Processamento de salários, IRT, INSS, reconciliação e
-                        balancetes.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* PASSO 4: RECURSOS PDF & MATERIAIS */}
-              {modalStep === 4 && (
-                <div className="space-y-4 animate-in fade-in duration-150">
-                  <div className="p-3 bg-slate-50 border border-slate-200/60 rounded-[2px] space-y-1">
-                    <div className="flex items-center gap-2 font-bold text-slate-900">
-                      <FileText size={16} className="text-red-800" />
-                      <span>
-                        Manuais de Apoio & Documentos da Formação (PDF)
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-slate-500">
-                      Anexe manuais práticos, e-books ou guias de exercícios em
-                      formato PDF para os formandos.
-                    </p>
-                  </div>
-
-                  <div className="p-4 border-2 border-dashed border-slate-300 hover:border-slate-400 bg-slate-50/50 rounded-[2px] text-center space-y-2">
-                    <UploadCloud size={28} className="mx-auto text-slate-400" />
-                    <div>
-                      <p className="font-bold text-slate-800 text-xs">
-                        Arraste manuais PDF ou clique para selecionar
-                      </p>
-                      <p className="text-[10px] text-slate-400 font-mono">
-                        Formatos aceites: .pdf, .docx (Máx: 50MB)
-                      </p>
-                    </div>
-                    <input
-                      type="file"
-                      accept=".pdf,.docx"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) setPdfFile(file.name);
-                      }}
-                      className="hidden"
-                      id="pdf-upload-input"
-                    />
-                    <label
-                      htmlFor="pdf-upload-input"
-                      className="inline-block px-4 py-1.5 bg-slate-900 text-white font-bold text-xs rounded-[2px] cursor-pointer hover:bg-slate-800 transition-colors">
-                      Selecionar Ficheiro PDF
-                    </label>
-                  </div>
-
-                  {pdfFile && (
-                    <div className="p-3 bg-slate-900 text-white rounded-[2px] flex items-center justify-between">
-                      <div className="flex items-center gap-2.5">
-                        <Paperclip size={15} className="text-red-400" />
-                        <div>
-                          <p className="font-bold text-xs">{pdfFile}</p>
-                          <p className="text-[10px] text-slate-400 font-mono">
-                            Manual Oficial de Apoio • Anexado
-                          </p>
-                        </div>
-                      </div>
-                      <span className="px-2 py-0.5 bg-emerald-600 text-white text-[9px] font-extrabold uppercase rounded-[2px]">
-                        PRONTO
-                      </span>
-                    </div>
-                  )}
-
-                  <div className="pt-2 border-t border-slate-100">
-                    <label className="flex items-center gap-2 cursor-pointer text-slate-700 font-bold">
-                      <input
-                        type="checkbox"
-                        checked={formData.destaque}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            destaque: e.target.checked,
-                          })
-                        }
-                        className="rounded-[2px] text-red-800 focus:ring-0"
-                      />
-                      <span>Destacar como Curso Hero no Portal Público</span>
-                    </label>
-                  </div>
-                </div>
-              )}
-
-              {/* Barra de Controlo e Navegação do Assistente */}
-              <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-4">
-                {modalStep > 1 ? (
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setModalStep((prev) => (prev - 1) as 1 | 2 | 3 | 4)
-                    }
-                    className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-[2px] flex items-center gap-1">
-                    <ChevronLeft size={15} />
-                    <span>Anterior</span>
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => setModalOpen(false)}
-                    className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-[2px]">
-                    Cancelar
-                  </button>
-                )}
-
-                {modalStep < 4 ? (
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setModalStep((prev) => (prev + 1) as 1 | 2 | 3 | 4)
-                    }
-                    className="px-5 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-[2px] flex items-center gap-1.5 shadow-xs cursor-pointer">
-                    <span>Seguinte</span>
-                    <ChevronRight size={15} />
-                  </button>
-                ) : (
-                  <button
-                    type="submit"
-                    className="px-6 py-2 bg-red-800 hover:bg-red-900 text-white font-bold rounded-[2px] flex items-center gap-2 shadow-xs cursor-pointer">
-                    <Save size={15} />
-                    <span>Finalizar & Guardar Formação</span>
-                  </button>
-                )}
-              </div>
-            </form>
+            {renderFormInModal()}
           </div>
         </div>
       )}

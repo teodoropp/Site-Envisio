@@ -227,15 +227,15 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
                         <Link
                           key={item.rota}
                           to={item.rota}
-                          className={`flex items-center justify-between px-2.5 py-1.5  text-[11px] font-semibold transition-all ${
+                          className={`flex items-center justify-between px-2.5 py-1.5 text-[11px] transition-colors rounded-[4px] ${
                             active
-                              ? "bg-slate-900 text-white shadow-2xs rounded-[4px]"
-                              : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"
+                              ? "bg-transparent text-red-800 font-extrabold"
+                              : "text-slate-600 hover:text-red-800 font-semibold"
                           }`}>
                           <div className="flex items-center gap-2">
                             <span
                               className={
-                                active ? "text-red-400" : "text-slate-400"
+                                active ? "text-red-800" : "text-slate-400"
                               }>
                               {item.icone}
                             </span>
@@ -252,26 +252,48 @@ export default function LayoutAdmin({ children }: LayoutAdminProps) {
         </div>
 
         {/* Rodapé da Sidebar: Opções em Coluna Organizada (Perfil, Definições, Sair) */}
-        <div className="p-3 border-t border-slate-100 bg-slate-50/70 flex flex-col flex-shrink-0">
+        <div className="p-3 border-t border-slate-100 flex flex-col flex-shrink-0">
           <div className="flex flex-col space-y-0.5">
             <Link
               to="/academia/admin/perfil"
-              className="flex items-center gap-2.5 px-3 py-1.5 rounded-[4px] text-[11px] font-semibold text-slate-600 hover:bg-white hover:text-slate-900 transition-all border border-transparent hover:border-slate-200/60 shadow-2xs">
-              <User size={14} className="text-slate-400" />
+              className={`flex items-center gap-2.5 px-3 py-1.5 rounded-[4px] text-[11px] transition-colors ${
+                isActive("/academia/admin/perfil")
+                  ? "bg-transparent text-red-800 font-extrabold"
+                  : "text-slate-600 hover:text-red-800 font-semibold"
+              }`}>
+              <User
+                size={14}
+                className={
+                  isActive("/academia/admin/perfil")
+                    ? "text-red-800"
+                    : "text-slate-400"
+                }
+              />
               <span>Perfil</span>
             </Link>
 
             <Link
               to="/academia/admin/configuracoes"
-              className="flex items-center gap-2.5 px-3 py-1.5 rounded-[4px] text-[11px] font-semibold text-slate-600 hover:bg-white hover:text-slate-900 transition-all border border-transparent hover:border-slate-200/60 shadow-2xs">
-              <Settings size={14} className="text-slate-400" />
+              className={`flex items-center gap-2.5 px-3 py-1.5 rounded-[4px] text-[11px] transition-colors ${
+                isActive("/academia/admin/configuracoes")
+                  ? "bg-transparent text-red-800 font-extrabold"
+                  : "text-slate-600 hover:text-red-800 font-semibold"
+              }`}>
+              <Settings
+                size={14}
+                className={
+                  isActive("/academia/admin/configuracoes")
+                    ? "text-red-800"
+                    : "text-slate-400"
+                }
+              />
               <span>Definições</span>
             </Link>
 
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-[4px] text-[11px] font-bold text-red-700 hover:bg-red-50 transition-all cursor-pointer text-left">
-              <LogOut size={14} className="text-red-600" />
+              className="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-[4px] text-[11px] font-semibold text-slate-600 hover:text-red-800 transition-colors cursor-pointer text-left group">
+              <LogOut size={14} className="text-slate-400 group-hover:text-red-800 transition-colors" />
               <span>Sair</span>
             </button>
           </div>

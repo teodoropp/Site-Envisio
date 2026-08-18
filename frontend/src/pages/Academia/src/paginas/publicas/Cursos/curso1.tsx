@@ -708,11 +708,12 @@ export default function CursoDetalhe() {
                 {cursoExibir.categoria || "ERP & Gestão"}
               </span>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black !text-white tracking-tight leading-tight mb-4">
-                {cursoExibir.titulo || "Cegid Primavera: Funcionalidades e Módulos"}
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold !text-white tracking-tight leading-tight mb-3">
+                {cursoExibir.titulo ||
+                  "Cegid Primavera: Funcionalidades e Módulos"}
               </h1>
 
-              <p className="!text-slate-200 text-base sm:text-lg leading-relaxed mb-6 max-w-2xl font-normal">
+              <p className="!text-slate-200 text-[14px] leading-relaxed mb-6 max-w-2xl font-normal">
                 {cursoExibir.descricao}
               </p>
 
@@ -725,7 +726,9 @@ export default function CursoDetalhe() {
                 </button>
                 <button
                   onClick={() => {
-                    const elem = document.getElementById("conteudo-programatico");
+                    const elem = document.getElementById(
+                      "conteudo-programatico",
+                    );
                     if (elem) elem.scrollIntoView({ behavior: "smooth" });
                   }}
                   className="btn-academia-secondary px-6 py-3.5 text-xs uppercase tracking-wider cursor-pointer">
@@ -781,7 +784,9 @@ export default function CursoDetalhe() {
             </div>
 
             {/* Box 2: Conteúdo Programático (Acordeão Expansível) */}
-            <div id="conteudo-programatico" className="bg-white rounded-[5px] p-6 sm:p-8 border border-slate-200/80 shadow-sm scroll-mt-24">
+            <div
+              id="conteudo-programatico"
+              className="bg-white rounded-[5px] p-6 sm:p-8 border border-slate-200/80 shadow-sm scroll-mt-24">
               <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                 <div>
                   <h2 className="text-xl font-bold text-slate-900">
@@ -832,7 +837,9 @@ export default function CursoDetalhe() {
                         </div>
                         <ChevronDown
                           className={`text-slate-400 transition-transform duration-200 flex-shrink-0 ${
-                            moduloAberto === index ? "transform rotate-180 text-slate-700" : ""
+                            moduloAberto === index
+                              ? "transform rotate-180 text-slate-700"
+                              : ""
                           }`}
                           size={18}
                         />
@@ -1048,7 +1055,7 @@ export default function CursoDetalhe() {
                   <li className="flex items-center gap-3">
                     <Award size={16} className="text-slate-400" />
                     <span>
-                      <strong>Certificado de Conclusão</strong> Oficial
+                      <strong>Certificado de Conclusão</strong>
                     </span>
                   </li>
                   <li className="flex items-center gap-3">
@@ -1067,7 +1074,7 @@ export default function CursoDetalhe() {
                 <div className="text-center mt-10 mb-8">
                   <button
                     onClick={() => setModalInscricaoAberto(true)}
-                    className="inline-flex items-center gap-1 text-xs font-bold text-slate-900 hover:text-red-600 uppercase tracking-wider transition-colors duration-200 cursor-pointer">
+                    className="bg-red-500 px-6 py-2 border inline-flex items-center gap-1 text-xs font-bold text-white  uppercase tracking-wider transition-colors duration-200 cursor-pointer">
                     <span>Inscreva-se Agora</span>
                   </button>
                 </div>
@@ -1119,7 +1126,8 @@ export default function CursoDetalhe() {
               Outras Formações Recomendadas
             </h2>
             <p className="text-slate-500 text-xs mt-2 font-normal max-w-lg">
-              Explore formações práticas e especializadas para impulsionar a sua carreira no mercado corporativo.
+              Explore formações práticas e especializadas para impulsionar a sua
+              carreira no mercado corporativo.
             </p>
           </div>
 
@@ -1143,7 +1151,9 @@ export default function CursoDetalhe() {
                 <div className="flex items-center gap-1 text-amber-500 font-bold text-[11px] mb-1.5">
                   <Star size={12} fill="currentColor" />
                   <span>4.9</span>
-                  <span className="text-slate-400 font-normal text-[10px]">(128)</span>
+                  <span className="text-slate-400 font-normal text-[10px]">
+                    (128)
+                  </span>
                 </div>
                 <h3 className="font-bold text-sm text-slate-900 group-hover:text-red-600 transition-colors mb-1.5 line-clamp-1">
                   Cegid Primavera ERP
@@ -1152,7 +1162,9 @@ export default function CursoDetalhe() {
                   Operação e parametrização nos módulos de Vendas, Compras e RH.
                 </p>
                 <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
-                  <span className="text-slate-400 font-medium text-[10px]">120 Horas</span>
+                  <span className="text-slate-400 font-medium text-[10px]">
+                    120 Horas
+                  </span>
                   <span className="text-red-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 text-[11px] font-bold">
                     Saber mais &rarr;
                   </span>
@@ -1179,16 +1191,21 @@ export default function CursoDetalhe() {
                 <div className="flex items-center gap-1 text-amber-500 font-bold text-[11px] mb-1.5">
                   <Star size={12} fill="currentColor" />
                   <span>4.9</span>
-                  <span className="text-slate-400 font-normal text-[10px]">(96)</span>
+                  <span className="text-slate-400 font-normal text-[10px]">
+                    (96)
+                  </span>
                 </div>
                 <h3 className="font-bold text-sm text-slate-900 group-hover:text-red-600 transition-colors mb-1.5 line-clamp-1">
                   Programação Web & React
                 </h3>
                 <p className="text-[12px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
-                  HTML5, CSS3, JavaScript ES6+ e React.js para interfaces modernas.
+                  HTML5, CSS3, JavaScript ES6+ e React.js para interfaces
+                  modernas.
                 </p>
                 <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
-                  <span className="text-slate-400 font-medium text-[10px]">80 Horas</span>
+                  <span className="text-slate-400 font-medium text-[10px]">
+                    80 Horas
+                  </span>
                   <span className="text-red-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 text-[11px] font-bold">
                     Saber mais &rarr;
                   </span>
@@ -1215,16 +1232,21 @@ export default function CursoDetalhe() {
                 <div className="flex items-center gap-1 text-amber-500 font-bold text-[11px] mb-1.5">
                   <Star size={12} fill="currentColor" />
                   <span>4.9</span>
-                  <span className="text-slate-400 font-normal text-[10px]">(84)</span>
+                  <span className="text-slate-400 font-normal text-[10px]">
+                    (84)
+                  </span>
                 </div>
                 <h3 className="font-bold text-sm text-slate-900 group-hover:text-red-600 transition-colors mb-1.5 line-clamp-1">
                   Redes & Segurança de Informação
                 </h3>
                 <p className="text-[12px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
-                  Infraestrutura Cisco, Firewalls, VPNs e ciberdefesa empresarial.
+                  Infraestrutura Cisco, Firewalls, VPNs e ciberdefesa
+                  empresarial.
                 </p>
                 <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
-                  <span className="text-slate-400 font-medium text-[10px]">100 Horas</span>
+                  <span className="text-slate-400 font-medium text-[10px]">
+                    100 Horas
+                  </span>
                   <span className="text-red-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 text-[11px] font-bold">
                     Saber mais &rarr;
                   </span>
@@ -1251,7 +1273,9 @@ export default function CursoDetalhe() {
                 <div className="flex items-center gap-1 text-amber-500 font-bold text-[11px] mb-1.5">
                   <Star size={12} fill="currentColor" />
                   <span>4.9</span>
-                  <span className="text-slate-400 font-normal text-[10px]">(112)</span>
+                  <span className="text-slate-400 font-normal text-[10px]">
+                    (112)
+                  </span>
                 </div>
                 <h3 className="font-bold text-sm text-slate-900 group-hover:text-red-600 transition-colors mb-1.5 line-clamp-1">
                   Base de Dados SQL Server
@@ -1260,7 +1284,9 @@ export default function CursoDetalhe() {
                   Modelagem relacional, T-SQL, Stored Procedures e Backup.
                 </p>
                 <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
-                  <span className="text-slate-400 font-medium text-[10px]">120 Horas</span>
+                  <span className="text-slate-400 font-medium text-[10px]">
+                    120 Horas
+                  </span>
                   <span className="text-red-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 text-[11px] font-bold">
                     Saber mais &rarr;
                   </span>
@@ -1279,7 +1305,6 @@ export default function CursoDetalhe() {
           </div>
         </div>
       </section>
-
 
       {/* Modal de Vídeo */}
       <ModalVideo

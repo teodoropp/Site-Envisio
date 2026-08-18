@@ -37,8 +37,18 @@ interface FormularioInscricaoProps {
 
 const STEPS = [
   { id: 1, title: "Dados Pessoais", description: "Nome e Contato", icon: User },
-  { id: 2, title: "Perfil & Turno", description: "Experiência e Horário", icon: Briefcase },
-  { id: 3, title: "Finalização", description: "Anexos e Mensagem", icon: FileText },
+  {
+    id: 2,
+    title: "Perfil & Turno",
+    description: "Experiência e Horário",
+    icon: Briefcase,
+  },
+  {
+    id: 3,
+    title: "Finalização",
+    description: "Anexos e Mensagem",
+    icon: FileText,
+  },
 ];
 
 const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
@@ -99,28 +109,47 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
     return true;
   };
 
-  const handleNext = () => {
+  const handleNext = (e?: React.MouseEvent | React.FormEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (validateStep(currentStep)) {
       setError("");
       setCurrentStep((prev) => Math.min(prev + 1, STEPS.length));
     }
   };
 
-  const handleBack = () => {
+  const handleBack = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     setError("");
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateStep(1) || !validateStep(2)) return;
+  const handleFinalSubmit = async (e?: React.MouseEvent | React.FormEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (currentStep !== STEPS.length) {
+      return;
+    }
+    if (!validateStep(1) || !validateStep(2)) {
+      return;
+    }
 
     setLoading(true);
     setError("");
 
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append("nome", formData.nome || formData.email.split("@")[0]);
+      formDataToSend.append(
+        "nome",
+        formData.nome || formData.email.split("@")[0],
+      );
       formDataToSend.append("sobrenome", formData.sobrenome || "");
       formDataToSend.append("email", formData.email);
       formDataToSend.append("telefone", formData.telefone);
@@ -137,15 +166,45 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
         });
       }
 
-      const targetUrl = process.env.REACT_APP_API_URL
-        ? `${process.env.REACT_APP_API_URL}/api/email`
-        : "https://api.maisresultados.co.ao/api/email";
+      // Tentativa de envio para a API em background
+      try {
+        const targetUrl = process.env.REACT_APP_API_URL
+          ? `${process.env.REACT_APP_API_URL}/api/email`
+          : "https://api.maisresultados.co.ao/api/email";
 
-      await axios.post(targetUrl, formDataToSend, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+        await axios.post(targetUrl, formDataToSend, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } catch (apiErr) {
+        console.warn(
+          "API de email não disponível, prosseguindo com WhatsApp:",
+          apiErr,
+        );
+      }
+
+      // Preparar mensagem estruturada para o WhatsApp
+      const whatsappNumber = "244947137676";
+      const nomeCompleto =
+        `${formData.nome} ${formData.sobrenome}`.trim() ||
+        formData.email.split("@")[0];
+      const mensagemWhatsApp = `*Nova Inscrição - Academia Envisio* 🎓
+
+📌 *Curso:* ${cursoNome}
+👤 *Candidato:* ${nomeCompleto}
+📧 *E-mail:* ${formData.email}
+📱 *Telefone / WhatsApp:* ${formData.telefone}
+🏢 *Empresa:* ${formData.empresa.trim() || "Particular"}
+💼 *Nível de Experiência:* ${formData.nivelExperiencia || "Não especificado"}
+⏰ *Turno Preferencial:* ${formData.turno || "A combinar"}
+${formData.mensagem.trim() ? `💬 *Mensagem/Obs:* ${formData.mensagem.trim()}` : ""}
+
+Olá, acabei de preencher a minha inscrição no site e aguardo a confirmação da vaga!`;
+
+      // Abrir WhatsApp diretamente
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(mensagemWhatsApp)}`;
+      window.open(whatsappUrl, "_blank");
 
       setSuccess(true);
 
@@ -168,11 +227,11 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
         if (onSuccess) {
           onSuccess();
         }
-      }, 3000);
+      }, 2500);
     } catch (err) {
       console.error("Erro ao enviar inscrição:", err);
       setError(
-        "Ocorreu um erro ao enviar a sua inscrição. Por favor, tente novamente."
+        "Ocorreu um erro ao processar os dados. Por favor, tente novamente.",
       );
     } finally {
       setLoading(false);
@@ -204,14 +263,15 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ type: "spring", duration: 0.35 }}
           className="w-full max-w-2xl bg-white rounded-none shadow-2xl border-0 flex flex-col overflow-hidden relative"
-          onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
-          
+          onClick={(e: React.MouseEvent<HTMLDivElement>) =>
+            e.stopPropagation()
+          }>
           {/* Header */}
           <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white px-6 sm:px-8 py-5 flex items-center justify-between border-b border-slate-800">
             <div>
               <div className="flex items-center gap-2 text-xs text-slate-400 font-normal uppercase tracking-wider mb-0.5">
                 <ShieldCheck size={14} />
-                <span>Inscrição Oficial</span>
+                <span>Inscrição</span>
               </div>
               <h3 className="text-lg sm:text-xl font-normal text-white leading-tight">
                 {cursoNome}
@@ -235,20 +295,26 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
                 const IconComponent = step.icon;
 
                 return (
-                  <div key={step.id} className="flex flex-col items-center text-center relative z-10">
+                  <div
+                    key={step.id}
+                    className="flex flex-col items-center text-center relative z-10">
                     <div className="mb-1 flex items-center justify-center">
                       {isCompleted ? (
                         <Check size={20} className="text-emerald-600" />
                       ) : (
                         <IconComponent
                           size={20}
-                          className={isCurrent ? "text-slate-900" : "text-slate-400"}
+                          className={
+                            isCurrent ? "text-slate-900" : "text-slate-400"
+                          }
                         />
                       )}
                     </div>
                     <span
                       className={`text-xs font-normal transition-colors ${
-                        isCurrent || isCompleted ? "text-slate-900" : "text-slate-400"
+                        isCurrent || isCompleted
+                          ? "text-slate-900"
+                          : "text-slate-400"
                       }`}>
                       {step.title}
                     </span>
@@ -268,13 +334,24 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
                 <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-none flex items-center justify-center mx-auto shadow-inner">
                   <Check size={36} />
                 </div>
-                <h4 className="text-2xl font-normal text-slate-900">Inscrição Enviada!</h4>
+                <h4 className="text-2xl font-normal text-slate-900">
+                  Inscrição Enviada!
+                </h4>
                 <p className="text-sm text-slate-600 max-w-md mx-auto font-normal">
-                  A sua vaga foi reservada com sucesso. A nossa equipa entrará em contacto muito em breve para dar segmento à sua matrícula.
+                  A sua vaga foi reservada com sucesso. A nossa equipa entrará
+                  em contacto muito em breve para dar segmento à sua matrícula.
                 </p>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit}>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (currentStep < STEPS.length) {
+                    handleNext(e);
+                  } else {
+                    handleFinalSubmit(e);
+                  }
+                }}>
                 <AnimatePresence mode="wait">
                   {/* ETAPA 1: DADOS PESSOAIS */}
                   {currentStep === 1 && (
@@ -290,21 +367,25 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
                           Passo 1: Identificação Pessoal
                         </h4>
                         <p className="text-xs text-slate-500 font-normal">
-                          Preencha os seus dados de contacto para o registo na ficha de inscrição.
+                          Preencha os seus dados de contacto para o registo na
+                          ficha de inscrição.
                         </p>
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-xs font-normal text-slate-700 uppercase tracking-wider mb-1">
-                            E-mail Corporativo / Pessoal *
+                            E-mail *
                           </label>
                           <input
                             type="email"
                             required
                             value={formData.email}
                             onChange={(e) =>
-                              setFormData({ ...formData, email: e.target.value })
+                              setFormData({
+                                ...formData,
+                                email: e.target.value,
+                              })
                             }
                             className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-none text-sm font-normal focus:ring-2 focus:ring-slate-900 focus:border-slate-900 focus:bg-white focus:outline-none transition-all"
                             placeholder="seu.email@exemplo.com"
@@ -313,14 +394,17 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
                         </div>
                         <div>
                           <label className="block text-xs font-normal text-slate-700 uppercase tracking-wider mb-1">
-                            Telefone / WhatsApp *
+                            Telefone *
                           </label>
                           <input
                             type="tel"
                             required
                             value={formData.telefone}
                             onChange={(e) =>
-                              setFormData({ ...formData, telefone: e.target.value })
+                              setFormData({
+                                ...formData,
+                                telefone: e.target.value,
+                              })
                             }
                             className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-none text-sm font-normal focus:ring-2 focus:ring-slate-900 focus:border-slate-900 focus:bg-white focus:outline-none transition-all"
                             placeholder="+244 9XX XXX XXX"
@@ -366,9 +450,9 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
                             className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-none text-sm font-normal focus:ring-2 focus:ring-slate-900 focus:border-slate-900 focus:bg-white focus:outline-none transition-all"
                             disabled={loading}>
                             <option value="">Selecione o seu nível</option>
-                            <option value="Iniciante">Iniciante (Sem conhecimento prévio)</option>
-                            <option value="Intermediário">Intermediário (Uso ocasional de ERP)</option>
-                            <option value="Avançado">Avançado (Experiência profissional consolidada)</option>
+                            <option value="Iniciante">Iniciante</option>
+                            <option value="Intermediário">Intermediário</option>
+                            <option value="Avançado">Avançado</option>
                           </select>
                         </div>
 
@@ -380,7 +464,10 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
                             type="text"
                             value={formData.empresa}
                             onChange={(e) =>
-                              setFormData({ ...formData, empresa: e.target.value })
+                              setFormData({
+                                ...formData,
+                                empresa: e.target.value,
+                              })
                             }
                             className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-none text-sm font-normal focus:ring-2 focus:ring-slate-900 focus:border-slate-900 focus:bg-white focus:outline-none transition-all"
                             placeholder="Nome da sua instituição"
@@ -397,7 +484,8 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
                           {/* Turno A */}
                           <div
                             onClick={() =>
-                              !loading && setFormData({ ...formData, turno: "Turno A" })
+                              !loading &&
+                              setFormData({ ...formData, turno: "Turno A" })
                             }
                             className={`p-3.5 rounded-none border cursor-pointer transition-all ${
                               formData.turno === "Turno A"
@@ -406,7 +494,7 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
                             }`}>
                             <div className="flex items-center justify-between mb-1">
                               <span className="text-xs font-normal text-slate-900">
-                                Turno A (Manhã / Presencial)
+                                Turno A (Manhã)
                               </span>
                               <input
                                 type="radio"
@@ -417,14 +505,15 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
                               />
                             </div>
                             <p className="text-[11px] text-slate-500 font-normal">
-                              Segunda a Sexta — 8h às 17h (Intensivo Presencial)
+                              Segunda a Sexta — 8h às 17h
                             </p>
                           </div>
 
                           {/* Turno B */}
                           <div
                             onClick={() =>
-                              !loading && setFormData({ ...formData, turno: "Turno B" })
+                              !loading &&
+                              setFormData({ ...formData, turno: "Turno B" })
                             }
                             className={`p-3.5 rounded-none border cursor-pointer transition-all ${
                               formData.turno === "Turno B"
@@ -433,7 +522,7 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
                             }`}>
                             <div className="flex items-center justify-between mb-1">
                               <span className="text-xs font-normal text-slate-900">
-                                Turno B (Pós-Laboral / Misto)
+                                Turno B (Pós-Laboral)
                               </span>
                               <input
                                 type="radio"
@@ -444,7 +533,7 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
                               />
                             </div>
                             <p className="text-[11px] text-slate-500 font-normal">
-                              Terça/Quarta (19h-21h Online) + Domingo (9h-17h Presencial)
+                              Terça/Quarta (19h-21h Online) + Domingo (9h-17h)
                             </p>
                           </div>
                         </div>
@@ -466,7 +555,7 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
                           Passo 3: Documentação e Observações
                         </h4>
                         <p className="text-xs text-slate-500 font-normal">
-                          Poderá anexar o seu CV ou Bilhete de Identidade (opcional) e adicionar uma nota.
+                          Bilhete de Identidade.
                         </p>
                       </div>
 
@@ -475,31 +564,43 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
                         <label className="block text-xs font-normal text-slate-700 uppercase tracking-wider mb-1.5">
                           Anexar Documentos (PDF / Imagem)
                         </label>
-                        <div className="border-2 border-dashed border-slate-200 hover:border-slate-300 rounded-none p-5 text-center bg-slate-50/50 transition-colors">
+                        <label
+                          htmlFor="file-upload-step"
+                          className="border-2 border-dashed border-slate-300 hover:border-slate-400 rounded-none p-5 text-center bg-slate-50/50 hover:bg-slate-50 transition-all block cursor-pointer">
                           <Upload className="w-8 h-8 text-slate-400 mx-auto mb-2" />
-                          <label
-                            htmlFor="file-upload-step"
-                            className="cursor-pointer text-xs font-normal text-slate-900 hover:text-black underline">
-                            <span>Clique para carregar ficheiros</span>
-                            <input
-                              id="file-upload-step"
-                              type="file"
-                              className="sr-only"
-                              multiple
-                              accept=".pdf,.png,.jpg,.jpeg"
-                              onChange={handleFileChange}
-                            />
-                          </label>
-                          <p className="text-[10px] text-slate-400 mt-1 font-normal">
+                          <span className="text-xs font-semibold text-slate-900 hover:text-black underline block">
+                            Clique aqui para carregar ficheiros (PDF / Imagem)
+                          </span>
+                          <input
+                            id="file-upload-step"
+                            type="file"
+                            className="sr-only"
+                            multiple
+                            accept=".pdf,.png,.jpg,.jpeg"
+                            onChange={handleFileChange}
+                          />
+                          <p className="text-[10px] text-slate-500 mt-1 font-normal">
                             PDF, PNG ou JPG até 10MB
                           </p>
-                        </div>
+                        </label>
                         {fileNames.length > 0 && (
                           <div className="mt-2 text-xs text-slate-600 bg-slate-100 p-2.5 rounded-none border border-slate-200">
-                            <span className="font-normal text-slate-700 block mb-1">
-                              Ficheiros selecionados:
-                            </span>
-                            <ul className="list-disc pl-4 space-y-0.5 text-[11px] font-normal">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="font-semibold text-slate-800 block">
+                                Ficheiros selecionados ({fileNames.length}):
+                              </span>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setFileNames([]);
+                                  setArquivos(null);
+                                }}
+                                className="text-[11px] text-red-600 hover:underline">
+                                Remover
+                              </button>
+                            </div>
+                            <ul className="list-disc pl-4 space-y-0.5 text-[11px] font-normal text-slate-700">
                               {fileNames.map((name, index) => (
                                 <li key={index}>{name}</li>
                               ))}
@@ -511,12 +612,15 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
                       {/* Mensagem Opcional */}
                       <div>
                         <label className="block text-xs font-normal text-slate-700 uppercase tracking-wider mb-1">
-                          Observações / Dúvidas (Opcional)
+                          Observações
                         </label>
                         <textarea
                           value={formData.mensagem}
                           onChange={(e) =>
-                            setFormData({ ...formData, mensagem: e.target.value })
+                            setFormData({
+                              ...formData,
+                              mensagem: e.target.value,
+                            })
                           }
                           rows={3}
                           className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-none text-xs font-normal focus:ring-2 focus:ring-slate-900 focus:border-slate-900 focus:bg-white focus:outline-none transition-all"
@@ -555,15 +659,16 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
                     <button
                       type="button"
                       onClick={handleNext}
-                      className="btn-academia-primary px-6 py-2.5 text-xs uppercase tracking-wider flex items-center gap-1.5 ml-auto cursor-pointer">
+                      className="bg-red-600 hover:bg-red-700 px-6 py-3 text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5 ml-auto cursor-pointer shadow-xs rounded-none">
                       <span>Próximo Passo</span>
                       <ChevronRight size={16} />
                     </button>
                   ) : (
                     <button
-                      type="submit"
+                      type="button"
+                      onClick={handleFinalSubmit}
                       disabled={loading}
-                      className="btn-academia-primary px-6 py-2.5 text-xs uppercase tracking-wider flex items-center gap-1.5 ml-auto disabled:opacity-50 cursor-pointer">
+                      className="bg-red-600 hover:bg-red-700 px-6 py-3 text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5 ml-auto disabled:opacity-50 cursor-pointer shadow-xs rounded-none">
                       {loading ? (
                         <span className="flex items-center gap-2">
                           <svg

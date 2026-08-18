@@ -1,9 +1,9 @@
 /** @format */
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Star, BookOpen, Calendar, Edit, Trash2 } from "lucide-react";
-import api from "../../utils/api";
+import { useState } from "react";
+import { Star, BookOpen, Calendar, Trash2, Plus, MessageSquare, Check, X, Sparkles } from "lucide-react";
+import { useIsMobile } from "../../hooks/useIsMobile";
+import AvaliacoesMobile from "./mobile/AvaliacoesMobile";
 
 interface Avaliacao {
   id: number;
@@ -13,167 +13,211 @@ interface Avaliacao {
   criado_em: string;
 }
 
+const mockAvaliacoes: Avaliacao[] = [
+  {
+    id: 1,
+    nota: 5,
+    comentario: "Formação presencial extremamente prática e adaptada à realidade fiscal de Angola. Excelente dinamismo do formador em sala de aula!",
+    curso: "Análise Contabilística e SAF-T Angola (SNC-AO)",
+    criado_em: "02 de Março de 2026",
+  },
+];
+
 export default function Avaliacoes() {
-  const [avaliacoes, setAvaliacoes] = useState<Avaliacao[]>([]);
-  const [carregando, setCarregando] = useState(true);
-  const [erro, setErro] = useState<string | null>(null);
+  const isMobile = useIsMobile();
+  const [avaliacoes, setAvaliacoes] = useState<Avaliacao[]>(mockAvaliacoes);
+  const [modalNova, setModalNova] = useState(false);
+  const [novoCurso, setNovoCurso] = useState("Gestão Avançada de ERP Cegid Primavera V10");
+  const [novaNota, setNovaNota] = useState(5);
+  const [novoComentario, setNovoComentario] = useState("");
 
-  // Dados mockados como fallback
-  const avaliacoesMock: Avaliacao[] = [
-    {
-      id: 1,
-      nota: 5,
-      comentario: "Excelente curso! Conteúdo muito bem explicado e prático.",
-      curso: "JavaScript Completo",
-      criado_em: "2024-01-15T10:30:00Z",
-    },
-    {
-      id: 2,
-      nota: 4,
-      comentario: "Bom curso, mas poderia ter mais exercícios práticos.",
-      curso: "React.js Avançado",
-      criado_em: "2024-01-10T14:20:00Z",
-    },
-    {
-      id: 3,
-      nota: 5,
-      comentario: "Incrível! Aprendi muito com este curso.",
-      curso: "Node.js Backend",
-      criado_em: "2024-01-05T09:15:00Z",
-    },
-  ];
-
-  useEffect(() => {
-    carregarAvaliacoes();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const carregarAvaliacoes = async () => {
-    try {
-      setCarregando(true);
-      const response = await api.get("/avaliacoes");
-
-      if (response.data.sucesso) {
-        setAvaliacoes(response.data.avaliacoes);
-      } else {
-        throw new Error("Erro ao carregar avaliações");
-      }
-    } catch (error: any) {
-      console.error("Erro ao carregar avaliações:", error);
-      setAvaliacoes(avaliacoesMock);
-      setErro("Usando dados de exemplo");
-    } finally {
-      setCarregando(false);
-    }
-  };
-
-  const renderStars = (nota: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star
-        key={i}
-        size={16}
-        className={`${
-          i < nota ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
-        }`}
-      />
-    ));
-  };
-
-  if (carregando) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Carregando avaliações...</p>
-        </div>
-      </div>
-    );
+  if (isMobile) {
+    return <AvaliacoesMobile />;
   }
 
+  const handleRemover = (id: number) => {
+    setAvaliacoes((prev) => prev.filter((a) => a.id !== id));
+  };
+
+  const handleSubmeter = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!novoComentario.trim()) return;
+
+    const nova: Avaliacao = {
+      id: Date.now(),
+      nota: novaNota,
+      comentario: novoComentario,
+      curso: novoCurso,
+      criado_em: "Hoje",
+    };
+
+    setAvaliacoes([nova, ...avaliacoes]);
+    setModalNova(false);
+    setNovoComentario("");
+  };
+
   return (
-    <div className="p-6">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Minhas Avaliações
-        </h1>
-        <p className="text-gray-600">
-          Suas avaliações e comentários sobre os cursos
-        </p>
-      </div>
+    <div className="space-y-6">
+      {/* ── BANNER EXECUTIVO AZUL ESCURO ── */}
+      <div className="bg-slate-900 text-white rounded-[2px] p-6 sm:p-8 shadow-md border border-slate-800 relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="space-y-2 max-w-2xl relative z-10">
+          <span className="px-2.5 py-0.5 bg-red-950 text-red-400 border border-red-800/60 text-[10px] font-extrabold uppercase rounded-[2px]">
+            Qualidade & Feedback de Sala
+          </span>
 
-      {erro && (
-        <div className="mb-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-          <p className="text-yellow-800">{erro}</p>
-        </div>
-      )}
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white flex items-center gap-2">
+            <Star className="text-amber-400 fill-amber-400" size={24} />
+            <span>Avaliações de Formações Presenciais</span>
+          </h1>
 
-      {avaliacoes.length === 0 ? (
-        <div className="text-center py-12">
-          <Star className="mx-auto mb-4 text-gray-400" size={64} />
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">
-            Nenhuma avaliação ainda
-          </h3>
-          <p className="text-gray-600 mb-6">
-            Complete um curso e deixe sua avaliação!
+          <p className="text-xs sm:text-sm text-slate-300 font-normal leading-relaxed">
+            Partilhe a sua avaliação sobre os formadores, instalações e conteúdos das formações presenciais concluídas.
           </p>
-          <button className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
-            Ver Meus Cursos
+        </div>
+
+        <div className="relative z-10 flex items-center gap-3">
+          <button
+            onClick={() => setModalNova(true)}
+            className="px-5 py-3 bg-red-800 hover:bg-red-900 text-white font-extrabold text-xs uppercase tracking-wider rounded-[2px] flex items-center gap-2 shadow-md transition-colors cursor-pointer">
+            <Plus size={16} />
+            <span>Avaliar Formação Presencial</span>
           </button>
         </div>
+
+        <div className="absolute right-0 bottom-0 top-0 w-1/3 bg-gradient-to-l from-red-950/20 to-transparent pointer-events-none" />
+      </div>
+
+      {/* ── LISTA ORGANIZADA DE AVALIAÇÕES ── */}
+      {avaliacoes.length === 0 ? (
+        <div className="bg-white p-12 rounded-[2px] border border-slate-200 text-center space-y-3">
+          <MessageSquare className="mx-auto h-12 w-12 text-slate-300" />
+          <h3 className="text-sm font-bold text-slate-800">Ainda não enviou avaliações</h3>
+          <p className="text-xs text-slate-500 max-w-sm mx-auto">
+            Partilhe a sua opinião sobre a formação presencial concluída para nos ajudar a aprimorar o ensino em sala.
+          </p>
+        </div>
       ) : (
-        <div className="space-y-6">
-          {avaliacoes.map((avaliacao, index) => (
-            <motion.div
-              key={avaliacao.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex-1">
-                  <div className="flex items-center space-x-3 mb-2">
-                    <BookOpen className="text-red-600" size={20} />
-                    <h3 className="text-lg font-semibold text-gray-900">
-                      {avaliacao.curso}
-                    </h3>
+        <div className="space-y-4">
+          {avaliacoes.map((av) => (
+            <div
+              key={av.id}
+              className="bg-white p-6 rounded-[2px] border border-slate-200 shadow-2xs space-y-3 hover:border-slate-300 transition-all">
+              <div className="flex items-start justify-between gap-4 border-b border-slate-100 pb-3">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <BookOpen size={16} className="text-red-800" />
+                    <h3 className="font-extrabold text-sm text-slate-900">{av.curso}</h3>
                   </div>
-
-                  <div className="flex items-center space-x-4 text-sm text-gray-500">
-                    <div className="flex items-center space-x-1">
-                      {renderStars(avaliacao.nota)}
-                      <span className="ml-2 font-medium text-gray-900">
-                        {avaliacao.nota}/5
-                      </span>
-                    </div>
-
-                    <div className="flex items-center space-x-1">
-                      <Calendar size={14} />
-                      <span>
-                        {new Date(avaliacao.criado_em).toLocaleDateString(
-                          "pt-BR"
-                        )}
-                      </span>
-                    </div>
-                  </div>
+                  <p className="text-[11px] text-slate-500 font-medium">Avaliado em {av.criado_em}</p>
                 </div>
 
-                <div className="flex space-x-2">
-                  <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors">
-                    <Edit size={16} />
-                  </button>
-                  <button className="p-2 text-gray-400 hover:text-red-600 transition-colors">
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1 bg-amber-50 px-2 py-1 rounded-[2px] border border-amber-200/60">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star
+                        key={i}
+                        size={13}
+                        className={i < av.nota ? "text-amber-500 fill-amber-400" : "text-slate-300"}
+                      />
+                    ))}
+                    <span className="text-xs font-black text-amber-900 ml-1">{av.nota}.0</span>
+                  </div>
+
+                  <button
+                    onClick={() => handleRemover(av.id)}
+                    className="p-1 text-slate-400 hover:text-red-700 transition-colors cursor-pointer"
+                    title="Eliminar Avaliação">
                     <Trash2 size={16} />
                   </button>
                 </div>
               </div>
 
-              <div className="bg-gray-50 rounded-lg p-4">
-                <p className="text-gray-700 leading-relaxed">
-                  "{avaliacao.comentario}"
-                </p>
+              <div className="p-3.5 bg-slate-50 border border-slate-200/60 rounded-[2px] text-xs text-slate-700 italic leading-relaxed">
+                "{av.comentario}"
               </div>
-            </motion.div>
+            </div>
           ))}
+        </div>
+      )}
+
+      {/* ── MODAL NOVA AVALIAÇÃO ── */}
+      {modalNova && (
+        <div className="fixed inset-0 bg-slate-950/60 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
+          <div className="bg-white rounded-[2px] border border-slate-200 shadow-2xl w-full max-w-lg overflow-hidden">
+            <div className="p-4 bg-slate-900 text-white flex items-center justify-between">
+              <h3 className="font-extrabold text-xs uppercase tracking-wider">
+                Submeter Avaliação de Curso
+              </h3>
+              <button onClick={() => setModalNova(false)} className="text-slate-400 hover:text-white">
+                <X size={18} />
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmeter} className="p-6 space-y-4 text-xs">
+              <div className="space-y-1">
+                <label className="font-bold text-slate-700 block">Selecionar Curso *</label>
+                <select
+                  value={novoCurso}
+                  onChange={(e) => setNovoCurso(e.target.value)}
+                  className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-[2px] font-bold text-slate-900 focus:outline-none">
+                  <option value="Gestão Avançada de ERP Cegid Primavera V10">
+                    Gestão Avançada de ERP Cegid Primavera V10
+                  </option>
+                  <option value="Análise Contabilística e SAF-T Angola (SNC-AO)">
+                    Análise Contabilística e SAF-T Angola (SNC-AO)
+                  </option>
+                  <option value="Power BI para Tomada de Decisão Executiva">
+                    Power BI para Tomada de Decisão Executiva
+                  </option>
+                </select>
+              </div>
+
+              <div className="space-y-1">
+                <label className="font-bold text-slate-700 block">Sua Classificação (1 a 5 Estrelas) *</label>
+                <div className="flex items-center gap-2 p-2 bg-slate-50 border border-slate-200 rounded-[2px]">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <button
+                      type="button"
+                      key={i}
+                      onClick={() => setNovaNota(i + 1)}
+                      className="p-1 cursor-pointer">
+                      <Star
+                        size={20}
+                        className={i < novaNota ? "text-amber-500 fill-amber-400" : "text-slate-300"}
+                      />
+                    </button>
+                  ))}
+                  <span className="font-black text-slate-900 ml-2">{novaNota} de 5 Estrelas</span>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="font-bold text-slate-700 block">Comentário / Opinião *</label>
+                <textarea
+                  rows={4}
+                  value={novoComentario}
+                  onChange={(e) => setNovoComentario(e.target.value)}
+                  placeholder="Escreva a sua avaliação detalhada..."
+                  className="w-full p-3 bg-slate-50 border border-slate-300 rounded-[2px] font-medium text-slate-900 focus:outline-none"
+                  required
+                />
+              </div>
+
+              <div className="pt-2 flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setModalNova(false)}
+                  className="px-4 py-2 bg-slate-100 text-slate-700 font-bold rounded-[2px]">
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 bg-red-800 text-white font-bold rounded-[2px]">
+                  Publicar Avaliação
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
     </div>

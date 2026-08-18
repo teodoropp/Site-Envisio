@@ -1,0 +1,205 @@
+[
+  {
+    "id": "gestao-recursos-humanos",
+    "titulo": "Gestão de Recursos Humanos",
+    "status": "active",
+    "available": true,
+    "destaque": true,
+    "categoria": "Gestão & RH",
+    "descricao": "Dotar os participantes de competências técnicas, jurídicas e operacionais que lhes permitam gerir, de forma íntegra e eficiente, o ciclo completo da relação laboral - da admissão ao processamento salarial e à prestação de contas à Administração - em conformidade com a Lei n.º 12/23 e demais legislação complementar aplicável em Angola.",
+    "imagemUrl": "/academia/RH.png",
+
+    "duracao": "60h",
+    "nivel": "Intermédio",
+
+    "format": "Presencial ou misto",
+    "idioma": "Português",
+    "instrutor": {
+      "nome": "Dorivaldo José",
+      "bio": "Especialista em Gestão de Pessoas & Legislação Laboral",
+      "cargo": "Formador Principal"
+    },
+    "targetAudience": "Técnicos e Gestores de Recursos Humanos, Juristas Laborais, Responsáveis Administrativos, Diretores e Quadros de Gestão de Pessoas.",
+    "numModulos": 6,
+    "modulos": [
+      {
+        "id": "mod-1",
+        "ordem": 1,
+        "titulo": "Módulo 1: Introdução à Gestão de Recursos Humanos",
+        "duracao": "6h",
+        "regime": "Teórico",
+        "conteudos": []
+      },
+      {
+        "id": "mod-2",
+        "ordem": 2,
+        "titulo": "Módulo 2: Direito do Trabalho à luz da Lei n.º 12/23",
+        "duracao": "16h",
+        "regime": "Teórico-prático",
+        "conteudos": []
+      },
+      {
+        "id": "mod-3",
+        "ordem": 3,
+        "titulo": "Módulo 3: Leis Doutrinais e Complementares no Âmbito Laboral",
+        "duracao": "8h",
+        "regime": "Teórico",
+        "conteudos": [
+          "Regime Jurídico da Segurança Social Obrigatória",
+          "Regime de Acidentes de Trabalho e Doenças Profissionais",
+          "Legislação de Segurança, Higiene e Saúde no Trabalho (SHST): direitos e deveres, equipamentos de proteção individual (EPI) e prevenção de riscos",
+          "Regime jurídico do trabalho de estrangeiros e regularização de mão de obra",
+          "Regulamento Interno de Empresa: elaboração, conteúdo e valor jurídico",
+          "Convenções coletivas de trabalho e o seu impacto na gestão de RH",
+          "Legislação sobre salário mínimo nacional e atualizações salariais",
+          "Regime tributário do trabalho: Imposto sobre o Rendimento do Trabalho (IRT) e obrigações declarativas",
+          "Proteção de dados pessoais do trabalhador e obrigações de confidencialidade",
+          "Papel da Inspeção Geral do Trabalho e procedimentos de fiscalização"
+        ]
+      },
+      {
+        "id": "mod-4",
+        "ordem": 4,
+        "titulo": "Módulo 4: Processamento de Salários no ERP Primavera",
+        "duracao": "14h",
+        "regime": "Prático",
+        "conteudos": []
+      },
+      {
+        "id": "mod-5",
+        "ordem": 5,
+        "titulo": "Módulo 5: Gestão de Conflitos, Mediação e Relações Laborais",
+        "duracao": "8h",
+        "regime": "Teórico-prático",
+        "conteudos": []
+      },
+      {
+        "id": "mod-6",
+        "ordem": 6,
+        "titulo": "Módulo 6: Indicadores, Relatórios e Dashboards de RH para a Administração",
+        "duracao": "8h",
+        "regime": "Prático",
+        "conteudos": []
+      }
+    ]
+  },
+  {
+    "id": "cegid-primavera",
+    "titulo": "Cegid Primavera: Funcionalidades e Boas Práticas",
+    "status": "upcoming",
+    "available": false,
+    "categoria": "ERP & Gestão",
+    "descricao": "Domine o Cegid Primavera: conceitos, parametrização e boas práticas no ERP.",
+    "imagemUrl": "/academia/primavera.svg",
+    "duracao": "120h",
+    "nivel": "Intermédio",
+    "format": "Presencial",
+    "idioma": "Português",
+    "instrutor": {
+      "nome": "João Silva",
+      "cargo": "Consultor ERP"
+    }
+  },
+  {
+    "id": "programacao-web-frontend",
+    "titulo": "Programação Web Front-end Completo",
+    "status": "upcoming",
+    "available": false,
+    "categoria": "Programação",
+    "descricao": "HTML, CSS e JavaScript modernos. Crie interfaces responsivas de altíssimo nível.",
+    "imagemUrl": "/academia/frontend.jpg",
+    "duracao": "80h",
+    "nivel": "Iniciante",
+    "format": "Presencial",
+    "idioma": "Português",
+    "instrutor": {
+      "nome": "Pedro Costa",
+      "cargo": "Engenheiro Frontend"
+    }
+  },
+  {
+    "id": "power-bi",
+    "titulo": "Power BI — Business Intelligence na Prática",
+    "status": "upcoming",
+    "available": false,
+    "categoria": "Dados & BI",
+    "descricao": "Desenvolva relatórios interativos e dashboards avançados para decisão.",
+    "imagemUrl": "/academia/power-bi.jpg",
+    "duracao": "50h",
+    "nivel": "Intermédio",
+    "format": "Presencial",
+    "idioma": "Português",
+    "instrutor": {
+      "nome": "Ana Santos",
+      "cargo": "Especialista BI"
+    }
+  },
+  {
+    "id": "sql-server",
+    "titulo": "SQL Server — Banco de Dados Essencial",
+    "status": "upcoming",
+    "available": false,
+    "categoria": "Dados & BI",
+    "descricao": "Consultas SQL, modelagem relacional, procedures e noções de administração.",
+    "imagemUrl": "/academia/sql.png",
+    "duracao": "60h",
+    "nivel": "Intermédio",
+    "format": "Presencial",
+    "idioma": "Português",
+    "instrutor": {
+      "nome": "Ana Santos",
+      "cargo": "DBA SQL Server"
+    }
+  },
+  {
+    "id": "logica-de-programacao",
+    "titulo": "Lógica de Programação e Algoritmos",
+    "status": "upcoming",
+    "available": false,
+    "categoria": "Programação",
+    "descricao": "Fundamentos essenciais: variáveis, decisões, loops e estruturas de dados.",
+    "imagemUrl": "/academia/logica.png",
+    "duracao": "40h",
+    "nivel": "Iniciante",
+    "format": "Presencial",
+    "idioma": "Português",
+    "instrutor": {
+      "nome": "Pedro Costa",
+      "cargo": "Engenheiro de Software"
+    }
+  },
+  {
+    "id": "excel-avancado",
+    "titulo": "Microsoft Excel Corporativo Avançado",
+    "status": "upcoming",
+    "available": false,
+    "categoria": "Produtividade",
+    "descricao": "Automatize tarefas, crie análises avançadas e relatórios profissionais.",
+    "imagemUrl": "/academia/co-working-people-working-together.jpg",
+    "duracao": "40h",
+    "nivel": "Avançado",
+    "format": "Presencial",
+    "idioma": "Português",
+    "instrutor": {
+      "nome": "Patrícia Ramos",
+      "cargo": "Especialista em Produtividade"
+    }
+  },
+  {
+    "id": "gestao-projetos-agile",
+    "titulo": "Gestão de Projetos & Metodologias Ágeis",
+    "status": "upcoming",
+    "available": false,
+    "categoria": "Gestão & Liderança",
+    "descricao": "Aprenda a liderar equipas de tecnologia com Scrum, Kanban e gestão.",
+    "imagemUrl": "/academia/gestao-projetos.jpg",
+    "duracao": "45h",
+    "nivel": "Intermédio",
+    "format": "Presencial",
+    "idioma": "Português",
+    "instrutor": {
+      "nome": "Eng. Fernando Costa",
+      "cargo": "Agile Coach"
+    }
+  }
+]

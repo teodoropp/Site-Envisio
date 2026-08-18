@@ -416,18 +416,26 @@ export default function NavbarAcademia() {
                 {/* Itens Habilitados */}
                 <div className="py-1 space-y-0.5">
                   <Link
+                    to="/academia/aluno"
+                    onClick={() => setUserMenuAberto(false)}
+                    className="flex items-center px-4 py-2 text-[13px] text-red-800 font-bold hover:bg-red-50 transition-colors">
+                    <GraduationCap size={14} className="mr-2.5 text-red-800" />
+                    <span>Portal do Aluno</span>
+                  </Link>
+
+                  <Link
                     to="/academia/login"
                     onClick={() => setUserMenuAberto(false)}
                     className="flex items-center px-4 py-2 text-[13px] text-gray-700 hover:bg-gray-100 hover:text-black transition-colors">
                     <User size={14} className="mr-2.5 text-gray-500" />
-                    <span>Entrar na Plataforma</span>
+                    <span>Iniciar Sessão</span>
                   </Link>
 
                   <Link
                     to="/academia/cadastro"
                     onClick={() => setUserMenuAberto(false)}
                     className="flex items-center px-4 py-2 text-[13px] text-gray-700 hover:bg-gray-100 hover:text-black transition-colors">
-                    <GraduationCap size={14} className="mr-2.5 text-gray-500" />
+                    <User size={14} className="mr-2.5 text-gray-500" />
                     <span>Criar Conta</span>
                   </Link>
                 </div>

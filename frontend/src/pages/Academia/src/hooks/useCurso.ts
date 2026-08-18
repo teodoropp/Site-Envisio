@@ -1,56 +1,35 @@
 import { useEffect, useState } from "react";
 import api from "../utils/api";
-
-export interface CursoDetalhe {
-  aulas: any;
-  modulos: any;
-  objetivos: any;
-  imagemUrl: string;
-  requisitos: any;
-  conteudoDetalhado: string;
-  id: string;
-  titulo: string;
-  descricao: string;
-  categoria: string;
-  duracao: number;
-  nivel: string;
-  instrutor: string | {
-    bio: string;
-    nome: string;
-    avaliacao: number;
-    alunos: number;
-    aulas: number;
-  };
-  imagem?: string;
-  preco?: number;
-  avaliacao?: number;
-  avaliacoes?: number;
-  alunos?: number;
-  status?: string;
-  acessoVitalicio?: boolean;
-  suporte?: boolean;
-  certificado?: boolean;
-  visualizacoes?: number;
-  criado_em?: string;
-}
+import { Curso } from "../tipos/Curso";
+import { getCursoById } from "../servicos/cursoService";
 
 export function useCurso(id: string) {
-  const [curso, setCurso] = useState<CursoDetalhe | null>(null);
+  const [curso, setCurso] = useState<Curso | null>(null);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) {
+      setCarregando(false);
+      return;
+    }
     
     setCarregando(true);
+    
+    // Tenta API se houver backend, senão usa cursoService local
     api
       .get(`/cursos/${id}?_embed=modulos`)
-      .then((res) => setCurso(res.data))
-      .catch((err) =>
-        setErro(err.response?.data?.mensagem || "Erro ao carregar curso")
-      )
+      .then((res) => {
+        if (res.data) setCurso(res.data);
+        else return getCursoById(id).then(setCurso);
+      })
+      .catch(async () => {
+        const local = await getCursoById(id);
+        setCurso(local);
+        if (!local) setErro("Curso não encontrado");
+      })
       .finally(() => setCarregando(false));
   }, [id]);
 
   return { curso, carregando, erro };
-}
+}

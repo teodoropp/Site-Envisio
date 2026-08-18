@@ -290,11 +290,8 @@ export default function CursoDetalhe() {
 
   return (
     <div className="bg-slate-50 min-h-screen font-sans text-slate-800 text-left">
-      {/* HERO SECTION: Dark Blue / Indigo Theme */}
-      <section className="bg-[#0A1128] !text-white relative pt-24 pb-16 lg:pb-24 border-b border-slate-800 overflow-hidden">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-10 w-72 h-72 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none" />
-
+      {/* HERO SECTION: Dark Blue (bg-slate-900) igual ao curso1 */}
+      <section className="bg-slate-900 !text-white relative pt-24 pb-16 lg:pb-24 border-b border-slate-800 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-8 text-xs text-slate-300">
             <button
@@ -311,11 +308,11 @@ export default function CursoDetalhe() {
                 {cursoExibir.categoria || "Programação Web"}
               </span>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black !text-white tracking-tight leading-tight mb-4">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold !text-white tracking-tight leading-tight mb-3">
                 {cursoExibir.titulo}
               </h1>
 
-              <p className="!text-slate-200 text-base sm:text-lg leading-relaxed mb-6 max-w-2xl font-normal">
+              <p className="!text-slate-200 text-[14px] leading-relaxed mb-6 max-w-2xl font-normal">
                 {cursoExibir.descricao}
               </p>
 
@@ -328,7 +325,9 @@ export default function CursoDetalhe() {
                 </button>
                 <button
                   onClick={() => {
-                    const elem = document.getElementById("conteudo-programatico");
+                    const elem = document.getElementById(
+                      "conteudo-programatico",
+                    );
                     if (elem) elem.scrollIntoView({ behavior: "smooth" });
                   }}
                   className="btn-academia-secondary px-6 py-3.5 text-xs uppercase tracking-wider cursor-pointer">
@@ -381,7 +380,9 @@ export default function CursoDetalhe() {
               </div>
             </div>
 
-            <div id="conteudo-programatico" className="bg-white rounded-[5px] p-6 sm:p-8 border border-slate-200/80 shadow-sm scroll-mt-24">
+            <div
+              id="conteudo-programatico"
+              className="bg-white rounded-[5px] p-6 sm:p-8 border border-slate-200/80 shadow-sm scroll-mt-24">
               <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                 <div>
                   <h2 className="text-xl font-bold text-slate-900">
@@ -427,7 +428,9 @@ export default function CursoDetalhe() {
                         </div>
                         <ChevronDown
                           className={`text-slate-400 transition-transform duration-200 flex-shrink-0 ${
-                            moduloAberto === index ? "transform rotate-180 text-slate-700" : ""
+                            moduloAberto === index
+                              ? "transform rotate-180 text-slate-700"
+                              : ""
                           }`}
                           size={18}
                         />
@@ -618,11 +621,11 @@ export default function CursoDetalhe() {
                   </li>
                 </ul>
 
-                <div className="text-center mt-10 mb-8">
+                <div className=" text-center ml-[75px] mt-8 mb-6">
                   <button
                     onClick={() => setModalInscricaoAberto(true)}
-                    className="inline-flex items-center gap-1 text-xs font-bold text-slate-900 hover:text-red-600 uppercase tracking-wider transition-colors duration-200 cursor-pointer">
-                    <span>Inscreva-se Agora</span>
+                    className="px-6 py-2 bg-red-600 hover:bg-red-700  text-xs font-bold text-white uppercase tracking-wider transition-colors duration-200 cursor-pointer shadow-xs rounded-none flex items-center justify-center">
+                    <span>INSCREVA-SE AGORA</span>
                   </button>
                 </div>
 
@@ -851,7 +854,6 @@ export default function CursoDetalhe() {
           </div>
         </div>
       </section>
-
 
       <ModalVideo
         isOpen={modalAberto}

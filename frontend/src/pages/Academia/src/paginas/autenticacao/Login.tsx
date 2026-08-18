@@ -286,13 +286,21 @@ export default function Login({ modoInicial }: LoginProps) {
               </div>
 
               <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                <span className="text-slate-500">Acesso Administrativo</span>
-                <button
-                  type="button"
-                  onClick={() => navigate("/academia/admin")}
-                  className="text-slate-700 hover:text-slate-900 font-bold underline cursor-pointer">
-                  Painel Admin &rarr;
-                </button>
+                <span className="text-slate-500 font-medium">Acesso Rápido</span>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => navigate("/academia/aluno")}
+                    className="text-red-800 hover:text-red-900 font-bold underline cursor-pointer">
+                    Painel Aluno &rarr;
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => navigate("/academia/admin")}
+                    className="text-slate-700 hover:text-slate-900 font-bold underline cursor-pointer">
+                    Painel Admin &rarr;
+                  </button>
+                </div>
               </div>
             </form>
           )}

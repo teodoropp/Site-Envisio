@@ -1,501 +1,276 @@
 /** @format */
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState } from "react";
 import {
   BookOpen,
   CheckCircle,
   Award,
   Star,
   Calendar,
-  AlertCircle,
-  TrendingUp,
   Clock,
-  Target,
-  BarChart3,
+  TrendingUp,
+  Flame,
+  ChevronRight,
+  Sparkles,
+  MapPin,
+  CheckSquare,
+  Users,
 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useIsMobile } from "../../hooks/useIsMobile";
+import PainelMobile from "./mobile/PainelMobile";
 
-import api from "../../utils/api";
-
-interface PerfilAluno {
-  aluno: {
-    id: number;
-    nome: string;
-    email: string;
-    criado_em: string;
-  };
-  cursosInscritos: Array<{
-    id: string;
-    titulo: string;
-    descricao: string;
-    imagem?: string;
-    status: string;
-    data_conclusao?: string;
-    data_inscricao: string;
-  }>;
-  cursosConcluidos: Array<any>;
-  avaliacoes: Array<{
-    id: number;
-    nota: number;
-    comentario: string;
-    curso: string;
-    criado_em: string;
-  }>;
-  favoritos: Array<{
-    id: string;
-    titulo: string;
-    descricao: string;
-    imagem?: string;
-  }>;
-  certificados: Array<{
-    id: string;
-    titulo: string;
-    data_conclusao: string;
-  }>;
+interface CursoInscrito {
+  id: string;
+  titulo: string;
+  categoria: string;
+  status: string;
+  progresso: number;
+  instrutor: string;
+  moduloAtual: string;
+  localidade: string;
+  aulasPresenciaisConcluidas: number;
+  totalAulasPresenciais: number;
 }
 
-// Dados mockados como fallback
-const dadosMockados: PerfilAluno = {
-  aluno: {
-    id: 1,
-    nome: "Aluno Exemplo",
-    email: "aluno@exemplo.com",
-    criado_em: new Date().toISOString(),
+const mockCursos: CursoInscrito[] = [
+  {
+    id: "1",
+    titulo: "Gestão Avançada de ERP Cegid Primavera V10",
+    categoria: "Sistemas & ERP",
+    status: "em_andamento",
+    progresso: 70,
+    instrutor: "Eng.ª Sofia Martins",
+    moduloAtual: "Módulo 5 — Vendas, Impostos e Facturação Eletrónica (SAF-T)",
+    localidade: "Envisio Academy — Sala Executiva 302 (Luanda)",
+    aulasPresenciaisConcluidas: 14,
+    totalAulasPresenciais: 20,
   },
-  cursosInscritos: [
-    {
-      id: "1",
-      titulo: "JavaScript Básico",
-      descricao: "Aprenda os fundamentos do JavaScript",
-      status: "em_andamento",
-      data_inscricao: new Date().toISOString(),
-    },
-    {
-      id: "2",
-      titulo: "React.js Avançado",
-      descricao: "Desenvolva aplicações modernas com React",
-      status: "concluido",
-      data_conclusao: new Date().toISOString(),
-      data_inscricao: new Date().toISOString(),
-    },
-  ],
-  cursosConcluidos: [
-    {
-      id: "2",
-      titulo: "React.js Avançado",
-      descricao: "Desenvolva aplicações modernas com React",
-      status: "concluido",
-      data_conclusao: new Date().toISOString(),
-      data_inscricao: new Date().toISOString(),
-    },
-  ],
-  avaliacoes: [
-    {
-      id: 1,
-      nota: 9,
-      comentario: "Excelente curso!",
-      curso: "React.js Avançado",
-      criado_em: new Date().toISOString(),
-    },
-  ],
-  favoritos: [
-    {
-      id: "3",
-      titulo: "Node.js Backend",
-      descricao: "Desenvolva APIs robustas com Node.js",
-    },
-  ],
-  certificados: [
-    {
-      id: "2",
-      titulo: "React.js Avançado",
-      data_conclusao: new Date().toISOString(),
-    },
-  ],
-};
+  {
+    id: "2",
+    titulo: "Análise Contabilística e SAF-T Angola (SNC-AO)",
+    categoria: "Contabilidade & Fiscalidade",
+    status: "concluido",
+    progresso: 100,
+    instrutor: "Dr. Carlos Eduardo",
+    moduloAtual: "Concluído",
+    localidade: "Envisio Academy — Auditório Principal (Luanda)",
+    aulasPresenciaisConcluidas: 16,
+    totalAulasPresenciais: 16,
+  },
+];
 
-export default function AlunoPainel() {
-  const [perfil, setPerfil] = useState<PerfilAluno | null>(null);
-  const [carregando, setCarregando] = useState(true);
-  const [erro, setErro] = useState<string | null>(null);
-  const [usandoDadosMockados, setUsandoDadosMockados] = useState(false);
+export default function Painel() {
+  const isMobile = useIsMobile();
+  const [aulaRegistada, setAulaRegistada] = useState(false);
+  const [cursos] = useState<CursoInscrito[]>(mockCursos);
 
-  useEffect(() => {
-    carregarPerfil();
-  }, []);
-
-  const carregarPerfil = async () => {
-    try {
-      setCarregando(true);
-      setErro(null);
-
-      console.log("Tentando carregar perfil do aluno...");
-      const response = await api.get("/perfil-aluno");
-
-      console.log("Resposta do perfil:", response.data);
-
-      if (response.data.sucesso) {
-        setPerfil(response.data.dados);
-        setUsandoDadosMockados(false);
-      } else {
-        throw new Error(response.data.erro || "Erro ao carregar perfil");
-      }
-    } catch (error: any) {
-      console.error("Erro ao carregar perfil:", error);
-
-      // Se o erro for de autenticação ou autorização, mostrar erro específico
-      if (error.response?.status === 401) {
-        setErro("Sessão expirada. Faça login novamente.");
-      } else if (error.response?.status === 403) {
-        setErro(
-          "Acesso negado. Você não tem permissão para acessar esta área."
-        );
-      } else if (error.response?.status === 500) {
-        setErro("Erro no servidor. Usando dados de exemplo.");
-        setPerfil(dadosMockados);
-        setUsandoDadosMockados(true);
-      } else {
-        setErro("Erro ao carregar perfil. Usando dados de exemplo.");
-        setPerfil(dadosMockados);
-        setUsandoDadosMockados(true);
-      }
-    } finally {
-      setCarregando(false);
-    }
-  };
-
-  const baixarCertificado = async (cursoId: string) => {
-    try {
-      const response = await api.get(`/certificados/${cursoId}`, {
-        responseType: "blob",
-      });
-
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `certificado-${cursoId}.pdf`);
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    } catch (error) {
-      alert("Erro ao baixar certificado");
-    }
-  };
-
-  if (carregando) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Carregando seu perfil...</p>
-        </div>
-      </div>
-    );
+  if (isMobile) {
+    return <PainelMobile />;
   }
 
-  if (erro && !perfil) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center max-w-md p-6 bg-white rounded-xl shadow-lg border border-gray-200">
-          <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-gray-900 mb-2">
-            Erro ao carregar perfil
-          </h2>
-          <p className="text-gray-600 mb-4">{erro}</p>
-          <button
-            onClick={carregarPerfil}
-            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
-            Tentar Novamente
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  if (!perfil) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <p className="text-gray-600">Nenhum dado encontrado</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Calcular estatísticas
-  const totalCursos = perfil.cursosInscritos.length;
-  const cursosConcluidos = perfil.cursosConcluidos.length;
-  const progresso =
-    totalCursos > 0 ? (cursosConcluidos / totalCursos) * 100 : 0;
-  const mediaAvaliacoes =
-    perfil.avaliacoes.length > 0
-      ? perfil.avaliacoes.reduce((acc, av) => acc + av.nota, 0) /
-        perfil.avaliacoes.length
-      : 0;
+  const cursoAtivo = cursos.find((c) => c.status === "em_andamento") || cursos[0];
 
   return (
     <div className="space-y-6">
-      {/* Header com Status */}
-      {usandoDadosMockados && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-          <div className="flex items-center space-x-2">
-            <AlertCircle className="text-yellow-600" size={20} />
-            <span className="text-yellow-800 font-medium">
-              Dados de exemplo - Backend não disponível
+      {/* ── BANNER EXECUTIVO AZUL ESCURO DA PÁGINA ── */}
+      <div className="bg-slate-900 text-white rounded-[2px] p-6 sm:p-8 shadow-md border border-slate-800 relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="space-y-2 max-w-2xl relative z-10">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="px-2.5 py-0.5 bg-red-950 text-red-400 border border-red-800/60 text-[10px] font-extrabold uppercase rounded-[2px] flex items-center gap-1">
+              <Flame size={12} className="text-red-500 fill-red-500" />
+              Formação Presencial Executiva
+            </span>
+            <span className="px-2.5 py-0.5 bg-slate-800 text-slate-300 text-[10px] font-bold uppercase rounded-[2px] flex items-center gap-1">
+              <Sparkles size={12} className="text-amber-400" />
+              Presenças em Dia (95%)
             </span>
           </div>
-        </motion.div>
-      )}
 
-      {/* Cards de Estatísticas */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600">
-                Cursos Inscritos
-              </p>
-              <p className="text-2xl font-bold text-gray-900">{totalCursos}</p>
-            </div>
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <BookOpen className="text-blue-600" size={24} />
-            </div>
-          </div>
-          <div className="mt-4">
-            <div className="flex items-center space-x-2">
-              <TrendingUp className="text-green-500" size={16} />
-              <span className="text-sm text-green-600">+2 este mês</span>
-            </div>
-          </div>
-        </motion.div>
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+            Olá, Mateus Silva! 👋
+          </h1>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600">
-                Cursos Concluídos
-              </p>
-              <p className="text-2xl font-bold text-gray-900">
-                {cursosConcluidos}
-              </p>
-            </div>
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              <CheckCircle className="text-green-600" size={24} />
-            </div>
-          </div>
-          <div className="mt-4">
-            <div className="flex items-center space-x-2">
-              <Target className="text-blue-500" size={16} />
-              <span className="text-sm text-blue-600">
-                {progresso.toFixed(0)}% de progresso
-              </span>
-            </div>
-          </div>
-        </motion.div>
+          <p className="text-xs sm:text-sm text-slate-300 font-normal leading-relaxed">
+            Bem-vindo ao seu portal de acompanhamento de presenças e aproveitamento da <strong className="text-white">Envisio Academy</strong>. Após cada sessão em sala de aula, registe a aula como vista para atualizar o seu progresso oficial.
+          </p>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600">Certificados</p>
-              <p className="text-2xl font-bold text-gray-900">
-                {perfil.certificados.length}
-              </p>
-            </div>
-            <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-              <Award className="text-yellow-600" size={24} />
-            </div>
+        {cursoAtivo && (
+          <div className="relative z-10 flex-shrink-0 w-full md:w-auto">
+            <Link
+              to={`/academia/aluno/aula/${cursoAtivo.id}`}
+              className="w-full sm:w-auto px-5 py-3 bg-red-800 hover:bg-red-900 text-white font-extrabold text-xs uppercase tracking-wider rounded-[2px] flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer">
+              <CheckSquare size={16} />
+              <span>Marcar Aula Presencial Vista</span>
+            </Link>
           </div>
-          <div className="mt-4">
-            <div className="flex items-center space-x-2">
-              <Star className="text-yellow-500" size={16} />
-              <span className="text-sm text-yellow-600">
-                Conquistas obtidas
-              </span>
-            </div>
-          </div>
-        </motion.div>
+        )}
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600">
-                Média Avaliações
-              </p>
-              <p className="text-2xl font-bold text-gray-900">
-                {mediaAvaliacoes.toFixed(1)}
-              </p>
-            </div>
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-              <Star className="text-purple-600" size={24} />
-            </div>
-          </div>
-          <div className="mt-4">
-            <div className="flex items-center space-x-2">
-              <BarChart3 className="text-purple-500" size={16} />
-              <span className="text-sm text-purple-600">
-                Baseado em {perfil.avaliacoes.length} avaliações
-              </span>
-            </div>
-          </div>
-        </motion.div>
+        <div className="absolute right-0 bottom-0 top-0 w-1/3 bg-gradient-to-l from-red-950/20 to-transparent pointer-events-none" />
       </div>
 
-      {/* Seções Principais */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Cursos em Andamento */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.4 }}
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-gray-900">
-              Cursos em Andamento
-            </h3>
-            <Clock className="text-gray-400" size={20} />
+      {/* ── METRICAS ORGANIZADAS E COMPACTAS (4 CARDS KPI) ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-white p-5 rounded-[2px] border border-slate-200 shadow-2xs space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Formações Inscritas</span>
+            <div className="w-8 h-8 rounded-[2px] bg-red-50 text-red-800 flex items-center justify-center font-bold">
+              <BookOpen size={16} />
+            </div>
           </div>
-          <div className="space-y-4">
-            {perfil.cursosInscritos
-              .filter((curso) => curso.status === "em_andamento")
-              .slice(0, 3)
-              .map((curso) => (
-                <div
-                  key={curso.id}
-                  className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <BookOpen className="text-blue-600" size={20} />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-medium text-gray-900">
-                      {curso.titulo}
-                    </h4>
-                    <p className="text-sm text-gray-600">Em andamento</p>
-                  </div>
-                  <button className="px-3 py-1 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors">
-                    Continuar
-                  </button>
-                </div>
-              ))}
-            {perfil.cursosInscritos.filter(
-              (curso) => curso.status === "em_andamento"
-            ).length === 0 && (
-              <div className="text-center py-8 text-gray-500">
-                <BookOpen className="mx-auto mb-2" size={32} />
-                <p>Nenhum curso em andamento</p>
-              </div>
-            )}
+          <div>
+            <span className="text-2xl font-black text-slate-900">{cursos.length}</span>
+            <p className="text-[11px] text-slate-500 font-medium">Cursos presenciais ativos</p>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Certificados Recentes */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.5 }}
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-gray-900">
-              Certificados Recentes
-            </h3>
-            <Award className="text-gray-400" size={20} />
+        <div className="bg-white p-5 rounded-[2px] border border-slate-200 shadow-2xs space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Aulas Assistidas</span>
+            <div className="w-8 h-8 rounded-[2px] bg-emerald-50 text-emerald-800 flex items-center justify-center font-bold">
+              <CheckCircle size={16} />
+            </div>
           </div>
-          <div className="space-y-4">
-            {perfil.certificados.slice(0, 3).map((certificado) => (
-              <div
-                key={certificado.id}
-                className="flex items-center space-x-4 p-4 bg-yellow-50 rounded-lg">
-                <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                  <Award className="text-yellow-600" size={20} />
-                </div>
-                <div className="flex-1">
-                  <h4 className="font-medium text-gray-900">
-                    {certificado.titulo}
+          <div>
+            <span className="text-2xl font-black text-slate-900">30 / 36</span>
+            <p className="text-[11px] text-emerald-700 font-medium flex items-center gap-1">
+              <TrendingUp size={12} /> 83% Presença Confirmada
+            </p>
+          </div>
+        </div>
+
+        <div className="bg-white p-5 rounded-[2px] border border-slate-200 shadow-2xs space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Certificados Emotidos</span>
+            <div className="w-8 h-8 rounded-[2px] bg-amber-50 text-amber-800 flex items-center justify-center font-bold">
+              <Award size={16} />
+            </div>
+          </div>
+          <div>
+            <span className="text-2xl font-black text-slate-900">1</span>
+            <p className="text-[11px] text-amber-700 font-medium">Diploma Presencial Oficial</p>
+          </div>
+        </div>
+
+        <div className="bg-white p-5 rounded-[2px] border border-slate-200 shadow-2xs space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Carga Horária Total</span>
+            <div className="w-8 h-8 rounded-[2px] bg-blue-50 text-blue-800 flex items-center justify-center font-bold">
+              <Clock size={16} />
+            </div>
+          </div>
+          <div>
+            <span className="text-2xl font-black text-slate-900">56 Horas</span>
+            <p className="text-[11px] text-blue-700 font-medium">Formação Prática em Sala</p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── PAINEL PRINCIPAL: CURSO PRESENCIAL ATIVO + AGENDA ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Lado Esquerdo: Detalhes do Curso Presencial em Andamento */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="bg-white p-6 rounded-[2px] border border-slate-200 shadow-2xs space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-2">
+                <Users size={18} className="text-red-800" />
+                <h3 className="text-xs font-black uppercase tracking-wider text-slate-900">
+                  Formação Presencial Ativa
+                </h3>
+              </div>
+              <span className="px-2.5 py-0.5 bg-red-50 text-red-800 text-[10px] font-extrabold uppercase rounded-[2px]">
+                Em Andamento
+              </span>
+            </div>
+
+            <div className="space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                <div className="space-y-1">
+                  <h4 className="font-extrabold text-base text-slate-900 leading-snug">
+                    {cursoAtivo.titulo}
                   </h4>
-                  <p className="text-sm text-gray-600">
-                    Concluído em{" "}
-                    {new Date(certificado.data_conclusao).toLocaleDateString(
-                      "pt-BR"
-                    )}
+                  <p className="text-xs text-slate-500">
+                    Formador(a): <strong className="text-slate-800">{cursoAtivo.instrutor}</strong>
+                  </p>
+                  <p className="text-xs text-slate-600 flex items-center gap-1 font-medium pt-1">
+                    <MapPin size={14} className="text-red-800" />
+                    {cursoAtivo.localidade}
                   </p>
                 </div>
-                <button
-                  onClick={() => baixarCertificado(certificado.id)}
-                  className="px-3 py-1 bg-yellow-600 text-white text-sm rounded-lg hover:bg-yellow-700 transition-colors">
-                  Baixar
-                </button>
-              </div>
-            ))}
-            {perfil.certificados.length === 0 && (
-              <div className="text-center py-8 text-gray-500">
-                <Award className="mx-auto mb-2" size={32} />
-                <p>Nenhum certificado ainda</p>
-              </div>
-            )}
-          </div>
-        </motion.div>
-      </div>
 
-      {/* Atividade Recente */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
-        className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-gray-900">
-            Atividade Recente
-          </h3>
-          <Calendar className="text-gray-400" size={20} />
-        </div>
-        <div className="space-y-4">
-          {perfil.avaliacoes.slice(0, 3).map((avaliacao) => (
-            <div
-              key={avaliacao.id}
-              className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                <Star className="text-purple-600" size={20} />
+                <div className="text-right sm:text-right">
+                  <span className="text-2xl font-black text-red-800 leading-none block">
+                    {cursoAtivo.progresso}%
+                  </span>
+                  <span className="text-[10px] font-mono text-slate-500 font-bold uppercase">
+                    Aproveitamento
+                  </span>
+                </div>
               </div>
-              <div className="flex-1">
-                <h4 className="font-medium text-gray-900">
-                  Avaliação: {avaliacao.curso}
-                </h4>
-                <p className="text-sm text-gray-600">{avaliacao.comentario}</p>
-                <p className="text-xs text-gray-500">
-                  {new Date(avaliacao.criado_em).toLocaleDateString("pt-BR")}
+
+              {/* Barra de Progresso Presencial */}
+              <div className="space-y-1 pt-1">
+                <div className="w-full bg-slate-100 h-2.5 rounded-[2px] overflow-hidden">
+                  <div
+                    className="bg-red-800 h-full transition-all duration-500"
+                    style={{ width: `${cursoAtivo.progresso}%` }}
+                  />
+                </div>
+                <div className="flex items-center justify-between text-[11px] text-slate-600 font-medium pt-1">
+                  <span>{cursoAtivo.moduloAtual}</span>
+                  <span className="font-bold text-slate-900">
+                    {cursoAtivo.aulasPresenciaisConcluidas} de {cursoAtivo.totalAulasPresenciais} Aulas Vistas
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-3 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-100">
+              <span className="text-xs text-slate-600 font-medium">
+                Próxima Sessão Presencial: <strong className="text-slate-900">Quinta-feira às 14:00</strong>
+              </span>
+
+              <Link
+                to={`/academia/aluno/aula/${cursoAtivo.id}`}
+                className="w-full sm:w-auto px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-[2px] flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+                <CheckSquare size={14} />
+                <span>Registar Presença / Marcar Aula</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Lado Direito: Agenda de Aulas Presenciais & Apoio */}
+        <div className="space-y-6">
+          <div className="bg-white p-6 rounded-[2px] border border-slate-200 shadow-2xs space-y-4">
+            <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
+              <Calendar size={16} className="text-red-800" />
+              <h3 className="text-xs font-black uppercase tracking-wider text-slate-900">
+                Horário das Aulas Presenciais
+              </h3>
+            </div>
+
+            <div className="space-y-3">
+              <div className="p-3.5 bg-slate-50 border border-slate-200/80 rounded-[2px] space-y-2">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-extrabold text-slate-900">Quinta-feira • 14:00 - 17:30</span>
+                  <span className="px-2 py-0.5 bg-red-100 text-red-800 text-[9px] font-extrabold uppercase rounded-[2px]">
+                    Presencial
+                  </span>
+                </div>
+                <h5 className="font-bold text-xs text-slate-900">
+                  Modulo 5.2 — Exportação do Ficheiro SAF-T (AO) para a AGT
+                </h5>
+                <p className="text-[11px] text-slate-500 flex items-center gap-1">
+                  <MapPin size={12} className="text-slate-400" />
+                  Sala Executiva 302 • Centro Envisio Luanda
                 </p>
               </div>
-              <div className="flex items-center space-x-1">
-                <Star className="text-yellow-400 fill-yellow-400" size={16} />
-                <span className="font-medium">{avaliacao.nota}</span>
-              </div>
             </div>
-          ))}
-          {perfil.avaliacoes.length === 0 && (
-            <div className="text-center py-8 text-gray-500">
-              <Star className="mx-auto mb-2" size={32} />
-              <p>Nenhuma atividade recente</p>
-            </div>
-          )}
+          </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

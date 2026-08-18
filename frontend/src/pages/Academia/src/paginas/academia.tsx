@@ -3,8 +3,21 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  BookOpen,
+  ChevronDown,
+  ChevronRight,
+  CheckCircle2,
+  Clock,
+  ShieldCheck,
+  BarChart,
+  User,
+  Lock,
+} from "lucide-react";
 
+import { useCursos } from "../hooks/useCursos";
+import { isCursoAtivo } from "../servicos/cursoService";
 import { Curso } from "../tipos";
 
 const slides = [
@@ -43,7 +56,10 @@ const slides = [
 ];
 
 const Academia = () => {
+  const navigate = useNavigate();
+  const { cursos } = useCursos();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [formData, setFormData] = useState({
     nome: "",
     sobrenome: "",
@@ -154,15 +170,37 @@ const Academia = () => {
         formDataToSend.append(`arquivos`, file);
       });
 
-      const targetUrl = process.env.REACT_APP_API_URL
-        ? `${process.env.REACT_APP_API_URL}/api/email`
-        : "https://api.maisresultados.co.ao/api/email";
+      try {
+        const targetUrl = process.env.REACT_APP_API_URL
+          ? `${process.env.REACT_APP_API_URL}/api/email`
+          : "https://api.maisresultados.co.ao/api/email";
 
-      await axios.post(targetUrl, formDataToSend, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+        await axios.post(targetUrl, formDataToSend, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } catch (apiErr) {
+        console.warn("API de email não disponível, prosseguindo com WhatsApp:", apiErr);
+      }
+
+      // Preparar mensagem e abrir WhatsApp
+      const whatsappNumber = "244947137676";
+      const nomeCompleto = `${formData.nome} ${formData.sobrenome}`.trim() || formData.email.split("@")[0];
+      const mensagemWhatsApp = `*Nova Inscrição - Academia Envisio* 🎓
+
+👤 *Candidato:* ${nomeCompleto}
+📧 *E-mail:* ${formData.email}
+📱 *Telefone / WhatsApp:* ${formData.telefone}
+🏢 *Empresa:* ${formData.empresa.trim() || "Particular"}
+💼 *Nível:* ${formData.nivelExperiencia || "Não especificado"}
+⏰ *Turno:* ${formData.turno || "A combinar"}
+${formData.mensagem.trim() ? `💬 *Mensagem:* ${formData.mensagem.trim()}` : ""}
+
+Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
+
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(mensagemWhatsApp)}`;
+      window.open(whatsappUrl, "_blank");
 
       setSuccess(true);
       setTimeout(() => {
@@ -180,7 +218,7 @@ const Academia = () => {
         });
         setFileNames([]);
         setArquivos(null);
-      }, 3000);
+      }, 2500);
     } catch (error) {
       console.error("Erro ao enviar inscrição:", error);
       setError(
@@ -418,50 +456,53 @@ const Academia = () => {
               Curso em Destaque
             </span>
             <h2 className="text-4xl font-extrabold text-gray-900 sm:text-5xl tracking-tight">
-              Cegid Primavera ERP
+              Gestão de Recursos Humanos
             </h2>
             <p className="mt-4 text-[12px] text-gray-500 max-w-2xl mx-auto">
-              Formação prática de alto nível para dominar as funcionalidades do
-              sistema de gestão líder do mercado.
+              Formação prática de alto nível desenvolvida para Técnicos,
+              Gestores de RH e Juristas Laborais com aplicação no ERP Primavera.
             </p>
           </div>
 
           {/* Grid Principal: Detalhes, Capa e Apresentação do Curso */}
           <div className="bg-white rounded-none shadow-md overflow-hidden mb-16 transition-all duration-300 hover:shadow-lg">
-            <div className="grid grid-cols-1 lg:grid-cols-12">
+            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[490px] lg:min-h-[560px]">
               {/* Informações da Capa do Curso */}
-              <div className="lg:col-span-7 p-8 sm:p-12 flex flex-col justify-center bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+              <div className="lg:col-span-6 p-8 sm:p-12 lg:p-14 flex flex-col justify-center bg-gradient-to-br from-gray-900 to-gray-800 text-white">
                 <div className="flex items-center space-x-2 text-red-400 text-sm font-semibold uppercase mb-4">
                   <span>Qualificação Profissional</span>
                 </div>
-                <h3 className="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
-                  Cegid Primavera: Funcionalidades e Módulos Corporativos
+                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight tracking-tight">
+                  Gestão de Recursos Humanos
                 </h3>
-                <p className="text-gray-300 text-[12px] sm:text-[12px] leading-relaxed mb-8">
-                  {cursoExibir.descricao ||
-                    "O software de gestão mais robusto de Portugal não precisa ser um mistério. Aprenda na prática, do zero ao avançado, e torne-se o profissional que resolve problemas, não que os cria."}
+                <p className="text-gray-300 text-[13px] sm:text-[13px] leading-relaxed mb-8 max-w-xl">
+                  Dotar os participantes de competências técnicas, jurídicas e
+                  operacionais que lhes permitam gerir, de forma íntegra e
+                  eficiente, o ciclo completo da relação laboral - da admissão
+                  ao processamento salarial e à prestação de contas à
+                  Administração.
                 </p>
 
                 {/* Métricas e Características Rápidas */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-6 border-t border-white/10">
                   <div>
-                    <span className="block text-gray-400 text-[14px]">
+                    <span className="block text-gray-400 text-[11px]">
                       Duração
                     </span>
                     <span className="text-[11px] font-semibold text-white">
-                      120 Horas
+                      60 Horas
                     </span>
                   </div>
                   <div>
-                    <span className="block text-gray-400 text-[14px]">
+                    <span className="block text-gray-400 text-[11px]">
                       Formato
                     </span>
                     <span className="text-[11px] font-semibold text-white">
-                      Presencial
+                      Presencial ou misto
                     </span>
                   </div>
                   <div>
-                    <span className="block text-gray-400 text-[14px]">
+                    <span className="block text-gray-400 text-[11px]">
                       Idioma
                     </span>
                     <span className="text-[11px] font-semibold text-white">
@@ -471,24 +512,24 @@ const Academia = () => {
                 </div>
               </div>
 
-              {/* Capa Visual do Curso */}
-              <div className="lg:col-span-5 relative min-h-[300px] lg:min-h-full overflow-hidden">
+              {/* Capa Visual do Curso (Altura aumentada e enquadramento perfeito) */}
+              <div className="lg:col-span-6 relative min-h-[380px] sm:min-h-[440px] lg:min-h-[520px] overflow-hidden bg-slate-950">
                 <img
-                  src="/academia/primavera.svg"
-                  alt="Capa do Curso Cegid Primavera"
-                  className="absolute inset-0 w-full h-full object-cover ntransition-transform duration-700 hover:scale-105"
+                  src="/academia/RH.png"
+                  alt="Capa do Curso Gestão de Recursos Humanos"
+                  className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
               </div>
             </div>
           </div>
 
           {/* Grid do Conteúdo Programático + Inscrição */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Esquerda: Conteúdo Programático (8 colunas) */}
-            <div className="lg:col-span-8 bg-white p-8 rounded-[5px] shadow-sm border border-gray-200 transition-shadow duration-300 hover:shadow-md">
-              <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-100">
+            {/* Esquerda: Conteúdo Programático (8 colunas) — 3 Módulos com visual da Imagem 1 */}
+            <div className="lg:col-span-8 bg-white p-6 sm:p-8 rounded-[5px] shadow-sm border border-gray-200 transition-shadow duration-300 hover:shadow-md text-left">
+              <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
                 <div>
                   <h3 className="text-2xl font-bold text-gray-900">
                     Conteúdo Programático
@@ -498,134 +539,218 @@ const Academia = () => {
                     especialistas.
                   </p>
                 </div>
-                <span className="px-3 py-1 text-red-700 rounded- text-xs ">
-                  {modules.length} Módulos
+                <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded text-xs font-bold border border-slate-200">
+                  6 Módulos
                 </span>
               </div>
 
-              <div className="space-y-4 text-[12px]">
-                {modules.map((module, index) => (
-                  <ModuleCard
-                    key={index}
-                    module={module}
-                    index={index}
-                    isOpen={openModuleIndex === index}
-                    onToggle={() =>
-                      setOpenModuleIndex(
-                        openModuleIndex === index ? null : index,
-                      )
-                    }
-                  />
-                ))}
+              {/* Lista dos 3 primeiros Módulos (Estilo Imagem 1 com círculo 01, 02, 03 e tons cinzas) */}
+              <div className="space-y-3">
+                {[
+                  {
+                    num: "01",
+                    id: 1,
+                    titulo: "Módulo 1: Introdução à Gestão de Recursos Humanos",
+                    subtitulo: "6h • Teórico",
+                    conteudos: [],
+                  },
+                  {
+                    num: "02",
+                    id: 2,
+                    titulo:
+                      "Módulo 2: Direito do Trabalho à luz da Lei n.º 12/23",
+                    subtitulo: "16h • Teórico-prático",
+                    conteudos: [],
+                  },
+                  {
+                    num: "03",
+                    id: 3,
+                    titulo:
+                      "Módulo 3: Leis Doutrinais e Complementares no Âmbito Laboral",
+                    subtitulo: "8h • 10 tópicos",
+                    conteudos: [
+                      "Regime Jurídico da Segurança Social Obrigatória",
+                      "Regime de Acidentes de Trabalho e Doenças Profissionais",
+                      "Legislação de SHST: direitos e deveres, EPI e prevenção de riscos",
+                      "Regime jurídico do trabalho de estrangeiros e regularização de mão de obra",
+                      "Regulamento Interno de Empresa: elaboração, conteúdo e valor jurídico",
+                      "Convenções coletivas de trabalho e o seu impacto na gestão de RH",
+                      "Legislação sobre salário mínimo nacional e atualizações salariais",
+                      "Regime tributário do trabalho (IRT) e obrigações declarativas",
+                      "Proteção de dados pessoais do trabalhador e confidencialidade",
+                      "Papel da Inspeção Geral do Trabalho e procedimentos de fiscalização",
+                    ],
+                  },
+                ].map((modulo, index) => {
+                  const temTopicos =
+                    modulo.conteudos && modulo.conteudos.length > 0;
+                  const estaAberto = openModuleIndex === index;
+
+                  return (
+                    <div
+                      key={modulo.id}
+                      className="border border-slate-200/90 rounded-[6px] overflow-hidden bg-white shadow-2xs">
+                      {temTopicos ? (
+                        <button
+                          onClick={() =>
+                            setOpenModuleIndex(estaAberto ? null : index)
+                          }
+                          className="w-full px-5 py-4 text-left flex justify-between items-center bg-white hover:bg-slate-50/80 transition-colors cursor-pointer">
+                          <div className="flex items-center gap-4 min-w-0 pr-4">
+                            <div className="w-10 h-10 rounded-full border border-slate-200/90 flex items-center justify-center text-xs text-slate-500 font-normal flex-shrink-0 bg-slate-50/50">
+                              {modulo.num}
+                            </div>
+                            <div>
+                              <h4 className="font-normal text-sm sm:text-base text-slate-800 leading-snug">
+                                {modulo.titulo}
+                              </h4>
+                              <p className="text-xs text-slate-400 font-normal mt-0.5">
+                                {modulo.subtitulo}
+                              </p>
+                            </div>
+                          </div>
+
+                          <ChevronDown
+                            className={`text-slate-400 transition-transform duration-200 flex-shrink-0 ${
+                              estaAberto
+                                ? "transform rotate-180 text-slate-700"
+                                : ""
+                            }`}
+                            size={18}
+                          />
+                        </button>
+                      ) : (
+                        <div className="w-full px-5 py-4 text-left flex justify-between items-center bg-white">
+                          <div className="flex items-center gap-4 min-w-0">
+                            <div className="w-10 h-10 rounded-full border border-slate-200/90 flex items-center justify-center text-xs text-slate-500 font-normal flex-shrink-0 bg-slate-50/50">
+                              {modulo.num}
+                            </div>
+                            <div>
+                              <h4 className="font-normal text-sm sm:text-base text-slate-800 leading-snug">
+                                {modulo.titulo}
+                              </h4>
+                              <p className="text-xs text-slate-400 font-normal mt-0.5">
+                                {modulo.subtitulo}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {temTopicos && estaAberto && (
+                        <div className="p-5 bg-slate-50/50 border-t border-slate-100 space-y-2.5">
+                          <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
+                            Tópicos do Módulo:
+                          </p>
+                          <ul className="space-y-2">
+                            {modulo.conteudos.map((topico, tIdx) => (
+                              <li
+                                key={tIdx}
+                                className="flex items-start gap-2.5 text-xs text-slate-600 leading-relaxed font-normal">
+                                <span className="w-1.5 h-1.5 rounded-full bg-slate-400 flex-shrink-0 mt-1.5" />
+                                <span>{topico}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
 
               {/* Botão de Ver Detalhes */}
               <div className="mt-8 pt-6 border-t border-gray-100 flex justify-center">
                 <Link
-                  to="/academia/curso1"
-                  className="inline-flex justify-center items-center px-4 py-2 text-[12px] bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-lg transition duration-300 transform hover:scale-105 shadow-sm">
-                  <svg
-                    className="w-5 h-5 mr-2 text-gray-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                    />
-                  </svg>
-                  Mais detalhes do curso
+                  to="/academia/curso/gestao-recursos-humanos"
+                  className="inline-flex justify-center items-center px-6 py-3 text-xs uppercase tracking-wider bg-red-600 hover:bg-red-700 text-white font-bold  transition duration-300 transform hover:scale-105 shadow-sm">
+                  <BookOpen size={16} className="mr-2" />
+                  Ver todos os 6 módulos do curso
                 </Link>
               </div>
             </div>
 
-            {/* Direita: Card Fixo e Formulário/Botão de Inscrição (4 colunas) */}
-            <div className="lg:col-span-4 lg:sticky lg:top-24">
-              <div className="bg-white rounded-[5px] shadow-md hover:shadow-lg overflow-hidden border border-gray-200 transition-shadow duration-300">
-                {/* Imagem do Flyer do Card */}
-                <div className="relative h-48 sm:h-56 lg:h-48 overflow-hidden">
-                  <img
-                    src="/academia/pagina home/inscricao.webp"
-                    alt="Inscrições Abertas"
-                    className="w-full h-full object-contain transition-transform duration-500 hover:scale-105"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 via-transparent to-transparent pointer-events-none" />
+            {/* Direita: Card Fixo e Formulário/Inscrição (Sem foto, ícones cinzas sem fundo) */}
+            <div className="lg:col-span-4 lg:sticky lg:top-24 text-left">
+              <div className="bg-white rounded-[5px] shadow-sm hover:shadow-md overflow-hidden border border-slate-200 transition-shadow duration-300">
+                {/* Banner com fundo cinza claro e escrita centralizada */}
+                <div className="h-32 sm:h-36 bg-gradient-to-b from-slate-200 to-slate-200 border-b border-slate-200 flex flex-col items-center justify-center p-6 text-center">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">
+                    Academia Envisio
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-slate-600 tracking-tight">
+                    Faça a sua inscrição
+                  </h3>
                 </div>
 
-                {/* Conteúdo do Card de Ação */}
-                <div className="p-6">
-                  <h3 className="font-bold text-gray-900 text-[12px] mb-4">
-                    Inicie a sua Inscrição
-                  </h3>
-
-                  <div className="space-y-4 mb-6">
-                    <div className="flex items-center space-x-3 text-[12px] text-gray-600">
-                      <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 flex-shrink-0">
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24">
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                      </div>
+                {/* Conteúdo do Card de Ação — Ícones cinzas sem fundo */}
+                <div className="p-6 space-y-5">
+                  <div className="space-y-4">
+                    {/* Item 1: Duração */}
+                    <div className="flex items-start gap-3 text-xs text-slate-600">
+                      <Clock
+                        size={17}
+                        className="text-slate-400 flex-shrink-0 mt-0.5"
+                      />
                       <div>
-                        <span className="block font-medium text-gray-900">
+                        <span className="block font-semibold text-slate-800">
                           Duração Completa
                         </span>
-                        <span className="text-xs text-gray-500">
-                          120 horas lectivas
+                        <span className="text-slate-500 text-[11px]">
+                          60 horas lectivas
                         </span>
                       </div>
                     </div>
 
-                    <div className="flex items-center space-x-3 text-[12px] text-gray-600">
-                      <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 flex-shrink-0">
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24">
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                          />
-                        </svg>
-                      </div>
+                    {/* Item 2: Certificação */}
+                    <div className="flex items-start gap-3 text-xs text-slate-600">
+                      <ShieldCheck
+                        size={17}
+                        className="text-slate-400 flex-shrink-0 mt-0.5"
+                      />
                       <div>
-                        <span className="block font-medium text-gray-900">
-                          Certificação
+                        <span className="block font-semibold text-slate-800">
+                          Certificação Oficial
                         </span>
-                        <span className="text-xs text-gray-500">
-                          Reconhecida no mercado
+                        <span className="text-slate-500 text-[11px]">
+                          Reconhecida no mercado de trabalho
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Item 3: Regime */}
+                    <div className="flex items-start gap-3 text-xs text-slate-600">
+                      <BookOpen
+                        size={17}
+                        className="text-slate-400 flex-shrink-0 mt-0.5"
+                      />
+                      <div>
+                        <span className="block font-semibold text-slate-800">
+                          Regime de Ensino
+                        </span>
+                        <span className="text-slate-500 text-[11px]">
+                          Presencial ou misto
                         </span>
                       </div>
                     </div>
                   </div>
 
-                  <button
-                    onClick={() => setIsModalOpen(true)}
-                    className="btn-academia-primary w-full py-2.5 px-4 transition duration-300 transform hover:scale-[1.02] text-sm">
-                    Fazer Inscrição Agora
-                  </button>
+                  {/* Botões de Ação */}
+                  <div className="pt-2 space-y-2.5">
+                    <Link
+                      to="/academia/curso/gestao-recursos-humanos"
+                      className="btn-academia-primary w-full py-3 px-4 transition duration-300 transform hover:scale-[1.02] text-xs font-bold uppercase tracking-wider flex items-center justify-center">
+                      Fazer Inscrição Agora
+                    </Link>
 
-                  <a
-                    href="https://wa.me/244947137676?text=Olá%20Envisio,%20gostaria%20de%20saber%20mais%20sobre%20o%20curso%20Cegid%20Primavera"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-academia-secondary w-full mt-3 py-2 px-4 transition duration-300 text-sm">
-                    Falar com Consultor
-                  </a>
+                    <a
+                      href="https://wa.me/244947137676?text=Olá%20Envisio,%20gostaria%20de%20saber%20mais%20sobre%20o%20curso%20de%20Gestão%20de%20Recursos%20Humanos"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-academia-secondary w-full py-2.5 px-4 transition duration-300 text-xs font-bold uppercase tracking-wider flex items-center justify-center">
+                      Falar com Consultor
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -656,7 +781,8 @@ const Academia = () => {
           <div className="border-b border-gray-200 mb-8">
             <div className="flex gap-0 overflow-x-auto scrollbar-hide">
               {[
-                { key: "todos", label: "Todos os cursos" },
+                { key: "todos", label: "Todas as Formações" },
+                { key: "gestao", label: "Gestão & RH" },
                 { key: "erp", label: "ERP & Gestão" },
                 { key: "programacao", label: "Programação" },
                 { key: "dados", label: "Dados & BI" },
@@ -665,7 +791,7 @@ const Academia = () => {
                 <button
                   key={tab.key}
                   onClick={() => setActiveCourseTab(tab.key)}
-                  className={`whitespace-nowrap px-4 py-3 text-[12px]  border-b-2 transition-all duration-200 ${
+                  className={`whitespace-nowrap px-4 py-3 text-[12px] font-semibold border-b-2 transition-all duration-200 cursor-pointer ${
                     activeCourseTab === tab.key
                       ? "border-red-600 text-red-700"
                       : "border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-300"
@@ -676,293 +802,144 @@ const Academia = () => {
             </div>
           </div>
 
-          {/* Grid de Cursos Compactos */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {[
-              {
-                id: 1,
-                category: "erp",
-                title: "Cegid Primavera: Funcionalidades e Módulos",
-                desc: "Domine o ERP mais utilizado em Angola e Portugal para gestão empresarial completa.",
-                tags: ["120h", "Gestão"],
-                tagColors: [
-                  "bg-gray-100 text-gray-500",
-                  "bg-red-50 text-red-600",
-                ],
-                link: "/academia/curso1",
-                bgHeader: "bg-gray-900",
-                badgeText: "ERP",
-                badgeColor: "bg-red-600",
-                imgSrc: "/academia/primavera.svg",
-                imgStyle: "opacity-90",
-                titleHover: "group-hover:text-red-700",
-                iconColor: "text-red-700",
-              },
-              {
-                id: 2,
-                category: "programacao",
-                title: "Programação Web Frontend",
-                desc: "HTML, CSS e JavaScript modernos. Crie interfaces responsivas com boas práticas profissionais.",
-                tags: ["80h", "Iniciante"],
-                tagColors: [
-                  "bg-gray-100 text-gray-500",
-                  "bg-blue-50 text-blue-600",
-                ],
-                link: "/academia/curso2",
-                bgHeader: "bg-gray-900",
-                badgeText: "Web",
-                badgeColor: "bg-blue-600",
-                imgSrc: "/academia/frontend.jpg",
-                imgStyle: "opacity-90",
-                titleHover: "group-hover:text-blue-700",
-                iconColor: "text-blue-700",
-              },
-              {
-                id: 3,
-                category: "programacao",
-                title: "Lógica de Programação",
-                desc: "Fundamentos de algoritmos, fluxogramas e estruturas de decisão para iniciantes.",
-                tags: ["40h", "Iniciante"],
-                tagColors: [
-                  "bg-gray-100 text-gray-500",
-                  "bg-green-50 text-green-600",
-                ],
-                link: "/academia/curso3",
-                bgHeader: "bg-gray-900 flex items-center justify-center",
-                badgeText: "Base",
-                badgeColor: "bg-green-600",
-                imgSrc: "/academia/logica.png",
-                imgStyle: "opacity-90",
-                titleHover: "group-hover:text-green-700",
-                iconColor: "text-green-700",
-              },
-              {
-                id: 4,
-                category: "dados",
-                title: "SQL Server — Banco de Dados",
-                desc: "Consultas SQL, modelagem, procedures, views e administração básica no SQL Server.",
-                tags: ["60h", "Intermédio"],
-                tagColors: [
-                  "bg-gray-100 text-gray-500",
-                  "bg-purple-50 text-purple-600",
-                ],
-                link: "/academia/curso4",
-                bgHeader: "bg-gray-900 flex items-center justify-center",
-                badgeText: "BD",
-                badgeColor: "bg-purple-600",
-                imgSrc: "/academia/sql.png",
-                imgStyle: "opacity-90",
-                titleHover: "group-hover:text-purple-700",
-                iconColor: "text-purple-700",
-              },
-              {
-                id: 5,
-                category: "dados",
-                title: "Power BI — Business Intelligence",
-                desc: "Relatórios interativos, dashboards executivos e análises visuais com Microsoft Power BI.",
-                tags: ["50h", "Dados"],
-                tagColors: [
-                  "bg-gray-100 text-gray-500",
-                  "bg-orange-50 text-orange-600",
-                ],
-                link: "/academia/cursos",
-                bgHeader:
-                  "bg-gradient-to-br from-yellow-800 to-orange-700 flex items-center justify-center",
-                badgeText: "BI",
-                badgeColor: "bg-orange-600",
-                imgStyle: "",
-                svgElement: (
-                  <svg
-                    className="w-16 h-16 text-yellow-200 opacity-70"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1}
-                      d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1}
-                      d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"
-                    />
-                  </svg>
-                ),
-                titleHover: "group-hover:text-orange-600",
-                iconColor: "text-orange-600",
-              },
-              {
-                id: 6,
-                category: "produtividade",
-                title: "Microsoft Excel Avançado",
-                desc: "Fórmulas complexas, tabelas dinâmicas, macros VBA e dashboards para análise de dados.",
-                tags: ["40h", "Produtividade"],
-                tagColors: [
-                  "bg-gray-100 text-gray-500",
-                  "bg-emerald-50 text-emerald-700",
-                ],
-                link: "/academia/cursos",
-                bgHeader:
-                  "bg-gradient-to-br from-emerald-900 to-emerald-700 flex items-center justify-center",
-                badgeText: "Office",
-                badgeColor: "bg-emerald-600",
-                imgStyle: "",
-                svgElement: (
-                  <svg
-                    className="w-16 h-16 text-emerald-200 opacity-70"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1}
-                      d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"
-                    />
-                  </svg>
-                ),
-                titleHover: "group-hover:text-emerald-700",
-                iconColor: "text-emerald-700",
-              },
-              {
-                id: 7,
-                category: "programacao",
-                title: "Inteligência Artificial Fundamentos",
-                desc: "Conceitos básicos de Machine Learning e Aplicações IA.",
-                tags: ["30h", "Iniciante"],
-                tagColors: ["", ""],
-                link: "/academia/cursos",
-                bgHeader: "bg-[#719f9f] flex items-center justify-center",
-                badgeText: "IA",
-                badgeColor: "bg-slate-600",
-                imgSrc: "/academia/logica.png",
-                imgStyle: "opacity-90",
-                titleHover: "group-hover:text-teal-700",
-                iconColor: "text-teal-700",
-              },
-              {
-                id: 8,
-                category: "erp",
-                title: "Cegid Retail — Gestão Comercial Completa",
-                desc: "Domine o POS e gestão de lojas do Cegid Retail.",
-                tags: ["25h", "Iniciante"],
-                tagColors: ["", ""],
-                link: "/academia/cursos",
-                bgHeader: "bg-gray-200 flex items-center justify-center",
-                badgeText: "ERP",
-                badgeColor: "bg-gray-500",
-                imgSrc: "/academia/primavera.svg",
-                imgStyle: "opacity-90",
-                titleHover: "group-hover:text-gray-700",
-                iconColor: "text-gray-700",
-              },
-            ]
-              .filter(
-                (curso) =>
-                  activeCourseTab === "todos" ||
-                  curso.category === activeCourseTab,
-              )
-              .map((curso, idx) => (
-                <motion.div
-                  key={curso.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: idx * 0.08 }}
-                  className="group bg-white rounded-[5px] border border-gray-200 hover:border-gray-300 overflow-hidden flex flex-col h-full transition-all duration-200 hover:shadow-lg cursor-pointer">
-                  <div
-                    className={`relative h-44 overflow-hidden ${curso.bgHeader}`}>
-                    {curso.imgSrc ? (
-                      <img
-                        src={curso.imgSrc}
-                        alt={curso.title}
-                        className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${curso.imgStyle}`}
-                      />
-                    ) : (
-                      curso.svgElement
-                    )}
-                    <span
-                      className={`absolute top-2 left-2 px-2.5 py-0.5 text-white text-[9px] font-bold uppercase tracking-wider rounded-sm ${curso.badgeColor}`}>
-                      {curso.badgeText}
-                    </span>
+          {/* Grid de Cursos Dinâmicos (Ativo apenas RH, restantes 'Em breve' — limitado a 8 cursos) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+            {cursos
+              .filter((curso) => {
+                if (activeCourseTab === "todos") return true;
+                const cat = (curso.categoria || "").toLowerCase();
+                if (activeCourseTab === "gestao")
+                  return cat.includes("gestão") || cat.includes("rh");
+                if (activeCourseTab === "erp") return cat.includes("erp");
+                if (activeCourseTab === "programacao")
+                  return (
+                    cat.includes("prog") ||
+                    cat.includes("web") ||
+                    cat.includes("lógica") ||
+                    cat.includes("ia")
+                  );
+                if (activeCourseTab === "dados")
+                  return (
+                    cat.includes("dados") ||
+                    cat.includes("bi") ||
+                    cat.includes("sql")
+                  );
+                if (activeCourseTab === "produtividade")
+                  return cat.includes("prod") || cat.includes("excel");
+                return true;
+              })
+              .slice(0, 8)
+              .map((curso, idx) => {
+                const ativo = isCursoAtivo(curso);
+                const instrutorNome =
+                  typeof curso.instrutor === "object" &&
+                  curso.instrutor !== null
+                    ? curso.instrutor.nome
+                    : (curso.instrutor as string) || "Formador Certificado";
 
-                    {/* Ações: Favorito e Partilhar */}
-                    <div
-                      className={`absolute top-2 right-2 flex flex-row gap-1.5 transition-opacity duration-300 ${favorites.includes(curso.id) ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
-                      <button
-                        className={`w-7 h-7 rounded-full bg-white/90 backdrop-blur flex items-center justify-center hover:scale-110 transition-all shadow-sm ${favorites.includes(curso.id) ? "text-red-500" : "text-gray-500 hover:text-red-500"}`}
-                        title={
-                          favorites.includes(curso.id)
-                            ? "Remover dos Favoritos"
-                            : "Adicionar aos Favoritos"
+                return (
+                  <motion.div
+                    key={curso.id || idx}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.35, delay: idx * 0.05 }}
+                    className={`rounded-[5px] border overflow-hidden flex flex-col h-full transition-all duration-300 ${
+                      ativo
+                        ? "bg-white border-slate-200 shadow-sm hover:shadow-md group"
+                        : "bg-slate-50/90 border-slate-200/80 opacity-85"
+                    }`}>
+                    {/* Imagem do curso com badge */}
+                    <div className="relative h-48 sm:h-52 w-full overflow-hidden flex-shrink-0 bg-slate-900">
+                      <img
+                        src={curso.imagemUrl || "/academia/RH.png"}
+                        alt={curso.titulo}
+                        className={`w-full h-full object-cover object-top ${
+                          ativo
+                            ? "scale-[1.02] transition-transform duration-700 group-hover:scale-108"
+                            : "grayscale filter opacity-75 contrast-90"
+                        }`}
+                      />
+                      {/* Categoria tag overlay */}
+                      <span className="absolute top-3 left-3 bg-slate-900/60 backdrop-blur-md border border-white/20 text-white px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider shadow-sm z-10">
+                        {curso.categoria}
+                      </span>
+
+                      {/* Badge de status */}
+                      {!ativo ? (
+                        <span className="absolute top-3 right-3 bg-amber-500 text-slate-950 px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider shadow-sm z-10">
+                          Em breve
+                        </span>
+                      ) : (
+                        <span className="absolute top-3 right-3 bg-white text-slate-900 px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider shadow-sm z-10">
+                          Novo
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Conteúdo */}
+                    <div className="p-5 flex flex-col flex-grow text-left bg-white">
+                      <h3
+                        onClick={() =>
+                          ativo && navigate(`/academia/curso/${curso.id}`)
                         }
-                        onClick={(e) => toggleFavorite(e, curso.id)}>
-                        <svg
-                          className="w-3.5 h-3.5"
-                          fill={
-                            favorites.includes(curso.id)
-                              ? "currentColor"
-                              : "none"
-                          }
-                          stroke="currentColor"
-                          viewBox="0 0 24 24">
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                          />
-                        </svg>
-                      </button>
-                      <button
-                        className="w-7 h-7 rounded-full bg-white/90 backdrop-blur text-gray-500 flex items-center justify-center hover:text-blue-500 hover:bg-white hover:scale-110 transition-all shadow-sm"
-                        title="Partilhar"
-                        onClick={(e) => handleShare(e, curso)}>
-                        <svg
-                          className="w-3.5 h-3.5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24">
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                  <div className="p-6 flex flex-col flex-grow">
-                    <h3
-                      className={`text-[14px] font-bold text-gray-900 leading-tight transition-colors duration-200 mb-2 line-clamp-1 ${curso.titleHover}`}>
-                      {curso.title}
-                    </h3>
-                    <p className="text-[11px] text-gray-500 leading-relaxed flex-grow mb-6 line-clamp-2">
-                      {curso.desc}
-                    </p>
-                    <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
-                      <div className="flex gap-3 flex-wrap">
-                        {curso.tags.map((tag, i) => (
-                          <span
-                            key={i}
-                            className="text-[11px] font-semibold text-black">
-                            {tag}
-                          </span>
-                        ))}
+                        className={`text-[15px] font-bold mb-2 leading-snug ${
+                          ativo
+                            ? "text-slate-900 cursor-pointer group-hover:text-red-600 transition-colors line-clamp-2"
+                            : "text-slate-700 cursor-not-allowed line-clamp-2"
+                        }`}>
+                        {curso.titulo}
+                      </h3>
+
+                      <p className="text-[12px] text-slate-500 line-clamp-2 leading-relaxed mb-4 flex-grow font-normal">
+                        {curso.descricao}
+                      </p>
+
+                      <div className="flex items-center gap-1.5 text-[11px] text-slate-500 font-medium mb-4">
+                        <User size={13} className="text-slate-400" />
+                        <span className="truncate">{instrutorNome}</span>
                       </div>
-                      <Link
-                        to={curso.link}
-                        className={`text-[11px] font-bold text-gray-900 transition-colors duration-200 flex items-center gap-1 group-hover:${curso.iconColor}`}>
-                        Ver curso &rarr;
-                      </Link>
+
+                      {/* Rodapé */}
+                      <div className="mt-auto flex items-center justify-between pt-3 border-t border-slate-100 gap-2">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <span className="flex items-center gap-1 text-slate-600 text-[11px] font-semibold whitespace-nowrap">
+                            <Clock
+                              size={12}
+                              className="text-slate-400 flex-shrink-0"
+                            />
+                            {String(curso.duracao || "").replace(" horas", "h")}
+                          </span>
+                          <span className="flex items-center gap-1 text-slate-600 text-[11px] font-semibold whitespace-nowrap truncate">
+                            <BarChart
+                              size={12}
+                              className="text-slate-400 flex-shrink-0"
+                            />
+                            {String(curso.nivel || "").includes("Intermédio")
+                              ? "Intermédio"
+                              : curso.nivel}
+                          </span>
+                        </div>
+
+                        {ativo ? (
+                          <button
+                            onClick={() =>
+                              navigate(`/academia/curso/${curso.id}`)
+                            }
+                            className="text-red-600 text-[11px] font-bold uppercase tracking-wider hover:underline flex items-center gap-0.5 cursor-pointer whitespace-nowrap flex-shrink-0">
+                            Ver curso <ChevronRight size={13} />
+                          </button>
+                        ) : (
+                          <span className="text-slate-400 text-[11px] font-bold flex items-center gap-1 uppercase tracking-wider cursor-not-allowed whitespace-nowrap flex-shrink-0">
+                            <Lock size={12} className="text-slate-400" />{" "}
+                            Brevemente
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                );
+              })}
           </div>
 
           {/* Rodapé da seção */}
