@@ -31,7 +31,7 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 font-['Segoe_UI_Variable_Text',sans-serif] h-[54px] select-none transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 h-[54px] select-none transition-all duration-300 ${
         isScrolled
           ? "bg-white border-b border-[#e6e6e6] shadow-sm text-[#262626]"
           : "bg-white border-b border-[#e6e6e6]"
@@ -211,10 +211,7 @@ export default function Navbar() {
           <div className="pl-4">
             <Link
               to="/academia"
-              className="px-6 text-xs font-normal text-black bg-white border border-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-300 uppercase flex items-center justify-center rounded-[3px] h-[38px]"
-              style={{
-                fontFamily: "Segoe UI Regular",
-              }}>
+              className="px-6 text-xs font-normal text-black bg-white border border-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-300 uppercase flex items-center justify-center rounded-[3px] h-[38px]">
               Academia
             </Link>
           </div>
@@ -349,10 +346,7 @@ export default function Navbar() {
                 <Link
                   to="/academia"
                   onClick={() => setIsOpen(false)}
-                  className="w-full flex items-center justify-center h-[40px] px-6 text-xs font-normal text-black bg-white border border-red-600 hover:bg-red-50 hover:text-red-700 transition-all uppercase rounded-[3px]"
-                  style={{
-                    fontFamily: "Segoe UI Regular",
-                  }}>
+                  className="w-full flex items-center justify-center h-[40px] px-6 text-xs font-normal text-black bg-white border border-red-600 hover:bg-red-50 hover:text-red-700 transition-all uppercase rounded-[3px]">
                   Academia
                 </Link>
               </div>

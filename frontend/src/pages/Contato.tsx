@@ -1,20 +1,44 @@
 /** @format */
 
 import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Mail,
+  MapPin,
+  Clock,
+  Send,
+  Building2,
+  User,
+  CheckCircle2,
+  ExternalLink,
+  ShieldCheck,
+  Sparkles,
+  ArrowRight,
+} from "lucide-react";
 import { enviarEmail } from "../services/email";
-import "./Contato.css";
+
+// Ícone Oficial do WhatsApp
+function WhatsAppIcon({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}>
+      <path d="M12.031 0C5.49 0 .16 5.33.16 11.87c0 2.09.55 4.13 1.59 5.93L.06 24l6.3-1.65a11.83 11.83 0 0 0 5.67 1.44h.01c6.54 0 11.87-5.33 11.87-11.87C23.91 5.33 18.57 0 12.031 0zm.01 21.78h-.01c-1.78 0-3.52-.48-5.04-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.84 9.84 0 0 1-1.51-5.27c0-5.44 4.43-9.87 9.88-9.87 2.64 0 5.12 1.03 6.98 2.9a9.8 9.8 0 0 1 2.89 6.99c-.01 5.45-4.44 9.88-9.85 9.88zm5.41-7.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.91-2.2-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35z" />
+    </svg>
+  );
+}
 
 const Contato: React.FC = () => {
-  // Ref para controlar se o componente está montado
   const isMountedRef = useRef(true);
 
-  // Estados existentes
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [tipoCliente, setTipoCliente] = useState("singular");
-  const [metodoComunicacao, setMetodoComunicacao] = useState("whatsapp");
+  const [tipoCliente, setTipoCliente] = useState<"singular" | "empresa">("singular");
+  const [metodoComunicacao, setMetodoComunicacao] = useState<"whatsapp" | "email">("whatsapp");
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Novo estado para controlar os campos do formulário
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -26,13 +50,8 @@ const Contato: React.FC = () => {
     nif: "",
   });
 
-  // Adicione estado de loading
-  const [isLoading, setIsLoading] = useState(false);
-
-  // Função para limpar o formulário
   const resetForm = () => {
     if (!isMountedRef.current) return;
-
     setFormData({
       name: "",
       email: "",
@@ -47,7 +66,6 @@ const Contato: React.FC = () => {
     setMetodoComunicacao("whatsapp");
   };
 
-  // Função para lidar com mudanças nos campos
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -60,35 +78,33 @@ const Contato: React.FC = () => {
     }));
   };
 
-  // Função para enviar mensagem para o WhatsApp
   function handleWhatsAppSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
     if (!isMountedRef.current) return;
 
-    // Monta a mensagem
-    const text =
-      `Olá, meu nome é ${formData.name}%0A` +
-      `E-mail: ${formData.email}%0A` +
-      (formData.phone ? `Telefone: ${formData.phone}%0A` : "") +
-      `Área de Interesse: ${formData.area}%0A` +
-      `Mensagem: ${encodeURIComponent(formData.message)}`;
+    let text = `*Novo Contacto - Website Envisio*%0A%0A`;
+    text += `*Tipo:* ${tipoCliente === "empresa" ? "Empresa" : "Pessoa Singular"}%0A`;
+    text += `*Nome:* ${formData.name}${formData.apelido ? ` ${formData.apelido}` : ""}%0A`;
+    if (tipoCliente === "empresa") {
+      if (formData.empresa) text += `*Empresa:* ${formData.empresa}%0A`;
+      if (formData.nif) text += `*NIF:* ${formData.nif}%0A`;
+    }
+    text += `*E-mail:* ${formData.email}%0A`;
+    if (formData.phone) text += `*Telefone:* ${formData.phone}%0A`;
+    if (formData.area) text += `*Área de Interesse:* ${formData.area}%0A`;
+    text += `%0A*Mensagem:*%0A${encodeURIComponent(formData.message)}`;
 
-    // Número do WhatsApp da empresa
     const whatsappNumber = "244947137676";
-
-    // Redireciona para o WhatsApp
     window.open(`https://wa.me/${whatsappNumber}?text=${text}`, "_blank");
 
-    // Limpa o formulário
     setTimeout(() => {
       if (isMountedRef.current) {
+        setFormSubmitted(true);
         resetForm();
       }
-    }, 100);
+    }, 200);
   }
 
-  // useEffect para cleanup
   useEffect(() => {
     isMountedRef.current = true;
     return () => {
@@ -96,20 +112,15 @@ const Contato: React.FC = () => {
     };
   }, []);
 
-  // Função para enviar por email
   async function handleEmailSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    if (isSubmitting || !isMountedRef.current) {
-      return;
-    }
+    if (isSubmitting || !isMountedRef.current) return;
 
     setIsSubmitting(true);
     setIsLoading(true);
 
     try {
       const response = await enviarEmail(formData, tipoCliente);
-
       if (isMountedRef.current) {
         if (response.success) {
           setFormSubmitted(true);
@@ -120,7 +131,7 @@ const Contato: React.FC = () => {
       }
     } catch (error) {
       if (isMountedRef.current) {
-        alert("Erro ao enviar mensagem. Tente novamente.");
+        alert("Erro ao enviar mensagem. Tente novamente ou use o canal via WhatsApp.");
       }
     } finally {
       if (isMountedRef.current) {
@@ -132,275 +143,280 @@ const Contato: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("📋 handleSubmit chamado");
-    console.log("📞 Método de comunicação:", metodoComunicacao);
-
     if (metodoComunicacao === "whatsapp") {
-      console.log("📱 Enviando via WhatsApp");
       handleWhatsAppSubmit(e);
     } else {
-      console.log("📧 Enviando via Email");
       handleEmailSubmit(e);
     }
   };
 
   return (
-    <main className="max-w-5xl mx-auto py-16 px-4 grid md:grid-cols-2 gap-12">
-      {/* Seção de Informações */}
-      <article aria-labelledby="contact-info-heading">
-        <h1
-          id="contact-info-heading"
-          className="text-4xl font-semibold mb-6 text-red-700">
-          Entre em Contato
-        </h1>
+    <div className="min-h-screen bg-slate-50 text-gray-900 pt-[60px] pb-20 relative overflow-hidden">
+      {/* Background Decorativo Sutil */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[480px] bg-gradient-to-b from-red-500/5 via-slate-100/40 to-transparent pointer-events-none -z-10" />
 
-        <p
-          className="mb-8 text-lg text-gray-700 leading-relaxed"
-          style={{ fontFamily: "Segoe UI Variable Text" }}>
-          Tem alguma dúvida ou precisa de mais informações? Estamos aqui para
-          ajudar!
-        </p>
+      {/* 1. HERO HEADER */}
+      <header className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-8 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-red-50 text-red-600 border border-red-200/80 mb-4 shadow-xs">
+            <Sparkles size={13} className="text-red-600" />
+            Canais de Atendimento
+          </span>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
+            Fale com os Nossos Especialistas
+          </h1>
+          <div className="w-16 h-1 bg-red-600 mx-auto mt-3 mb-4 rounded-full" />
+          <p className="max-w-2xl mx-auto text-sm sm:text-base text-gray-600 leading-relaxed">
+            Estamos prontos para atender as necessidades tecnológicas da sua empresa em Angola.
+            Escolha o canal de sua preferência ou envie uma mensagem direta abaixo.
+          </p>
+        </motion.div>
+      </header>
 
-        <div className="mb-8 space-y-6">
-          {/* WhatsApp */}
-          <a
+      {/* 2. CARDS DE ATENDIMENTO RÁPIDO */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {/* Card WhatsApp */}
+          <motion.a
             href="https://wa.me/244947137676"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-4 group hover:bg-green-50 rounded-[5px] px-4 py-3 transition-all duration-300 hover:shadow-md">
-            <span className="inline-flex items-center justify-center w-12 h-12 rounded-[5px] bg-green-100 shadow-lg group-hover:bg-green-200 transition-colors">
-              <svg className="w-7 h-7" viewBox="0 0 32 32" fill="none">
-                <circle cx="16" cy="16" r="16" fill="#25D366" />
-                <path
-                  d="M22.5 17.8c-.3-.2-1.7-.8-2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a7.7 7.7 0 01-2.3-2.2c-.2-.3 0-.4.1-.6.1-.1.2-.3.3-.4.1-.2.1-.3 0-.5s-.7-1.7-1-2.3c-.2-.5-.4-.4-.7-.4h-.6c-.2 0-.5.1-.7.3a2.8 2.8 0 00-.9 2.1c0 1.2.8 2.4 1.1 2.8.3.4 2.1 3.3 5.1 4.2.7.2 1.2.3 1.6.2.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2z"
-                  fill="#fff"
-                />
-              </svg>
-            </span>
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            whileHover={{ y: -4 }}
+            className="bg-white p-6 rounded-[5px] border border-gray-200 shadow-sm hover:shadow-xl hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between group">
             <div>
-              <span
-                className="block text-sm text-gray-500 "
-                style={{ fontFamily: "Segoe UI Variable Text" }}>
-                WhatsApp
-              </span>
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 rounded-[5px] bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-[#25D366] group-hover:text-white transition-colors duration-300">
+                  <WhatsAppIcon className="w-6 h-6" />
+                </div>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  Online
+                </span>
+              </div>
+              <h2 className="text-base font-bold text-gray-900 mb-1">WhatsApp Oficial</h2>
+              <p className="text-xs text-gray-500 mb-3">Atendimento imediato em tempo real</p>
+              <p className="text-sm font-semibold text-gray-800 font-mono">+244 947 137 676</p>
             </div>
-          </a>
+            <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-1 text-xs font-bold text-emerald-600 group-hover:text-emerald-700">
+              <span>Iniciar conversa</span>
+              <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+            </div>
+          </motion.a>
 
-          {/* Email */}
-          <a
+          {/* Card E-mail */}
+          <motion.a
             href="mailto:geral@maisresultados.co.ao"
-            className="flex items-center gap-4 group hover:bg-blue-50 rounded-[5px] px-4 py-3 transition-all duration-300 hover:shadow-md">
-            <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-600 shadow-lg group-hover:bg-blue-200">
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24">
-                <rect width="20" height="16" x="2" y="4" rx="2" />
-                <path d="M22 6l-10 7L2 6" />
-              </svg>
-            </span>
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            whileHover={{ y: -4 }}
+            className="bg-white p-6 rounded-[5px] border border-gray-200 shadow-sm hover:shadow-xl hover:border-blue-300 transition-all duration-300 flex flex-col justify-between group">
             <div>
-              <span
-                className="block text-sm text-gray-500"
-                style={{ fontFamily: "Segoe UI Variable Text" }}>
-                E-mail
-              </span>
-              <span className="text-lg font-semibold text-gray-800 group-hover:text-blue-700">
-                geral@maisresultados.co.ao
-              </span>
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 rounded-[5px] bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                  <Mail size={22} />
+                </div>
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200">
+                  Corporativo
+                </span>
+              </div>
+              <h2 className="text-base font-bold text-gray-900 mb-1">E-mail Comercial</h2>
+              <p className="text-xs text-gray-500 mb-3">Para propostas e parcerias</p>
+              <p className="text-sm font-semibold text-gray-800 break-all">geral@maisresultados.co.ao</p>
             </div>
-          </a>
+            <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-1 text-xs font-bold text-blue-600 group-hover:text-blue-700">
+              <span>Enviar mensagem</span>
+              <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+            </div>
+          </motion.a>
 
-          {/* Endereço */}
-          <a
+          {/* Card Escritório */}
+          <motion.a
             href="https://www.google.com/maps?q=Condom%C3%ADnio%20Jardins%20do%20Talatona%2C%20Torre%205%20-%20N%C2%BA%20003%2C%20Luanda%2C%20Angola"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-start gap-4 group hover:bg-red-50 rounded-[5px] px-4 py-3 transition-all duration-300 hover:shadow-md">
-            <span className="inline-flex items-center justify-center w-12 h-12 rounded-[5px] bg-red-100 text-red-600 shadow-lg group-hover:bg-red-200 mt-1">
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
-                />
-                <circle cx="12" cy="9" r="2.5" />
-              </svg>
-            </span>
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            whileHover={{ y: -4 }}
+            className="bg-white p-6 rounded-[5px] border border-gray-200 shadow-sm hover:shadow-xl hover:border-red-300 transition-all duration-300 flex flex-col justify-between group">
             <div>
-              <span
-                className="block text-sm text-gray-500"
-                style={{ fontFamily: "Segoe UI Variable Text" }}>
-                Endereço
-              </span>
-              <span className="text-l font-semibold text-gray-800 group-hover:text-red-700">
-                Condomínio Jardins do Talatona, Torre 5 - Nº 003
-                <br />
-                Distrito Urbano do Talatona, Luanda - Angola
-              </span>
-            </div>
-          </a>
-        </div>
-
-        {/* Mapa */}
-        <div className="rounded-[5px] overflow-hidden shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300">
-          <iframe
-            title="Localização da Envisio"
-            src="https://www.google.com/maps?q=Condom%C3%ADnio%20Jardins%20do%20Talatona%2C%20Torre%205%20-%20N%C2%BA%20003%2C%20Luanda%2C%20Angola&output=embed"
-            width="100%"
-            height="280"
-            className="border-0"
-            allowFullScreen
-            loading="lazy"
-            aria-label="Mapa mostrando a localização da Envisio"></iframe>
-          <div className="bg-white p-4 border-t border-gray-100">
-            <p
-              className="text-sm text-gray-600"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
-              <strong>Endereço físico:</strong> Condomínio Jardins do Talatona,
-              Torre 5 - Nº 003
-            </p>
-          </div>
-        </div>
-
-        {/* Redes Sociais */}
-        <div className="mt-10">
-          <h3 className="text-lg font-medium text-gray-800 mb-4">Siga-nos</h3>
-          <div className="flex gap-4">
-            {[
-              {
-                icon: "facebook",
-                color: "Black",
-                url: "#",
-                path: "M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z",
-              },
-              {
-                icon: "linkedin",
-                color: "Black",
-                url: "#",
-                path: "M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z",
-              },
-              {
-                icon: "instagram",
-                color: "pink",
-                url: "#",
-                path: "M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z",
-              },
-            ].map((social) => (
-              <a
-                key={social.icon}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`inline-flex items-center justify-center w-10 h-10 rounded-full bg-${social.color}-100 text-${social.color}-600 hover:bg-${social.color}-200 transition-colors shadow-sm`}
-                aria-label={`${social.icon} da Envisio`}>
-                <svg
-                  className="w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 24 24">
-                  <path fillRule="evenodd" clipRule="evenodd" d={social.path} />
-                </svg>
-              </a>
-            ))}
-          </div>
-        </div>
-      </article>
-
-      {/* Seção do Formulário */}
-      <aside
-        aria-labelledby="contact-form-heading"
-        className="bg-white rounded-[5px] shadow-xl p-8 border border-gray-100">
-        {formSubmitted ? (
-          <div
-            className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
-            onClick={() => setFormSubmitted(false)}>
-            <div
-              className="success-modal-content bg-red-50 border-2 border-red-300 rounded-lg p-8 text-center max-w-md mx-4 shadow-2xl transform"
-              onClick={(e) => e.stopPropagation()}>
-              <div className="success-icon mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-red-100 mb-6">
-                <svg
-                  className="h-10 w-10 text-red-600"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
-              <h3 className="success-title text-2xl font-bold text-red-800 mb-4">
-                🎉 Mensagem Enviada!
-              </h3>
-              <p className="text-red-700 mb-6 text-lg font-medium">
-                Obrigado pelo seu contato. Nossa equipe entrará em contato em
-                breve.
-              </p>
-              <button
-                onClick={() => setFormSubmitted(false)}
-                className="success-button bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
-                Enviar Nova Mensagem
-              </button>
-            </div>
-          </div>
-        ) : (
-          <>
-            <h2
-              id="contact-form-heading"
-              className="text-2xl font-bold mb-6 text-gray-800">
-              Envie sua mensagem
-            </h2>
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              <div className="space-y-2">
-                <label
-                  htmlFor="tipoCliente"
-                  className="block text-sm font-medium text-gray-700">
-                  Tipo de Cliente <span className="text-red-600">*</span>
-                </label>
-                <select
-                  id="tipoCliente"
-                  value={tipoCliente}
-                  onChange={(e) => setTipoCliente(e.target.value)}
-                  className="w-full border border-gray-300 rounded-[5px] px-4 py-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition">
-                  <option value="singular">Pessoa Singular</option>
-                  <option value="empresa">Empresa</option>
-                </select>
-              </div>
-
-              {tipoCliente === "singular" ? (
-                <div className="space-y-2">
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-gray-700">
-                    Nome completo <span className="text-red-600">*</span>
-                  </label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-[5px] px-4 py-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition"
-                    placeholder="Digite seu nome"
-                  />
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 rounded-[5px] bg-red-50 text-red-600 flex items-center justify-center group-hover:bg-red-600 group-hover:text-white transition-colors duration-300">
+                  <MapPin size={22} />
                 </div>
-              ) : (
-                <>
-                  <div className="space-y-2">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-red-50 text-red-700 border border-red-200">
+                  Sede Luanda
+                </span>
+              </div>
+              <h2 className="text-base font-bold text-gray-900 mb-1">Visite a Nossa Sede</h2>
+              <p className="text-xs text-gray-500 mb-3">Distrito Urbano do Talatona</p>
+              <p className="text-xs font-medium text-gray-800 leading-snug">
+                Condomínio Jardins do Talatona, Torre 5 - Nº 003, Luanda
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-1 text-xs font-bold text-red-600 group-hover:text-red-700">
+              <span>Abrir no Google Maps</span>
+              <ExternalLink size={13} className="group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </motion.a>
+        </div>
+      </section>
+
+      {/* 3. GRID PRINCIPAL (INFORMAÇÕES + FORMULÁRIO) */}
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* COLUNA ESQUERDA: Informações, Horários, Mapa & Confiança (5 colunas) */}
+          <div className="lg:col-span-5 space-y-6">
+            {/* Card: Horário de Funcionamento */}
+            <div className="bg-white rounded-[5px] border border-gray-200 p-6 shadow-sm">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-[5px] bg-slate-100 text-slate-700 flex items-center justify-center">
+                  <Clock size={20} />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-gray-900">Horário de Operação</h3>
+                  <p className="text-xs text-gray-500">Fuso horário: Luanda (WAT / GMT+1)</p>
+                </div>
+              </div>
+
+              <div className="space-y-2.5 text-xs text-gray-600">
+                <div className="flex items-center justify-between py-1.5 border-b border-gray-100">
+                  <span className="font-medium text-gray-700">Segunda a Sexta</span>
+                  <span className="font-semibold text-gray-900">08:00 — 17:00</span>
+                </div>
+                <div className="flex items-center justify-between py-1.5 border-b border-gray-100">
+                  <span className="font-medium text-gray-700">Sábado e Domingo</span>
+                  <span className="text-gray-500 italic">Plantão de Suporte Técnico</span>
+                </div>
+                <div className="flex items-center justify-between pt-1">
+                  <span className="font-medium text-emerald-600 flex items-center gap-1.5">
+                    <CheckCircle2 size={13} /> Suporte 24/7
+                  </span>
+                  <span className="text-gray-500">Contratos Corporativos</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Card: Mapa Integrado */}
+            <div className="bg-white rounded-[5px] border border-gray-200 overflow-hidden shadow-sm">
+              <div className="relative w-full h-[220px] bg-slate-100">
+                <iframe
+                  title="Localização da Envisio em Talatona"
+                  src="https://www.google.com/maps?q=Condom%C3%ADnio%20Jardins%20do%20Talatona%2C%20Torre%205%20-%20N%C2%BA%20003%2C%20Luanda%2C%20Angola&output=embed"
+                  width="100%"
+                  height="100%"
+                  className="border-0"
+                  allowFullScreen
+                  loading="lazy"
+                  aria-label="Mapa da Envisio em Talatona"
+                />
+              </div>
+              <div className="p-4 bg-slate-50/70 border-t border-gray-200 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2 text-xs text-gray-700">
+                  <MapPin size={14} className="text-red-600 shrink-0" />
+                  <span className="truncate font-medium">Condomínio Jardins do Talatona</span>
+                </div>
+                <a
+                  href="https://www.google.com/maps?q=Condom%C3%ADnio%20Jardins%20do%20Talatona%2C%20Torre%205%20-%20N%C2%BA%20003%2C%20Luanda%2C%20Angola"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1 shrink-0">
+                  Rotas <ExternalLink size={11} />
+                </a>
+              </div>
+            </div>
+
+            {/* Card: Compromissos & Prova Social */}
+            <div className="bg-gradient-to-br from-slate-900 to-black text-white p-6 rounded-[5px] shadow-lg border border-slate-800">
+              <div className="flex items-center gap-2 mb-3">
+                <ShieldCheck size={18} className="text-red-500" />
+                <h4 className="text-sm font-bold text-white uppercase tracking-wider">
+                  Compromisso Envisio
+                </h4>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed mb-4">
+                Atuamos com consultores e engenheiros certificados no mercado angolano,
+                assegurando total confidencialidade e soluções sob medida para a sua operação.
+              </p>
+              <div className="grid grid-cols-2 gap-3 pt-3 border-t border-slate-800 text-[11px]">
+                <div className="flex items-center gap-1.5 text-slate-300">
+                  <CheckCircle2 size={12} className="text-emerald-400 shrink-0" />
+                  <span>Atendimento Ágil</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-slate-300">
+                  <CheckCircle2 size={12} className="text-emerald-400 shrink-0" />
+                  <span>Presença Local</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-slate-300">
+                  <CheckCircle2 size={12} className="text-emerald-400 shrink-0" />
+                  <span>Sistemas Homologados</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-slate-300">
+                  <CheckCircle2 size={12} className="text-emerald-400 shrink-0" />
+                  <span>Suporte Contínuo</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* COLUNA DIREITA: Formulário Ultra-Moderno (7 colunas) */}
+          <div className="lg:col-span-7">
+            <div className="bg-white rounded-[5px] border border-gray-200 p-6 sm:p-8 shadow-xl relative">
+              <div className="mb-6 pb-4 border-b border-gray-100">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
+                  Envie a Sua Mensagem
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                  Preencha o formulário e a nossa equipa entrará em contacto prontamente.
+                </p>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {/* 1. SELETOR DE CLIENTE (TABS MODERNAS) */}
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">
+                    Perfil de Contacto
+                  </label>
+                  <div className="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-[5px] border border-slate-200">
+                    <button
+                      type="button"
+                      onClick={() => setTipoCliente("singular")}
+                      className={`py-2 px-3 rounded-[4px] text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                        tipoCliente === "singular"
+                          ? "bg-white text-red-600 shadow-xs"
+                          : "text-gray-600 hover:text-gray-900"
+                      }`}>
+                      <User size={14} />
+                      <span>Pessoa Singular</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setTipoCliente("empresa")}
+                      className={`py-2 px-3 rounded-[4px] text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                        tipoCliente === "empresa"
+                          ? "bg-white text-red-600 shadow-xs"
+                          : "text-gray-600 hover:text-gray-900"
+                      }`}>
+                      <Building2 size={14} />
+                      <span>Empresa / Corporativo</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* 2. CAMPOS DINÂMICOS DEPENDENDO DO TIPO DE CLIENTE */}
+                {tipoCliente === "singular" ? (
+                  <div>
                     <label
                       htmlFor="name"
-                      className="block text-sm font-medium text-gray-700">
-                      Nome <span className="text-red-600">*</span>
+                      className="block text-xs font-semibold text-gray-700 mb-1.5">
+                      Nome Completo <span className="text-red-600">*</span>
                     </label>
                     <input
                       id="name"
@@ -409,216 +425,287 @@ const Contato: React.FC = () => {
                       required
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-[5px] px-4 py-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition"
-                      placeholder="Digite o nome"
+                      placeholder="Ex: Manuel António Domingos"
+                      className="w-full px-3.5 py-2.5 rounded-[5px] border border-gray-300 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-600 transition"
                     />
                   </div>
-                  <div className="space-y-2">
-                    <label
-                      htmlFor="apelido"
-                      className="block text-sm font-medium text-gray-700">
-                      Apelido <span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      id="apelido"
-                      name="apelido"
-                      type="text"
-                      required
-                      value={formData.apelido}
-                      onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-[5px] px-4 py-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition"
-                      placeholder="Digite o apelido"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label
-                      htmlFor="empresa"
-                      className="block text-sm font-medium text-gray-700">
-                      Empresa <span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      id="empresa"
-                      name="empresa"
-                      type="text"
-                      required
-                      value={formData.empresa}
-                      onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-[5px] px-4 py-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition"
-                      placeholder="Digite o nome da empresa"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label
-                      htmlFor="nif"
-                      className="block text-sm font-medium text-gray-700">
-                      NIF <span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      id="nif"
-                      name="nif"
-                      type="text"
-                      required
-                      value={formData.nif}
-                      onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-[5px] px-4 py-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition"
-                      placeholder="Digite o NIF da empresa"
-                    />
-                  </div>
-                </>
-              )}
-
-              <div className="space-y-2">
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700">
-                  E-mail <span className="text-red-600">*</span>
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded-[5px] px-4 py-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition"
-                  placeholder="seu@email.com"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-medium text-gray-700">
-                  Telefone
-                </label>
-                <input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded-[5px] px-4 py-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition"
-                  placeholder="+244 XXX XXX XXX"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-gray-700">
-                  Mensagem <span className="text-red-600">*</span>
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={5}
-                  required
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded-[5px] px-4 py-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition"
-                  placeholder="Como podemos ajudar?"></textarea>
-              </div>
-
-              {/* Adiciona seleção de área */}
-              <div className="space-y-2">
-                <label
-                  htmlFor="area"
-                  className="block text-sm font-medium text-gray-700">
-                  Área de Interesse <span className="text-red-600">*</span>
-                </label>
-                <select
-                  id="area"
-                  name="area"
-                  required
-                  value={formData.area}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded-[5px] px-4 py-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition">
-                  <option value="">Selecione uma área</option>
-                  <option value="hardware">Hardware</option>
-                  <option value="software">Software</option>
-                  <option value="aluguel">Aluguel de Equipamentos</option>
-                </select>
-              </div>
-
-              {/* Método de comunicação */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Método de Contato <span className="text-red-600">*</span>
-                </label>
-                <div className="flex gap-4">
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      name="metodoComunicacao"
-                      value="whatsapp"
-                      checked={metodoComunicacao === "whatsapp"}
-                      onChange={(e) => setMetodoComunicacao(e.target.value)}
-                      className="form-radio text-red-600"
-                    />
-                    <span className="ml-2">WhatsApp</span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      name="metodoComunicacao"
-                      value="email"
-                      checked={metodoComunicacao === "email"}
-                      onChange={(e) => setMetodoComunicacao(e.target.value)}
-                      className="form-radio text-red-600"
-                    />
-                    <span className="ml-2">E-mail</span>
-                  </label>
-                </div>
-              </div>
-
-              <button
-                className="w-full bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-[5px] shadow hover:shadow-lg transition-all duration-300 font-medium flex items-center justify-center gap-2 hover:from-red-700 hover:to-red-800"
-                type="submit"
-                disabled={isLoading}>
-                {isLoading ? (
-                  <svg
-                    className="animate-spin h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24">
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
                 ) : (
-                  <>
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                      />
-                    </svg>
-                    Enviar{" "}
-                    {metodoComunicacao === "whatsapp"
-                      ? "via WhatsApp"
-                      : "via E-mail"}
-                  </>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label
+                          htmlFor="name"
+                          className="block text-xs font-semibold text-gray-700 mb-1.5">
+                          Nome do Responsável <span className="text-red-600">*</span>
+                        </label>
+                        <input
+                          id="name"
+                          name="name"
+                          type="text"
+                          required
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          placeholder="Ex: Carlos"
+                          className="w-full px-3.5 py-2.5 rounded-[5px] border border-gray-300 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-600 transition"
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="apelido"
+                          className="block text-xs font-semibold text-gray-700 mb-1.5">
+                          Apelido / Sobrenome <span className="text-red-600">*</span>
+                        </label>
+                        <input
+                          id="apelido"
+                          name="apelido"
+                          type="text"
+                          required
+                          value={formData.apelido}
+                          onChange={handleInputChange}
+                          placeholder="Ex: Ferreira"
+                          className="w-full px-3.5 py-2.5 rounded-[5px] border border-gray-300 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-600 transition"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label
+                          htmlFor="empresa"
+                          className="block text-xs font-semibold text-gray-700 mb-1.5">
+                          Nome da Empresa <span className="text-red-600">*</span>
+                        </label>
+                        <input
+                          id="empresa"
+                          name="empresa"
+                          type="text"
+                          required
+                          value={formData.empresa}
+                          onChange={handleInputChange}
+                          placeholder="Ex: Petrogás Angola Lda"
+                          className="w-full px-3.5 py-2.5 rounded-[5px] border border-gray-300 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-600 transition"
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="nif"
+                          className="block text-xs font-semibold text-gray-700 mb-1.5">
+                          NIF da Empresa <span className="text-red-600">*</span>
+                        </label>
+                        <input
+                          id="nif"
+                          name="nif"
+                          type="text"
+                          required
+                          value={formData.nif}
+                          onChange={handleInputChange}
+                          placeholder="Ex: 5418000000"
+                          className="w-full px-3.5 py-2.5 rounded-[5px] border border-gray-300 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-600 transition"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 )}
+
+                {/* 3. CONTATOS (E-MAIL E TELEFONE) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="block text-xs font-semibold text-gray-700 mb-1.5">
+                      E-mail <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="seu.email@empresa.co.ao"
+                      className="w-full px-3.5 py-2.5 rounded-[5px] border border-gray-300 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-600 transition"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="phone"
+                      className="block text-xs font-semibold text-gray-700 mb-1.5">
+                      Telefone / WhatsApp
+                    </label>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="+244 9XX XXX XXX"
+                      className="w-full px-3.5 py-2.5 rounded-[5px] border border-gray-300 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-600 transition font-mono text-xs"
+                    />
+                  </div>
+                </div>
+
+                {/* 4. ÁREA DE INTERESSE */}
+                <div>
+                  <label
+                    htmlFor="area"
+                    className="block text-xs font-semibold text-gray-700 mb-1.5">
+                    Área de Interesse <span className="text-red-600">*</span>
+                  </label>
+                  <select
+                    id="area"
+                    name="area"
+                    required
+                    value={formData.area}
+                    onChange={handleInputChange}
+                    className="w-full px-3.5 py-2.5 rounded-[5px] border border-gray-300 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-600 transition cursor-pointer">
+                    <option value="">Selecione o serviço pretendido</option>
+                    <option value="Renting de Equipamentos">Renting de Equipamentos & Impressoras</option>
+                    <option value="Sistemas de Segurança">Sistemas de Segurança & Redes (CCTV / Biometria)</option>
+                    <option value="Instalação de ERP">Instalação & Suporte a Sistemas ERP (Primavera)</option>
+                    <option value="Desenvolvimento Web">Desenvolvimento Web & Software Sob Medida</option>
+                    <option value="Consultoria em TI">Consultoria em TI & Auditoria de Sistemas</option>
+                    <option value="Consultoria Digital">Consultoria Digital & Automação de Processos</option>
+                    <option value="Outro Assunto">Outro Assunto / Suporte Geral</option>
+                  </select>
+                </div>
+
+                {/* 5. MENSAGEM */}
+                <div>
+                  <label
+                    htmlFor="message"
+                    className="block text-xs font-semibold text-gray-700 mb-1.5">
+                    Mensagem / Detalhes do Projeto <span className="text-red-600">*</span>
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={4}
+                    required
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    placeholder="Descreva brevemente a sua necessidade ou solicite uma proposta..."
+                    className="w-full px-3.5 py-2.5 rounded-[5px] border border-gray-300 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-600 transition resize-none"
+                  />
+                </div>
+
+                {/* 6. MÉTODO DE ENVIO (CARDS SELECIONÁVEIS) */}
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">
+                    Canal de Envio Preferencial <span className="text-red-600">*</span>
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setMetodoComunicacao("whatsapp")}
+                      className={`p-3 rounded-[5px] border text-left flex items-start gap-2.5 transition-all cursor-pointer ${
+                        metodoComunicacao === "whatsapp"
+                          ? "border-emerald-500 bg-emerald-50/60 ring-2 ring-emerald-500/20"
+                          : "border-gray-200 bg-white hover:border-gray-300"
+                      }`}>
+                      <WhatsAppIcon className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                      <div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-xs font-bold text-gray-900">WhatsApp</span>
+                          <span className="text-[9px] font-extrabold uppercase bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded-full">
+                            Direto
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-gray-500 mt-0.5">
+                          Abre mensagem formatada no app
+                        </p>
+                      </div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setMetodoComunicacao("email")}
+                      className={`p-3 rounded-[5px] border text-left flex items-start gap-2.5 transition-all cursor-pointer ${
+                        metodoComunicacao === "email"
+                          ? "border-red-500 bg-red-50/60 ring-2 ring-red-500/20"
+                          : "border-gray-200 bg-white hover:border-gray-300"
+                      }`}>
+                      <Mail className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+                      <div>
+                        <span className="text-xs font-bold text-gray-900">E-mail</span>
+                        <p className="text-[11px] text-gray-500 mt-0.5">
+                          Envia diretamente para a central
+                        </p>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+
+                {/* 7. BOTÃO DE SUBMISSÃO */}
+                <motion.button
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="submit"
+                  disabled={isLoading}
+                  className={`w-full py-3.5 px-6 rounded-[5px] text-sm font-bold text-white shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                    metodoComunicacao === "whatsapp"
+                      ? "bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/20"
+                      : "bg-red-600 hover:bg-red-700 shadow-red-600/20"
+                  }`}>
+                  {isLoading ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <span>Processando envio...</span>
+                    </>
+                  ) : (
+                    <>
+                      {metodoComunicacao === "whatsapp" ? (
+                        <>
+                          <WhatsAppIcon className="w-5 h-5 text-white" />
+                          <span>Enviar Mensagem via WhatsApp</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send size={16} />
+                          <span>Enviar Mensagem via E-mail</span>
+                        </>
+                      )}
+                    </>
+                  )}
+                </motion.button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* 4. MODAL DE SUCESSO MODERNO COM FRAMER MOTION */}
+      <AnimatePresence>
+        {formSubmitted && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
+            onClick={() => setFormSubmitted(false)}>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl border border-gray-100 text-center relative overflow-hidden"
+              onClick={(e: React.MouseEvent) => e.stopPropagation()}>
+              <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-4 border border-emerald-100 shadow-inner">
+                <CheckCircle2 size={36} className="text-emerald-500" />
+              </div>
+              <h3 className="text-xl font-extrabold text-gray-900 mb-2">
+                Mensagem Registada com Sucesso!
+              </h3>
+              <p className="text-sm text-gray-600 leading-relaxed mb-6">
+                Obrigado pelo seu contacto. A nossa equipa analisará o seu pedido e
+                retornará em breve pelo canal indicado.
+              </p>
+              <button
+                onClick={() => setFormSubmitted(false)}
+                className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-[5px] text-sm shadow-md transition-colors cursor-pointer">
+                Concluir
               </button>
-            </form>
-          </>
+            </motion.div>
+          </div>
         )}
-      </aside>
-    </main>
+      </AnimatePresence>
+    </div>
   );
 };
 

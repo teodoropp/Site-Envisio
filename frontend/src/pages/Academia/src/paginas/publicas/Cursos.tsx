@@ -12,7 +12,9 @@ import {
   List,
   BookOpen,
   Lock,
+  Users,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useCursos } from "../../hooks/useCursos";
 import { Curso } from "../../tipos/Curso";
@@ -34,25 +36,27 @@ const CursoCardMicrosoft = ({
   navigate: any;
 }) => {
   const ativo = isCursoAtivo(curso);
+  const isSpecialBorder = curso.id === "power-bi" || curso.id === "sql-server";
 
   return (
     <div
-      className={`flex flex-col text-left group h-full transition-all duration-300 ${
-        ativo
-          ? "cursor-pointer"
-          : "opacity-75 bg-slate-50/50 border border-slate-200/80 rounded-[5px] p-2"
+      className={`flex flex-col text-left h-full transition-all duration-300 bg-white border rounded-[5px] p-3.5 shadow-2xs ${
+        isSpecialBorder
+          ? "border-slate-300 shadow-sm cursor-default select-none"
+          : ativo
+            ? "border-slate-200/80 cursor-pointer group hover:shadow-md hover:border-slate-300"
+            : "border-slate-200/80 cursor-default select-none"
       }`}
       onClick={() => ativo && navigate(`/academia/curso/${curso.id}`)}>
       {/* Imagem */}
-      <div className="relative w-full aspect-[16/10] overflow-hidden bg-slate-100 mb-5 rounded-[4px]">
+      <div
+        className={`relative w-full aspect-[16/10] overflow-hidden bg-white mb-5 rounded-[4px] ${
+          isSpecialBorder ? "border border-slate-200" : ""
+        }`}>
         <img
           src={curso.imagemUrl || "/academia/RH.png"}
           alt={curso.titulo}
-          className={`w-full h-full object-cover object-top transition-transform duration-700 ${
-            ativo
-              ? "group-hover:scale-105"
-              : "grayscale filter opacity-75 contrast-90"
-          }`}
+          className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
         />
         {!ativo && (
           <span className="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-md text-amber-300 font-extrabold text-[10px] uppercase tracking-wider px-2.5 py-1 rounded shadow-sm">
@@ -77,8 +81,8 @@ const CursoCardMicrosoft = ({
       {/* Footer / Ação */}
       <div className="mt-auto flex items-center justify-between pt-2 border-t border-slate-100">
         {ativo ? (
-          <span className="text-red-600 text-[15px] font-semibold flex items-center gap-1 group-hover:underline">
-            Ver curso <ChevronRight size={16} />
+          <span className="text-slate-900 hover:text-black text-[12px] font-bold flex items-center gap-1">
+            Ver curso <ChevronRight size={14} />
           </span>
         ) : (
           <span className="text-slate-400 text-[12px] font-bold flex items-center gap-1 uppercase tracking-wider">
@@ -101,27 +105,26 @@ const CursoCard = ({
   layout?: "grid" | "list";
 }) => {
   const ativo = isCursoAtivo(curso);
+  const isSpecialBorder = curso.id === "power-bi" || curso.id === "sql-server";
 
   return (
     <div
       className={`rounded-[5px] border overflow-hidden transition-all duration-300 ${
-        ativo
-          ? "bg-white border-slate-200 shadow-sm hover:shadow-md group"
-          : "bg-slate-50/90 border-slate-200/80 opacity-75"
+        isSpecialBorder
+          ? "bg-white border-slate-300 shadow-sm cursor-default select-none"
+          : ativo
+            ? "bg-white border-slate-200 shadow-sm hover:shadow-md group"
+            : "bg-white border-slate-200/80 cursor-default select-none"
       } ${layout === "list" ? "flex flex-row h-full items-stretch" : "flex flex-col h-full"}`}>
       {/* Imagem do curso com badge de categoria */}
       <div
-        className={`relative overflow-hidden flex-shrink-0 bg-slate-100 ${
+        className={`relative overflow-hidden flex-shrink-0 bg-white ${
           layout === "list" ? "w-64 min-h-[200px]" : "h-48 w-full"
-        }`}>
+        } ${isSpecialBorder ? "border-b border-slate-200" : ""}`}>
         <img
           src={curso.imagemUrl || "/academia/RH.png"}
           alt={curso.titulo}
-          className={`w-full h-full object-cover object-top ${
-            ativo
-              ? "scale-[1.03] transition-transform duration-700 group-hover:scale-110"
-              : "grayscale filter opacity-75 contrast-90"
-          }`}
+          className="w-full h-full object-cover object-center scale-[1.03] transition-transform duration-700 group-hover:scale-110"
         />
 
         {/* Categoria tag flutuante estilo pill overlay */}
@@ -270,17 +273,24 @@ export default function Cursos() {
   }, [cursosFiltrados, paginaAtual]);
 
   return (
-    <div className="bg-slate-50/60 min-h-screen text-slate-800 font-['Inter',sans-serif]">
-      {/* ─── 1. Hero Section ─────────────────────────────────────────────── */}
-      <section className="relative w-full min-h-screen lg:h-screen bg-[#efefef] overflow-hidden border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full h-full relative z-10">
-          <div className="flex flex-col lg:flex-row h-full">
-            {/* Texto e Pesquisa */}
-            <div className="w-full lg:w-1/2 text-left flex flex-col justify-center pt-32 pb-12 lg:py-0 pr-0 lg:pr-12">
-              <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold text-slate-900 leading-[1.1] tracking-tight mb-6">
-                Cursos para impulsionar a sua carreira
+    <div
+      className="bg-slate-50/60 min-h-screen text-slate-800"
+      style={{
+        fontFamily:
+          "'Segoe UI Variable Text', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif",
+      }}>
+      {/* ─── 1. HERO SECTION (FULL SCREEN VIEWPORT & RESPONSIVE) ────────────────────────── */}
+      <section
+        className="relative w-full bg-[#efefef] overflow-hidden flex items-end border-b border-slate-200/80 select-none pt-[54px]"
+        style={{ height: "100vh", minHeight: "100vh" }}>
+        <div className="max-w-7xl xl:max-w-[1380px] 2xl:max-w-[1580px] mx-auto px-4 sm:px-6 lg:px-8 w-full h-full relative z-10 flex flex-col justify-end">
+          <div className="flex flex-col lg:flex-row h-full w-full items-center lg:items-end justify-between">
+            {/* Texto e Botão */}
+            <div className="w-full lg:w-1/2 text-left flex flex-col justify-center self-center py-8 lg:py-0 pr-0 lg:pr-8 xl:pr-14 z-20">
+              <h1 className="text-[22px] sm:text-4xl md:text-5xl font-black mb-6 leading-[1.1] text-[#111827] tracking-tight">
+                Cursos para impulsionar a sua carreira.
               </h1>
-              <p className="text-lg text-slate-600 mb-8 max-w-md">
+              <p className="text-[14px] md:text-[14px] text-[#374151] leading-relaxed mb-8 max-w-xl">
                 Aprenda com especialistas e obtenha competências práticas para o
                 mercado.
               </p>
@@ -289,23 +299,28 @@ export default function Cursos() {
                   const el = document.getElementById("secao-cursos");
                   if (el) el.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="btn-academia-primary px-8 py-4 text-sm cursor-pointer group self-start">
+                className="border border-red-600 rounded-[4px] px-7 py-3.5 text-xs font-semibold cursor-pointer group self-start transition-all hover:bg-red-600 hover:text-white inline-flex items-center">
                 Explorar Cursos
                 <ArrowRight
-                  size={18}
+                  size={16}
                   className="group-hover:translate-x-1 transition-transform duration-300 ml-2 inline-block"
                 />
               </button>
             </div>
 
-            {/* Imagem Hero Estudante */}
-            <div className="w-full lg:w-1/2 relative flex justify-center lg:justify-end items-end h-full mt-8 lg:mt-0">
-              <div className="relative w-full max-w-[620px] lg:max-w-[660px] group flex justify-center items-end">
+            {/* Imagem Hero Estudante — Ancorada na base perfeitamente em todas as resoluções */}
+            <div className="w-full lg:w-1/2 flex justify-center lg:justify-end items-end self-end h-auto lg:h-full mt-auto">
+              <div className="relative w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[540px] xl:max-w-[600px] 2xl:max-w-[660px] group flex justify-center lg:justify-end items-end h-full">
                 <img
                   src="/academia/student-hero-front.png"
                   alt="Estudante virado para a frente"
-                  className="w-full h-auto object-contain transform lg:scale-110 group-hover:scale-115 transition-transform duration-700 origin-bottom block"
-                  style={{ marginBottom: 0, paddingBottom: 0 }}
+                  className="w-full h-auto max-h-[70vh] lg:max-h-[calc(100vh-54px)] object-contain object-bottom block transition-transform duration-700 group-hover:scale-105 origin-bottom"
+                  style={{
+                    marginBottom: 0,
+                    paddingBottom: 0,
+                    display: "block",
+                    verticalAlign: "bottom",
+                  }}
                 />
               </div>
             </div>
@@ -313,96 +328,55 @@ export default function Cursos() {
         </div>
       </section>
 
-      {/* ─── 2. Curso em Destaque Premium ──────────────────────────────────── */}
+      {/* ─── 2. Curso em Destaque ──────────────────────────────────── */}
       {cursoDestaque && (
-        <section className="py-16 lg:py-20 bg-white relative">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left">
-            {/* Section label */}
-            <div className="mb-8">
-              <h2
-                className="text-2xl font-extrabold text-slate-900 inline-block border-b-2 border-slate-900 pb-1"
-                style={{
-                  fontFamily:
-                    "'Segoe UI Variable Text', 'Segoe UI', sans-serif",
-                }}>
-                Curso em Destaque
-              </h2>
-            </div>
+        <section className="py-12 lg:py-16 bg-white relative border-b border-slate-200/80 overflow-hidden select-none">
+          {/* Título da Seção (Centralizado, Preto, Sem Traços e com Espaçamento Devido) */}
+          <div className="pb-4 text-center select-none">
+            <span className="text-xs sm:text-sm md:text-base font-extrabold text-slate-900 tracking-widest uppercase">
+              CURSO EM DESTAQUE
+            </span>
+          </div>
 
-            {/* Banner card retangular com bordas quadradas */}
-            <div
-              onClick={() => navigate(`/academia/curso/${cursoDestaque.id}`)}
-              className="bg-[#0f172a] rounded-none shadow-xl overflow-hidden mb-12 border border-slate-800 transition-all duration-300 cursor-pointer group">
-              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[320px] lg:min-h-[320px]">
-                {/* Informações da Capa do Curso */}
-                <div className="lg:col-span-7 p-8 sm:p-10 lg:p-12 flex flex-col justify-center text-white relative z-10">
-                  <div className="text-red-500 text-xs font-semibold uppercase tracking-wider mb-3">
-                    <span>
-                      {cursoDestaque.categoria || "QUALIFICAÇÃO PROFISSIONAL"}
-                    </span>
-                  </div>
+          {/* BANNER PRINCIPAL */}
+          <div className="relative min-h-[360px] sm:min-h-[400px] lg:min-h-[420px] flex items-center">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-20">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                {/* COLUNA ESQUERDA: Texto e Botão Mais Detalhes */}
+                <div className="lg:col-span-6 xl:col-span-5 text-left pr-0 lg:pr-4">
+                  <h2 className="text-3xl sm:text-4xl lg:text-[40px] xl:text-[44px] font-extrabold text-slate-900 tracking-tight leading-[1.12] mb-4">
+                    Gestão de Recursos Humanos
+                  </h2>
 
-                  {/* Title */}
-                  <h3 className="text-2xl sm:text-2xl lg:text-3xl font-bold text-white mb-4 leading-tight">
-                    {cursoDestaque.titulo}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-slate-300 text-[12px] sm:text-[12px] leading-relaxed mb-8 max-w-xl font-normal">
-                    {cursoDestaque.descricao}
+                  <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed max-w-md font-normal mb-6">
+                    Dotar os participantes de competências técnicas, jurídicas e
+                    operacionais que lhes permitam gerir, de forma íntegra e
+                    eficiente, o ciclo completo da relação laboral - da admissão
+                    ao processamento salarial e à prestação de contas à
+                    Administração - em conformidade com a Lei n.º 12/23 e demais
+                    legislação complementar aplicável em Angola.
                   </p>
 
-                  {/* Linha divisória e Specs Grid */}
-                  <div className="grid grid-cols-3 gap-6 pt-6 border-t border-slate-700/90 text-left ">
-                    <div>
-                      <span className="block text-slate-400 text-[11px] font-normal">
-                        Duração
-                      </span>
-                      <span className="text-[11px] sm:text-[11px] font-semibold text-white">
-                        {cursoDestaque.duracao}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="block text-slate-400 text-[11px] font-normal">
-                        Formato
-                      </span>
-                      <span className="text-[11px] sm:text-[11px] font-semibold text-white">
-                        {cursoDestaque.format || "Presencial"}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="block text-slate-400 text-[11px] font-normal">
-                        Idioma
-                      </span>
-                      <span className="text-[11px] sm:text-[11px] font-semibold text-white">
-                        {cursoDestaque.idioma || "Português"}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Botão Ver Programa */}
-                  <div>
+                  <div className="flex items-center">
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/academia/curso/${cursoDestaque.id}`);
-                      }}
-                      className="mt-2 inline-flex items-center justify-center px-5 py-2 rounded-[4px] border border-slate-600 hover:border-slate-400 text-white text-xs sm:text-sm font-medium bg-[#0f172a] hover:bg-slate-800/80 transition-all cursor-pointer shadow-xs">
-                      Ver Programa
+                      onClick={() =>
+                        navigate("/academia/curso/gestao-recursos-humanos")
+                      }
+                      className="px-5 py-3 bg-slate-100 hover:bg-slate-200/80 text-slate-700 font-semibold text-xs rounded-[6px] transition-colors cursor-pointer inline-flex items-center gap-2">
+                      Mais Detalhes
                     </button>
                   </div>
                 </div>
-
-                {/* Capa Visual do Curso */}
-                <div className="lg:col-span-5 relative min-h-[260px] sm:min-h-[320px] lg:min-h-full overflow-hidden bg-slate-950">
-                  <img
-                    src={cursoDestaque.imagemUrl || "/academia/RH.png"}
-                    alt={cursoDestaque.titulo}
-                    className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                </div>
               </div>
+            </div>
+
+            {/* COLUNA DIREITA: Imagem Completa Sem Sombra */}
+            <div className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 w-[48%] xl:w-[46%] items-center justify-end select-none z-10">
+              <img
+                src="/academia/imagem_rh.png"
+                alt="Gestão de Recursos Humanos"
+                className="w-full h-auto object-contain max-h-[380px]"
+              />
             </div>
           </div>
         </section>

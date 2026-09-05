@@ -8,6 +8,16 @@ import { partners } from "../types/partners";
 import { DesktopCarousel, MobileCarousel } from "../components/Carousel";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { HomeMobile } from "./mobile/HomeMobile"; // Certifique-se que o caminho está correto
+import {
+  User,
+  Clock,
+  BarChart,
+  Lock,
+  ChevronRight,
+  ArrowRight,
+  CheckCircle2,
+} from "lucide-react";
+import cursosData from "./Academia/src/data/cursos.json";
 
 // ======================
 // TIPOS E INTERFACES
@@ -120,39 +130,73 @@ const businessSegments: Record<SegmentKey, Segment> = {
 // COMPONENTE PRINCIPAL DA HOME
 // ======================
 
-// Serviços oferecidos (mock para exibição na seção de serviços)
+// Serviços oferecidos com dados completos para apresentação desktop
 const services = [
   {
     title: "Renting de Equipamentos",
+    badge: "Renting & Hardware",
     description:
-      "Renting de impressoras multifuncionais, computadores e servidores para empresas.",
+      "Renting de impressoras multifuncionais, computadores e servidores empresariais com assistência e manutenção preventiva inclusas.",
     tipo: "aluguel",
+    path: "/servicos/renting",
     image: "/images/imagem cads/Destaque3.webp",
+    highlights: [
+      "Manutenção preventiva incluída",
+      "Equipamentos modernos e ágeis",
+    ],
   },
   {
     title: "Sistemas de Segurança",
+    badge: "Hardware & Redes",
     description:
-      "Implementação de políticas de segurança, proteção contra ameaças digitais, soluções de backup e monitoramento de acessos.",
+      "Instalação de CCTV inteligente, controlo biométrico de acessos, segurança perimetral e monitorização contínua 24/7.",
     tipo: "hardware",
+    path: "/servicos/hardware",
     image: "/images/imagem cads/Destaque4.webp",
+    highlights: ["Monitorização em tempo real", "Controlo biométrico seguro"],
   },
   {
     title: "Desenvolvimento Web",
-    description: "Criação de sites, sistemas web e aplicativos sob demanda.",
+    badge: "Sistemas & Web",
+    description:
+      "Criação de websites corporativos, portais e plataformas personalizadas com alta performance e design 100% responsivo.",
     tipo: "software",
+    path: "/servicos/software",
     image: "/images/imagem cads/Destaque5.webp",
+    highlights: ["Design 100% responsivo", "Arquitetura veloz e segura"],
   },
   {
     title: "Consultoria em TI",
-    description: "Planejamento, diagnóstico e transformação digital.",
+    badge: "Consultoria em TI",
+    description:
+      "Auditoria de sistemas, diagnóstico de infraestrutura de rede e planeamento estratégico para modernização de processos.",
     tipo: "software",
+    path: "/servicos/software",
     image: "/images/imagem cads/Destaque6.webp",
+    highlights: ["Otimização de custos de TI", "Estratégia sob medida"],
+  },
+  {
+    title: "Instalação de Sistemas ERP",
+    badge: "ERP & Gestão",
+    description:
+      "Instalação, parametrização e assistência em soluções ERP líderes (Primavera e outros) para automatizar e integrar a gestão do seu negócio.",
+    tipo: "software",
+    path: "/servicos/software",
+    image: "/images/imagem soft/Primavera.webp",
+    highlights: [
+      "Parametrização fiscal e faturação",
+      "Controlo de stocks e tesouraria",
+    ],
   },
   {
     title: "Consultoria Digital",
-    description: "Soluções digitais para automação e crescimento.",
+    badge: "Inovação Digital",
+    description:
+      "Soluções de automação empresarial e integração tecnológica para acelerar o crescimento e a produtividade da sua equipa.",
     tipo: "software",
+    path: "/servicos/software",
     image: "/images/imagem cads/Destaque7.webp",
+    highlights: ["Automação de rotinas manuais", "Aumento da produtividade"],
   },
 ];
 
@@ -228,13 +272,8 @@ export function HeroSection() {
               <motion.span
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 2 }}
-                style={{
-                  fontFamily: "Segoe UI Variable Text",
-                }}
                 className="text-sm uppercase tracking-wider text-gray-900 mb-4 block"></motion.span>
-              <h2
-                style={{ fontFamily: "Segoe UI Variable Text" }}
-                className="text-5xl mb-6">
+              <h2 className="text-5xl mb-6">
                 Transformando negócios desde 2018
               </h2>
               <div className="w-24 h-1 bg-black mx-auto" />
@@ -248,14 +287,9 @@ export function HeroSection() {
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   className="space-y-6">
-                  <h3
-                    style={{ fontFamily: "Segoe UI Variable Text" }}
-                    className="text-3xl font-bold">
-                    Quem Somos
-                  </h3>
+                  <h3 className="text-3xl font-bold">Quem Somos</h3>
                   <p
                     style={{
-                      fontFamily: "Segoe UI Variable Text",
                       fontSize: "16px",
                       marginTop: "20px", // ou "24px" se preferir maior
                     }}
@@ -288,9 +322,7 @@ export function HeroSection() {
                         2018
                       </div>
                       <div>
-                        <h4
-                          className="font-semibold mb-1 mt-3"
-                          style={{ fontFamily: "Segoe UI Variable Text" }}>
+                        <h4 className="font-semibold mb-1 mt-3">
                           Fundação da Empresa
                         </h4>
                       </div>
@@ -301,10 +333,7 @@ export function HeroSection() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => navigate("/quem-somos")}
-                    className="mt-8 w-full bg-red-600 text-white py-4 px-8 rounded-[5px] flex items-center justify-center group hover:bg-red-700 transition-all"
-                    style={{
-                      fontFamily: "Segoe UI Variable Text",
-                    }}>
+                    className="mt-8 w-full bg-red-600 text-white py-4 px-8 rounded-[5px] flex items-center justify-center group hover:bg-red-700 transition-all">
                     Conheça Nossa História Completa
                     <motion.span className="ml-2 group-hover:translate-x-1 transition-transform">
                       →
@@ -336,76 +365,95 @@ export function HeroSection() {
         </div>
       </section>
 
-      {/* Seção de Serviços Redesenhada */}
-      <motion.section
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="py-15 px-4 bg-white mb-20">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.9 }}
-          className="text-center mb-20">
-          <h2
-            className="text-4xl font-bold text-black mt-4 mb-6"
-            style={{ fontFamily: "Segoe UI Variable Text" }}>
-            Nossos Serviços Especializados
-          </h2>
-          <div className="w-24 h-1 bg-red-600 mx-auto mb-8" />
-          <p className="text-xl text-black max-w-3xl mx-auto">
-            Transformamos desafios em oportunidades com soluções tecnológicas
-            integradas e consultoria especializada para impulsionar o
-            crescimento do seu negócio.
-          </p>
-        </motion.div>
+      {/* Seção de Serviços Redesenhada - Compacta, Proporcional e Sem Espaços Mortos */}
+      <section className="py-14 px-6 bg-white border-b border-gray-100">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-10">
+            <span className="text-xs uppercase tracking-widest text-red-600 font-bold mb-2 block">
+              Soluções Especializadas
+            </span>
+            <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-900 tracking-tight mb-3">
+              Nossos Serviços Especializados
+            </h2>
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
+            <p className="text-sm lg:text-base text-gray-600 max-w-2xl mx-auto">
+              Transformamos desafios em oportunidades com soluções tecnológicas
+              integradas e consultoria especializada para impulsionar o seu
+              negócio.
+            </p>
+          </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-          {services.map((service, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.02 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="rounded-[5px] shadow-lg overflow-hidden border border-gray-300 w-[390px] h-[450px] mx-auto flex flex-col bg-white">
-              {/* Imagem no topo */}
-              <div className="w-full h-60 bg-gray-100">
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map((service, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -4 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.08 }}
+                className="w-full bg-white rounded-[5px] border border-gray-200 shadow-sm hover:shadow-xl hover:border-red-200 transition-all duration-300 flex flex-col overflow-hidden group">
+                {/* Imagem no topo com Badge */}
+                <div className="relative w-full h-44 bg-gray-100 overflow-hidden">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <span className="absolute top-3 left-3 bg-slate-900/75 backdrop-blur-md border border-white/20 text-white px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm">
+                    {service.badge}
+                  </span>
+                </div>
 
-              {/* Conteúdo */}
-              <div className="p-6 flex flex-col flex-1 relative text-gray-800">
-                <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
-                <p className="text-base opacity-90 mb-14">
-                  {service.description}
-                </p>
+                {/* Conteúdo Proporcional e Sem Espaços Mortos */}
+                <div className="p-5 flex flex-col flex-1">
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 leading-snug group-hover:text-red-600 transition-colors">
+                    {service.title}
+                  </h3>
+                  <p className="text-[13px] text-gray-600 leading-relaxed mb-4 line-clamp-2 flex-grow">
+                    {service.description}
+                  </p>
 
-                {/* Botão maior no canto inferior direito */}
-                <button
-                  className="absolute bottom-6 right-6 bg-red-600 hover:bg-red-700 transition text-white font-semibold px-6 py-2 rounded-[5px] text-sm"
-                  onClick={() => {
-                    if (service.tipo === "software") {
-                      navigate("/servicos/software");
-                    } else if (service.tipo === "hardware") {
-                      navigate("/servicos/hardware");
-                    } else if (service.tipo === "aluguel") {
-                      navigate("/servicos/renting");
-                    }
-                  }}>
-                  Saiba mais
-                </button>
-              </div>
-            </motion.div>
-          ))}
+                  {/* Benefícios em lista */}
+                  <div className="space-y-1.5 mb-5 pt-3 border-t border-gray-100">
+                    {service.highlights.map((h, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <CheckCircle2
+                          size={13}
+                          className="text-emerald-600 shrink-0"
+                        />
+                        <span className="text-xs text-gray-700 font-medium">
+                          {h}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Rodapé com Ação Clara */}
+                  <div className="mt-auto pt-3 border-t border-gray-100 flex items-center justify-between">
+                    <span className="text-xs text-gray-400 font-medium"></span>
+                    <button
+                      onClick={() => navigate(service.path)}
+                      className="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-[5px] text-xs flex items-center gap-1.5 shadow-sm transition-all group-hover:shadow-md cursor-pointer">
+                      <span>Saiba mais</span>
+                      <ArrowRight
+                        size={13}
+                        className="group-hover:translate-x-1 transition-transform"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Academia Profissional - Versão Clara e Elegante */}
       <section className="py-20 relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-100">
@@ -421,137 +469,150 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center max-w-3xl mx-auto mb-20">
-            <span
-              className="text-sm uppercase tracking-wider text-red-600  mb-4 block"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+            <span className="text-sm uppercase tracking-wider text-red-600  mb-4 block">
               Formação Profissional de Elite
             </span>
-            <h2
-              className="text-5xl text-gray-900 mb-6"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+            <h2 className="text-5xl text-gray-900 mb-6">
               Desenvolva Seu Potencial
             </h2>
             <div className="w-24 h-1 bg-red-600 mx-auto mb-8" />
-            <p
-              className="text-xl text-gray-600"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+            <p className="text-xl text-gray-600">
               Programas exclusivos desenvolvidos por especialistas para
               impulsionar sua carreira ao próximo nível
             </p>
           </motion.div>
 
-          {/* Grid de Cursos */}
-          <div className="grid lg:grid-cols-3 gap-8 mb-16">
-            {[
-              {
-                title: "Certificação Profissional",
-                subtitle: "Certificação Internacional",
-                icon: "🎓",
-                features: [
-                  "Certificado Reconhecido",
-                  "Professores Especializados",
-                  "Material Exclusivo",
-                ],
-              },
-              {
-                title: "Mentoria Executiva",
-                subtitle: "Mentoria Personalizada",
-                icon: "💡",
-                features: [
-                  "Mentoria Individual",
-                  "Projetos Práticos",
-                  "Networking Estratégico",
-                ],
-              },
-              {
-                title: "Programa Avançado",
-                subtitle: "Carreira Acelerada",
-                icon: "🚀",
-                features: [
-                  "Vagas Garantidas",
-                  "Suporte Contínuo",
-                  "Cases Reais",
-                ],
-              },
-            ].map((curso, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.2 }}
-                whileHover={{ y: -10 }}
-                className="group relative h-full"
-                style={{ fontFamily: "Segoe UI Variable Text" }}>
-                <div className="bg-white rounded-[5px] p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 h-full flex flex-col">
-                  {/* Ícone e Título */}
-                  <div className="flex items-center gap-4 mb-8">
-                    <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <span className="text-3xl">{curso.icon}</span>
-                    </div>
-                    <div>
-                      <h3
-                        className="text-2xl font-bold text-gray-900 group-hover:text-red-600 transition-colors"
-                        style={{ fontFamily: "Segoe UI Variable Text" }}>
-                        {curso.title}
-                      </h3>
-                      <p
-                        className="text-gray-600"
-                        style={{ fontFamily: "Segoe UI Variable Text" }}>
-                        {curso.subtitle}
-                      </p>
-                    </div>
-                  </div>
+          {/* Grid dos Cursos Oficiais da Academia */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 text-left">
+            {cursosData.slice(0, 4).map((curso: any, idx: number) => {
+              const ativo =
+                curso.status === "active" ||
+                curso.available === true ||
+                curso.status === "disponivel";
+              const instrutorNome =
+                typeof curso.instrutor === "object" && curso.instrutor !== null
+                  ? curso.instrutor.nome
+                  : curso.instrutor || "Formador Certificado";
+              const isSpecialBorder =
+                curso.id === "power-bi" || curso.id === "sql-server";
 
-                  {/* Features */}
-                  <div className="space-y-4 mb-8">
-                    {curso.features.map((feature, i) => (
-                      <div key={i} className="flex items-center gap-3">
-                        <div className="w-6 h-6 rounded-full bg-red-50 flex items-center justify-center">
-                          <span className="text-red-600 text-sm">✓</span>
-                        </div>
-                        <span
-                          className="text-gray-700"
-                          style={{ fontFamily: "Segoe UI Variable Text" }}>
-                          {feature}
-                        </span>
-                      </div>
-                    ))}
-
-                    {/* Adicionado ícone de informação */}
-                    <div className="flex items-center gap-3">
-                      <div className="w-6 h-6 rounded-full bg-blue-50 flex items-center justify-center">
-                        <span className="text-blue-600 text-sm">ℹ️</span>
-                      </div>
-                      <span
-                        className="text-gray-700"
-                        style={{ fontFamily: "Segoe UI Variable Text" }}>
-                        {curso.title === "Certificação Profissional"
-                          ? "Inclui acesso a plataforma online"
-                          : curso.title === "Mentoria Executiva"
-                          ? "Networking com profissionais da indústria"
-                          : "Apoio na construção de portfólio"}
+              return (
+                <motion.div
+                  key={curso.id || idx}
+                  initial={{ opacity: 0, y: 25 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.35, delay: idx * 0.08 }}
+                  className="h-full">
+                  <div
+                    className={`rounded-[5px] border overflow-hidden flex flex-col h-full transition-all duration-300 ${
+                      isSpecialBorder
+                        ? "bg-white border-slate-300 shadow-sm cursor-default select-none"
+                        : ativo
+                          ? "bg-white border-slate-200 shadow-sm hover:shadow-md group"
+                          : "bg-white border-slate-200/80 cursor-default select-none"
+                    }`}>
+                    {/* Imagem do curso com badge */}
+                    <div
+                      className={`relative h-48 sm:h-52 w-full overflow-hidden flex-shrink-0 bg-white ${
+                        isSpecialBorder ? "border-b border-slate-200" : ""
+                      }`}>
+                      <img
+                        src={curso.imagemUrl || "/academia/RH.png"}
+                        alt={curso.titulo}
+                        className="w-full h-full object-cover object-center scale-[1.02] transition-transform duration-700 group-hover:scale-108"
+                      />
+                      {/* Categoria tag overlay */}
+                      <span className="absolute top-3 left-3 bg-slate-900/60 backdrop-blur-md border border-white/20 text-white px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider shadow-sm z-10">
+                        {curso.categoria}
                       </span>
+
+                      {/* Badge de status */}
+                      {!ativo ? (
+                        <span className="absolute top-3 right-3 bg-amber-500 text-slate-950 px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider shadow-sm z-10">
+                          Em breve
+                        </span>
+                      ) : (
+                        <span className="absolute top-3 right-3 bg-white text-slate-900 px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider shadow-sm z-10">
+                          Novo
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Conteúdo */}
+                    <div className="p-5 flex flex-col flex-grow text-left bg-white">
+                      <h3
+                        onClick={() =>
+                          ativo && navigate(`/academia/curso/${curso.id}`)
+                        }
+                        className={`text-[15px] font-bold mb-2 leading-snug ${
+                          ativo
+                            ? "text-slate-900 cursor-pointer hover:text-red-600 transition-colors line-clamp-2"
+                            : "text-slate-700 cursor-not-allowed line-clamp-2"
+                        }`}>
+                        {curso.titulo}
+                      </h3>
+
+                      <p className="text-[12px] text-slate-500 line-clamp-2 leading-relaxed mb-4 flex-grow font-normal">
+                        {curso.descricao}
+                      </p>
+
+                      <div className="flex items-center gap-1.5 text-[11px] text-slate-500 font-medium mb-4">
+                        <User size={13} className="text-slate-400 shrink-0" />
+                        <span className="truncate">{instrutorNome}</span>
+                      </div>
+
+                      {/* Rodapé */}
+                      <div className="mt-auto flex items-center justify-between pt-3 border-t border-slate-100 gap-2">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <span className="flex items-center gap-1 text-slate-600 text-[11px] font-semibold whitespace-nowrap">
+                            <Clock
+                              size={12}
+                              className="text-slate-400 flex-shrink-0"
+                            />
+                            {String(curso.duracao || "").replace(" horas", "h")}
+                          </span>
+                          <span className="flex items-center gap-1 text-slate-600 text-[11px] font-semibold whitespace-nowrap truncate">
+                            <BarChart
+                              size={12}
+                              className="text-slate-400 flex-shrink-0"
+                            />
+                            {String(curso.nivel || "").includes("Intermédio")
+                              ? "Intermédio"
+                              : curso.nivel}
+                          </span>
+                        </div>
+
+                        {ativo ? (
+                          <button
+                            onClick={() =>
+                              navigate(`/academia/curso/${curso.id}`)
+                            }
+                            className="text-slate-600 hover:text-red-600 text-[10px] font-bold uppercase tracking-wider flex items-center gap-0.5 cursor-pointer whitespace-nowrap flex-shrink-0">
+                            Ver curso <ChevronRight size={13} />
+                          </button>
+                        ) : (
+                          <span className="text-slate-400 text-[11px] font-bold flex items-center gap-1 uppercase tracking-wider cursor-not-allowed whitespace-nowrap flex-shrink-0">
+                            <Lock size={12} className="text-slate-400" />{" "}
+                            Brevemente
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
+                </motion.div>
+              );
+            })}
+          </div>
 
-                  {/* Preço e Duração */}
-                  <div className="flex items-center justify-between py-4 border-t border-gray-100"></div>
-
-                  {/* CTA */}
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => navigate("/academia")}
-                    className="mt-auto w-full bg-gradient-to-r from-red-600 to-red-700 text-white py-4 rounded-[5px] flex items-center justify-center group hover:from-red-700 hover:to-red-800 transition-all"
-                    style={{ fontFamily: "Segoe UI Variable Text" }}>
-                    Visita-nos
-                    <span className="ml-2 group-hover:translate-x-1 transition-transform">
-                      →
-                    </span>
-                  </motion.button>
-                </div>
-              </motion.div>
-            ))}
+          {/* Botão de Navegação para a Academia */}
+          <div className="text-center">
+            <button
+              onClick={() => navigate("/academia")}
+              className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-900 text-white font-semibold py-3.5 px-8 rounded-[5px] transition-all text-sm shadow-md cursor-pointer hover:shadow-lg">
+              <span>Explorar Cursos</span>
+              <ArrowRight size={16} />
+            </button>
           </div>
         </div>
       </section>
@@ -566,20 +627,14 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center max-w-3xl mx-auto mb-20">
-            <span
-              className="text-sm uppercase tracking-wider text-red-400 mb-4 block"
-              style={{ fontFamily: "Segoe UI regular" }}>
+            <span className="text-sm uppercase tracking-wider text-red-400 mb-4 block">
               Depoimentos
             </span>
-            <h2
-              className="text-5xl text-white mb-6"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+            <h2 className="text-5xl text-white mb-6">
               O Que Nossos Clientes Dizem
             </h2>
             <div className="w-24 h-1 bg-red-600 mx-auto mb-8" />
-            <p
-              className="text-xl text-gray-300"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+            <p className="text-xl text-gray-300">
               Histórias de sucesso e transformação
             </p>
           </motion.div>
@@ -594,7 +649,7 @@ export function HeroSection() {
                   setCurrentSlide((prev) =>
                     prev === 0
                       ? Object.values(businessSegments).length - 1
-                      : prev - 1
+                      : prev - 1,
                   )
                 }
                 className="absolute left-[-80px] top-1/2 -translate-y-1/2 z-30 flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-gray-800 via-gray-900 to-black border-2 border-white/10 shadow-2xl hover:from-red-700 hover:to-red-900 hover:border-red-500 hover:scale-110 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-red-400/40"
@@ -630,9 +685,7 @@ export function HeroSection() {
                   </div>
 
                   {/* Texto do Depoimento */}
-                  <p
-                    className="text-gray-100 text-2xl md:text-2xl italic mb-8 text-center drop-shadow"
-                    style={{ fontFamily: "Segoe UI Variable Text" }}>
+                  <p className="text-gray-100 text-2xl md:text-2xl italic mb-8 text-center drop-shadow">
                     {
                       Object.values(businessSegments)[currentSlide].testimonial
                         .text
@@ -649,17 +702,13 @@ export function HeroSection() {
                         {Object.values(businessSegments)[currentSlide].icon}
                       </span>
                     </div>
-                    <h4
-                      className="text-white text-lg"
-                      style={{ fontFamily: "Segoe UI Variable Text" }}>
+                    <h4 className="text-white text-lg">
                       {
                         Object.values(businessSegments)[currentSlide]
                           .testimonial.author
                       }
                     </h4>
-                    <p
-                      className="text-red-400 text-sm"
-                      style={{ fontFamily: "Segoe UI Variable Text" }}>
+                    <p className="text-red-400 text-sm">
                       {
                         Object.values(businessSegments)[currentSlide]
                           .testimonial.role
@@ -675,7 +724,7 @@ export function HeroSection() {
                   setCurrentSlide((prev) =>
                     prev === Object.values(businessSegments).length - 1
                       ? 0
-                      : prev + 1
+                      : prev + 1,
                   )
                 }
                 className="absolute right-[-80px] top-1/2 -translate-y-1/2 z-30 flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-red-600 via-red-700 to-red-800 border-2 border-white/10 shadow-2xl hover:from-red-700 hover:to-black hover:border-red-500 hover:scale-110 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-red-400/40"
@@ -727,22 +776,16 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center max-w-3xl mx-auto mb-20">
-            <span
-              className="text-xs uppercase tracking-[0.2em] text-red-600 mb-3 block"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+            <span className="text-xs uppercase tracking-[0.2em] text-red-600 mb-3 block">
               Parcerias Estratégicas
             </span>
-            <h2
-              className="text-5xl font-extrabold mb-4 text-gray-900 drop-shadow-sm"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+            <h2 className="text-5xl font-extrabold mb-4 text-gray-900 drop-shadow-sm">
               Nossos Clientes e Parceiros
             </h2>
             <div className="flex justify-center mb-8">
               <span className="inline-block w-24 h-1 rounded-full bg-gradient-to-r from-red-600 via-black to-red-600 shadow-md" />
             </div>
-            <p
-              className="text-lg text-gray-500 leading-relaxed"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+            <p className="text-lg text-gray-500 leading-relaxed">
               Colaboramos com as principais empresas do mercado
               <br />
               para oferecer as melhores soluções
@@ -793,14 +836,10 @@ export function HeroSection() {
             <div
               className="bg-gradient-to-br from-gray-900 to-black text-white p-8 rounded-[5px] shadow-2xl border border-gray-200 mx-auto" // Adicionado mx-auto aqui também
             >
-              <h3
-                className="text-2xl mb-4 text-white text-center"
-                style={{ fontFamily: "Segoe UI Variable Text" }}>
+              <h3 className="text-2xl mb-4 text-white text-center">
                 Quer se Tornar um Parceiro?
               </h3>
-              <p
-                className="text-gray-300 mb-6 max-w-2xl mx-auto text-center text-base"
-                style={{ fontFamily: "Segoe UI Variable Text" }}>
+              <p className="text-gray-300 mb-6 max-w-2xl mx-auto text-center text-base">
                 Junte-se a nós e faça parte de uma rede de empresas
                 comprometidas com a excelência e inovação
               </p>
@@ -809,8 +848,7 @@ export function HeroSection() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => navigate("/contato")}
-                  className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-[5px] inline-flex items-center group transition-all"
-                  style={{ fontFamily: "Segoe UI Variable Text" }}>
+                  className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-[5px] inline-flex items-center group transition-all">
                   Entre em Contato
                   <span className="ml-2 group-hover:translate-x-1 transition-transform">
                     →

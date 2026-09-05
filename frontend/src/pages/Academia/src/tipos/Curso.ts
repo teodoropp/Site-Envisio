@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface Instrutor {
   id?: string;
   nome: string;
@@ -18,6 +20,11 @@ export interface Aula {
   livre?: boolean;
 }
 
+export interface TopicoItem {
+  titulo: string;
+  subtopicos?: string[];
+}
+
 export interface ModuloItem {
   id?: string;
   ordem?: number;
@@ -25,6 +32,7 @@ export interface ModuloItem {
   duracao?: string;
   regime?: string;
   conteudos?: string[];
+  topicos?: TopicoItem[];
   aulas?: Aula[];
   duracaoTotal?: string;
 }
@@ -38,9 +46,11 @@ export interface Modulo {
   duracaoTotal?: string;
   regime?: string;
   conteudos?: string[];
+  topicos?: TopicoItem[];
 }
 
 export interface Curso {
+  subcategoria?: ReactNode | string;
   id: string;
   titulo: string;
   descricao: string;

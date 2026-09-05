@@ -7,9 +7,17 @@ import { verificarToken } from "../middlewares/auth.js";
 
 const router = Router();
 
+import fs from "fs";
+import path from "path";
+
 // Rota para listar todos os cursos
 router.get("/", async (req, res) => {
   try {
+    const filePath = path.join(process.cwd(), "data", "cursos.json");
+    if (fs.existsSync(filePath)) {
+      const dados = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+      return res.json(dados);
+    }
     const cursos = await db.query("SELECT * FROM cursos");
     res.json(cursos.rows);
   } catch (error) {

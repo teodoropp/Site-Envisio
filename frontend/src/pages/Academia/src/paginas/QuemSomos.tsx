@@ -191,7 +191,7 @@ export default function QuemSomos() {
               </h1>
 
               {/* Short Text */}
-              <p className="text-base md:text-lg text-[#374151] leading-relaxed mb-8 max-w-xl">
+              <p className="text-[14px] md:text-[14px] text-[#374151] leading-relaxed mb-8 max-w-xl">
                 Somos uma academia de formação que prepara estudantes e
                 profissionais para os desafios do mercado através de uma
                 aprendizagem prática, atualizada e alinhada com a realidade das
@@ -199,7 +199,7 @@ export default function QuemSomos() {
               </p>
 
               {/* Differentials aligned horizontally with circular background icons */}
-              <div className="grid grid-cols-3 gap-x-2 sm:gap-x-4 md:gap-x-6 mb-8 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-700 w-full">
+              <div className="grid grid-cols-3 gap-x-2 sm:gap-x-4 md:gap-x-6 mb-8 text-[9px] sm:text-xs font-bold uppercase tracking-wider text-slate-700 w-full">
                 <div className="flex items-center space-x-2 sm:space-x-3">
                   <div className="w-8 h-8 sm:w-10 sm:h-10 bg-black/90 text-[#EF4444] rounded-full flex items-center justify-center flex-shrink-0 shadow-sm border border-black/5">
                     <GraduationCap
@@ -538,7 +538,7 @@ export default function QuemSomos() {
                 delay: 0.3,
               }}>
               <div className="text-4xl sm:text-5xl font-black text-red-600 mb-2">
-                +15
+                +10
               </div>
               <div className="text-gray-500 font-bold uppercase tracking-wider text-xs sm:text-sm">
                 Especialistas
@@ -554,7 +554,7 @@ export default function QuemSomos() {
                 delay: 0.4,
               }}>
               <div className="text-4xl sm:text-5xl font-black text-red-600 mb-2">
-                90%
+                100%
               </div>
               <div className="text-gray-500 font-bold uppercase tracking-wider text-xs sm:text-sm">
                 Empregabilidade

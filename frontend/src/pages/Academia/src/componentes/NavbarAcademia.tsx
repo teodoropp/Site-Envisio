@@ -86,22 +86,29 @@ export default function NavbarAcademia() {
     }
   };
 
-  const isLightHero = [
-    "/academia/cursos",
-    "/academia/quem-somos",
-    "/academia/contato",
-    "/academia/login",
-    "/academia/cadastro",
-    "/login",
-    "/cadastro",
-  ].includes(location.pathname);
+  const isDetailCoursePage =
+    location.pathname.startsWith("/academia/curso/") ||
+    (location.pathname.startsWith("/academia/curso") &&
+      location.pathname !== "/academia/cursos");
+
+  const isLightHero =
+    [
+      "/academia/cursos",
+      "/academia/quem-somos",
+      "/academia/contato",
+      "/academia/login",
+      "/academia/cadastro",
+      "/login",
+      "/cadastro",
+    ].includes(location.pathname) || isDetailCoursePage;
+
   const useWhiteHeaderTheme = !isScrolled && !isLightHero;
   const isRightControlWhite = useWhiteHeaderTheme;
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 font-['Segoe_UI_Variable_Text',sans-serif] h-[54px] select-none transition-all duration-300 ${
-        isScrolled
+        isScrolled || isDetailCoursePage
           ? "bg-white border-b border-[#e6e6e6] shadow-sm text-[#262626]"
           : "bg-transparent border-none"
       }`}>
@@ -206,14 +213,14 @@ export default function NavbarAcademia() {
                     <ul className="space-y-2 text-[13px]">
                       <li>
                         <Link
-                          to="/academia/curso1"
+                          to="/academia/curso/cegid-primavera"
                           className="hover:underline text-gray-800 hover:text-black block">
-                          Cegid Primavera ERP
+                          Cegid Primavera: Funcionalidades e Módulos
                         </Link>
                       </li>
                       <li>
                         <Link
-                          to="/academia/curso2"
+                          to="/academia/curso/gestao-recursos-humanos"
                           className="hover:underline text-gray-800 hover:text-black block">
                           Gestão de Recursos Humanos
                         </Link>

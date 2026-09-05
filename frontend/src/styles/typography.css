@@ -36,11 +36,11 @@
 /* Classes para tipografia consistente */
 
 .text-regular {
-    font-family: 'Segoe UI Variable Text', 'Segoe UI', sans-serif !important;
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif !important;
 }
 
 .text-semibold {
-    font-family: 'Segoe UI Variable Text', 'Segoe UI', sans-serif !important;
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif !important;
 }
 
 
@@ -114,7 +114,7 @@
 .text-body {
     font-size: 1rem;
     /* base */
-    font-family: 'Segoe UI Variable Text', 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
 }
 
 @media (min-width: 768px) {

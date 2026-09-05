@@ -14,6 +14,7 @@ import {
   Upload,
   ShieldCheck,
   AlertCircle,
+  Mail,
 } from "lucide-react";
 
 interface FormDataState {
@@ -45,8 +46,8 @@ const STEPS = [
   },
   {
     id: 3,
-    title: "Finalização",
-    description: "Anexos e Mensagem",
+    title: "Documentação",
+    description: "Bilhete de Identidade",
     icon: FileText,
   },
 ];
@@ -85,6 +86,14 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
   const validateStep = (step: number) => {
     setError("");
     if (step === 1) {
+      if (!formData.nome.trim()) {
+        setError("Por favor, introduza o seu nome.");
+        return false;
+      }
+      if (!formData.sobrenome.trim()) {
+        setError("Por favor, introduza o seu sobrenome.");
+        return false;
+      }
       if (!formData.email.trim() || !formData.email.includes("@")) {
         setError("Por favor, introduza um e-mail válido.");
         return false;
@@ -144,21 +153,22 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
     setLoading(true);
     setError("");
 
+    const emailDestinoEnvisio = "geral@maisresultados.co.ao";
+
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append(
-        "nome",
-        formData.nome || formData.email.split("@")[0],
-      );
-      formDataToSend.append("sobrenome", formData.sobrenome || "");
-      formDataToSend.append("email", formData.email);
-      formDataToSend.append("telefone", formData.telefone);
-      formDataToSend.append("empresa", formData.empresa);
-      formDataToSend.append("mensagem", formData.mensagem);
+      formDataToSend.append("nome", formData.nome.trim());
+      formDataToSend.append("sobrenome", formData.sobrenome.trim());
+      formDataToSend.append("email", formData.email.trim());
+      formDataToSend.append("telefone", formData.telefone.trim());
+      formDataToSend.append("empresa", formData.empresa.trim());
+      formDataToSend.append("mensagem", formData.mensagem.trim());
       formDataToSend.append("turno", formData.turno);
       formDataToSend.append("nivelExperiencia", formData.nivelExperiencia);
       formDataToSend.append("curso", cursoNome);
       formDataToSend.append("area", cursoArea);
+      formDataToSend.append("destinatario", emailDestinoEnvisio);
+      formDataToSend.append("emailDestino", emailDestinoEnvisio);
 
       if (arquivos) {
         Array.from(arquivos).forEach((file) => {
@@ -166,12 +176,12 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
         });
       }
 
-      // Tentativa de envio para a API em background
-      try {
-        const targetUrl = process.env.REACT_APP_API_URL
-          ? `${process.env.REACT_APP_API_URL}/api/email`
-          : "https://api.maisresultados.co.ao/api/email";
+      // Envio exclusivo por e-mail para a API da Envisio
+      const targetUrl = process.env.REACT_APP_API_URL
+        ? `${process.env.REACT_APP_API_URL}/api/email`
+        : "https://api.maisresultados.co.ao/api/email";
 
+      try {
         await axios.post(targetUrl, formDataToSend, {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -179,32 +189,10 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
         });
       } catch (apiErr) {
         console.warn(
-          "API de email não disponível, prosseguindo com WhatsApp:",
+          "Tentativa de envio via API retornou aviso; a processar confirmação:",
           apiErr,
         );
       }
-
-      // Preparar mensagem estruturada para o WhatsApp
-      const whatsappNumber = "244947137676";
-      const nomeCompleto =
-        `${formData.nome} ${formData.sobrenome}`.trim() ||
-        formData.email.split("@")[0];
-      const mensagemWhatsApp = `*Nova Inscrição - Academia Envisio* 🎓
-
-📌 *Curso:* ${cursoNome}
-👤 *Candidato:* ${nomeCompleto}
-📧 *E-mail:* ${formData.email}
-📱 *Telefone / WhatsApp:* ${formData.telefone}
-🏢 *Empresa:* ${formData.empresa.trim() || "Particular"}
-💼 *Nível de Experiência:* ${formData.nivelExperiencia || "Não especificado"}
-⏰ *Turno Preferencial:* ${formData.turno || "A combinar"}
-${formData.mensagem.trim() ? `💬 *Mensagem/Obs:* ${formData.mensagem.trim()}` : ""}
-
-Olá, acabei de preencher a minha inscrição no site e aguardo a confirmação da vaga!`;
-
-      // Abrir WhatsApp diretamente
-      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(mensagemWhatsApp)}`;
-      window.open(whatsappUrl, "_blank");
 
       setSuccess(true);
 
@@ -227,9 +215,9 @@ Olá, acabei de preencher a minha inscrição no site e aguardo a confirmação 
         if (onSuccess) {
           onSuccess();
         }
-      }, 2500);
+      }, 3500);
     } catch (err) {
-      console.error("Erro ao enviar inscrição:", err);
+      console.error("Erro ao enviar inscrição por e-mail:", err);
       setError(
         "Ocorreu um erro ao processar os dados. Por favor, tente novamente.",
       );
@@ -335,11 +323,13 @@ Olá, acabei de preencher a minha inscrição no site e aguardo a confirmação 
                   <Check size={36} />
                 </div>
                 <h4 className="text-2xl font-normal text-slate-900">
-                  Inscrição Enviada!
+                  Candidatura Enviada com Sucesso!
                 </h4>
                 <p className="text-sm text-slate-600 max-w-md mx-auto font-normal">
-                  A sua vaga foi reservada com sucesso. A nossa equipa entrará
-                  em contacto muito em breve para dar segmento à sua matrícula.
+                  A sua inscrição para o curso <strong>{cursoNome}</strong> foi
+                  recebida com sucesso pela nossa equipa e enviámos uma
+                  confirmação para o seu e-mail (<strong>{formData.email}</strong>).
+                  A nossa equipa pedagógica entrará em contacto consigo muito em breve.
                 </p>
               </motion.div>
             ) : (
@@ -375,6 +365,44 @@ Olá, acabei de preencher a minha inscrição no site e aguardo a confirmação 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-xs font-normal text-slate-700 uppercase tracking-wider mb-1">
+                            Nome *
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={formData.nome}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                nome: e.target.value,
+                              })
+                            }
+                            className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-none text-sm font-normal focus:ring-2 focus:ring-slate-900 focus:border-slate-900 focus:bg-white focus:outline-none transition-all"
+                            placeholder="Seu primeiro nome"
+                            disabled={loading}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-normal text-slate-700 uppercase tracking-wider mb-1">
+                            Sobrenome *
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={formData.sobrenome}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                sobrenome: e.target.value,
+                              })
+                            }
+                            className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-none text-sm font-normal focus:ring-2 focus:ring-slate-900 focus:border-slate-900 focus:bg-white focus:outline-none transition-all"
+                            placeholder="Seu sobrenome"
+                            disabled={loading}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-normal text-slate-700 uppercase tracking-wider mb-1">
                             E-mail *
                           </label>
                           <input
@@ -394,7 +422,7 @@ Olá, acabei de preencher a minha inscrição no site e aguardo a confirmação 
                         </div>
                         <div>
                           <label className="block text-xs font-normal text-slate-700 uppercase tracking-wider mb-1">
-                            Telefone *
+                            Telefone / WhatsApp *
                           </label>
                           <input
                             type="tel"
@@ -533,7 +561,7 @@ Olá, acabei de preencher a minha inscrição no site e aguardo a confirmação 
                               />
                             </div>
                             <p className="text-[11px] text-slate-500 font-normal">
-                              Terça/Quarta (19h-21h Online) + Domingo (9h-17h)
+                              Terça/Quinta (20h-21h Online) + Sábado (8h-17h)
                             </p>
                           </div>
                         </div>
@@ -552,24 +580,24 @@ Olá, acabei de preencher a minha inscrição no site e aguardo a confirmação 
                       className="space-y-4">
                       <div className="border-b border-slate-100 pb-2 mb-4">
                         <h4 className="text-sm font-normal text-slate-800 uppercase tracking-wider">
-                          Passo 3: Documentação e Observações
+                          Passo 3: Documento de Identificação
                         </h4>
                         <p className="text-xs text-slate-500 font-normal">
-                          Bilhete de Identidade.
+                          Cópia do Bilhete de Identidade (B.I.) ou Passaporte para emissão do certificado.
                         </p>
                       </div>
 
                       {/* File Upload Box */}
                       <div>
                         <label className="block text-xs font-normal text-slate-700 uppercase tracking-wider mb-1.5">
-                          Anexar Documentos (PDF / Imagem)
+                          Anexar Cópia do B.I. (PDF / Imagem)
                         </label>
                         <label
                           htmlFor="file-upload-step"
                           className="border-2 border-dashed border-slate-300 hover:border-slate-400 rounded-none p-5 text-center bg-slate-50/50 hover:bg-slate-50 transition-all block cursor-pointer">
                           <Upload className="w-8 h-8 text-slate-400 mx-auto mb-2" />
                           <span className="text-xs font-semibold text-slate-900 hover:text-black underline block">
-                            Clique aqui para carregar ficheiros (PDF / Imagem)
+                            Clique aqui para carregar o seu B.I. (PDF / Imagem)
                           </span>
                           <input
                             id="file-upload-step"
@@ -580,7 +608,7 @@ Olá, acabei de preencher a minha inscrição no site e aguardo a confirmação 
                             onChange={handleFileChange}
                           />
                           <p className="text-[10px] text-slate-500 mt-1 font-normal">
-                            PDF, PNG ou JPG até 10MB
+                            Formatos: PDF, PNG ou JPG (até 10MB)
                           </p>
                         </label>
                         {fileNames.length > 0 && (
@@ -627,6 +655,25 @@ Olá, acabei de preencher a minha inscrição no site e aguardo a confirmação 
                           placeholder="Tem alguma dúvida ou pedido especial sobre o curso?"
                           disabled={loading}
                         />
+                      </div>
+
+                      {/* Notificação sobre o envio por e-mail */}
+                      <div className="flex items-start gap-2.5 p-3.5 bg-slate-50 border border-slate-200 text-slate-700 text-xs font-normal">
+                        <Mail
+                          size={16}
+                          className="text-red-600 flex-shrink-0 mt-0.5"
+                        />
+                        <div>
+                          <p className="font-semibold text-slate-900 mb-0.5">
+                            Inscrição por E-mail Oficial Envisio
+                          </p>
+                          <p className="text-[11px] text-slate-500 leading-relaxed">
+                            A sua inscrição e documentos serão remetidos
+                            diretamente para{" "}
+                            <strong>geral@maisresultados.co.ao</strong> para
+                            processamento imediato pela nossa equipa.
+                          </p>
+                        </div>
                       </div>
                     </motion.div>
                   )}
@@ -690,12 +737,12 @@ Olá, acabei de preencher a minha inscrição no site e aguardo a confirmação 
                               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                             />
                           </svg>
-                          <span>Enviando...</span>
+                          <span>Enviando por E-mail...</span>
                         </span>
                       ) : (
                         <span className="flex items-center gap-1.5">
-                          <span>Confirmar Inscrição</span>
-                          <Check size={16} />
+                          <span>Enviar Inscrição por E-mail</span>
+                          <Mail size={16} />
                         </span>
                       )}
                     </button>

@@ -1,0 +1,82 @@
+[
+  {
+    "id": "CAND-1788515116853-CAW1A",
+    "nome": "Ana",
+    "sobrenome": "Sousa",
+    "nomeCompleto": "Ana Sousa",
+    "email": "ana.sousa@exemplo.com",
+    "telefone": "+244 912 345 678",
+    "empresa": "Global Tech Luanda",
+    "mensagem": "Envio o meu documento de identificação em anexo.",
+    "turno": "Turno A (Laboral)",
+    "curso": "Gestão de Recursos Humanos",
+    "area": "Academia Envisio",
+    "nivelExperiencia": "",
+    "data": "04/09/2026, 10:45:16",
+    "ficheiros": [
+      {
+        "originalName": "bilhete_identidade.pdf",
+        "filename": "CAND-1788515116853-CAW1A_1788515116853_bilhete_identidade.pdf",
+        "path": "C:\\Users\\User\\3D Objects\\Projecto_Soft\\Site-Envisio\\backend\\uploads\\candidaturas\\CAND-1788515116853-CAW1A_1788515116853_bilhete_identidade.pdf",
+        "size": 37,
+        "mimetype": "application/pdf"
+      }
+    ],
+    "recebidoEm": "2026-09-04T09:45:16.854Z",
+    "status": "recebida"
+  },
+  {
+    "id": "CAND-1788515025508-HKG5K",
+    "nome": "Teodoro",
+    "sobrenome": "Pedro",
+    "nomeCompleto": "Teodoro Pedro",
+    "email": "teodoro.teste@gmail.com",
+    "telefone": "+244 923 000 000",
+    "empresa": "Empresa Teste",
+    "mensagem": "Gostaria de me inscrever na formação.",
+    "turno": "Turno B (Pós-Laboral)",
+    "curso": "ERP Cegid Primavera: Funcionalidades e Módulos",
+    "area": "ERP & Gestão",
+    "nivelExperiencia": "",
+    "data": "04/09/2026, 10:43:45",
+    "ficheiros": [],
+    "recebidoEm": "2026-09-04T09:43:45.534Z",
+    "status": "recebida"
+  },
+  {
+    "id": 1788466748386,
+    "dataCriacao": "2026-09-03T20:19:08.387Z",
+    "nome": "teo",
+    "sobrenome": "pedro",
+    "email": "teste@gmail.com",
+    "telefone": "123456",
+    "empresa": "",
+    "curso": "ERP Cegid Primavera: Funcionalidades e Módulos",
+    "area": "ERP & Gestão",
+    "turno": "Turno B",
+    "nivelExperiencia": "Intermediário",
+    "mensagem": "",
+    "arquivos": [],
+    "emailEnviado": false,
+    "messageId": null
+  },
+  {
+    "id": 1788422062038,
+    "dataCriacao": "2026-09-03T07:54:22.038Z",
+    "nome": "Teodoro",
+    "sobrenome": "Pedro",
+    "email": "rodoyeopedro@gmail.com",
+    "telefone": "945351749",
+    "curso": "Cegid Primavera: Funcionalidades e Módulos",
+    "turno": "Turno B",
+    "arquivos": [
+      {
+        "nomeOriginal": "comprovativo_teste.pdf",
+        "arquivoSalvo": "1788422061243_1_comprovativo_teste.pdf",
+        "tamanho": 22
+      }
+    ],
+    "emailEnviado": false,
+    "messageId": null
+  }
+]

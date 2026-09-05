@@ -3,20 +3,19 @@ import { Curso } from "../tipos/Curso";
 export const cursosMock: Curso[] = [
   {
     id: "cegid-primavera",
-    titulo: "Cegid Primavera",
-    descricao:
-      "Domine o Cegid Primavera: conceitos, parametrização e boas práticas no ERP para empresas.",
+    titulo: "ERP Cegid Primavera: Funcionalidades e Módulos",
+    descricao: "Domine o Cegid Primavera: conceitos essenciais, parametrização, compras, vendas, stocks e tesouraria no ERP mais utilizado em Angola e Portugal.",
     categoria: "Gestão/ERP",
-    duracao: 16,
-    nivel: "iniciante",
+    duracao: 120,
+    nivel: "intermediario",
     preco: 0,
     status: "disponivel",
     acessoVitalicio: true,
     suporte: true,
     certificado: true,
     visualizacoes: 1200,
-    avaliacao: 4.7,
-    instrutor: "Equipe Envisio",
+    avaliacao: 4.8,
+    instrutor: "Eng. Fernando Costa",
     imagemUrl: "/academia/primavera.svg",
     objetivos: [
       "Conhecer os módulos principais",
@@ -24,19 +23,18 @@ export const cursosMock: Curso[] = [
       "Aplicar boas práticas de operação",
     ],
     requisitos: ["Noções de gestão empresarial"],
-    conteudoDetalhado:
-      "Módulos base, configurações, relatórios e integrações.",
+    conteudoDetalhado: "Módulos base, configurações, relatórios e integrações.",
     avaliacoes: 128,
     alunos: 860,
     criado_em: new Date().toISOString(),
     aulas: 32,
     modulos: [],
+    subcategoria: undefined
   },
   {
     id: "programacao-web-frontend",
     titulo: "Programação Web Frontend",
-    descricao:
-      "HTML, CSS e JavaScript modernos. Crie interfaces responsivas com boas práticas.",
+    descricao: "HTML, CSS e JavaScript modernos. Crie interfaces responsivas com boas práticas.",
     categoria: "Programação",
     duracao: 20,
     nivel: "iniciante",
@@ -57,12 +55,12 @@ export const cursosMock: Curso[] = [
     criado_em: new Date().toISOString(),
     aulas: 40,
     modulos: [],
+    subcategoria: undefined
   },
   {
     id: "logica-de-programacao",
     titulo: "Lógica de Programação",
-    descricao:
-      "Aprenda fundamentos: variáveis, estruturas de decisão, loops e decomposição de problemas.",
+    descricao: "Aprenda fundamentos: variáveis, estruturas de decisão, loops e decomposição de problemas.",
     categoria: "Programação",
     duracao: 18,
     nivel: "iniciante",
@@ -83,12 +81,12 @@ export const cursosMock: Curso[] = [
     criado_em: new Date().toISOString(),
     aulas: 28,
     modulos: [],
+    subcategoria: undefined
   },
   {
     id: "sql-server",
     titulo: "SQL Server",
-    descricao:
-      "Consultas SQL, modelagem, procedures, views e administração básica no SQL Server.",
+    descricao: "Consultas SQL, modelagem, procedures, views e administração básica no SQL Server.",
     categoria: "Banco de Dados",
     duracao: 22,
     nivel: "intermediario",
@@ -109,12 +107,12 @@ export const cursosMock: Curso[] = [
     criado_em: new Date().toISOString(),
     aulas: 35,
     modulos: [],
+    subcategoria: undefined
   },
   {
     id: "gestao-projetos-agile",
     titulo: "Gestão de Projetos & Metodologias Ágeis",
-    descricao:
-      "Aprenda a liderar equipas de tecnologia com Scrum, Kanban e gestão de requisitos para entregas de elevado valor.",
+    descricao: "Aprenda a liderar equipas de tecnologia com Scrum, Kanban e gestão de requisitos para entregas de elevado valor.",
     categoria: "Gestão & Liderança",
     duracao: 45,
     nivel: "intermediario",
@@ -135,12 +133,12 @@ export const cursosMock: Curso[] = [
     criado_em: new Date().toISOString(),
     aulas: 30,
     modulos: [],
+    subcategoria: undefined
   },
   {
     id: "ciberseguranca-redes",
     titulo: "Cibersegurança & Defesa de Redes",
-    descricao:
-      "Fundamentos de segurança defensiva, análise de vulnerabilidades, firewalls Cisco e proteção de infraestruturas.",
+    descricao: "Fundamentos de segurança defensiva, análise de vulnerabilidades, firewalls Cisco e proteção de infraestruturas.",
     categoria: "Redes & Segurança",
     duracao: 65,
     nivel: "intermediario",
@@ -161,5 +159,6 @@ export const cursosMock: Curso[] = [
     criado_em: new Date().toISOString(),
     aulas: 38,
     modulos: [],
+    subcategoria: undefined
   },
 ];

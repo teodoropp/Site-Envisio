@@ -1,14 +1,16 @@
 /** @format */
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 
 import { useCurso } from "../../hooks/useCurso";
+import { useCursos } from "../../hooks/useCursos";
 import {
   Award,
   ArrowLeft,
+  ArrowRight,
   ChevronDown,
   FileText,
   Star,
@@ -36,42 +38,30 @@ export default function CursoDetalhe() {
   const { id } = useParams<{ id: string }>();
   const courseId = id || "gestao-recursos-humanos";
   const { curso, carregando, erro } = useCurso(courseId);
+  const { cursos } = useCursos();
 
   const navigate = useNavigate();
   const [modalAberto, setModalAberto] = useState(false);
   const [videoUrl] = useState("");
 
   const [moduloAberto, setModuloAberto] = useState<number | null>(null); // Fechado por padrão
+  const [topicosAbertos, setTopicosAbertos] = useState<Record<string, boolean>>({});
+
+  const toggleTopico = (chave: string) => {
+    setTopicosAbertos((prev) => ({
+      ...prev,
+      [chave]: !prev[chave],
+    }));
+  };
+
   const [modalInscricaoAberto, setModalInscricaoAberto] = useState(false);
-  const [depoimentoAtual, setDepoimentoAtual] = useState(0);
   const [modalFormadorAberto, setModalFormadorAberto] = useState(false);
 
-  const listaDepoimentos = [
-    {
-      id: 1,
-      autor: "Mariana Costa",
-      cargo: "Técnica de Recursos Humanos",
-      texto:
-        "O domínio prático da Lei n.º 12/23 e o processamento real de salários no ERP Primavera transformaram a minha segurança e rapidez no trabalho diário.",
-      estrelas: 5,
-    },
-    {
-      id: 2,
-      autor: "António Manuel",
-      cargo: "Gestor Administrativo",
-      texto:
-        "Excelente formador e material de apoio. A simulação de casos reais e mapas de IRT/Segurança Social fez toda a diferença na minha qualificação.",
-      estrelas: 5,
-    },
-    {
-      id: 3,
-      autor: "Helena Fernandes",
-      cargo: "Consultora de Gestão de Pessoas",
-      texto:
-        "Superou todas as expectativas. O foco no ciclo integral do trabalhador e na relação com a Administração confere um valor indispensável.",
-      estrelas: 5,
-    },
-  ];
+  // Formações recomendadas dinâmicas e interligadas (exclui o curso atual)
+  const cursosRecomendados = useMemo(() => {
+    if (!cursos || cursos.length === 0) return [];
+    return cursos.filter((c) => c.id !== (curso?.id || courseId)).slice(0, 4);
+  }, [cursos, curso, courseId]);
 
   if (carregando) return <Spinner />;
 
@@ -156,59 +146,69 @@ export default function CursoDetalhe() {
 
   return (
     <LayoutAcademia>
-      <div className="bg-slate-50 min-h-screen font-sans text-slate-800 text-left">
-        {/* ─── 1. HERO SECTION (Coursera / Udemy Dark Header) ───────────────────── */}
-        <section className="bg-slate-900 !text-white relative pt-24 pb-16 lg:pb-24 border-b border-slate-800 overflow-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            {/* Top Bar: Back Button */}
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-8 text-xs text-slate-300">
-              <button
-                onClick={() => navigate("/academia/cursos")}
-                className="inline-flex items-center gap-2 p-0 bg-transparent border-0 text-slate-300 hover:text-white font-medium transition-colors cursor-pointer">
-                <ArrowLeft size={16} />
-                <span>Voltar para Cursos</span>
-              </button>
-            </div>
+      <div
+        className="bg-slate-50 min-h-screen text-slate-800 text-left"
+        style={{
+          fontFamily:
+            "'Segoe UI Variable Text', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif",
+        }}>
+        {/* ─── 1. HERO SECTION DO CURSO ─── */}
+        <section className="bg-white relative border-b border-slate-200 overflow-hidden select-none pt-14 sm:pt-16">
+          {/* Banner Principal com a imagem posicionada à direita exatamente como na home */}
+          <div className="relative min-h-[380px] sm:min-h-[420px] lg:min-h-[440px] flex items-center pb-8 sm:pb-12">
+            {/* Grid / Layout: Lado Esquerdo Conteúdo do Curso */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-20">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                {/* COLUNA ESQUERDA: Texto e Botões */}
+                <div className="lg:col-span-6 xl:col-span-5 text-left pr-0 lg:pr-4">
+                  {/* Título Principal */}
+                  <h1 className="text-3xl sm:text-4xl lg:text-[35px] xl:text-[44px] font-extrabold text-slate-900 tracking-tight leading-[1.12] mb-4">
+                    {curso.titulo}
+                  </h1>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-              {/* LEFT COLUMN: Hero text (Col-span 12) */}
-              <div className="lg:col-span-12 text-left">
-                {/* Categoria */}
-                <span className="inline-block px-3 py-1 mb-4 text-[10px] font-extrabold uppercase tracking-wider text-red-400 bg-red-500/10 border border-red-500/20 rounded-[4px]">
-                  {curso.categoria || "Gestão & RH"}
-                </span>
+                  {/* Descrição */}
+                  <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed max-w-md font-normal mb-6">
+                    {curso.subcategoria || curso.descricao}
+                  </p>
 
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold !text-white tracking-tight leading-tight mb-3">
-                  {curso.titulo}
-                </h1>
-
-                <p className="!text-slate-200 text-[13px] leading-relaxed mb-6 max-w-2xl font-normal">
-                  {curso.descricao}
-                </p>
-
-                {/* Botões de Ação na Hero */}
-                <div className="flex flex-wrap items-center gap-3">
-                  <button
-                    onClick={() => setModalInscricaoAberto(true)}
-                    className="btn-academia-primary px-6 py-3.5 text-xs uppercase tracking-wider cursor-pointer">
-                    Inscrever-se Agora
-                  </button>
-                  <button
-                    onClick={() => {
-                      const elem = document.getElementById(
-                        "conteudo-programatico",
-                      );
-                      if (elem) elem.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    className="btn-academia-secondary px-6 py-3.5 text-xs uppercase tracking-wider cursor-pointer">
-                    Saiba Mais
-                  </button>
+                  {/* Botões de Ação na Hero */}
+                  <div className="flex flex-wrap items-center gap-3">
+                    <button
+                      onClick={() => setModalInscricaoAberto(true)}
+                      className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-[4px] font-bold text-xs uppercase tracking-wider transition duration-300 shadow-sm cursor-pointer">
+                      Inscrever-se Agora
+                    </button>
+                    <button
+                      onClick={() => {
+                        const elem = document.getElementById(
+                          "conteudo-programatico",
+                        );
+                        if (elem) elem.scrollIntoView({ behavior: "smooth" });
+                      }}
+                      className="bg-[#f1f3f5] hover:bg-slate-200 text-slate-700 px-6 py-3 rounded-[4px] font-bold text-xs uppercase tracking-wider transition duration-300 border border-slate-200 cursor-pointer">
+                      Saiba Mais
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
+
+            {/* COLUNA DIREITA: Imagem Completa (Posição Idêntica à Página Inicial) */}
+            <div className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 w-[48%] xl:w-[46%] items-center justify-end select-none z-10">
+              <img
+                src={
+                  curso.id === "cegid-primavera" || curso.id === "primavera"
+                    ? "/academia/Cegid.png"
+                    : curso.id === "gestao-recursos-humanos" || !curso.imagemUrl
+                      ? "/academia/imagem_rh.png"
+                      : curso.imagemUrl
+                }
+                alt={curso.titulo}
+                className="w-full h-auto object-contain max-h-[380px] border-0 outline-none shadow-none"
+              />
+            </div>
           </div>
         </section>
-
         {/* ─── 2. MAIN CONTENT & STICKY SIDEBAR SECTION ───────────────────────────── */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 relative items-start">
@@ -220,85 +220,100 @@ export default function CursoDetalhe() {
                   Sobre a Formação
                 </h2>
                 <p className="text-slate-700 leading-relaxed text-sm font-normal">
-                  Dotar os participantes de competências técnicas, jurídicas e
-                  operacionais que lhes permitam gerir, de forma íntegra e
-                  eficiente, o ciclo completo da relação laboral - da admissão
-                  ao processamento salarial e à prestação de contas à
-                  Administração - em conformidade com a Lei n.º 12/23 e demais
-                  legislação complementar aplicável em Angola.
+                  {curso.descricao}
                 </p>
               </div>
 
-              {/* Box 2: Conteúdo Programático (Acordeão Expansível com Círculos Numéricos) */}
+              {/* Box 2: Conteúdo Programático (Acordeão Compacto Estilo Home) */}
               <div
                 id="conteudo-programatico"
-                className="bg-white rounded-[5px] p-6 sm:p-8 border border-slate-200/80 shadow-sm scroll-mt-24">
-                <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                className="bg-white rounded-[8px] p-5 sm:p-6 border border-slate-200/80 shadow-xs scroll-mt-24 text-left">
+                <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                   <div>
-                    <h2 className="text-xl font-bold text-slate-900">
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-900">
                       Conteúdo Programático
-                    </h2>
-                    <p className="text-xs text-slate-500 mt-1">
-                      {modulosFonte.length} Módulos organizados sequencialmente
+                    </h3>
+                    <div className="w-8 h-[2px] bg-red-600 rounded-full mt-1.5 mb-1.5" />
+                    <p className="text-slate-500 text-[11px]">
+                      Explore os módulos práticos estruturados pelos nossos
+                      especialistas.
                     </p>
                   </div>
+                  <span className="text-sm font-bold text-red-600">
+                    {modulosFonte.length} Módulos
+                  </span>
                 </div>
 
-                <div className="space-y-3">
+                {/* Módulos Compactos */}
+                <div className="space-y-2">
                   {modulosFonte.map((modulo: any, index: number) => {
                     const temTopicos =
-                      modulo.conteudos && modulo.conteudos.length > 0;
+                      (modulo.topicos && modulo.topicos.length > 0) ||
+                      (modulo.conteudos && modulo.conteudos.length > 0);
+                    const temEstruturaTopicos =
+                      modulo.topicos && modulo.topicos.length > 0;
                     const estaAberto = moduloAberto === index;
+
+                    const totalTopicos = temEstruturaTopicos
+                      ? modulo.topicos.length
+                      : modulo.conteudos?.length || 0;
 
                     return (
                       <div
                         key={modulo.id || index}
-                        className="border border-slate-200/90 rounded-[6px] overflow-hidden bg-white shadow-2xs">
+                        className="border border-slate-200/80 rounded-[5px] overflow-hidden bg-white shadow-2xs">
                         {temTopicos ? (
                           <button
                             onClick={() =>
                               setModuloAberto(estaAberto ? null : index)
                             }
-                            className="w-full px-5 py-4 text-left flex justify-between items-center bg-white hover:bg-slate-50/80 transition-colors cursor-pointer">
-                            <div className="flex items-center gap-4 min-w-0 pr-4">
-                              <div className="w-10 h-10 rounded-full border border-slate-200/90 flex items-center justify-center text-xs text-slate-500 font-normal flex-shrink-0 bg-slate-50/50">
+                            className="w-full px-4 py-2.5 sm:px-4 sm:py-3 text-left flex justify-between items-center bg-white hover:bg-slate-50/80 transition-colors cursor-pointer">
+                            <div className="flex items-center gap-3 min-w-0 pr-3">
+                              <div className="w-7 h-7 rounded-full border border-slate-200 flex items-center justify-center text-[10.5px] text-slate-500 font-medium flex-shrink-0 bg-slate-50">
                                 {String(index + 1).padStart(2, "0")}
                               </div>
                               <div>
-                                <h3 className="font-normal text-sm sm:text-base text-slate-800 leading-snug">
+                                <h4 className="font-semibold text-xs sm:text-[13px] text-slate-800 leading-tight">
                                   {modulo.titulo.startsWith("Módulo")
                                     ? modulo.titulo
                                     : `Módulo ${index + 1}: ${modulo.titulo}`}
-                                </h3>
-                                <p className="text-xs text-slate-400 font-normal mt-0.5">
+                                </h4>
+                                <p className="text-[10px] sm:text-[10.5px] text-slate-400 font-normal mt-0.5">
                                   {modulo.duracao
-                                    ? `${modulo.duracao} • ${modulo.regime || "Teórico"} • ${modulo.conteudos.length} tópicos`
-                                    : `${modulo.conteudos.length} tópicos`}
+                                    ? `${modulo.duracao} • ${modulo.regime || "Teórico-prático"}${
+                                        totalTopicos > 0
+                                          ? ` • ${totalTopicos} tópicos`
+                                          : ""
+                                      }`
+                                    : totalTopicos > 0
+                                      ? `${totalTopicos} tópicos`
+                                      : "Módulo prático"}
                                 </p>
                               </div>
                             </div>
+
                             <ChevronDown
                               className={`text-slate-400 transition-transform duration-200 flex-shrink-0 ${
                                 estaAberto
                                   ? "transform rotate-180 text-slate-700"
                                   : ""
                               }`}
-                              size={18}
+                              size={16}
                             />
                           </button>
                         ) : (
-                          <div className="w-full px-5 py-4 text-left flex justify-between items-center bg-white">
-                            <div className="flex items-center gap-4 min-w-0">
-                              <div className="w-10 h-10 rounded-full border border-slate-200/90 flex items-center justify-center text-xs text-slate-500 font-normal flex-shrink-0 bg-slate-50/50">
+                          <div className="w-full px-4 py-2.5 sm:px-4 sm:py-3 text-left flex justify-between items-center bg-white">
+                            <div className="flex items-center gap-3 min-w-0">
+                              <div className="w-7 h-7 rounded-full border border-slate-200 flex items-center justify-center text-[10.5px] text-slate-500 font-medium flex-shrink-0 bg-slate-50">
                                 {String(index + 1).padStart(2, "0")}
                               </div>
                               <div>
-                                <h3 className="font-normal text-sm sm:text-base text-slate-800 leading-snug">
+                                <h4 className="font-semibold text-xs sm:text-[13px] text-slate-800 leading-tight">
                                   {modulo.titulo.startsWith("Módulo")
                                     ? modulo.titulo
                                     : `Módulo ${index + 1}: ${modulo.titulo}`}
-                                </h3>
-                                <p className="text-xs text-slate-400 font-normal mt-0.5">
+                                </h4>
+                                <p className="text-[10px] sm:text-[10.5px] text-slate-400 font-normal mt-0.5">
                                   {modulo.duracao
                                     ? `${modulo.duracao} • ${modulo.regime || "Teórico"}`
                                     : "Módulo prático"}
@@ -309,21 +324,110 @@ export default function CursoDetalhe() {
                         )}
 
                         {temTopicos && estaAberto && (
-                          <div className="divide-y divide-slate-100 bg-slate-50/50 border-t border-slate-200/80">
-                            {modulo.conteudos.map(
-                              (topico: string, tIdx: number) => (
-                                <div
-                                  key={tIdx}
-                                  className="px-5 py-3 flex items-center gap-3 hover:bg-slate-100/60 transition-colors">
-                                  <FileText
-                                    className="text-slate-400 flex-shrink-0"
-                                    size={15}
-                                  />
-                                  <span className="text-xs font-normal text-slate-700 leading-relaxed">
-                                    {topico}
-                                  </span>
-                                </div>
-                              ),
+                          <div className="bg-white border-t border-slate-100">
+                            {temEstruturaTopicos ? (
+                              <div className="divide-y divide-slate-100">
+                                {modulo.topicos.map(
+                                  (topico: any, tIdx: number) => {
+                                    const chave = `${index}-${tIdx}`;
+                                    const temSub =
+                                      topico.subtopicos &&
+                                      topico.subtopicos.length > 0;
+                                    const isTopicoOpen =
+                                      !!topicosAbertos[chave];
+
+                                    return (
+                                      <div
+                                        key={tIdx}
+                                        className="transition-colors">
+                                        {/* Tópico: linha limpa com borda inferior divisória quando aberto */}
+                                        {temSub ? (
+                                          <button
+                                            type="button"
+                                            onClick={() => toggleTopico(chave)}
+                                            className={`w-full px-4 sm:px-5 py-2.5 sm:py-3 text-left flex items-center justify-between hover:bg-slate-50/70 transition-colors cursor-pointer group ${
+                                              isTopicoOpen
+                                                ? "border-b border-slate-200/80 bg-slate-50/40"
+                                                : ""
+                                            }`}>
+                                            <div className="flex items-center gap-2 min-w-0 pr-3">
+                                              <span
+                                                className={`text-xs sm:text-[13px] font-medium leading-snug transition-colors ${
+                                                  isTopicoOpen
+                                                    ? "text-red-600 font-semibold"
+                                                    : "text-slate-800 group-hover:text-red-600"
+                                                }`}>
+                                                {topico.titulo}
+                                              </span>
+                                            </div>
+                                            <div className="flex items-center gap-2 flex-shrink-0">
+                                              <span className="text-[10px] sm:text-[10.5px] text-slate-400 font-normal group-hover:text-slate-500 transition-colors">
+                                                {topico.subtopicos.length}{" "}
+                                                {topico.subtopicos.length === 1
+                                                  ? "subtópico"
+                                                  : "subtópicos"}
+                                              </span>
+                                              <ChevronDown
+                                                size={14}
+                                                className={`text-slate-400 transition-transform duration-200 ${
+                                                  isTopicoOpen
+                                                    ? "transform rotate-180 text-red-600"
+                                                    : "group-hover:text-slate-600"
+                                                }`}
+                                              />
+                                            </div>
+                                          </button>
+                                        ) : (
+                                          <div className="w-full px-4 sm:px-5 py-2.5 sm:py-3 flex items-center">
+                                            <span className="text-xs sm:text-[13px] font-medium text-slate-800 leading-snug">
+                                              {topico.titulo}
+                                            </span>
+                                          </div>
+                                        )}
+
+                                        {/* Subtópicos em cascata - formato em árvore com linha guia vertical subtil */}
+                                        {temSub && isTopicoOpen && (
+                                          <div className="px-4 sm:px-5 py-3 bg-slate-50/40">
+                                            <div className="ml-1 sm:ml-2 pl-3 sm:pl-3.5 border-l-2 border-slate-200 space-y-2 py-1">
+                                              {topico.subtopicos.map(
+                                                (sub: string, sIdx: number) => (
+                                                  <div
+                                                    key={sIdx}
+                                                    className="text-[11px] sm:text-[11.5px] text-slate-600 flex items-start gap-2.5 leading-relaxed">
+                                                    <FileText
+                                                      className="text-slate-400 flex-shrink-0 mt-0.5"
+                                                      size={13}
+                                                    />
+                                                    <span>{sub}</span>
+                                                  </div>
+                                                ),
+                                              )}
+                                            </div>
+                                          </div>
+                                        )}
+                                      </div>
+                                    );
+                                  },
+                                )}
+                              </div>
+                            ) : (
+                              <div className="divide-y divide-slate-100">
+                                {modulo.conteudos.map(
+                                  (topico: string, tIdx: number) => (
+                                    <div
+                                      key={tIdx}
+                                      className="px-4 py-2 sm:py-2.5 flex items-center gap-2.5 hover:bg-slate-50/80 transition-colors">
+                                      <FileText
+                                        className="text-slate-400 flex-shrink-0"
+                                        size={13.5}
+                                      />
+                                      <span className="text-[11px] sm:text-[11.5px] font-normal text-slate-700 leading-relaxed">
+                                        {topico}
+                                      </span>
+                                    </div>
+                                  ),
+                                )}
+                              </div>
                             )}
                           </div>
                         )}
@@ -376,77 +480,6 @@ export default function CursoDetalhe() {
                       <ArrowLeft size={13} className="transform rotate-180" />
                     </button>
                   </div>
-                </div>
-              </div>
-
-              {/* 2. Card de Avaliações dos Alunos (Carrossel Horizontal com Setas) */}
-              <div className="bg-white rounded-[5px] p-6 border border-slate-200/80 shadow-sm">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-bold text-slate-900">
-                    O que dizem os nossos alunos
-                  </h2>
-                  {/* Controlo de Navegação do Carrossel */}
-                  <div className="flex items-center gap-1">
-                    <button
-                      onClick={() =>
-                        setDepoimentoAtual((prev) =>
-                          prev === 0 ? listaDepoimentos.length - 1 : prev - 1,
-                        )
-                      }
-                      className="p-1 rounded-[5px] bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer"
-                      title="Anterior">
-                      <ChevronLeft size={16} />
-                    </button>
-                    <button
-                      onClick={() =>
-                        setDepoimentoAtual((prev) =>
-                          prev === listaDepoimentos.length - 1 ? 0 : prev + 1,
-                        )
-                      }
-                      className="p-1 rounded-[5px] bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer"
-                      title="Seguinte">
-                      <ChevronRight size={16} />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Conteúdo do Depoimento Ativo (Horizontal) */}
-                <div className="p-4 bg-slate-50 rounded-[5px] border border-slate-100 min-h-[140px] flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center gap-1 text-amber-400 mb-2">
-                      {[
-                        ...Array(listaDepoimentos[depoimentoAtual].estrelas),
-                      ].map((_, i) => (
-                        <Star key={i} size={14} fill="currentColor" />
-                      ))}
-                    </div>
-                    <p className="text-xs text-slate-600 italic mb-3 leading-relaxed">
-                      "{listaDepoimentos[depoimentoAtual].texto}"
-                    </p>
-                  </div>
-                  <div>
-                    <strong className="text-xs font-bold text-slate-900 block">
-                      {listaDepoimentos[depoimentoAtual].autor}
-                    </strong>
-                    <span className="text-[10px] text-slate-400">
-                      {listaDepoimentos[depoimentoAtual].cargo}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Indicadores de Pontos (Dots) */}
-                <div className="flex justify-center items-center gap-1.5 mt-3">
-                  {listaDepoimentos.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setDepoimentoAtual(idx)}
-                      className={`h-1.5 rounded-full transition-all cursor-pointer ${
-                        depoimentoAtual === idx
-                          ? "w-5 bg-red-600"
-                          : "w-1.5 bg-slate-300 hover:bg-slate-400"
-                      }`}
-                    />
-                  ))}
                 </div>
               </div>
 
@@ -504,7 +537,7 @@ export default function CursoDetalhe() {
                     </p>
                   </div>
 
-                  {/* Este Curso Inclui — Ícones sem fundo e cinzas */}
+                  {/* Este Curso Inclui — 3 Especificações Oficiais */}
                   <h4 className="text-[11px] font-bold text-slate-800 uppercase tracking-wider mb-4">
                     Este curso inclui:
                   </h4>
@@ -515,7 +548,7 @@ export default function CursoDetalhe() {
                         className="text-slate-400 flex-shrink-0"
                       />
                       <span>
-                        <strong>60 Horas</strong> lectivas
+                        <strong>{curso.duracao || "60h"}</strong> lectivas
                       </span>
                     </li>
                     <li className="flex items-center gap-3">
@@ -524,7 +557,7 @@ export default function CursoDetalhe() {
                         className="text-slate-400 flex-shrink-0"
                       />
                       <span>
-                        Nível <strong>Intermédio</strong>
+                        Nível <strong>{curso.nivel || "Intermédio"}</strong>
                       </span>
                     </li>
                     <li className="flex items-center gap-3">
@@ -535,22 +568,6 @@ export default function CursoDetalhe() {
                       <span>
                         <strong>Certificado de Conclusão</strong> Oficial
                       </span>
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <FileText
-                        size={16}
-                        className="text-slate-400 flex-shrink-0"
-                      />
-                      <span>
-                        Material didático e <strong>Manuais Práticos</strong>
-                      </span>
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <Headphones
-                        size={16}
-                        className="text-slate-400 flex-shrink-0"
-                      />
-                      <span>Suporte contínuo com o formador</span>
                     </li>
                   </ul>
 
@@ -597,7 +614,6 @@ export default function CursoDetalhe() {
             </div>
           </div>
         </section>
-
         {/* ─── 3. OUTRAS FORMAÇÕES RECOMENDADAS ──────────────────────────────────── */}
         <section className="bg-slate-100/70 py-16 border-t border-slate-200/80 text-left">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -616,152 +632,72 @@ export default function CursoDetalhe() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {/* Card 1: Cegid Primavera */}
-              <div
-                onClick={() => navigate("/academia/cursos")}
-                className="bg-white rounded-[5px] overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group flex flex-col opacity-85">
-                <div className="h-36 overflow-hidden relative bg-slate-900/5">
-                  <img
-                    src="/academia/primavera.svg"
-                    alt="Cegid Primavera ERP"
-                    className="w-full h-full object-cover object-center grayscale filter opacity-75 contrast-90 group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
-                  <span className="absolute top-2.5 left-2.5 bg-slate-900/90 backdrop-blur-md text-white text-[9px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase tracking-wider shadow-sm border border-slate-700/50">
-                    ERP & Gestão
-                  </span>
-                  <span className="absolute top-2.5 right-2.5 bg-amber-500 text-slate-950 text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
-                    Em breve
-                  </span>
-                </div>
-                <div className="p-4 flex flex-col flex-1 bg-white">
-                  <h3 className="font-bold text-sm text-slate-900 group-hover:text-red-600 transition-colors mb-1.5 line-clamp-1">
-                    Cegid Primavera ERP
-                  </h3>
-                  <p className="text-[12px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
-                    Domine as funcionalidades e módulos essenciais do ERP mais
-                    utilizado.
-                  </p>
-                  <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
-                    <span className="text-slate-400 font-medium text-[10px]">
-                      120h
-                    </span>
-                    <span className="text-slate-400 inline-flex items-center gap-1 text-[11px] font-bold">
-                      <Lock size={12} /> Brevemente
-                    </span>
+              {cursosRecomendados.map((item) => {
+                const ativo = isCursoAtivo(item);
+                return (
+                  <div
+                    key={item.id}
+                    onClick={() =>
+                      ativo && navigate(`/academia/curso/${item.id}`)
+                    }
+                    className={`bg-white rounded-[5px] overflow-hidden border border-slate-200/90 shadow-2xs transition-all duration-300 flex flex-col ${
+                      ativo
+                        ? "cursor-pointer group hover:shadow-md hover:border-slate-300"
+                        : "cursor-default select-none"
+                    }`}>
+                    <div className="h-36 overflow-hidden relative bg-slate-100/50">
+                      <img
+                        src={item.imagemUrl || "/academia/RH.png"}
+                        alt={item.titulo}
+                        className={`w-full h-full object-cover object-center ${
+                          ativo
+                            ? "group-hover:scale-105 transition-transform duration-500"
+                            : ""
+                        }`}
+                      />
+                      <span className="absolute top-2.5 left-2.5 bg-slate-900/90 backdrop-blur-md text-white text-[9px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase tracking-wider shadow-sm border border-slate-700/50">
+                        {item.categoria || "Formação"}
+                      </span>
+                      {ativo ? (
+                        <span className="absolute top-2.5 right-2.5 bg-white text-slate-900 text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs border border-slate-200">
+                          Novo
+                        </span>
+                      ) : (
+                        <span className="absolute top-2.5 right-2.5 bg-amber-500 text-slate-950 text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
+                          Em breve
+                        </span>
+                      )}
+                    </div>
+                    <div className="p-4 flex flex-col flex-1 bg-white">
+                      <h3
+                        className={`font-bold text-sm text-slate-900 mb-1.5 line-clamp-1 ${
+                          ativo
+                            ? "group-hover:text-red-600 transition-colors"
+                            : ""
+                        }`}>
+                        {item.titulo}
+                      </h3>
+                      <p className="text-[12px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
+                        {item.descricao}
+                      </p>
+                      <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
+                        <span className="text-slate-400 font-medium text-[10px]">
+                          {item.duracao || "60h"}
+                        </span>
+                        {ativo ? (
+                          <span className="text-red-600 inline-flex items-center gap-1 text-[11px] font-bold group-hover:underline">
+                            Ver curso <ChevronRight size={13} />
+                          </span>
+                        ) : (
+                          <span className="text-slate-400 inline-flex items-center gap-1 text-[11px] font-bold">
+                            <Lock size={12} /> Brevemente
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-
-              {/* Card 2: Web Frontend */}
-              <div
-                onClick={() => navigate("/academia/cursos")}
-                className="bg-white rounded-[5px] overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group flex flex-col opacity-85">
-                <div className="h-36 overflow-hidden relative bg-slate-900/5">
-                  <img
-                    src="/academia/frontend.jpg"
-                    alt="Programação Web Frontend"
-                    className="w-full h-full object-cover object-center grayscale filter opacity-75 contrast-90 group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
-                  <span className="absolute top-2.5 left-2.5 bg-slate-900/90 backdrop-blur-md text-white text-[9px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase tracking-wider shadow-sm border border-slate-700/50">
-                    Web & Código
-                  </span>
-                  <span className="absolute top-2.5 right-2.5 bg-amber-500 text-slate-950 text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
-                    Em breve
-                  </span>
-                </div>
-                <div className="p-4 flex flex-col flex-1 bg-white">
-                  <h3 className="font-bold text-sm text-slate-900 group-hover:text-red-600 transition-colors mb-1.5 line-clamp-1">
-                    Programação Web Frontend
-                  </h3>
-                  <p className="text-[12px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
-                    HTML5, CSS3, JavaScript ES6+ e criação de aplicações
-                    responsivas.
-                  </p>
-                  <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
-                    <span className="text-slate-400 font-medium text-[10px]">
-                      80h
-                    </span>
-                    <span className="text-slate-400 inline-flex items-center gap-1 text-[11px] font-bold">
-                      <Lock size={12} /> Brevemente
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 3: SQL Server */}
-              <div
-                onClick={() => navigate("/academia/cursos")}
-                className="bg-white rounded-[5px] overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group flex flex-col opacity-85">
-                <div className="h-36 overflow-hidden relative bg-slate-900/5">
-                  <img
-                    src="/academia/sql.png"
-                    alt="SQL Server Base de Dados"
-                    className="w-full h-full object-cover object-center grayscale filter opacity-75 contrast-90 group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
-                  <span className="absolute top-2.5 left-2.5 bg-slate-900/90 backdrop-blur-md text-white text-[9px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase tracking-wider shadow-sm border border-slate-700/50">
-                    Dados & BD
-                  </span>
-                  <span className="absolute top-2.5 right-2.5 bg-amber-500 text-slate-950 text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
-                    Em breve
-                  </span>
-                </div>
-                <div className="p-4 flex flex-col flex-1 bg-white">
-                  <h3 className="font-bold text-sm text-slate-900 group-hover:text-red-600 transition-colors mb-1.5 line-clamp-1">
-                    Base de Dados SQL Server
-                  </h3>
-                  <p className="text-[12px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
-                    Modelagem relacional, T-SQL, Stored Procedures e Backup.
-                  </p>
-                  <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
-                    <span className="text-slate-400 font-medium text-[10px]">
-                      60h
-                    </span>
-                    <span className="text-slate-400 inline-flex items-center gap-1 text-[11px] font-bold">
-                      <Lock size={12} /> Brevemente
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 4: Excel Avançado */}
-              <div
-                onClick={() => navigate("/academia/cursos")}
-                className="bg-white rounded-[5px] overflow-hidden border border-slate-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group flex flex-col opacity-85">
-                <div className="h-36 overflow-hidden relative bg-slate-900/5">
-                  <img
-                    src="/academia/Slide4.jpg"
-                    alt="Microsoft Excel Avançado"
-                    className="w-full h-full object-cover object-center grayscale filter opacity-75 contrast-90 group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
-                  <span className="absolute top-2.5 left-2.5 bg-slate-900/90 backdrop-blur-md text-white text-[9px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase tracking-wider shadow-sm border border-slate-700/50">
-                    Produtividade
-                  </span>
-                  <span className="absolute top-2.5 right-2.5 bg-amber-500 text-slate-950 text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
-                    Em breve
-                  </span>
-                </div>
-                <div className="p-4 flex flex-col flex-1 bg-white">
-                  <h3 className="font-bold text-sm text-slate-900 group-hover:text-red-600 transition-colors mb-1.5 line-clamp-1">
-                    Microsoft Excel Avançado
-                  </h3>
-                  <p className="text-[12px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
-                    Tabelas dinâmicas, fórmulas avançadas, dashboards e macros
-                    VBA.
-                  </p>
-                  <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
-                    <span className="text-slate-400 font-medium text-[10px]">
-                      40h
-                    </span>
-                    <span className="text-slate-400 inline-flex items-center gap-1 text-[11px] font-bold">
-                      <Lock size={12} /> Brevemente
-                    </span>
-                  </div>
-                </div>
-              </div>
+                );
+              })}
             </div>
 
             <div className="text-center mt-8">
@@ -774,14 +710,12 @@ export default function CursoDetalhe() {
             </div>
           </div>
         </section>
-
         {/* Modal de Vídeo */}
         <ModalVideo
           isOpen={modalAberto}
           onClose={() => setModalAberto(false)}
           videoUrl={videoUrl}
         />
-
         {/* Modal de Inscrição */}
         <FormularioInscricao
           isOpen={modalInscricaoAberto}
@@ -792,7 +726,6 @@ export default function CursoDetalhe() {
             setModalInscricaoAberto(false);
           }}
         />
-
         {/* Modal de Detalhes do Formador */}
         {modalFormadorAberto && (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">

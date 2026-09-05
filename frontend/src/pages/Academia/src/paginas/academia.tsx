@@ -14,6 +14,10 @@ import {
   BarChart,
   User,
   Lock,
+  Users,
+  ArrowRight,
+  Award,
+  FileText,
 } from "lucide-react";
 
 import { useCursos } from "../hooks/useCursos";
@@ -76,6 +80,7 @@ const Academia = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [openModuleIndex, setOpenModuleIndex] = useState<number | null>(null);
+  const [mostrarConteudoDestaque, setMostrarConteudoDestaque] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const [activeCourseTab, setActiveCourseTab] = useState("todos");
@@ -143,16 +148,18 @@ const Academia = () => {
     }
 
     if (!arquivos || arquivos.length === 0) {
-      setError("Por favor, anexe pelo menos um ficheiro PDF.");
+      setError("Por favor, anexe a cópia do seu documento (PDF ou Imagem).");
       setLoading(false);
       return;
     }
 
     const invalidFiles = Array.from(arquivos).some(
-      (file) => file.type !== "application/pdf",
+      (file) =>
+        file.type !== "application/pdf" &&
+        !file.type.startsWith("image/"),
     );
     if (invalidFiles) {
-      setError("Apenas ficheiros PDF são permitidos.");
+      setError("Apenas ficheiros PDF ou Imagens (PNG, JPG) são permitidos.");
       setLoading(false);
       return;
     }
@@ -181,12 +188,17 @@ const Academia = () => {
           },
         });
       } catch (apiErr) {
-        console.warn("API de email não disponível, prosseguindo com WhatsApp:", apiErr);
+        console.warn(
+          "API de email não disponível, prosseguindo com WhatsApp:",
+          apiErr,
+        );
       }
 
       // Preparar mensagem e abrir WhatsApp
       const whatsappNumber = "244947137676";
-      const nomeCompleto = `${formData.nome} ${formData.sobrenome}`.trim() || formData.email.split("@")[0];
+      const nomeCompleto =
+        `${formData.nome} ${formData.sobrenome}`.trim() ||
+        formData.email.split("@")[0];
       const mensagemWhatsApp = `*Nova Inscrição - Academia Envisio* 🎓
 
 👤 *Candidato:* ${nomeCompleto}
@@ -242,9 +254,14 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
   const cursoExibir = cursoLocal as Curso as Curso;
 
   return (
-    <section className="bg-gray-50 w-full">
+    <section
+      className="bg-gray-50 w-full"
+      style={{
+        fontFamily:
+          "'Segoe UI Variable Text', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif",
+      }}>
       {/* Seção 1: Carrossel Publicitário de Alta Qualidade */}
-      <div className="relative overflow-hidden w-full h-screen bg-black">
+      <div className="relative overflow-hidden w-full h-screen min-h-[580px] max-h-[900px] 2xl:max-h-[1080px] bg-black">
         <AnimatePresence initial={false} mode="wait">
           <motion.div
             key={currentSlide}
@@ -255,31 +272,28 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
             className="absolute inset-0 w-full h-full"
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}>
-            {/* Imagem de Fundo com efeito Ken Burns */}
+            {/* Imagem de Fundo estável e responsiva */}
             <motion.img
               src={slides[currentSlide].imagemUrl}
               alt={slides[currentSlide].titulo}
-              initial={{ scale: 1 }}
-              animate={{ scale: 1.06 }}
-              transition={{ duration: 6, ease: "linear" }}
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover object-center 2xl:object-[center_35%]"
             />
-            {/* Degradês de sobreposição para legibilidade */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/35" />
+            {/* Degradês de sobreposição para legibilidade em todas as telas */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
 
             {/* Conteúdo do Slide */}
             <div className="absolute inset-0 flex items-center">
-              <div className="container mx-auto px-6 md:px-12 lg:px-24">
-                <div className="max-w-2xl text-left">
+              <div className="container 2xl:max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20 xl:px-24">
+                <div className="max-w-2xl 2xl:max-w-3xl text-left">
                   {/* Tag Superior removida */}
 
                   {/* Título Principal */}
                   <motion.h1
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, duration: 0.6 }}
-                    className="text-3xl sm:text-4xl md:text-5xl font-extrabold !text-white tracking-tight leading-tight mb-4">
+                    transition={{ delay: 0.25, duration: 0.6 }}
+                    className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] 2xl:text-7xl font-extrabold !text-white tracking-tight leading-[1.14] mb-4">
                     {slides[currentSlide].titulo}
                   </motion.h1>
 
@@ -287,8 +301,8 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
                   <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.6 }}
-                    className="text-[12px] sm:text-[12px] md:text-[12px] !text-white mb-8 max-w-lg leading-relaxed">
+                    transition={{ delay: 0.35, duration: 0.6 }}
+                    className="text-sm sm:text-base md:text-base lg:text-lg 2xl:text-xl !text-white/90 mb-8 max-w-lg 2xl:max-w-2xl leading-relaxed">
                     {slides[currentSlide].subtitulo}
                   </motion.p>
 
@@ -401,374 +415,330 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
         </div>
       </div>
 
-      {/* Segunda Seção: Curso em Destaque - Completo e Organizado */}
+      {/* Segunda Seção: Curso em Destaque - Unificada com Conteúdo Expansível */}
       <section
         id="curso-destaque"
-        className="relative py-20 bg-gradient-to-br from-gray-50 via-white to-gray-100 overflow-hidden">
-        {/* Elementos decorativos de fundo */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <div className="absolute w-72 h-72 bg-red-300 rounded-full blur-3xl -top-20 -left-20 animate-pulse"></div>
-          <div className="absolute w-96 h-96 bg-blue-200 rounded-full blur-3xl bottom-10 right-10 animate-pulse"></div>
-          {/* Ícones Educacionais */}
-          <div className="grid grid-cols-6 gap-20 p-10">
-            {[...Array(12)].map((_, i) => (
-              <div
-                key={i}
-                className="w-8 h-8 opacity-20 transform rotate-45 transition-transform"
-                style={{
-                  animation: `float ${2 + (i % 3)}s infinite ease-in-out ${
-                    i * 0.1
-                  }s`,
-                }}>
-                {i % 3 === 0 && (
-                  <svg
-                    className="w-full h-full text-red-400"
-                    fill="currentColor"
-                    viewBox="0 0 20 20">
-                    <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 005.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
-                  </svg>
-                )}
-                {i % 3 === 1 && (
-                  <svg
-                    className="w-full h-full text-blue-400"
-                    fill="currentColor"
-                    viewBox="0 0 20 20">
-                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                  </svg>
-                )}
-                {i % 3 === 2 && (
-                  <svg
-                    className="w-full h-full text-yellow-400"
-                    fill="currentColor"
-                    viewBox="0 0 20 20">
-                    <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
-                  </svg>
-                )}
-              </div>
-            ))}
-          </div>
+        className="bg-white relative border-b border-slate-200 overflow-hidden select-none">
+        {/* ─── TÍTULO DA SEÇÃO (CENTRALIZADO, PRETO, SEM TRAÇOS E COM ESPAÇAMENTO DEVIDO) ─── */}
+        <div className="pt-10 sm:pt-12 pb-2 text-center select-none">
+          <span className="text-xs sm:text-sm md:text-base font-extrabold text-slate-900 tracking-widest uppercase">
+            CURSO EM DESTAQUE
+          </span>
         </div>
 
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Cabeçalho da Seção */}
-          <div className="mb-12 text-center flex flex-col items-center">
-            <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold uppercase tracking-wider text-red-600 bg-red-50 rounded-[5px]">
-              Curso em Destaque
-            </span>
-            <h2 className="text-4xl font-extrabold text-gray-900 sm:text-5xl tracking-tight">
-              Gestão de Recursos Humanos
-            </h2>
-            <p className="mt-4 text-[12px] text-gray-500 max-w-2xl mx-auto">
-              Formação prática de alto nível desenvolvida para Técnicos,
-              Gestores de RH e Juristas Laborais com aplicação no ERP Primavera.
-            </p>
-          </div>
-
-          {/* Grid Principal: Detalhes, Capa e Apresentação do Curso */}
-          <div
-            onClick={() => navigate("/academia/curso/gestao-recursos-humanos")}
-            className="bg-[#0f172a] rounded-none shadow-xl overflow-hidden mb-16 border border-slate-800 transition-all duration-300 cursor-pointer group">
-            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[320px] lg:min-h-[320px]">
-              {/* Informações da Capa do Curso */}
-              <div className="lg:col-span-7 p-8 sm:p-10 lg:p-12 flex flex-col justify-center text-white relative z-10 text-left">
-                <div className="text-red-500 text-xs font-semibold uppercase tracking-wider mb-3">
-                  <span>Qualificação Profissional</span>
-                </div>
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 leading-tight">
+        {/* ─── BANNER PRINCIPAL ─── */}
+        <div className="relative min-h-[380px] sm:min-h-[420px] lg:min-h-[440px] flex items-center pb-8 sm:pb-12">
+          {/* Grid / Layout: Lado Esquerdo Conteúdo do Curso */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-20">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              {/* COLUNA ESQUERDA: Texto e Botões */}
+              <div className="lg:col-span-6 xl:col-span-5 text-left pr-0 lg:pr-4">
+                {/* Título Principal */}
+                <h2 className="text-3xl sm:text-4xl lg:text-[40px] xl:text-[44px] font-extrabold text-slate-900 tracking-tight leading-[1.12] mb-4">
                   Gestão de Recursos Humanos
-                </h3>
-                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-8 max-w-xl font-normal">
+                </h2>
+
+                {/* Descrição */}
+                <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed max-w-md font-normal mb-6">
                   Dotar os participantes de competências técnicas, jurídicas e
                   operacionais que lhes permitam gerir, de forma íntegra e
                   eficiente, o ciclo completo da relação laboral - da admissão
                   ao processamento salarial e à prestação de contas à
-                  Administração.
+                  Administração - em conformidade com a Lei n.º 12/23 e demais
+                  legislação complementar aplicável em Angola.
                 </p>
 
-                {/* Linha divisória e Specs Grid */}
-                <div className="grid grid-cols-3 gap-6 pt-6 border-t border-slate-700/90 text-left mb-6">
-                  <div>
-                    <span className="block text-slate-400 text-xs font-normal mb-1">
-                      Duração
-                    </span>
-                    <span className="text-xs sm:text-sm font-semibold text-white">
-                      60 Horas
-                    </span>
-                  </div>
-                  <div>
-                    <span className="block text-slate-400 text-xs font-normal mb-1">
-                      Formato
-                    </span>
-                    <span className="text-xs sm:text-sm font-semibold text-white">
-                      Presencial
-                    </span>
-                  </div>
-                  <div>
-                    <span className="block text-slate-400 text-xs font-normal mb-1">
-                      Idioma
-                    </span>
-                    <span className="text-xs sm:text-sm font-semibold text-white">
-                      Português
-                    </span>
-                  </div>
-                </div>
-
-                {/* Botão Ver Programa */}
-                <div>
+                {/* Botões de Ação na Hero */}
+                <div className="flex flex-wrap items-center gap-3">
+                  {/* Botão Ver Conteúdo (Abre o Acordeão abaixo na mesma sessão) */}
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate("/academia/curso/gestao-recursos-humanos");
-                    }}
-                    className="inline-flex items-center justify-center px-5 py-2 rounded-[4px] border border-slate-600 hover:border-slate-400 text-white text-xs sm:text-sm font-medium bg-[#0f172a] hover:bg-slate-800/80 transition-all cursor-pointer shadow-xs">
-                    Ver Programa
+                    onClick={() => setMostrarConteudoDestaque((prev) => !prev)}
+                    className="bg-[#0c1e33] hover:bg-[#162e4d] text-white px-5 py-3 rounded-[6px] font-semibold text-xs inline-flex items-center gap-2.5 transition-all duration-300 shadow-sm group cursor-pointer">
+                    <span>
+                      {mostrarConteudoDestaque
+                        ? "Ocultar Conteúdo"
+                        : "Ver Conteúdo Programático"}
+                    </span>
+                    <ChevronDown
+                      size={15}
+                      className={`transition-transform duration-300 ${
+                        mostrarConteudoDestaque ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+
+                  {/* Botão Mais Detalhes */}
+                  <button
+                    onClick={() =>
+                      navigate("/academia/curso/gestao-recursos-humanos")
+                    }
+                    className="px-4 py-3 bg-slate-100 hover:bg-slate-200/80 text-slate-700 font-semibold text-xs rounded-[6px] transition-colors cursor-pointer">
+                    Mais Detalhes
                   </button>
                 </div>
               </div>
-
-              {/* Capa Visual do Curso */}
-              <div className="lg:col-span-5 relative min-h-[260px] sm:min-h-[320px] lg:min-h-full overflow-hidden bg-slate-950">
-                <img
-                  src="/academia/RH.png"
-                  alt="Capa do Curso Gestão de Recursos Humanos"
-                  className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
             </div>
           </div>
 
-          {/* Grid do Conteúdo Programático + Inscrição */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Esquerda: Conteúdo Programático (8 colunas) — 3 Módulos com visual da Imagem 1 */}
-            <div className="lg:col-span-8 bg-white p-6 sm:p-8 rounded-[5px] shadow-sm border border-gray-200 transition-shadow duration-300 hover:shadow-md text-left">
-              <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900">
-                    Conteúdo Programático
-                  </h3>
-                  <p className="text-gray-500 text-[12px] mt-1">
-                    Explore os módulos práticos estruturados pelos nossos
-                    especialistas.
-                  </p>
-                </div>
-                <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded text-xs font-bold border border-slate-200">
-                  6 Módulos
-                </span>
-              </div>
-
-              {/* Lista dos 3 primeiros Módulos (Estilo Imagem 1 com círculo 01, 02, 03 e tons cinzas) */}
-              <div className="space-y-3">
-                {[
-                  {
-                    num: "01",
-                    id: 1,
-                    titulo: "Módulo 1: Introdução à Gestão de Recursos Humanos",
-                    subtitulo: "6h • Teórico",
-                    conteudos: [],
-                  },
-                  {
-                    num: "02",
-                    id: 2,
-                    titulo:
-                      "Módulo 2: Direito do Trabalho à luz da Lei n.º 12/23",
-                    subtitulo: "16h • Teórico-prático",
-                    conteudos: [],
-                  },
-                  {
-                    num: "03",
-                    id: 3,
-                    titulo:
-                      "Módulo 3: Leis Doutrinais e Complementares no Âmbito Laboral",
-                    subtitulo: "8h • 10 tópicos",
-                    conteudos: [
-                      "Regime Jurídico da Segurança Social Obrigatória",
-                      "Regime de Acidentes de Trabalho e Doenças Profissionais",
-                      "Legislação de SHST: direitos e deveres, EPI e prevenção de riscos",
-                      "Regime jurídico do trabalho de estrangeiros e regularização de mão de obra",
-                      "Regulamento Interno de Empresa: elaboração, conteúdo e valor jurídico",
-                      "Convenções coletivas de trabalho e o seu impacto na gestão de RH",
-                      "Legislação sobre salário mínimo nacional e atualizações salariais",
-                      "Regime tributário do trabalho (IRT) e obrigações declarativas",
-                      "Proteção de dados pessoais do trabalhador e confidencialidade",
-                      "Papel da Inspeção Geral do Trabalho e procedimentos de fiscalização",
-                    ],
-                  },
-                ].map((modulo, index) => {
-                  const temTopicos =
-                    modulo.conteudos && modulo.conteudos.length > 0;
-                  const estaAberto = openModuleIndex === index;
-
-                  return (
-                    <div
-                      key={modulo.id}
-                      className="border border-slate-200/90 rounded-[6px] overflow-hidden bg-white shadow-2xs">
-                      {temTopicos ? (
-                        <button
-                          onClick={() =>
-                            setOpenModuleIndex(estaAberto ? null : index)
-                          }
-                          className="w-full px-5 py-4 text-left flex justify-between items-center bg-white hover:bg-slate-50/80 transition-colors cursor-pointer">
-                          <div className="flex items-center gap-4 min-w-0 pr-4">
-                            <div className="w-10 h-10 rounded-full border border-slate-200/90 flex items-center justify-center text-xs text-slate-500 font-normal flex-shrink-0 bg-slate-50/50">
-                              {modulo.num}
-                            </div>
-                            <div>
-                              <h4 className="font-normal text-sm sm:text-base text-slate-800 leading-snug">
-                                {modulo.titulo}
-                              </h4>
-                              <p className="text-xs text-slate-400 font-normal mt-0.5">
-                                {modulo.subtitulo}
-                              </p>
-                            </div>
-                          </div>
-
-                          <ChevronDown
-                            className={`text-slate-400 transition-transform duration-200 flex-shrink-0 ${
-                              estaAberto
-                                ? "transform rotate-180 text-slate-700"
-                                : ""
-                            }`}
-                            size={18}
-                          />
-                        </button>
-                      ) : (
-                        <div className="w-full px-5 py-4 text-left flex justify-between items-center bg-white">
-                          <div className="flex items-center gap-4 min-w-0">
-                            <div className="w-10 h-10 rounded-full border border-slate-200/90 flex items-center justify-center text-xs text-slate-500 font-normal flex-shrink-0 bg-slate-50/50">
-                              {modulo.num}
-                            </div>
-                            <div>
-                              <h4 className="font-normal text-sm sm:text-base text-slate-800 leading-snug">
-                                {modulo.titulo}
-                              </h4>
-                              <p className="text-xs text-slate-400 font-normal mt-0.5">
-                                {modulo.subtitulo}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {temTopicos && estaAberto && (
-                        <div className="p-5 bg-slate-50/50 border-t border-slate-100 space-y-2.5">
-                          <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
-                            Tópicos do Módulo:
-                          </p>
-                          <ul className="space-y-2">
-                            {modulo.conteudos.map((topico, tIdx) => (
-                              <li
-                                key={tIdx}
-                                className="flex items-start gap-2.5 text-xs text-slate-600 leading-relaxed font-normal">
-                                <span className="w-1.5 h-1.5 rounded-full bg-slate-400 flex-shrink-0 mt-1.5" />
-                                <span>{topico}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Botão de Ver Detalhes */}
-              <div className="mt-8 pt-6 border-t border-gray-100 flex justify-center">
-                <Link
-                  to="/academia/curso/gestao-recursos-humanos"
-                  className="inline-flex justify-center items-center px-6 py-3 text-xs uppercase tracking-wider bg-red-600 hover:bg-red-700 text-white font-bold  transition duration-300 transform hover:scale-105 shadow-sm">
-                  <BookOpen size={16} className="mr-2" />
-                  Ver todos os 6 módulos do curso
-                </Link>
-              </div>
-            </div>
-
-            {/* Direita: Card Fixo e Formulário/Inscrição (Sem foto, ícones cinzas sem fundo) */}
-            <div className="lg:col-span-4 lg:sticky lg:top-24 text-left">
-              <div className="bg-white rounded-[5px] shadow-sm hover:shadow-md overflow-hidden border border-slate-200 transition-shadow duration-300">
-                {/* Banner com fundo cinza claro e escrita centralizada */}
-                <div className="h-32 sm:h-36 bg-gradient-to-b from-slate-200 to-slate-200 border-b border-slate-200 flex flex-col items-center justify-center p-6 text-center">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">
-                    Academia Envisio
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-slate-600 tracking-tight">
-                    Faça a sua inscrição
-                  </h3>
-                </div>
-
-                {/* Conteúdo do Card de Ação — Ícones cinzas sem fundo */}
-                <div className="p-6 space-y-5">
-                  <div className="space-y-4">
-                    {/* Item 1: Duração */}
-                    <div className="flex items-start gap-3 text-xs text-slate-600">
-                      <Clock
-                        size={17}
-                        className="text-slate-400 flex-shrink-0 mt-0.5"
-                      />
-                      <div>
-                        <span className="block font-semibold text-slate-800">
-                          Duração Completa
-                        </span>
-                        <span className="text-slate-500 text-[11px]">
-                          60 horas lectivas
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Item 2: Certificação */}
-                    <div className="flex items-start gap-3 text-xs text-slate-600">
-                      <ShieldCheck
-                        size={17}
-                        className="text-slate-400 flex-shrink-0 mt-0.5"
-                      />
-                      <div>
-                        <span className="block font-semibold text-slate-800">
-                          Certificação Oficial
-                        </span>
-                        <span className="text-slate-500 text-[11px]">
-                          Reconhecida no mercado de trabalho
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Item 3: Regime */}
-                    <div className="flex items-start gap-3 text-xs text-slate-600">
-                      <BookOpen
-                        size={17}
-                        className="text-slate-400 flex-shrink-0 mt-0.5"
-                      />
-                      <div>
-                        <span className="block font-semibold text-slate-800">
-                          Regime de Ensino
-                        </span>
-                        <span className="text-slate-500 text-[11px]">
-                          Presencial ou misto
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Botões de Ação */}
-                  <div className="pt-2 space-y-2.5">
-                    <Link
-                      to="/academia/curso/gestao-recursos-humanos"
-                      className="btn-academia-primary w-full py-3 px-4 transition duration-300 transform hover:scale-[1.02] text-xs font-bold uppercase tracking-wider flex items-center justify-center">
-                      Fazer Inscrição Agora
-                    </Link>
-
-                    <a
-                      href="https://wa.me/244947137676?text=Olá%20Envisio,%20gostaria%20de%20saber%20mais%20sobre%20o%20curso%20de%20Gestão%20de%20Recursos%20Humanos"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-academia-secondary w-full py-2.5 px-4 transition duration-300 text-xs font-bold uppercase tracking-wider flex items-center justify-center">
-                      Falar com Consultor
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+          {/* COLUNA DIREITA: Imagem Completa */}
+          <div className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 w-[48%] xl:w-[46%] items-center justify-end select-none z-10">
+            <img
+              src="/academia/imagem_rh.png"
+              alt="Gestão de Recursos Humanos"
+              className="w-full h-auto object-contain max-h-[380px] "
+            />
           </div>
         </div>
+
+        {/* ─── CONTEÚDO EXPANSÍVEL (NA MESMA SESSÃO) ─── */}
+        <AnimatePresence>
+          {mostrarConteudoDestaque && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.35, ease: "easeInOut" }}
+              className="overflow-hidden border-t border-slate-100 bg-[#fbfbfb]">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-20">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                  {/* Esquerda: Conteúdo Programático Compacto (8 Colunas) */}
+                  <div className="lg:col-span-8 bg-white p-5 sm:p-6 rounded-[5px] shadow-xs border border-slate-200/80 text-left">
+                    <div>
+                      <div className="flex flex-wrap items-center justify-between gap-4 mb-9">
+                        <div>
+                          <h3 className="text-lg sm:text-xl font-bold text-slate-900">
+                            Conteúdo Programático
+                          </h3>
+                          <div className="w-8 h-[2px] bg-red-600 rounded-full mt-1.5 mb-1.5" />
+                          <p className="text-slate-500 text-[11px]">
+                            Explore os módulos práticos estruturados pelos
+                            nossos especialistas.
+                          </p>
+                        </div>
+                        <span className="text-[12px] font-bold text-red-600">
+                          6 Módulos
+                        </span>
+                      </div>
+
+                      {/* Módulos Compactos com Todos os Módulos Oficiais */}
+                      <div className="space-y-2">
+                        {[
+                          {
+                            num: "01",
+                            id: 1,
+                            titulo:
+                              "Módulo 1: Introdução à Gestão de Recursos Humanos",
+                            subtitulo: "6h • Teórico",
+                            conteudos: [],
+                          },
+                          {
+                            num: "02",
+                            id: 2,
+                            titulo:
+                              "Módulo 2: Direito do Trabalho à luz da Lei n.º 12/23",
+                            subtitulo: "16h • Teórico-prático",
+                            conteudos: [],
+                          },
+                          {
+                            num: "03",
+                            id: 3,
+                            titulo:
+                              "Módulo 3: Leis Doutrinais e Complementares no Âmbito Laboral",
+                            subtitulo: "8h • Teórico • 10 tópicos",
+                            conteudos: [
+                              "Regime Jurídico da Segurança Social Obrigatória",
+                              "Regime de Acidentes de Trabalho e Doenças Profissionais",
+                              "Legislação de Segurança, Higiene e Saúde no Trabalho (SHST): direitos e deveres, equipamentos de proteção individual (EPI) e prevenção de riscos",
+                              "Regime jurídico do trabalho de estrangeiros e regularização de mão de obra",
+                              "Regulamento Interno de Empresa: elaboração, conteúdo e valor jurídico",
+                              "Convenções coletivas de trabalho e o seu impacto na gestão de RH",
+                              "Legislação sobre salário mínimo nacional e atualizações salariais",
+                              "Regime tributário do trabalho: Imposto sobre o Rendimento do Trabalho (IRT) e obrigações declarativas",
+                              "Proteção de dados pessoais do trabalhador e obrigações de confidencialidade",
+                              "Papel da Inspeção Geral do Trabalho e procedimentos de fiscalização",
+                            ],
+                          },
+                          {
+                            num: "04",
+                            id: 4,
+                            titulo:
+                              "Módulo 4: Processamento de Salários no ERP Primavera",
+                            subtitulo: "14h • Prático",
+                            conteudos: [],
+                          },
+                        ].map((modulo, index) => {
+                          const temTopicos =
+                            modulo.conteudos && modulo.conteudos.length > 0;
+                          const estaAberto = openModuleIndex === index;
+
+                          return (
+                            <div
+                              key={modulo.id}
+                              className="border border-slate-200/80 rounded-[5px] overflow-hidden bg-white shadow-2xs">
+                              {temTopicos ? (
+                                <button
+                                  onClick={() =>
+                                    setOpenModuleIndex(
+                                      estaAberto ? null : index,
+                                    )
+                                  }
+                                  className="w-full px-4 py-2.5 sm:px-4 sm:py-3 text-left flex justify-between items-center bg-white hover:bg-slate-50/80 transition-colors cursor-pointer">
+                                  <div className="flex items-center gap-3 min-w-0 pr-3">
+                                    <div className="w-7 h-7 rounded-full border border-slate-200 flex items-center justify-center text-[10.5px] text-slate-500 font-medium flex-shrink-0 bg-slate-50">
+                                      {modulo.num}
+                                    </div>
+                                    <div>
+                                      <h4 className="font-semibold text-xs sm:text-[13px] text-slate-800 leading-tight">
+                                        {modulo.titulo}
+                                      </h4>
+                                      <p className="text-[10px] sm:text-[10.5px] text-slate-400 font-normal mt-0.5">
+                                        {modulo.subtitulo}
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                  <ChevronDown
+                                    className={`text-slate-400 transition-transform duration-200 flex-shrink-0 ${
+                                      estaAberto
+                                        ? "transform rotate-180 text-slate-700"
+                                        : ""
+                                    }`}
+                                    size={16}
+                                  />
+                                </button>
+                              ) : (
+                                <div className="w-full px-4 py-2.5 sm:px-4 sm:py-3 text-left flex justify-between items-center bg-white">
+                                  <div className="flex items-center gap-3 min-w-0">
+                                    <div className="w-7 h-7 rounded-full border border-slate-200 flex items-center justify-center text-[10.5px] text-slate-500 font-medium flex-shrink-0 bg-slate-50">
+                                      {modulo.num}
+                                    </div>
+                                    <div>
+                                      <h4 className="text-xs sm:text-[13px] text-slate-800 leading-tight">
+                                        {modulo.titulo}
+                                      </h4>
+                                      <p className="text-[10px] sm:text-[10.5px] text-slate-400 font-normal mt-0.5">
+                                        {modulo.subtitulo}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+
+                              {temTopicos && estaAberto && (
+                                <div className="divide-y divide-slate-100 bg-white border-t border-slate-200/80">
+                                  {modulo.conteudos.map(
+                                    (topico: string, tIdx: number) => (
+                                      <div
+                                        key={tIdx}
+                                        className="px-4 py-2 sm:py-2.5 flex items-center gap-2.5 hover:bg-slate-50/80 transition-colors">
+                                        <FileText
+                                          className="text-slate-400 flex-shrink-0"
+                                          size={13.5}
+                                        />
+                                        <span className="text-[11px] sm:text-[11.5px] font-normal text-slate-700 leading-relaxed">
+                                          {topico}
+                                        </span>
+                                      </div>
+                                    ),
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Direita: Card Fixo e Informações do Curso / Inscrição */}
+                  <div className="lg:col-span-4 text-left">
+                    <div className="bg-white rounded-[5px] shadow-sm hover:shadow-md overflow-hidden border border-slate-200 transition-shadow duration-300">
+                      {/* Banner com fundo cinza claro e escrita centralizada */}
+                      <div className="h-28 sm:h-32 bg-gradient-to-b from-slate-200 to-slate-200 border-b border-slate-200 flex flex-col items-center justify-center p-5 text-center flex-shrink-0">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">
+                          Academia Envisio
+                        </span>
+                        <h3 className="text-lg sm:text-xl font-extrabold text-slate-600 tracking-tight">
+                          Faça a sua inscrição
+                        </h3>
+                      </div>
+
+                      {/* Conteúdo do Card de Ação */}
+                      <div className="p-5 space-y-4">
+                        <div className="space-y-3.5">
+                          {/* Item 1: Duração */}
+                          <div className="flex items-start gap-3 text-xs text-slate-600">
+                            <Clock
+                              size={16}
+                              className="text-slate-400 flex-shrink-0 mt-0.5"
+                            />
+                            <div>
+                              <span className="block font-semibold text-slate-800 text-[12px]">
+                                Duração Completa
+                              </span>
+                              <span className="text-slate-500 text-[11px]">
+                                60 horas lectivas
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Item 2: Certificação */}
+                          <div className="flex items-start gap-3 text-xs text-slate-600">
+                            <ShieldCheck
+                              size={16}
+                              className="text-slate-400 flex-shrink-0 mt-0.5"
+                            />
+                            <div>
+                              <span className="block font-semibold text-slate-800 text-[12px]">
+                                Certificação Oficial
+                              </span>
+                              <span className="text-slate-500 text-[11px]">
+                                Reconhecida no mercado de trabalho
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Item 3: Regime */}
+                          <div className="flex items-start gap-3 text-xs text-slate-600">
+                            <BookOpen
+                              size={16}
+                              className="text-slate-400 flex-shrink-0 mt-0.5"
+                            />
+                            <div>
+                              <span className="block font-semibold text-slate-800 text-[12px]">
+                                Regime de Ensino
+                              </span>
+                              <span className="text-slate-500 text-[11px]">
+                                Presencial ou misto
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Botões de Ação */}
+                        <div className="pt-2 space-y-2">
+                          <Link
+                            to="/academia/curso/gestao-recursos-humanos"
+                            className="w-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs py-3 px-4 rounded-[4px] uppercase tracking-wider flex items-center justify-center transition duration-300 transform hover:scale-[1.02] shadow-sm">
+                            Inscreva-se Agora
+                          </Link>
+
+                          <a
+                            href="https://wa.me/244947137676?text=Olá%20Envisio,%20gostaria%20de%20saber%20mais%20sobre%20o%20curso%20de%20Gestão%20de%20Recursos%20Humanos"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs py-2.5 px-4 rounded-[4px] border border-slate-200 uppercase tracking-wider flex items-center justify-center transition duration-300">
+                            Falar com Consultor
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </section>
 
       {/* ─── Seção 3: Nossos Cursos ─────────────────────────────────────────── */}
@@ -850,6 +820,9 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
                     ? curso.instrutor.nome
                     : (curso.instrutor as string) || "Formador Certificado";
 
+                const isSpecialBorder =
+                  curso.id === "power-bi" || curso.id === "sql-server";
+
                 return (
                   <motion.div
                     key={curso.id || idx}
@@ -858,20 +831,21 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
                     viewport={{ once: true }}
                     transition={{ duration: 0.35, delay: idx * 0.05 }}
                     className={`rounded-[5px] border overflow-hidden flex flex-col h-full transition-all duration-300 ${
-                      ativo
-                        ? "bg-white border-slate-200 shadow-sm hover:shadow-md group"
-                        : "bg-slate-50/90 border-slate-200/80 opacity-85"
+                      isSpecialBorder
+                        ? "bg-white border-slate-300 shadow-sm cursor-default select-none"
+                        : ativo
+                          ? "bg-white border-slate-200 shadow-sm hover:shadow-md group"
+                          : "bg-white border-slate-200/80 cursor-default select-none"
                     }`}>
                     {/* Imagem do curso com badge */}
-                    <div className="relative h-48 sm:h-52 w-full overflow-hidden flex-shrink-0 bg-slate-900">
+                    <div
+                      className={`relative h-48 sm:h-52 w-full overflow-hidden flex-shrink-0 bg-white ${
+                        isSpecialBorder ? "border-b border-slate-200" : ""
+                      }`}>
                       <img
                         src={curso.imagemUrl || "/academia/RH.png"}
                         alt={curso.titulo}
-                        className={`w-full h-full object-cover object-top ${
-                          ativo
-                            ? "scale-[1.02] transition-transform duration-700 group-hover:scale-108"
-                            : "grayscale filter opacity-75 contrast-90"
-                        }`}
+                        className="w-full h-full object-cover object-center scale-[1.02] transition-transform duration-700 group-hover:scale-108"
                       />
                       {/* Categoria tag overlay */}
                       <span className="absolute top-3 left-3 bg-slate-900/60 backdrop-blur-md border border-white/20 text-white px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider shadow-sm z-10">
@@ -898,7 +872,7 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
                         }
                         className={`text-[15px] font-bold mb-2 leading-snug ${
                           ativo
-                            ? "text-slate-900 cursor-pointer group-hover:text-red-600 transition-colors line-clamp-2"
+                            ? "text-slate-900 cursor-pointer  transition-colors line-clamp-2"
                             : "text-slate-700 cursor-not-allowed line-clamp-2"
                         }`}>
                         {curso.titulo}
@@ -939,7 +913,7 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
                             onClick={() =>
                               navigate(`/academia/curso/${curso.id}`)
                             }
-                            className="text-red-600 text-[11px] font-bold uppercase tracking-wider hover:underline flex items-center gap-0.5 cursor-pointer whitespace-nowrap flex-shrink-0">
+                            className="text-slate-600 hover:text-black text-[10px] font-bold uppercase tracking-wider flex items-center gap-0.5 cursor-pointer whitespace-nowrap flex-shrink-0">
                             Ver curso <ChevronRight size={13} />
                           </button>
                         ) : (

@@ -1142,7 +1142,6 @@ export default function CursoDetalhe() {
                   alt="Cegid Primavera ERP"
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
                 <span className="absolute top-2.5 left-2.5 bg-slate-900/90 backdrop-blur-md text-white text-[9px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase tracking-wider shadow-sm border border-slate-700/50">
                   ERP & Gestão
                 </span>
@@ -1156,10 +1155,10 @@ export default function CursoDetalhe() {
                   </span>
                 </div>
                 <h3 className="font-bold text-sm text-slate-900 group-hover:text-red-600 transition-colors mb-1.5 line-clamp-1">
-                  Cegid Primavera ERP
+                  Cegid Primavera: Funcionalidades e Módulos
                 </h3>
                 <p className="text-[12px] text-slate-500 line-clamp-2 mb-3 leading-relaxed font-normal">
-                  Operação e parametrização nos módulos de Vendas, Compras e RH.
+                  Domine o Cegid Primavera: conceitos essenciais, parametrização, compras, vendas, stocks e tesouraria.
                 </p>
                 <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-900">
                   <span className="text-slate-400 font-medium text-[10px]">
@@ -1182,7 +1181,6 @@ export default function CursoDetalhe() {
                   alt="Programação Web Frontend"
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
                 <span className="absolute top-2.5 left-2.5 bg-slate-900/90 backdrop-blur-md text-white text-[9px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase tracking-wider shadow-sm border border-slate-700/50">
                   Programação Web
                 </span>
@@ -1223,7 +1221,6 @@ export default function CursoDetalhe() {
                   alt="Redes & Cibersegurança"
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
                 <span className="absolute top-2.5 left-2.5 bg-slate-900/90 backdrop-blur-md text-white text-[9px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase tracking-wider shadow-sm border border-slate-700/50">
                   Cibersegurança
                 </span>
@@ -1264,7 +1261,6 @@ export default function CursoDetalhe() {
                   alt="SQL Server Base de Dados"
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
                 <span className="absolute top-2.5 left-2.5 bg-slate-900/90 backdrop-blur-md text-white text-[9px] font-extrabold px-2 py-0.5 rounded-[3px] uppercase tracking-wider shadow-sm border border-slate-700/50">
                   Base de Dados
                 </span>

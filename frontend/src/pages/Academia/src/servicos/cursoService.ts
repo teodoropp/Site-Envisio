@@ -22,6 +22,7 @@ export const getCursoById = async (id: string): Promise<Curso | null> => {
     const candidateId = c.id.trim().toLowerCase();
     return (
       candidateId === normalizedId ||
+      (normalizedId === "primavera" && candidateId === "cegid-primavera") ||
       (normalizedId === "gestao-rh" && candidateId === "gestao-recursos-humanos") ||
       (normalizedId === "curso1" && candidateId === "gestao-recursos-humanos")
     );

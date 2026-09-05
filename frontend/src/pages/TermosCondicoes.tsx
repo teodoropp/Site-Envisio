@@ -2,7 +2,7 @@ import React from "react";
 
 export default function TermosCondicoes() {
   return (
-    <div className="bg-slate-50 min-h-screen pt-32 pb-16 font-['Inter',sans-serif] text-slate-800">
+    <div className="bg-slate-50 min-h-screen pt-32 pb-16 text-slate-800">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-4xl font-extrabold text-slate-900 mb-8">
           Termos e Condições

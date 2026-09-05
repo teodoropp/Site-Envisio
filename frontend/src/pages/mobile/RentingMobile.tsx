@@ -261,22 +261,19 @@ const RentingSection = () => {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-white pt-[54px]">
       {/* Banner com texto sobreposto */}
       <section
         className="relative w-full flex items-center justify-start overflow-hidden bg-white"
-        style={{ height: "clamp(100px, 30vw, 500px)" }}>
+        style={{ height: "clamp(120px, 50vw, 450px)" }}>
         <div className="absolute inset-0 z-10 flex items-center">
-          <div className="text-white pl-8 md:pl-16 lg:pl-24 w-full max-w-7xl mx-auto">
+          <div className="text-white pl-6 sm:pl-8 md:pl-16 lg:pl-24 w-full max-w-7xl mx-auto">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-[30px] sm:text-3xl md:text-5xl lg:text-5xl font-bold mb-4 md:mb-6"
-              style={{
-                fontFamily: "Segoe UI Variable Text",
-              }}>
-              <span className="text-white">Aluguel de produtos </span>
+              className="text-[23px] sm:text-3xl md:text-5xl font-bold mb-1 md:mb-4">
+              <span className="text-white">Aluguel de produtos</span>
             </motion.h1>
           </div>
         </div>
@@ -288,18 +285,17 @@ const RentingSection = () => {
       </section>
 
       {/* Espaço entre o banner e o conteúdo */}
-      <div className="h-10 md:h-16 lg:h-10" />
+      <div className="h-6 md:h-10" />
 
       {/* Seção institucional descritiva antes do carrossel */}
-      <section className="relative bg-gradient-to-b from-white via-blue-50 to-white py-20 px-6 md:px-20">
+      <section className="relative bg-gradient-to-b from-white via-blue-50 to-white py-10 px-4 sm:px-6 md:px-20">
         <div className="max-w-6xl mx-auto text-center mb-16">
           <motion.h3
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-extrabold text-red-600 mb-6"
-            style={{ fontFamily: "Segoe UI Variable Text" }}>
+            className="text-4xl md:text-5xl font-extrabold text-red-600 mb-6">
             Soluções de <span className="text-black">Renting</span>
           </motion.h3>
           <motion.p
@@ -307,8 +303,7 @@ const RentingSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-lg md:text-2xl text-gray-700 leading-relaxed max-w-3xl mx-auto"
-            style={{ fontFamily: "Segoe UI Variable Text" }}>
+            className="text-lg md:text-2xl text-gray-700 leading-relaxed max-w-3xl mx-auto">
             Transforme sua infraestrutura de TI com nossas soluções de aluguel
             flexíveis. Equipamentos de última geração com suporte técnico
             especializado e manutenção inclusa.
@@ -359,8 +354,7 @@ const RentingSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl text-gray-900 mb-5 tracking-tight"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+              className="text-4xl md:text-5xl text-gray-900 mb-5 tracking-tight">
               Nossos Serviços de Renting
             </motion.h2>
             <motion.p
@@ -368,8 +362,7 @@ const RentingSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true }}
-              className="text-lg md:text-2xl text-gray-600 max-w-2xl mx-auto"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+              className="text-lg md:text-2xl text-gray-600 max-w-2xl mx-auto">
               Equipamentos de última geração com flexibilidade e economia para
               sua empresa
             </motion.p>
@@ -397,7 +390,6 @@ const RentingSection = () => {
                 scrollbarWidth: "none",
                 scrollPaddingLeft: "3rem",
                 scrollPaddingRight: "3rem",
-                fontFamily: "Segoe UI Variable Text",
               }}>
               {rentingServices.map((service) => (
                 <div
@@ -453,8 +445,7 @@ const RentingSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-3xl text-white md:text-4xl font-bold mb-4"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+              className="text-3xl text-white md:text-4xl font-bold mb-4">
               Por que escolher nosso Renting?
             </motion.h2>
             <motion.p
@@ -462,8 +453,7 @@ const RentingSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true }}
-              className="text-xl text-gray-300 max-w-3xl mx-auto"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+              className="text-xl text-gray-300 max-w-3xl mx-auto">
               Flexibilidade e tecnologia de ponta para impulsionar seu negócio
             </motion.p>
           </div>
@@ -534,8 +524,7 @@ const RentingSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl text-white mb-6"
-            style={{ fontFamily: "Segoe UI Variable Text" }}>
+            className="text-3xl md:text-4xl text-white mb-6">
             Modernize sua infraestrutura sem compromisso
           </motion.h2>
 
@@ -544,8 +533,7 @@ const RentingSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-xl text-white/90 mb-8 max-w-2xl mx-auto"
-            style={{ fontFamily: "Segoe UI Variable Text" }}>
+            className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
             Converse com nossos especialistas e descubra a melhor solução para
             sua empresa
           </motion.p>

@@ -5,9 +5,9 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ["'Segoe UI Variable Text'", "'Segoe UI'", "sans-serif"],
-                regular: ["'Segoe UI Variable Text'", "'Segoe UI'", "sans-serif"],
-                semibold: ["'Segoe UI Variable Text'", "'Segoe UI'", "sans-serif"],
+                sans: ["'Segoe UI Variable Text'", "'Segoe UI'", "system-ui", "-apple-system", "BlinkMacSystemFont", "'Helvetica Neue'", "Arial", "sans-serif"],
+                regular: ["'Segoe UI Variable Text'", "'Segoe UI'", "system-ui", "-apple-system", "BlinkMacSystemFont", "'Helvetica Neue'", "Arial", "sans-serif"],
+                semibold: ["'Segoe UI Variable Text'", "'Segoe UI'", "system-ui", "-apple-system", "BlinkMacSystemFont", "'Helvetica Neue'", "Arial", "sans-serif"],
             },
             colors: {
                 primary: {

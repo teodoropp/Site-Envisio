@@ -1,7 +1,18 @@
 /** @format */
 
 import { useState } from "react";
-import { Heart, BookOpen, Star, Clock, User, Trash2, ArrowRight, Sparkles, MapPin, Eye } from "lucide-react";
+import {
+  Heart,
+  BookOpen,
+  Star,
+  Clock,
+  User,
+  Trash2,
+  ArrowRight,
+  Sparkles,
+  MapPin,
+  Eye,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import FavoritosMobile from "./mobile/FavoritosMobile";
@@ -23,9 +34,10 @@ const mockFavoritos: CursoFavorito[] = [
     id: "excel-avancado",
     titulo: "Microsoft Excel Corporativo Avançado",
     categoria: "Produtividade",
-    descricao: "Automatize tarefas, crie análises avançadas e relatórios profissionais em sala.",
+    descricao:
+      "Automatize tarefas, crie análises avançadas e relatórios profissionais em sala.",
     instrutor: "Patrícia Ramos",
-    imagem: "/academia/co-working-people-working-together.jpg",
+    imagem: "/academia/excel.webp",
     duracao: "40h Presenciais",
     localidade: "Envisio Academy (Luanda)",
     avaliacao: 4.8,
@@ -34,7 +46,8 @@ const mockFavoritos: CursoFavorito[] = [
     id: "power-bi",
     titulo: "Power BI — Business Intelligence na Prática",
     categoria: "Dados & BI",
-    descricao: "Desenvolva relatórios interativos e dashboards avançados para decisão executiva.",
+    descricao:
+      "Desenvolva relatórios interativos e dashboards avançados para decisão executiva.",
     instrutor: "Ana Santos",
     imagem: "/academia/erp-course-featured.png",
     duracao: "50h Presenciais",
@@ -45,7 +58,8 @@ const mockFavoritos: CursoFavorito[] = [
     id: "gestao-projetos-agile",
     titulo: "Gestão de Projetos & Metodologias Ágeis",
     categoria: "Gestão & Liderança",
-    descricao: "Aprenda a liderar equipas de tecnologia com Scrum, Kanban e gestão moderna.",
+    descricao:
+      "Aprenda a liderar equipas de tecnologia com Scrum, Kanban e gestão moderna.",
     instrutor: "Eng. Fernando Costa",
     imagem: "/academia/slide_academia.png",
     duracao: "45h Presenciais",
@@ -81,15 +95,20 @@ export default function Favoritos() {
           </h1>
 
           <p className="text-xs sm:text-sm text-slate-300 font-normal leading-relaxed">
-            Consulte os programas de formação presencial em sala de aula apresentados em tabela executiva.
+            Consulte os programas de formação presencial em sala de aula
+            apresentados em tabela executiva.
           </p>
         </div>
 
         <div className="relative z-10 flex items-center gap-3 bg-slate-800/80 p-3.5 rounded-[2px] border border-slate-700">
           <Sparkles size={24} className="text-amber-400" />
           <div>
-            <p className="text-[10px] text-slate-400 font-bold uppercase">Cursos Guardados</p>
-            <p className="text-lg font-black leading-none text-white">{favoritos.length} Formações</p>
+            <p className="text-[10px] text-slate-400 font-bold uppercase">
+              Cursos Guardados
+            </p>
+            <p className="text-lg font-black leading-none text-white">
+              {favoritos.length} Formações
+            </p>
           </div>
         </div>
 
@@ -100,9 +119,12 @@ export default function Favoritos() {
       {favoritos.length === 0 ? (
         <div className="bg-white p-12 rounded-[2px] border border-slate-200 text-center space-y-3">
           <Heart className="mx-auto h-12 w-12 text-slate-300" />
-          <h3 className="text-sm font-bold text-slate-800">Sua lista de favoritos está vazia</h3>
+          <h3 className="text-sm font-bold text-slate-800">
+            Sua lista de favoritos está vazia
+          </h3>
           <p className="text-xs text-slate-500 max-w-sm mx-auto">
-            Explore o nosso catálogo público de cursos presenciais e clique no ícone de coração para os guardar.
+            Explore o nosso catálogo público de cursos presenciais e clique no
+            ícone de coração para os guardar.
           </p>
           <Link
             to="/academia/cursos"
@@ -126,7 +148,9 @@ export default function Favoritos() {
               </thead>
               <tbody className="divide-y divide-slate-100 font-medium text-slate-800">
                 {favoritos.map((curso) => (
-                  <tr key={curso.id} className="hover:bg-slate-50 transition-colors">
+                  <tr
+                    key={curso.id}
+                    className="hover:bg-slate-50 transition-colors">
                     {/* Imagem + Título */}
                     <td className="p-3.5">
                       <div className="flex items-center gap-3 min-w-[200px]">
@@ -139,7 +163,9 @@ export default function Favoritos() {
                           <h4 className="font-extrabold text-xs text-slate-900 leading-snug">
                             {curso.titulo}
                           </h4>
-                          <p className="text-[11px] text-slate-500 line-clamp-1">{curso.descricao}</p>
+                          <p className="text-[11px] text-slate-500 line-clamp-1">
+                            {curso.descricao}
+                          </p>
                         </div>
                       </div>
                     </td>
@@ -158,7 +184,9 @@ export default function Favoritos() {
 
                     {/* Duração & Localidade */}
                     <td className="p-3.5">
-                      <p className="font-extrabold text-slate-800">{curso.duracao}</p>
+                      <p className="font-extrabold text-slate-800">
+                        {curso.duracao}
+                      </p>
                       <p className="text-[10px] text-slate-500 flex items-center gap-1">
                         <MapPin size={11} className="text-red-800" />
                         {curso.localidade}

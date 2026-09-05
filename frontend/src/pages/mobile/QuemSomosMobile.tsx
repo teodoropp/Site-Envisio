@@ -13,7 +13,7 @@ const QuemSomosMobile = () => {
 
   const team: TeamMember[] = [
     {
-      name: "Sílvio Miezi",
+      name: "Stézia da Conceição",
       role: "CEO e Fundador",
       bgColor: "bg-red-600",
       gender: "male",
@@ -90,21 +90,18 @@ const QuemSomosMobile = () => {
   ];
 
   return (
-    <section className="relative">
+    <section className="relative pt-[54px]">
       {/* Banner Mobile */}
       <div
         className="relative w-full flex items-center justify-start overflow-hidden bg-white"
-        style={{ height: "clamp(100px, 60vw, 500px)" }}>
+        style={{ height: "clamp(120px, 50vw, 450px)" }}>
         <div className="absolute inset-0 z-10 flex items-center">
           <div className="text-white pl-8 md:pl-16 lg:pl-24 w-full max-w-7xl mx-auto">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-[23px] sm:text-3xl md:text-5xl lg:text-5xl font-bold mb-1 md:mb-6"
-              style={{
-                fontFamily: "Segoe UI Variable Text",
-              }}>
+              className="text-[23px] sm:text-3xl md:text-5xl lg:text-5xl font-bold mb-1 md:mb-6">
               <span className="text-white">Quem somos</span>
             </motion.h1>
           </div>
@@ -112,7 +109,7 @@ const QuemSomosMobile = () => {
         <img
           src="/images/imagem quem somos/banner.webp"
           alt="Banner Quem Somos"
-          className="w-full  object-cover"
+          className="w-full h-full object-cover"
         />
       </div>
 
@@ -126,8 +123,7 @@ const QuemSomosMobile = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-3xl font-semibold text-gray-900 mb-2"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+              className="text-3xl font-semibold text-gray-900 mb-2">
               Sobre Nós
             </motion.h2>
             <motion.p

@@ -104,8 +104,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         </div>
         <div className="mb-4">
           <p
-            className="text-gray-600"
-            style={{ fontFamily: "Segoe UI Variable Text" }}>
+            className="text-gray-600">
             {displayText}
           </p>
           {shouldTruncate && (
@@ -114,8 +113,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                 e.stopPropagation();
                 setIsExpanded(!isExpanded);
               }}
-              className="text-red-600 hover:text-red-800 text-sm font-medium mt-1 focus:outline-none"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+              className="text-red-600 hover:text-red-800 text-sm font-medium mt-1 focus:outline-none">
               {isExpanded ? "Mostrar menos" : "Ler mais"}
             </button>
           )}
@@ -207,10 +205,7 @@ const ServicosSoftware = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-[30px] sm:text-3xl md:text-5xl lg:text-5xl  mb-4 md:mb-6"
-              style={{
-                fontFamily: "Segoe UI Variable Text",
-              }}>
+              className="text-[30px] sm:text-3xl md:text-5xl lg:text-5xl  mb-4 md:mb-6">
               <span className="text-white">Software</span>
             </motion.h1>
           </div>
@@ -232,16 +227,14 @@ const ServicosSoftware = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0 }}
-            className="text-4xl md:text-5xl text-red-600 mb-6"
-            style={{ fontFamily: "Segoe UI Variable Text" }}>
+            className="text-4xl md:text-5xl text-red-600 mb-6">
             Soluções Integradas de <span className="text-black">Software</span>
           </motion.h3>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.05 }}
-            className="text-lg md:text-2xl text-gray-700 leading-relaxed max-w-3xl mx-auto"
-            style={{ fontFamily: "Segoe UI Variable Text" }}>
+            className="text-lg md:text-2xl text-gray-700 leading-relaxed max-w-3xl mx-auto">
             Digitalização, automação e inovação para empresas modernas. Da
             consultoria estratégica ao desenvolvimento à medida, entregamos
             tecnologia de ponta para transformar o seu negócio.
@@ -261,8 +254,7 @@ const ServicosSoftware = () => {
                 Cloud & Integrações
               </h5>
               <p
-                className="text-gray-600 text-sm"
-                style={{ fontFamily: "Segoe UI Variable Text" }}>
+                className="text-gray-600 text-sm">
                 Implementação, integração e automação de sistemas de gestão,
                 cloud e APIs para eficiência total.
               </p>
@@ -280,8 +272,7 @@ const ServicosSoftware = () => {
                 Consultoria & Apoio Especializado
               </h5>
               <p
-                className="text-gray-600 text-sm"
-                style={{ fontFamily: "Segoe UI Variable Text" }}>
+                className="text-gray-600 text-sm">
                 Diagnóstico, planeamento, formação e apoio para digitalização e
                 inovação do seu negócio.
               </p>
@@ -299,8 +290,7 @@ const ServicosSoftware = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-5 tracking-tight"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+              className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-5 tracking-tight">
               Nossas <span className="text-red-600">Soluções</span>
             </motion.h2>
             <motion.p
@@ -308,8 +298,7 @@ const ServicosSoftware = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true }}
-              className="text-lg md:text-2xl text-gray-600 max-w-2xl mx-auto"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+              className="text-lg md:text-2xl text-gray-600 max-w-2xl mx-auto">
               Soluções inovadoras, confiáveis e sob medida para digitalizar e
               automatizar a sua empresa.
             </motion.p>
@@ -391,8 +380,7 @@ const ServicosSoftware = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-3xl text-red-400 md:text-4xl  mb-4"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+              className="text-3xl text-red-400 md:text-4xl  mb-4">
               Por que escolher as nossas{" "}
               <span className="text-red-400">soluções de software</span>?
             </motion.h2>
@@ -401,8 +389,7 @@ const ServicosSoftware = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true }}
-              className="text-xl text-white/90 mb-8 max-w-3xl mx-auto"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+              className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
               Inovação, segurança e apoio especializado para o crescimento do
               seu negócio.
             </motion.p>
@@ -447,13 +434,11 @@ const ServicosSoftware = () => {
                     {item.icon}
                   </div>
                   <h3
-                    className="text-xl text-white mb-3"
-                    style={{ fontFamily: "Segoe UI Variable Text" }}>
+                    className="text-xl text-white mb-3">
                     {item.title}
                   </h3>
                   <p
-                    className="text-gray-300"
-                    style={{ fontFamily: "Segoe UI Variable Text" }}>
+                    className="text-gray-300">
                     {item.description}
                   </p>
                 </motion.div>
@@ -470,8 +455,7 @@ const ServicosSoftware = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl text-white mb-6"
-            style={{ fontFamily: "Segoe UI Variable Text" }}>
+            className="text-3xl md:text-4xl text-white mb-6">
             Pronto para transformar a sua operação digital?
           </motion.h2>
           <motion.p
@@ -479,8 +463,7 @@ const ServicosSoftware = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-xl text-white/90 mb-8 max-w-2xl mx-auto"
-            style={{ fontFamily: "Segoe UI Variable Text" }}>
+            className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
             Os nossos especialistas estão prontos para criar a solução perfeita
             para o seu negócio.
           </motion.p>

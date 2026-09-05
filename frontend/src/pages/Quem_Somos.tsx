@@ -57,10 +57,7 @@ const About = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-[30px] sm:text-3xl md:text-5xl lg:text-5xl font-bold mb-4 md:mb-6"
-              style={{
-                fontFamily: "Segoe UI Variable Text",
-              }}>
+              className="text-[30px] sm:text-3xl md:text-5xl lg:text-5xl font-bold mb-4 md:mb-6">
               <span className="text-white">Quem somos</span>
             </motion.h1>
           </div>
@@ -87,8 +84,7 @@ const About = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-4xl font-semibold text-gray-900 mb-4"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+              className="text-4xl font-semibold text-gray-900 mb-4">
               Sobre Nós
             </motion.h2>
             <motion.p

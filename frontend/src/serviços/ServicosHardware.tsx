@@ -223,10 +223,7 @@ const ServicosHardware = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-[30px] sm:text-3xl md:text-5xl lg:text-5xl font-bold mb-4 md:mb-6"
-              style={{
-                fontFamily: "Segoe UI Variable Text",
-              }}>
+              className="text-[30px] sm:text-3xl md:text-5xl lg:text-5xl font-bold mb-4 md:mb-6">
               <span className="text-white">Hardware</span>
             </motion.h1>
           </div>
@@ -249,8 +246,7 @@ const ServicosHardware = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-extrabold text-red-600 mb-6"
-            style={{ fontFamily: "Segoe UI Variable Text" }}>
+            className="text-4xl md:text-5xl font-extrabold text-red-600 mb-6">
             Soluções Integradas de <span className="text-black">Hardware</span>
           </motion.h3>
           <motion.p
@@ -258,8 +254,7 @@ const ServicosHardware = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-lg md:text-2xl text-gray-700 leading-relaxed max-w-3xl mx-auto"
-            style={{ fontFamily: "Segoe UI Variable Text" }}>
+            className="text-lg md:text-2xl text-gray-700 leading-relaxed max-w-3xl mx-auto">
             Segurança, conectividade e controlo inteligente para empresas
             modernas. Da infraestrutura de redes Cisco à videovigilância
             inteligente e controlo de acessos biométrico, fornecemos tecnologia
@@ -281,8 +276,7 @@ const ServicosHardware = () => {
                 Reparação & Manutenção
               </h5>
               <p
-                className="text-gray-600 text-sm"
-                style={{ fontFamily: "Segoe UI Variable Text" }}>
+                className="text-gray-600 text-sm">
                 Diagnóstico e reparação de fontes, motherboards, discos rígidos
                 e componentes críticos, com garantia e peças originais.
               </p>
@@ -300,8 +294,7 @@ const ServicosHardware = () => {
                 Consultoria Técnica Especializada
               </h5>
               <p
-                className="text-gray-600 text-sm"
-                style={{ fontFamily: "Segoe UI Variable Text" }}>
+                className="text-gray-600 text-sm">
                 Orientação na escolha de equipamentos, projetos personalizados e
                 apoio à expansão tecnológica do seu negócio.
               </p>
@@ -319,8 +312,7 @@ const ServicosHardware = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl text-gray-900 mb-5 tracking-tight"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+              className="text-4xl md:text-5xl text-gray-900 mb-5 tracking-tight">
               Os Nossos <span className="text-red-600">Serviços</span>
             </motion.h2>
             <motion.p
@@ -328,8 +320,7 @@ const ServicosHardware = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true }}
-              className="text-lg md:text-2xl text-gray-600 max-w-2xl mx-auto"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+              className="text-lg md:text-2xl text-gray-600 max-w-2xl mx-auto">
               Soluções inovadoras, fiáveis e à medida para elevar a
               infraestrutura da sua empresa ao próximo nível.
             </motion.p>
@@ -357,7 +348,6 @@ const ServicosHardware = () => {
                 scrollbarWidth: "none",
                 scrollPaddingLeft: "3rem",
                 scrollPaddingRight: "3rem",
-                fontFamily: "Segoe UI Variable Text",
               }}>
               {hardwareServices.map((service, idx) => (
                 <div
@@ -412,8 +402,7 @@ const ServicosHardware = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-3xl md:text-4xl text-red-400 font-bold mb-4"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+              className="text-3xl md:text-4xl text-red-400 font-bold mb-4">
               Por que escolher nossos{" "}
               <span className="text-red-400">serviços de hardware</span>?
             </motion.h2>
@@ -422,8 +411,7 @@ const ServicosHardware = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true }}
-              className="text-xl text-gray-300 max-w-3xl mx-auto"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+              className="text-xl text-gray-300 max-w-3xl mx-auto">
               Excelência técnica combinada com suporte especializado para sua
               tranquilidade.
             </motion.p>
@@ -461,13 +449,11 @@ const ServicosHardware = () => {
                   {item.icon}
                 </div>
                 <h3
-                  className="text-xl text-white font-bold mb-3"
-                  style={{ fontFamily: "Segoe UI Variable Text" }}>
+                  className="text-xl text-white font-bold mb-3">
                   {item.title}
                 </h3>
                 <p
-                  className="text-gray-300"
-                  style={{ fontFamily: "Segoe UI Variable Text" }}>
+                  className="text-gray-300">
                   {item.description}
                 </p>
               </motion.div>
@@ -484,8 +470,7 @@ const ServicosHardware = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl text-white mb-6"
-            style={{ fontFamily: "Segoe UI Variable Text" }}>
+            className="text-3xl md:text-4xl text-white mb-6">
             Pronto para transformar sua infraestrutura física?
           </motion.h2>
 
@@ -494,8 +479,7 @@ const ServicosHardware = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-xl text-white/90 mb-8 max-w-2xl mx-auto"
-            style={{ fontFamily: "Segoe UI Variable Text" }}>
+            className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
             Nossos especialistas estão prontos para projetar a solução perfeita
             para suas necessidades.
           </motion.p>
@@ -507,8 +491,7 @@ const ServicosHardware = () => {
             className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="/contato"
-              className="bg-white text-red-600 hover:bg-gray-100 px-8 py-4 rounded-[5px] shadow-lg transition-all inline-flex items-center justify-center"
-              style={{ fontFamily: "Segoe UI Variable Text" }}>
+              className="bg-white text-red-600 hover:bg-gray-100 px-8 py-4 rounded-[5px] shadow-lg transition-all inline-flex items-center justify-center">
               Agendar Consultoria
             </a>
           </motion.div>
