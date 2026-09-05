@@ -165,6 +165,7 @@ export const enviarEmail = async (req, res) => {
       area,
       nivelExperiencia,
       data: new Date().toLocaleString("pt-PT"),
+      destinatario: req.body.destinatario || req.body.emailDestino || process.env.EMAIL_TO || "teodorop990@gmail.com",
     };
 
     const anexos = req.files || [];
@@ -194,7 +195,7 @@ export const enviarEmail = async (req, res) => {
       mensagem:
         "Candidatura submetida com sucesso! Foi enviada uma confirmação para o seu e-mail.",
       candidaturaId,
-      emailNotificado: "geral@maisresultados.co.ao",
+      emailNotificado: dadosCandidatura.destinatario,
       emailCliente: dadosCandidatura.email,
     });
   } catch (error) {

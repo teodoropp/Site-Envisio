@@ -1,5 +1,24 @@
 [
   {
+    "id": "CAND-1788650541281-KAUWR",
+    "nome": "Teodoro",
+    "sobrenome": "Teste",
+    "nomeCompleto": "Teodoro Teste",
+    "email": "alunoteste@gmail.com",
+    "telefone": "923000000",
+    "empresa": "",
+    "mensagem": "Teste inscricao",
+    "turno": "Manha",
+    "curso": "Contabilidade",
+    "area": "Academia Envisio",
+    "nivelExperiencia": "",
+    "data": "06/09/2026, 00:22:21",
+    "destinatario": "teodorop990@gmail.com",
+    "ficheiros": [],
+    "recebidoEm": "2026-09-05T23:22:21.296Z",
+    "status": "recebida"
+  },
+  {
     "id": "CAND-1788515116853-CAW1A",
     "nome": "Ana",
     "sobrenome": "Sousa",
