@@ -44,9 +44,9 @@ export const criarTransporter = () => {
 export const enviarNotificacaoEnvisio = async (dados, anexos = []) => {
   const transporter = criarTransporter();
   const destinatarioEmpresa =
-    dados.destinatario || dados.emailDestino || process.env.EMAIL_TO || "teodorop990@gmail.com";
+    process.env.EMAIL_TO || process.env.SMTP_USER || "geral@maisresultados.co.ao";
   const remetente =
-    process.env.EMAIL_FROM || `"Envisio Academia" <geral@maisresultados.co.ao>`;
+    process.env.EMAIL_FROM || `"Envisio Academia" <${destinatarioEmpresa}>`;
 
   const {
     nome = "",

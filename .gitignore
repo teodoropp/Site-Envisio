@@ -1,4 +1,5 @@
-﻿node_modules
-backend/uploads
+﻿node_modules/
+**/node_modules/
+backend/uploads/
 backend/uploads/**
 *.bak

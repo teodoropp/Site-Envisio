@@ -171,8 +171,6 @@ const Academia = () => {
       Object.entries(formData).forEach(([key, value]) => {
         formDataToSend.append(key, value);
       });
-      formDataToSend.append("destinatario", "teodorop990@gmail.com");
-      formDataToSend.append("emailDestino", "teodorop990@gmail.com");
 
       // Append files
       Array.from(arquivos).forEach((file) => {

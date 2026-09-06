@@ -153,7 +153,7 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
     setLoading(true);
     setError("");
 
-    const emailDestinoEnvisio = "teodorop990@gmail.com";
+    const emailDestinoEnvisio = "geral@maisresultados.co.ao";
 
     try {
       const formDataToSend = new FormData();
