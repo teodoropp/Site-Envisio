@@ -4,8 +4,18 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
+import fs from "fs";
+import http from "http";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+
+// Previne quedas inesperadas do processo em produção
+process.on("uncaughtException", (err) => {
+  console.error("⚠️ [Process] Uncaught Exception capturada:", err);
+});
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("⚠️ [Process] Unhandled Rejection capturada:", reason);
+});
 
 // Necessário para usar __dirname em módulos ES
 const __filename = fileURLToPath(import.meta.url);
@@ -83,22 +93,56 @@ app.use("/uploads", express.static(join(__dirname, "uploads")));
 // 🧱 Servir o build do React (frontend)
 app.use(express.static(join(__dirname, "public")));
 
-// 🛠️ Rota de teste da API
+// 🛠️ Rota de teste da API e Saúde
 app.get("/api", (req, res) => {
   res.send("🚀 API da Envisio está no ar!");
+});
+
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok", uptime: process.uptime() });
 });
 
 // ⚛️ Rota fallback → React Router cuida das rotas do frontend
 // Rota fallback: envia index.html para qualquer rota React
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  const indexPath = path.join(__dirname, "public", "index.html");
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(200).send("🚀 Envisio Backend API Online. (public/index.html não encontrado)");
+  }
 });
 
-// 🚀 Inicialização do servidor
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`🟢 Servidor rodando na porta ${PORT}`);
-  console.log(`🔗 Acesse: http://localhost:${PORT}`);
+// 🚀 Inicialização do servidor: Escuta em 0.0.0.0 (obrigatório para Docker/Hostinger)
+const primaryPort = Number(process.env.PORT) || 3000;
+const HOST = "0.0.0.0";
+
+const primaryServer = app.listen(primaryPort, HOST, () => {
+  console.log(`🟢 Servidor principal rodando em http://${HOST}:${primaryPort}`);
+});
+
+primaryServer.on("error", (err) => {
+  console.error(`⚠️ Erro ao iniciar na porta ${primaryPort}:`, err.message);
+});
+
+// Escuta também em portas alternativas comuns (3000, 3001, 8080) caso o proxy da Hostinger
+// esteja configurado para encaminhar requisições em outra porta
+const candidatePorts = [3000, 3001, 8080].filter((p) => p !== primaryPort);
+candidatePorts.forEach((altPort) => {
+  try {
+    const altServer = http.createServer(app);
+    altServer.listen(altPort, HOST, () => {
+      console.log(`🟢 Servidor espelho (fallback) ativo em http://${HOST}:${altPort}`);
+    });
+    altServer.on("error", (err) => {
+      // Ignora silenciosamente se a porta já estiver em uso localmente (ex.: React na 3000)
+      if (err.code !== "EADDRINUSE") {
+        console.warn(`⚠️ Aviso na porta alternativa ${altPort}:`, err.message);
+      }
+    });
+  } catch (e) {
+    // Ignora erros em portas espelho
+  }
 });
 
 export default app;
