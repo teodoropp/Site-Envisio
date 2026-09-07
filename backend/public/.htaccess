@@ -1,0 +1,25 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 1. Se o arquivo ou diretório físico existir, entrega diretamente sem reescrever
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # 2. Se for uma rota de API ou uploads do backend, deixa passar para o Node.js
+  RewriteCond %{REQUEST_URI} ^/(api|cursos|usuarios|login|inscricoes|instrutor|avaliacoes|favoritos|admin|certificados|upload|recuperar-senha|perfil-aluno|pagamentos|webhook|modulos|licoes|health|uploads) [NC]
+  RewriteRule ^ - [L]
+
+  # 3. Qualquer outra rota interna do SPA (ex: /dashboard, /perfil, etc.) serve o index.html
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Previne cache no index.html para garantir que novas atualizações do app sejam carregadas de imediato
+<Files "index.html">
+  <IfModule mod_headers.c>
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires 0
+  </IfModule>
+</Files>

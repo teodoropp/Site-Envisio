@@ -87,8 +87,13 @@ app.get("/health", (req, res) => {
 });
 
 // ⚛️ Rota fallback → React Router cuida das rotas do frontend
-// Rota fallback: envia index.html para qualquer rota React
+// Se não for rota de API ou arquivo físico, envia index.html para qualquer rota React
 app.use((req, res) => {
+  // Se for requisição direta de arquivo com extensão (ex: .js, .css, .png) que não existe, retorna 404
+  if (path.extname(req.path)) {
+    return res.status(404).send("Ficheiro não encontrado");
+  }
+
   const indexPath = path.join(__dirname, "public", "index.html");
   if (fs.existsSync(indexPath)) {
     res.sendFile(indexPath);
