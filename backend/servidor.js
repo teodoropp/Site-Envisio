@@ -31,61 +31,45 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 📁 Lista de rotas para importar dinamicamente
-const routeFiles = [
-  { path: "./rotas/cursos.js", route: "/cursos" },
-  { path: "./rotas/usuarios.js", route: "/usuarios" },
-  { path: "./rotas/login.js", route: "/login" },
-  { path: "./rotas/inscricoes.js", route: "/inscricoes" },
-  { path: "./rotas/instrutor.js", route: "/instrutor" },
-  { path: "./rotas/avaliacoes.js", route: "/avaliacoes" },
-  { path: "./rotas/favoritos.js", route: "/favoritos" },
-  { path: "./rotas/admin.js", route: "/admin" },
-  { path: "./rotas/certificados.js", route: "/certificados" },
-  { path: "./rotas/upload.js", route: "/upload" },
-  { path: "./rotas/recuperarSenha.js", route: "/recuperar-senha" },
-  { path: "./rotas/perfilAluno.js", route: "/perfil-aluno" },
-  { path: "./rotas/pagamentos.js", route: "/pagamentos" },
-  { path: "./rotas/webhook.js", route: "/webhook" },
-  { path: "./rotas/modulos.js", route: "/modulos" },
-  { path: "./rotas/licoes.js", route: "/licoes" },
-  { path: "./rotas/emailRoutes.js", route: "/api" },
-];
+// 📁 Importação direta das rotas (sem top-level await para compatibilidade com LiteSpeed/Hostinger lsnode.js)
+import cursosRouter from "./rotas/cursos.js";
+import usuariosRouter from "./rotas/usuarios.js";
+import loginRouter from "./rotas/login.js";
+import inscricoesRouter from "./rotas/inscricoes.js";
+import instrutorRouter from "./rotas/instrutor.js";
+import avaliacoesRouter from "./rotas/avaliacoes.js";
+import favoritosRouter from "./rotas/favoritos.js";
+import adminRouter from "./rotas/admin.js";
+import certificadosRouter from "./rotas/certificados.js";
+import uploadRouter from "./rotas/upload.js";
+import recuperarSenhaRouter from "./rotas/recuperarSenha.js";
+import perfilAlunoRouter from "./rotas/perfilAluno.js";
+import pagamentosRouter from "./rotas/pagamentos.js";
+import webhookRouter from "./rotas/webhook.js";
+import modulosRouter from "./rotas/modulos.js";
+import licoesRouter from "./rotas/licoes.js";
+import emailRouter from "./rotas/emailRoutes.js";
 
-// 🔄 Função para carregar rotas dinamicamente
-const setupRoutes = async () => {
-  try {
-    for (const { path, route } of routeFiles) {
-      try {
-        console.log(`📂 Tentando carregar rota: ${path} -> ${route}`);
+// 🔄 Registro das rotas
+app.use("/cursos", cursosRouter);
+app.use("/usuarios", usuariosRouter);
+app.use("/login", loginRouter);
+app.use("/inscricoes", inscricoesRouter);
+app.use("/instrutor", instrutorRouter);
+app.use("/avaliacoes", avaliacoesRouter);
+app.use("/favoritos", favoritosRouter);
+app.use("/admin", adminRouter);
+app.use("/certificados", certificadosRouter);
+app.use("/upload", uploadRouter);
+app.use("/recuperar-senha", recuperarSenhaRouter);
+app.use("/perfil-aluno", perfilAlunoRouter);
+app.use("/pagamentos", pagamentosRouter);
+app.use("/webhook", webhookRouter);
+app.use("/modulos", modulosRouter);
+app.use("/licoes", licoesRouter);
+app.use("/api", emailRouter);
 
-        // Verifica se a rota é válida
-        if (!route || typeof route !== "string" || !route.startsWith("/")) {
-          throw new Error(`❌ Rota inválida: "${route}" em ${path}`);
-        }
-
-        const module = await import(path);
-
-        if (!module.default) {
-          throw new Error(`❌ Módulo sem export default: ${path}`);
-        }
-
-        app.use(route, module.default);
-        console.log(`✅ Rota carregada com sucesso: ${route}`);
-      } catch (err) {
-        console.error(`⚠️ Falha ao carregar ${path}:`, err.message);
-      }
-    }
-
-    console.log("✅ Todas as rotas carregadas com sucesso");
-  } catch (error) {
-    console.error("❌ Erro ao carregar rotas:", error);
-    process.exit(1);
-  }
-};
-
-// Inicializa as rotas
-await setupRoutes();
+console.log("✅ Todas as rotas registradas com sucesso");
 
 // 🖼️ Servir uploads (imagens, certificados, etc.)
 app.use("/uploads", express.static(join(__dirname, "uploads")));
