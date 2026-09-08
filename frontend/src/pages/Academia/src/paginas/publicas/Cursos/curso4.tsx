@@ -282,7 +282,7 @@ export default function CursoDetalhe() {
                 {cursoExibir.categoria || "Base de Dados"}
               </span>
 
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold !text-white tracking-tight leading-tight mb-3">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-normal !text-white tracking-tight leading-tight mb-3">
                 {cursoExibir.titulo}
               </h1>
 
@@ -645,9 +645,10 @@ export default function CursoDetalhe() {
             <span className="inline-block px-3 py-1 mb-2 text-[10px] font-extrabold uppercase tracking-wider text-purple-600 bg-purple-50 border border-purple-100 rounded-[4px]">
               Evolução Contínua
             </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-normal text-slate-900 tracking-tight mb-3">
               Outras Formações Recomendadas
             </h2>
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
             <p className="text-slate-500 text-xs mt-2 font-normal max-w-lg">
               Explore formações práticas e especializadas para impulsionar a sua
               carreira no mercado corporativo.

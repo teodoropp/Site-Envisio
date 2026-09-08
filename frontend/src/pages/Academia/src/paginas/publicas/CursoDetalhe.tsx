@@ -109,7 +109,7 @@ export default function CursoDetalhe() {
               <span className="inline-block px-3 py-1 bg-amber-100 text-amber-900 text-xs font-extrabold uppercase tracking-wider rounded-full">
                 Formação Futura / Em breve
               </span>
-              <h1 className="text-3xl font-extrabold text-slate-900">
+              <h1 className="text-2xl sm:text-3xl font-normal text-slate-900">
                 {curso.titulo}
               </h1>
               <p className="text-slate-600 text-sm max-w-xl mx-auto leading-relaxed">
@@ -162,7 +162,7 @@ export default function CursoDetalhe() {
                 {/* COLUNA ESQUERDA: Texto e Botões */}
                 <div className="lg:col-span-6 xl:col-span-5 text-left pr-0 lg:pr-4">
                   {/* Título Principal */}
-                  <h1 className="text-3xl sm:text-4xl lg:text-[35px] xl:text-[44px] font-extrabold text-slate-900 tracking-tight leading-[1.12] mb-4">
+                  <h1 className="text-2xl sm:text-3xl font-normal text-slate-900 tracking-tight leading-[1.15] mb-4">
                     {curso.titulo}
                   </h1>
 
@@ -622,9 +622,10 @@ export default function CursoDetalhe() {
               <span className="inline-block px-3 py-1 mb-2 text-[10px] font-extrabold uppercase tracking-wider text-red-600 bg-red-50 border border-red-100 rounded-[4px]">
                 Evolução Contínua
               </span>
-              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-normal text-slate-900 tracking-tight mb-3">
                 Outras Formações Recomendadas
               </h2>
+              <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
               <p className="text-slate-500 text-xs mt-2 font-normal max-w-lg">
                 Explore formações práticas e especializadas para impulsionar a
                 sua carreira no mercado corporativo.

@@ -67,7 +67,7 @@ export default function ContatoAcademia() {
         <div className="max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 relative z-20 w-full flex-grow flex flex-col justify-center">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-6 xl:col-span-5 flex flex-col items-start text-left w-full">
-              <h1 className="text-[32px] sm:text-4xl md:text-5xl font-black mb-6 leading-[1.1] text-[#111827] tracking-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-normal mb-4 leading-[1.1] text-[#111827] tracking-tight">
                 Fale connosco e tire as suas dúvidas.
               </h1>
               <p className="text-base md:text-lg text-[#374151] leading-relaxed max-w-md">

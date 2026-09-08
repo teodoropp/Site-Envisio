@@ -370,7 +370,7 @@ export default function QuemSomos() {
               transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
               className="lg:col-span-6 xl:col-span-5 flex flex-col items-start text-left w-full">
               {/* Headline */}
-              <h1 className="text-[32px] sm:text-4xl md:text-5xl font-black mb-6 leading-[1.1] text-[#111827] tracking-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-normal mb-6 leading-[1.1] text-[#111827] tracking-tight">
                 Conheça a <br className="hidden sm:inline" />
                 nossa história e <br />
                 <span className="text-[#000000] relative inline-block">
@@ -541,9 +541,10 @@ export default function QuemSomos() {
               viewport={{ once: true }}
               transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
               className="text-left lg:max-w-[480px]">
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-6 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-normal text-gray-900 mb-3 tracking-tight">
                 Missão
               </h2>
+              <div className="w-16 h-1 bg-red-600 mb-4 rounded-full" />
               <p className="text-lg text-gray-600 leading-relaxed">
                 Capacitar pessoas através de uma formação prática, inovadora e
                 orientada para o mercado de trabalho, desenvolvendo competências
@@ -593,9 +594,10 @@ export default function QuemSomos() {
               viewport={{ once: true }}
               transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
               className="text-left lg:max-w-[480px] lg:ml-auto order-1 lg:order-2">
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-6 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-normal text-gray-900 mb-3 tracking-tight">
                 Visão
               </h2>
+              <div className="w-16 h-1 bg-red-600 mb-4 rounded-full" />
               <p className="text-lg text-gray-600 leading-relaxed">
                 Ser uma referência em formação profissional, reconhecida pela
                 excelência, inovação e pelo impacto positivo na vida dos nossos
@@ -614,10 +616,10 @@ export default function QuemSomos() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Header de Valores */}
           <div className="mb-12 text-left">
-            <h2 className="text-3xl font-black text-[#1e1b4b] uppercase tracking-tight leading-none">
+            <h2 className="text-2xl sm:text-3xl font-normal text-[#1e1b4b] tracking-tight mb-3">
               Valores
             </h2>
-            <div className="w-12 h-1 bg-red-600 rounded mt-2" />
+            <div className="w-16 h-1 bg-red-600 rounded-full mb-4" />
           </div>
 
           {/* Grid de 4 Valores em 2 Colunas */}
@@ -971,7 +973,7 @@ export default function QuemSomos() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight mb-4">
+            <h2 className="text-2xl sm:text-3xl font-normal text-gray-900 tracking-tight mb-3">
               Espaço da Academia
             </h2>
             <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
@@ -1261,7 +1263,7 @@ export default function QuemSomos() {
           {/* Card Centrado, Reduzido (max-w-3xl) com fundo bg-gray-100, borda de 10px e sombra flutuante */}
           <div className="bg-gray-200 border border-gray-200/50 p-8 md:p-12 relative overflow-hidden flex flex-col items-center text-center max-w-3xl mx-auto rounded-[10px] shadow-2xl shadow-gray-400/50 transition-transform duration-300 hover:-translate-y-1">
             <div className="max-w-2xl flex flex-col items-center mb-8 relative z-10">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-4 leading-tight tracking-tight text-gray-900">
+              <h2 className="text-2xl sm:text-3xl font-normal mb-4 leading-tight tracking-tight text-gray-900">
                 Pronto para transformar a sua carreira?
               </h2>
               <p className="text-gray-600 text-sm sm:text-base leading-relaxed max-w-lg">

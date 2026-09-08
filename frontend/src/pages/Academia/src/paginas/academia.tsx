@@ -290,7 +290,7 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.5 }}
-                    className="text-xl sm:text-3xl md:text-5xl lg:text-[54px] 2xl:text-7xl font-extrabold !text-white tracking-tight leading-tight mb-1.5 sm:mb-2 md:mb-4">
+                    className="text-xl sm:text-3xl md:text-5xl lg:text-[54px] 2xl:text-7xl font-normal !text-white tracking-tight leading-tight mb-1.5 sm:mb-2 md:mb-4">
                     {slides[currentSlide].titulo}
                   </motion.h1>
 
@@ -437,9 +437,9 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
               {/* COLUNA ESQUERDA: Texto e Botões */}
               <div className="lg:col-span-6 xl:col-span-5 text-left pr-0 lg:pr-4">
                 {/* Título Principal */}
-                <h2 className="text-3xl sm:text-4xl lg:text-[40px] xl:text-[44px] font-extrabold text-slate-900 tracking-tight leading-[1.12] mb-4">
+                <h3 className="text-2xl sm:text-3xl font-normal text-slate-900 tracking-tight leading-[1.15] mb-4">
                   Gestão de Recursos Humanos
-                </h2>
+                </h3>
 
                 {/* Descrição */}
                 <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed max-w-md font-normal mb-6">
@@ -661,7 +661,7 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">
                           Academia Envisio
                         </span>
-                        <h3 className="text-lg sm:text-xl font-extrabold text-slate-600 tracking-tight">
+                        <h3 className="text-lg sm:text-xl font-normal text-slate-600 tracking-tight">
                           Faça a sua inscrição
                         </h3>
                       </div>
@@ -998,7 +998,7 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
               </div>
 
               <div className="p-6 overflow-y-auto flex-1">
-                <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                <h3 className="text-2xl font-normal text-gray-800 mb-4">
                   Inscreva-se no Curso
                 </h3>
 
@@ -1940,7 +1940,7 @@ const FaqSection = () => {
           {/* Contact Form (Right) */}
           <div className="lg:col-span-5">
             <div className="bg-white p-8 rounded-[5px] shadow-md border border-gray-200">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              <h3 className="text-2xl font-normal text-gray-900 mb-2">
                 Ainda tem dúvidas?
               </h3>
               <p className="text-sm text-gray-500 mb-6">

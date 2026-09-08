@@ -104,15 +104,14 @@
   color: var(--academia-gray-900);
 }
 
-/* Forçar apenas títulos (h1, h2, h3, h4, h5, h6, .academia-title) em negrito */
+/* Títulos da academia seguem o padrão do site (font-normal / 400 por padrão) */
 .academia-container h1,
 .academia-container h2,
 .academia-container h3,
 .academia-container h4,
 .academia-container h5,
-.academia-container h6,
-.academia-title {
-  font-weight: 700 !important;
+.academia-container h6 {
+  font-weight: 400;
 }
 
 /* Textos gerais (parágrafos, spans, inputs, botões) possuem peso normal */

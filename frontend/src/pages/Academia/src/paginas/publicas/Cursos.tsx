@@ -287,7 +287,7 @@ export default function Cursos() {
           <div className="flex flex-col lg:flex-row h-full w-full items-center lg:items-end justify-between">
             {/* Texto e Botão */}
             <div className="w-full lg:w-1/2 text-left flex flex-col justify-center self-center py-8 lg:py-0 pr-0 lg:pr-8 xl:pr-14 z-20">
-              <h1 className="text-[22px] sm:text-4xl md:text-5xl font-black mb-6 leading-[1.1] text-[#111827] tracking-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-normal mb-4 leading-[1.1] text-[#111827] tracking-tight">
                 Cursos para impulsionar a sua carreira.
               </h1>
               <p className="text-[14px] md:text-[14px] text-[#374151] leading-relaxed mb-8 max-w-xl">
@@ -331,11 +331,15 @@ export default function Cursos() {
       {/* ─── 2. Curso em Destaque ──────────────────────────────────── */}
       {cursoDestaque && (
         <section className="py-12 lg:py-16 bg-white relative border-b border-slate-200/80 overflow-hidden select-none">
-          {/* Título da Seção (Centralizado, Preto, Sem Traços e com Espaçamento Devido) */}
-          <div className="pb-4 text-center select-none">
-            <span className="text-xs sm:text-sm md:text-base font-extrabold text-slate-900 tracking-widest uppercase">
-              CURSO EM DESTAQUE
+          {/* Título da Seção Padronizado */}
+          <div className="pb-4 text-center select-none flex flex-col items-center">
+            <span className="text-xs uppercase tracking-widest text-red-600 font-bold mb-2 block">
+              Destaque da Formação
             </span>
+            <h2 className="text-2xl sm:text-3xl font-normal text-gray-900 tracking-tight mb-3">
+              Curso em Destaque
+            </h2>
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
           </div>
 
           {/* BANNER PRINCIPAL */}
@@ -344,9 +348,9 @@ export default function Cursos() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 {/* COLUNA ESQUERDA: Texto e Botão Mais Detalhes */}
                 <div className="lg:col-span-6 xl:col-span-5 text-left pr-0 lg:pr-4">
-                  <h2 className="text-3xl sm:text-4xl lg:text-[40px] xl:text-[44px] font-extrabold text-slate-900 tracking-tight leading-[1.12] mb-4">
+                  <h3 className="text-2xl sm:text-3xl font-normal text-slate-900 tracking-tight leading-[1.15] mb-4">
                     Gestão de Recursos Humanos
-                  </h2>
+                  </h3>
 
                   <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed max-w-md font-normal mb-6">
                     Dotar os participantes de competências técnicas, jurídicas e
@@ -387,10 +391,11 @@ export default function Cursos() {
         id="secao-cursos"
         className="py-16 bg-slate-50/80 border-y border-slate-200/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-extrabold text-slate-900 text-left">
+          <div className="mb-6">
+            <h2 className="text-2xl sm:text-3xl font-normal text-slate-900 tracking-tight mb-3 text-left">
               Formações Recomendadas
             </h2>
+            <div className="w-16 h-1 bg-red-600 mb-6 rounded-full" />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
             {cursos.slice(0, 4).map((curso) => (
@@ -407,10 +412,11 @@ export default function Cursos() {
       {/* ─── 4. Secção: Mais Populares ──────────────────────────────────────── */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-extrabold text-slate-900 text-left">
-              Mais populares
+          <div className="mb-6">
+            <h2 className="text-2xl sm:text-3xl font-normal text-slate-900 tracking-tight mb-3 text-left">
+              Mais Populares
             </h2>
+            <div className="w-16 h-1 bg-red-600 mb-6 rounded-full" />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {cursos.slice(4, 8).map((curso) => (
@@ -423,9 +429,12 @@ export default function Cursos() {
       {/* ─── 5. Catálogo Completo: Todos os Cursos (Sidebar + Grid) ─────────── */}
       <section className="py-16 bg-white border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-extrabold text-slate-900 mb-10 text-left">
-            Todos os cursos
-          </h2>
+          <div className="mb-8">
+            <h2 className="text-2xl sm:text-3xl font-normal text-slate-900 tracking-tight mb-3 text-left">
+              Todos os Cursos
+            </h2>
+            <div className="w-16 h-1 bg-red-600 mb-6 rounded-full" />
+          </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar Esquerda (Filtros) */}
