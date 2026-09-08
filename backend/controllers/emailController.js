@@ -194,7 +194,7 @@ export const enviarEmail = async (req, res) => {
       mensagem:
         "Candidatura submetida com sucesso! Foi enviada uma confirmação para o seu e-mail.",
       candidaturaId,
-      emailNotificado: "geral@maisresultados.co.ao",
+      emailNotificado: process.env.EMAIL_TO || "geral@envisio.co.ao",
       emailCliente: dadosCandidatura.email,
     });
   } catch (error) {

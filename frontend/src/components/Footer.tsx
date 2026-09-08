@@ -57,8 +57,8 @@ export default function Footer() {
     contato: [
       { nome: "+244 947 137 676", url: "tel:+244947137676", icon: "📞" },
       {
-        nome: "geral@maisresultados.co.ao",
-        url: "mailto:geral@maisresultados.co.ao",
+        nome: "geral@envisio.co.ao",
+        url: "mailto:geral@envisio.co.ao",
         icon: "📧",
       },
     ],

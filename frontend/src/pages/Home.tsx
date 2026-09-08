@@ -709,19 +709,16 @@ export function HeroSection() {
                   <div className="w-20 h-0.5 bg-gradient-to-r from-transparent via-red-500/50 to-transparent rounded-full mb-6" />
 
                   {/* Autor */}
-                  <div className="flex flex-col items-center gap-1.5 text-center">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-red-50 to-red-100/80 border-2 border-red-500/20 text-red-600 flex items-center justify-center shadow-sm mb-2 text-3xl">
-                      <span>
-                        {Object.values(businessSegments)[currentSlide].icon}
-                      </span>
-                    </div>
-                    <h4 className="text-slate-900 font-bold text-lg md:text-xl">
-                      {
-                        Object.values(businessSegments)[currentSlide]
-                          .testimonial.author
-                      }
-                    </h4>
-                    <p className="text-red-600 font-semibold text-sm">
+                  <div className="flex flex-col items-center gap-1 text-center">
+                    {Object.values(businessSegments)[currentSlide].testimonial.author && (
+                      <h4 className="text-slate-900 font-bold text-lg md:text-xl">
+                        {
+                          Object.values(businessSegments)[currentSlide]
+                            .testimonial.author
+                        }
+                      </h4>
+                    )}
+                    <p className="text-red-600 font-bold text-base tracking-wide">
                       {
                         Object.values(businessSegments)[currentSlide]
                           .testimonial.role

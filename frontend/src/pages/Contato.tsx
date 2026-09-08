@@ -211,7 +211,7 @@ const Contato: React.FC = () => {
 
           {/* Card E-mail */}
           <motion.a
-            href="mailto:geral@maisresultados.co.ao"
+            href="mailto:geral@envisio.co.ao"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -228,7 +228,7 @@ const Contato: React.FC = () => {
               </div>
               <h2 className="text-base font-bold text-gray-900 mb-1">E-mail Comercial</h2>
               <p className="text-xs text-gray-500 mb-3">Para propostas e parcerias</p>
-              <p className="text-sm font-semibold text-gray-800 break-all">geral@maisresultados.co.ao</p>
+              <p className="text-sm font-semibold text-gray-800 break-all">geral@envisio.co.ao</p>
             </div>
             <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-1 text-xs font-bold text-blue-600 group-hover:text-blue-700">
               <span>Enviar mensagem</span>

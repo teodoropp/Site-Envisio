@@ -198,9 +198,9 @@ export default function FooterAcademia() {
                   />
                 </svg>
                 <a
-                  href="mailto:geral@maisresultados.co.ao"
+                  href="mailto:geral@envisio.co.ao"
                   className="text-[12px] hover:text-white transition-colors">
-                  geral@maisresultados.co.ao
+                  geral@envisio.co.ao
                 </a>
               </li>
             </ul>
