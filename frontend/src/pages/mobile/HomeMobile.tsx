@@ -232,16 +232,10 @@ export function HomeMobile() {
             <span className="text-[11px] uppercase tracking-wider text-red-600 font-bold mb-1.5 block">
               Sobre a Envisio
             </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight leading-snug">
+            <h2 className="text-2xl sm:text-3xl font-normal text-gray-900 tracking-tight leading-snug mb-3">
               Inovação Tecnológica com Raízes em Angola
             </h2>
-            <motion.div
-              initial={{ width: 0, opacity: 0 }}
-              whileInView={{ width: 48, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2, ease: smoothEase }}
-              className="h-1 bg-red-600 mx-auto mt-3 mb-4 rounded-full"
-            />
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
           </motion.div>
 
           {/* Imagem Editorial em Destaque com Badge Flutuante */}
@@ -358,10 +352,11 @@ export function HomeMobile() {
             <span className="text-[11px] uppercase tracking-wider text-red-600 font-bold mb-1.5 block">
               Soluções Especializadas
             </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-normal text-gray-900 tracking-tight mb-3">
               O Que Fazemos de Melhor
             </h2>
-            <p className="text-xs text-gray-500 mt-2 max-w-xs mx-auto">
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
+            <p className="text-xs sm:text-sm text-gray-500 max-w-xs mx-auto">
               Deslize para os lados para explorar as nossas áreas de atuação
               técnica
             </p>
@@ -496,10 +491,11 @@ export function HomeMobile() {
                 Formação Certificada
               </span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-normal text-gray-900 tracking-tight mb-3">
               Academia Envisio
             </h2>
-            <p className="text-xs sm:text-sm text-gray-600 mt-1.5 max-w-sm mx-auto">
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
+            <p className="text-xs sm:text-sm text-gray-600 max-w-sm mx-auto">
               Cursos práticos e executivos para transformar a sua carreira e
               elevar a maturidade da sua equipa.
             </p>
@@ -700,16 +696,10 @@ export function HomeMobile() {
             <span className="text-[11px] uppercase tracking-wider text-red-600 font-bold mb-1.5 block">
               Confiança & Resultados
             </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-normal text-slate-900 tracking-tight mb-3">
               O Que Dizem os Nossos Clientes
             </h2>
-            <motion.div
-              initial={{ width: 0, opacity: 0 }}
-              whileInView={{ width: 48, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2, ease: smoothEase }}
-              className="h-1 bg-red-600 mx-auto mt-3 rounded-full"
-            />
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
           </motion.div>
 
           {/* Cartão de Depoimento Moderno */}
@@ -815,9 +805,10 @@ export function HomeMobile() {
             <span className="text-[11px] uppercase tracking-wider text-red-600 font-bold mb-1.5 block">
               Rede de Confiança
             </span>
-            <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-normal text-gray-900 tracking-tight mb-3">
               Nossos Parceiros
             </h2>
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
           </motion.div>
 
           {/* Marquee de Parceiros Limpo (Sem Sombreamento / Sem Máscara de Degradê) */}
@@ -856,9 +847,10 @@ export function HomeMobile() {
               className="bg-gradient-to-br from-gray-900 via-gray-900 to-black text-white p-7 sm:p-8 rounded-[5px] shadow-2xl border border-gray-800 text-center relative overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-red-500/5 to-transparent pointer-events-none" />
 
-              <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-2">
+              <h3 className="text-xl sm:text-2xl font-normal text-white tracking-tight mb-3">
                 Quer Ser Nosso Parceiro?
               </h3>
+              <div className="w-12 h-0.5 bg-red-600 mx-auto mb-3 rounded-full" />
               <p className="text-gray-300 text-xs sm:text-sm leading-relaxed mb-6 max-w-md mx-auto">
                 Junte-se a nós e faça parte de uma rede de empresas
                 comprometidas com a excelência e inovação

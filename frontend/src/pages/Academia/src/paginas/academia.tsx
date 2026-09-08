@@ -260,7 +260,7 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
           "'Segoe UI Variable Text', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif",
       }}>
       {/* Seção 1: Carrossel Publicitário de Alta Qualidade */}
-      <div className="relative overflow-hidden w-full h-screen min-h-[580px] max-h-[900px] 2xl:max-h-[1080px] bg-black">
+      <div className="relative overflow-hidden w-full min-h-[40vh] sm:min-h-[45vh] h-[40vh] sm:h-[45vh] md:h-screen md:min-h-[580px] md:max-h-[900px] 2xl:max-h-[1080px] bg-black">
         <AnimatePresence initial={false} mode="wait">
           <motion.div
             key={currentSlide}
@@ -278,45 +278,43 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
               className="absolute inset-0 w-full h-full object-cover object-center 2xl:object-[center_35%]"
             />
             {/* Degradês de sobreposição para legibilidade em todas as telas */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/20 md:bg-gradient-to-r md:from-black/85 md:via-black/50 md:to-transparent" />
+            <div className="hidden md:block absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
 
             {/* Conteúdo do Slide */}
-            <div className="absolute inset-0 flex items-center">
-              <div className="container 2xl:max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20 xl:px-24">
+            <div className="absolute inset-0 flex items-center pt-8 md:pt-0">
+              <div className="container 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12 lg:px-20 xl:px-24">
                 <div className="max-w-2xl 2xl:max-w-3xl text-left">
-                  {/* Tag Superior removida */}
-
                   {/* Título Principal */}
                   <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.25, duration: 0.6 }}
-                    className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] 2xl:text-7xl font-extrabold !text-white tracking-tight leading-[1.14] mb-4">
+                    transition={{ delay: 0.2, duration: 0.5 }}
+                    className="text-xl sm:text-3xl md:text-5xl lg:text-[54px] 2xl:text-7xl font-extrabold !text-white tracking-tight leading-tight mb-1.5 sm:mb-2 md:mb-4">
                     {slides[currentSlide].titulo}
                   </motion.h1>
 
                   {/* Subtítulo */}
                   <motion.p
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.35, duration: 0.6 }}
-                    className="text-sm sm:text-base md:text-base lg:text-lg 2xl:text-xl !text-white/90 mb-8 max-w-lg 2xl:max-w-2xl leading-relaxed">
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                    className="text-xs sm:text-sm md:text-base lg:text-lg 2xl:text-xl !text-white/90 mb-3 sm:mb-5 md:mb-8 max-w-lg 2xl:max-w-2xl leading-relaxed line-clamp-2 md:line-clamp-none">
                     {slides[currentSlide].subtitulo}
                   </motion.p>
 
                   {/* Botão de Ação (CTA) */}
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5, duration: 0.6 }}>
+                    transition={{ delay: 0.4, duration: 0.5 }}>
                     {slides[currentSlide].link.startsWith("#") ? (
                       <button
                         onClick={() => setIsModalOpen(true)}
-                        className="btn-academia-primary px-6 py-3 transition duration-300 transform hover:scale-105">
+                        className="btn-academia-primary text-xs sm:text-sm px-4 py-2 sm:px-6 sm:py-3 transition duration-300 transform hover:scale-105 inline-flex items-center cursor-pointer">
                         {slides[currentSlide].cta}
                         <svg
-                          className="w-5 h-5 ml-2"
+                          className="w-4 h-4 ml-1.5 sm:ml-2"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24">
@@ -331,10 +329,10 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
                     ) : (
                       <Link
                         to={slides[currentSlide].link}
-                        className="btn-academia-primary text-[14px] px-6 py-3 transition duration-300 transform hover:scale-105">
+                        className="btn-academia-primary text-xs sm:text-sm px-4 py-2 sm:px-6 sm:py-3 transition duration-300 transform hover:scale-105 inline-flex items-center">
                         {slides[currentSlide].cta}
                         <svg
-                          className="w-5 h-5 ml-2"
+                          className="w-4 h-4 ml-1.5 sm:ml-2"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24">
@@ -361,9 +359,10 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
               (prev) => (prev - 1 + slides.length) % slides.length,
             )
           }
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all backdrop-blur-sm">
+          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full bg-black/40 hover:bg-black/60 md:bg-white/10 md:hover:bg-white/20 border border-white/20 text-white transition-all backdrop-blur-sm cursor-pointer"
+          aria-label="Anterior">
           <svg
-            className="w-6 h-6"
+            className="w-4 h-4 sm:w-6 sm:h-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24">
@@ -377,9 +376,10 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
         </button>
         <button
           onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all backdrop-blur-sm">
+          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full bg-black/40 hover:bg-black/60 md:bg-white/10 md:hover:bg-white/20 border border-white/20 text-white transition-all backdrop-blur-sm cursor-pointer"
+          aria-label="Próximo">
           <svg
-            className="w-6 h-6"
+            className="w-4 h-4 sm:w-6 sm:h-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24">
@@ -393,13 +393,13 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
         </button>
 
         {/* Indicadores Visuais com Barra de Progresso */}
-        <div className="absolute bottom-6 left-0 right-0 z-20 flex justify-center gap-3">
+        <div className="absolute bottom-3 sm:bottom-6 left-0 right-0 z-20 flex justify-center gap-2 sm:gap-3">
           {slides.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentSlide(idx)}
-              className="relative h-2 rounded-full overflow-hidden transition-all duration-300 bg-white/30"
-              style={{ width: currentSlide === idx ? "40px" : "10px" }}>
+              className="relative h-1.5 sm:h-2 rounded-full overflow-hidden transition-all duration-300 bg-white/30"
+              style={{ width: currentSlide === idx ? "32px" : "8px" }}>
               {currentSlide === idx && (
                 <motion.div
                   initial={{ left: "-100%" }}
@@ -418,11 +418,15 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
       <section
         id="curso-destaque"
         className="bg-white relative border-b border-slate-200 overflow-hidden select-none">
-        {/* ─── TÍTULO DA SEÇÃO (CENTRALIZADO, PRETO, SEM TRAÇOS E COM ESPAÇAMENTO DEVIDO) ─── */}
-        <div className="pt-10 sm:pt-12 pb-2 text-center select-none">
-          <span className="text-xs sm:text-sm md:text-base font-extrabold text-slate-900 tracking-widest uppercase">
-            CURSO EM DESTAQUE
+        {/* ─── TÍTULO DA SEÇÃO PADRONIZADO ─── */}
+        <div className="pt-10 sm:pt-12 pb-2 text-center select-none flex flex-col items-center">
+          <span className="text-xs uppercase tracking-widest text-red-600 font-bold mb-2 block">
+            Destaque da Formação
           </span>
+          <h2 className="text-2xl sm:text-3xl font-normal text-gray-900 tracking-tight mb-3">
+            Curso em Destaque
+          </h2>
+          <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
         </div>
 
         {/* ─── BANNER PRINCIPAL ─── */}
@@ -1804,14 +1808,15 @@ const DiferenciaisSection = () => {
   return (
     <section className="py-24 bg-gray-50 overflow-hidden relative border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="mb-16 text-center flex flex-col items-center">
-          <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold uppercase tracking-wider text-red-600 bg-red-50 rounded-[5px]">
+        <div className="mb-12 text-center flex flex-col items-center">
+          <span className="text-xs uppercase tracking-widest text-red-600 font-bold mb-2 block">
             Vantagens
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">
-            Porquê escolher a Academia Envisio?
+          <h2 className="text-2xl sm:text-3xl font-normal text-gray-900 tracking-tight mb-3">
+            Porquê Escolher a Academia Envisio?
           </h2>
-          <p className="text-[12px] text-gray-500 max-w-2xl mx-auto">
+          <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
+          <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
             A nossa prioridade não é apenas emitir diplomas, mas sim capacitar
             profissionais para as reais necessidades do tecido empresarial.
           </p>
@@ -1869,13 +1874,14 @@ const FaqSection = () => {
     <section className="py-24 bg-white overflow-hidden relative border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="mb-12 text-center flex flex-col items-center">
-          <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold uppercase tracking-wider text-red-600 bg-red-50 rounded-[5px]">
-            FAQ
+          <span className="text-xs uppercase tracking-widest text-red-600 font-bold mb-2 block">
+            Dúvidas Frequentes
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">
+          <h2 className="text-2xl sm:text-3xl font-normal text-gray-900 tracking-tight mb-3">
             Perguntas Frequentes
           </h2>
-          <p className="text-[12px] text-gray-500 max-w-2xl mx-auto">
+          <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
+          <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
             Tudo o que precisa de saber antes de dar o próximo passo na sua
             carreira.
           </p>

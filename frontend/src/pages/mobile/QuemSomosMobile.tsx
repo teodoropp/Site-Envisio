@@ -118,21 +118,25 @@ const QuemSomosMobile = () => {
         <div className="max-w-6xl mx-auto px-4 flex flex-col items-center">
           {/* Cabeçalho da seção */}
           <div className="mb-8 text-center">
+            <span className="text-red-600 font-semibold text-xs sm:text-sm uppercase tracking-wider block mb-2">
+              A Nossa Identidade
+            </span>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-3xl font-semibold text-gray-900 mb-2">
+              className="text-2xl sm:text-3xl font-normal text-gray-900 tracking-tight mb-3">
               Sobre Nós
             </motion.h2>
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true }}
-              className="text-gray-700">
-              Conheça a nossa história, missão e equipa
+              className="text-sm text-gray-600 max-w-xl mx-auto leading-relaxed">
+              Conheça a nossa história, missão e os valores que nos guiam todos os dias.
             </motion.p>
           </div>
 

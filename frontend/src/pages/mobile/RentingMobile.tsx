@@ -295,18 +295,18 @@ const RentingSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-extrabold text-red-600 mb-6">
-            Soluções de <span className="text-black">Renting</span>
+            className="text-2xl sm:text-3xl font-normal text-gray-900 mb-3 tracking-tight">
+            Soluções de Renting
           </motion.h3>
+          <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-lg md:text-2xl text-gray-700 leading-relaxed max-w-3xl mx-auto">
-            Transforme sua infraestrutura de TI com nossas soluções de aluguel
-            flexíveis. Equipamentos de última geração com suporte técnico
-            especializado e manutenção inclusa.
+            className="text-sm sm:text-base text-gray-600 leading-relaxed max-w-2xl mx-auto">
+            Transforme a infraestrutura de TI da sua organização com soluções de aluguer
+            flexíveis. Equipamentos modernos com suporte técnico especializado e manutenção preventiva incluída.
           </motion.p>
         </div>
 
@@ -348,23 +348,27 @@ const RentingSection = () => {
       {/* Seção de Serviços em Destaque - agora carrossel */}
       <section className="py-24 bg-gradient-to-b from-white to-blue-50">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-20">
+          <div className="text-center mb-16">
+            <span className="text-xs uppercase tracking-widest text-red-600 font-bold mb-2 block">
+              Equipamentos & Infraestrutura
+            </span>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl text-gray-900 mb-5 tracking-tight">
+              className="text-2xl sm:text-3xl font-normal text-gray-900 mb-3 tracking-tight">
               Nossos Serviços de Renting
             </motion.h2>
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true }}
-              className="text-lg md:text-2xl text-gray-600 max-w-2xl mx-auto">
+              className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
               Equipamentos de última geração com flexibilidade e economia para
-              sua empresa
+              a sua empresa
             </motion.p>
           </div>
 
@@ -445,16 +449,17 @@ const RentingSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-3xl text-white md:text-4xl font-bold mb-4">
+              className="text-2xl sm:text-3xl font-normal text-white mb-3 tracking-tight">
               Por que escolher nosso Renting?
             </motion.h2>
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true }}
-              className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Flexibilidade e tecnologia de ponta para impulsionar seu negócio
+              className="text-sm sm:text-base text-gray-300 max-w-2xl mx-auto">
+              Flexibilidade e tecnologia de ponta para impulsionar o seu negócio
             </motion.p>
           </div>
 
@@ -524,9 +529,10 @@ const RentingSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl text-white mb-6">
+            className="text-2xl sm:text-3xl font-normal text-white mb-3 tracking-tight">
             Modernize sua infraestrutura sem compromisso
           </motion.h2>
+          <div className="w-16 h-1 bg-white mx-auto mb-4 rounded-full" />
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
