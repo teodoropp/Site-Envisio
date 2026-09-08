@@ -246,15 +246,16 @@ const ServicosHardware = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-extrabold text-red-600 mb-6">
-            Soluções Integradas de <span className="text-black">Hardware</span>
+            className="text-2xl sm:text-3xl font-normal text-gray-900 mb-3 tracking-tight">
+            Soluções Integradas de Hardware
           </motion.h3>
+          <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-lg md:text-2xl text-gray-700 leading-relaxed max-w-3xl mx-auto">
+            className="text-base text-gray-600 leading-relaxed max-w-3xl mx-auto">
             Segurança, conectividade e controlo inteligente para empresas
             modernas. Da infraestrutura de redes Cisco à videovigilância
             inteligente e controlo de acessos biométrico, fornecemos tecnologia
@@ -306,24 +307,19 @@ const ServicosHardware = () => {
       {/* Seção de Serviços em Destaque - agora carrossel */}
       <section className="py-24 bg-gradient-to-b from-white to-blue-50">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-20">
+          <div className="text-center mb-16">
+            <span className="text-xs uppercase tracking-widest text-red-600 font-bold mb-2 block">
+              Infraestrutura & Redes
+            </span>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl text-gray-900 mb-5 tracking-tight">
-              Os Nossos <span className="text-red-600">Serviços</span>
+              className="text-2xl sm:text-3xl font-normal text-gray-900 mb-3 tracking-tight">
+              Os Nossos Serviços
             </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="text-lg md:text-2xl text-gray-600 max-w-2xl mx-auto">
-              Soluções inovadoras, fiáveis e à medida para elevar a
-              infraestrutura da sua empresa ao próximo nível.
-            </motion.p>
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
           </div>
 
           {/* Carrossel de cards */}
@@ -402,19 +398,10 @@ const ServicosHardware = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-3xl md:text-4xl text-red-400 font-bold mb-4">
-              Por que escolher nossos{" "}
-              <span className="text-red-400">serviços de hardware</span>?
+              className="text-2xl sm:text-3xl font-normal text-white mb-3 tracking-tight">
+              Porquê Escolher os Nossos Serviços de Hardware?
             </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Excelência técnica combinada com suporte especializado para sua
-              tranquilidade.
-            </motion.p>
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -470,9 +457,10 @@ const ServicosHardware = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl text-white mb-6">
-            Pronto para transformar sua infraestrutura física?
+            className="text-2xl sm:text-3xl font-normal text-white mb-3 tracking-tight">
+            Pronto para transformar a sua infraestrutura física?
           </motion.h2>
+          <div className="w-16 h-1 bg-white/70 mx-auto mb-4 rounded-full" />
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}

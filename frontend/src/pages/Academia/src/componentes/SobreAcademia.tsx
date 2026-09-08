@@ -14,7 +14,7 @@ import {
 const SobreAcademia = () => {
   const features = [
     {
-      title: "Aprendizado Prático",
+      title: "Aprendizagem Prática",
       description:
         "Cursos focados em projetos reais para aplicar o conhecimento imediatamente.",
       icon: <GraduationCap className="w-6 h-6 text-red-500" />,
@@ -30,7 +30,7 @@ const SobreAcademia = () => {
     {
       title: "Metodologia Inovadora",
       description:
-        "Abordagem pedagógica que acelera seu aprendizado e retenção de conteúdo.",
+        "Abordagem pedagógica que acelera a sua aprendizagem e retenção de conteúdo.",
       icon: <Sparkles className="w-6 h-6 text-amber-500" />,
       color: "from-amber-100 to-amber-50",
     },

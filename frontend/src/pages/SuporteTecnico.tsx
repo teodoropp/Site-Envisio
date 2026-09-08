@@ -102,11 +102,11 @@ const SuporteTecnico: React.FC = () => {
         <div className="bg-gradient-to-r from-red-600 to-red-800 rounded-[5px] px-8 py-6 shadow-lg">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
-              <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
+              <h1 className="text-2xl sm:text-3xl font-normal text-white mb-2 tracking-tight">
                 Suporte Técnico Especializado
               </h1>
-              <p className="text-lg text-red-100 max-w-2xl">
-                Soluções rápidas e atendimento personalizado para sua empresa
+              <p className="text-base text-red-100 max-w-2xl">
+                Soluções rápidas e atendimento personalizado para a sua empresa
               </p>
             </div>
             <div className="mt-6 md:mt-0 flex flex-col sm:flex-row gap-3">
@@ -197,9 +197,10 @@ const SuporteTecnico: React.FC = () => {
               ) : (
                 <div className="grid md:grid-cols-2 gap-8">
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900 mb-4">
+                    <h2 className="text-xl font-normal text-gray-900 mb-2">
                       Informações do Serviço
                     </h2>
+                    <div className="w-12 h-1 bg-red-600 mb-4 rounded-full" />
                     <div className="space-y-6">
                       <div className="flex items-start gap-4">
                         <div className="flex-shrink-0 bg-red-100 p-2 rounded-[5px]">

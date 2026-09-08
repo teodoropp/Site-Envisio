@@ -13,9 +13,9 @@ export default function FooterAcademia() {
               Envisio<span className="text-red-500">.</span>
             </h3>
             <p className="text-[12px] leading-relaxed mb-6 text-gray-400">
-              A Academia Envisio tem como missão capacitar profissionais com
-              ferramentas e metodologias 100% práticas, garantindo a excelência
-              no mercado de trabalho.
+              A Envisio Training Academy tem como missão capacitar profissionais
+              com ferramentas e metodologias 100% práticas, garantindo a
+              excelência no mercado de trabalho.
             </p>
             {/* Redes Sociais */}
             <div className="flex items-center space-x-4">

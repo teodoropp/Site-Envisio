@@ -25,7 +25,9 @@ import { DiamondGrid } from "../../../../components/DiamondGrid";
 export default function QuemSomos() {
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const [selectedMembro, setSelectedMembro] = React.useState<any>(null);
-  const [selectedPhotoIndex, setSelectedPhotoIndex] = React.useState<number | null>(null);
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = React.useState<
+    number | null
+  >(null);
   const [photoFilter, setPhotoFilter] = React.useState<string>("todos");
   const [width, setWidth] = React.useState(
     typeof window !== "undefined" ? window.innerWidth : 1200,
@@ -38,6 +40,176 @@ export default function QuemSomos() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  React.useEffect(() => {
+    if (window.location.hash === "#galeria") {
+      setTimeout(() => {
+        const el = document.getElementById("galeria");
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 300);
+    }
+  }, []);
+
+  // Categorias e fotografias organizadas do espaço da Academia Envisio
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const espacoCategorias = [
+    {
+      id: "salas-formacao",
+      titulo: "Sala de Formação",
+      descricao:
+        "Salas climatizadas com postos individuais de computadores e projetor multimédia para formações práticas.",
+      badge: "Formação Prática",
+      layoutInvertido: false,
+      fotos: [
+        {
+          id: 1,
+          src: "/images/espaco/sala-formacao-01.jpg",
+          titulo: "Sala de Formação Principal",
+          categoria: "Salas de Formação",
+          descricao:
+            "Postos individuais com computadores de alto desempenho e ambiente climatizado.",
+          destaque: true,
+        },
+        {
+          id: 2,
+          src: "/images/espaco/sala-formacao-02.jpg",
+          titulo: "Postos Informáticos de Trabalho",
+          categoria: "Salas de Formação",
+          descricao:
+            "Bancadas práticas equipadas para simulações empresariais em ERP e TI.",
+          destaque: false,
+        },
+        {
+          id: 3,
+          src: "/images/espaco/sala-formacao-03.jpg",
+          titulo: "Perspetiva Ampla da Sala de Aula",
+          categoria: "Salas de Formação",
+          descricao:
+            "Disposição ergonómica para acompanhamento próximo do formador a cada formando.",
+          destaque: false,
+        },
+      ],
+    },
+    {
+      id: "salas-reuniao",
+      titulo: "Sala de Reunião",
+      descricao:
+        "Ambiente executivo para reuniões de equipa, planeamento estratégico e apresentações corporativas.",
+      badge: "Corporativo & Estratégico",
+      layoutInvertido: true,
+      fotos: [
+        {
+          id: 4,
+          src: "/images/espaco/sala-reuniao-01.jpg",
+          titulo: "Sala de Reunião",
+          categoria: "Salas de Reunião",
+          descricao:
+            "Mesa diretiva e equipamento para videoconferências e reuniões corporativas.",
+          destaque: true,
+        },
+        {
+          id: 5,
+          src: "/images/espaco/sala-reuniao-02.jpg",
+          titulo: "Mesa de Conferência",
+          categoria: "Salas de Reunião",
+          descricao:
+            "Espaço reservado e confortável para alinhamentos e tomadas de decisão.",
+          destaque: false,
+        },
+        {
+          id: 6,
+          src: "/images/espaco/sala-reuniao-03.jpg",
+          titulo: "Ambiente de Consultoria",
+          categoria: "Salas de Reunião",
+          descricao:
+            "Concebido para sessões de trabalho colaborativo e consultoria especializada.",
+          destaque: false,
+        },
+      ],
+    },
+    {
+      id: "recepcao",
+      titulo: "Recepção e Atendimento",
+      descricao:
+        "Zona de acolhimento moderno, atendimento a formandos, inscrições e apoio contínuo.",
+      badge: "Acolhimento & Apoio",
+      layoutInvertido: false,
+      fotos: [
+        {
+          id: 7,
+          src: "/images/espaco/recepcao-01.jpg",
+          titulo: "Recepção Principal da Envisio",
+          categoria: "Recepção e Atendimento",
+          descricao:
+            "Entrada principal acolhedora para receção de formandos, parceiros e clientes.",
+          destaque: true,
+        },
+        {
+          id: 8,
+          src: "/images/espaco/recepcao-02.jpg",
+          titulo: "Balcão de Atendimento",
+          categoria: "Recepção e Atendimento",
+          descricao:
+            "Área de atendimento dedicada ao esclarecimento de dúvidas e apoio a inscrições.",
+          destaque: false,
+        },
+        {
+          id: 9,
+          src: "/images/espaco/recepcao-03.jpg",
+          titulo: "Espaço de Espera e Informações",
+          categoria: "Recepção e Atendimento",
+          descricao:
+            "Ambiente agradável e organizado para receção e consulta de informações académicas.",
+          destaque: false,
+        },
+      ],
+    },
+    {
+      id: "escritorios-apoio",
+      titulo: "Escritórios & Áreas de Apoio",
+      descricao:
+        "Gabinetes de coordenação, postos de trabalho e área de pausa e refeições.",
+      badge: "Instalações & Bem-Estar",
+      layoutInvertido: true,
+      fotos: [
+        {
+          id: 10,
+          src: "/images/espaco/escritorio-01.jpg",
+          titulo: "Escritorio",
+          categoria: "Escritórios & Áreas de Apoio",
+          descricao:
+            "Espaço de gestão académica e coordenação pedagógica da Academia.",
+          destaque: true,
+        },
+        {
+          id: 11,
+          src: "/images/espaco/escritorio-02.jpg",
+          titulo: "Postos de Trabalho Operacional",
+          categoria: "Escritórios & Áreas de Apoio",
+          descricao:
+            "Estações de trabalho equipadas com tecnologia e apoio logístico contínuo.",
+          destaque: false,
+        },
+        {
+          id: 12,
+          src: "/images/espaco/refeitorio.jpg",
+          titulo: "Área de Refeitório e Convívio",
+          categoria: "Escritórios & Áreas de Apoio",
+          descricao:
+            "Zona de descanso e refeições concebida para o convívio e conforto de formandos e equipa.",
+          destaque: false,
+        },
+      ],
+    },
+  ];
+
+  // Lista unificada para navegação completa no Lightbox
+  const todasFotos = React.useMemo(
+    () => espacoCategorias.flatMap((cat) => cat.fotos),
+    [espacoCategorias],
+  );
+
   // Navegação por teclado na galeria do espaço
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -45,106 +217,20 @@ export default function QuemSomos() {
       if (e.key === "Escape") setSelectedPhotoIndex(null);
       if (e.key === "ArrowLeft") {
         setSelectedPhotoIndex((prev) =>
-          prev !== null ? (prev - 1 + espacoFotos.length) % espacoFotos.length : null,
+          prev !== null
+            ? (prev - 1 + todasFotos.length) % todasFotos.length
+            : null,
         );
       }
       if (e.key === "ArrowRight") {
         setSelectedPhotoIndex((prev) =>
-          prev !== null ? (prev + 1) % espacoFotos.length : null,
+          prev !== null ? (prev + 1) % todasFotos.length : null,
         );
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedPhotoIndex]);
-
-  // Fotos reais do espaço e instalações da Academia Envisio
-  const espacoFotos = [
-    {
-      id: 1,
-      src: "/images/espaco/foto-01.jpg",
-      titulo: "Sala de Aula Principal e Postos Informáticos",
-      categoria: "Salas de Formação",
-      descricao: "Ambiente moderno equipado com postos de trabalho individuais e tecnologia de projeção interativa.",
-    },
-    {
-      id: 2,
-      src: "/images/espaco/foto-02.jpg",
-      titulo: "Espaço de Recepção e Atendimento",
-      categoria: "Recepção & Acolhimento",
-      descricao: "Zona de boas-vindas desenhada para prestar todo o suporte aos nossos formandos desde o primeiro dia.",
-    },
-    {
-      id: 3,
-      src: "/images/espaco/foto-03.jpg",
-      titulo: "Postos Individuais de Trabalho",
-      categoria: "Tecnologia & Equipamento",
-      descricao: "Computadores preparados com software especializado para contabilidade, gestão e desenvolvimento.",
-    },
-    {
-      id: 4,
-      src: "/images/espaco/foto-04.jpg",
-      titulo: "Laboratório Tecnológico Prático",
-      categoria: "Salas de Formação",
-      descricao: "Bancadas práticas pensadas para simulações reais do mercado empresarial angolano.",
-    },
-    {
-      id: 5,
-      src: "/images/espaco/foto-05.jpg",
-      titulo: "Sala de Formação Executiva",
-      categoria: "Salas de Formação",
-      descricao: "Espaço climatizado e confortável para formações corporativas e programas avançados.",
-    },
-    {
-      id: 6,
-      src: "/images/espaco/foto-06.jpg",
-      titulo: "Estações de Estudo e Aprendizagem",
-      categoria: "Tecnologia & Equipamento",
-      descricao: "Equipamento informático atualizado que garante fluidez e máxima produtividade nas aulas.",
-    },
-    {
-      id: 7,
-      src: "/images/espaco/foto-07.jpg",
-      titulo: "Balcão de Atendimento e Inscrições",
-      categoria: "Recepção & Acolhimento",
-      descricao: "Atendimento dedicado para esclarecimento de dúvidas sobre percursos formativos e certificações.",
-    },
-    {
-      id: 8,
-      src: "/images/espaco/foto-08.jpg",
-      titulo: "Área de Convivência e Networking",
-      categoria: "Recepção & Acolhimento",
-      descricao: "Espaço descontraído para troca de contactos e experiências entre formandos e formadores.",
-    },
-    {
-      id: 9,
-      src: "/images/espaco/foto-09.jpg",
-      titulo: "Disposição Estruturada das Turmas",
-      categoria: "Salas de Formação",
-      descricao: "Turmas com lotação controlada para garantir acompanhamento próximo e personalizado.",
-    },
-    {
-      id: 10,
-      src: "/images/espaco/foto-10.jpg",
-      titulo: "Recursos Audiovisuais Integrados",
-      categoria: "Tecnologia & Equipamento",
-      descricao: "Ecrãs de apoio e ferramentas de suporte dinâmico às formações técnicas presenciais.",
-    },
-    {
-      id: 11,
-      src: "/images/espaco/foto-11.jpg",
-      titulo: "Ambiente para Workshops e Seminários",
-      categoria: "Salas de Formação",
-      descricao: "Infraestrutura flexível apta a acolher palestras e eventos de capacitação profissional.",
-    },
-    {
-      id: 12,
-      src: "/images/espaco/foto-12.jpg",
-      titulo: "Instalações Envisio em Luanda",
-      categoria: "Salas de Formação",
-      descricao: "O polo de excelência onde tecnologia e formação profissional prática se unem.",
-    },
-  ];
+  }, [selectedPhotoIndex, todasFotos.length]);
 
   const membros = [
     {
@@ -385,7 +471,7 @@ export default function QuemSomos() {
               <p className="text-base text-gray-600 mb-5 leading-relaxed">
                 A{" "}
                 <strong className="font-bold text-gray-900">
-                  Academia Envisio
+                  Envisio Training Academy
                 </strong>{" "}
                 é um centro de formação dedicado ao desenvolvimento de
                 competências técnicas e profissionais, preparando estudantes e
@@ -414,23 +500,23 @@ export default function QuemSomos() {
               <DiamondGrid
                 images={[
                   {
-                    src: "/images/espaco/foto-01.jpg",
+                    src: "/images/espaco/sala-formacao-01.jpg",
                     alt: "Sala de Formação com Computadores - Academia Envisio",
                     delay: 0.1,
                   },
                   {
-                    src: "/images/espaco/foto-02.jpg",
+                    src: "/images/espaco/recepcao-01.jpg",
                     alt: "Área de Recepção da Academia Envisio",
                     delay: 0.2,
                   },
                   {
-                    src: "/images/espaco/foto-03.jpg",
+                    src: "/images/espaco/sala-formacao-02.jpg",
                     alt: "Postos de Trabalho Individuais e Práticos",
                     delay: 0.3,
                   },
                   {
-                    src: "/images/espaco/foto-04.jpg",
-                    alt: "Ambiente Moderno de Aprendizagem Prática",
+                    src: "/images/espaco/sala-reuniao-01.jpg",
+                    alt: "Sala de Reuniões e Conferências",
                     delay: 0.4,
                   },
                 ]}
@@ -681,9 +767,10 @@ export default function QuemSomos() {
       <section className="py-24 bg-gray-50/50 overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3 tracking-tight">
-              A nossa equipa
+            <h2 className="text-2xl sm:text-3xl font-normal text-gray-900 mb-3 tracking-tight">
+              Nossa equipa
             </h2>
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
             <p className="text-base text-gray-500 max-w-xl mx-auto leading-relaxed"></p>
           </div>
 
@@ -870,124 +957,202 @@ export default function QuemSomos() {
       )}
 
       {/* 5.5. Galeria de Fotos: O Nosso Espaço & Instalações */}
-      <section className="py-24 bg-white relative overflow-hidden border-t border-gray-100">
+      <section
+        id="galeria"
+        className="py-24 bg-white relative overflow-hidden border-t border-gray-100">
         {/* Soft Grid Background */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#F9FAFB_1px,transparent_1px),linear-gradient(to_bottom,#F9FAFB_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none opacity-60 z-0" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Header da Seção */}
+          {/* Header Geral da Galeria */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto mb-12">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-50 text-red-600 text-xs font-bold uppercase tracking-wider mb-3">
-              <Camera size={14} />
-              Infraestrutura & Tecnologia
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-4">
-              O Nosso Espaço de Formação
+            className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight mb-4">
+              Espaço da Academia
             </h2>
             <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
-            <p className="text-base text-gray-600 leading-relaxed">
-              Instalações modernas em Luanda concebidas para proporcionar o melhor ambiente de aprendizagem prática, com salas climatizadas e postos individuais de computadores.
-            </p>
-
-            {/* Filtros de Categoria */}
-            <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
-              {[
-                { id: "todos", label: "Todos os Espaços" },
-                { id: "Salas de Formação", label: "Salas de Formação" },
-                { id: "Tecnologia & Equipamento", label: "Tecnologia & Postos" },
-                { id: "Recepção & Acolhimento", label: "Recepção & Convívio" },
-              ].map((f) => (
-                <button
-                  key={f.id}
-                  onClick={() => setPhotoFilter(f.id)}
-                  className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-full transition-all duration-200 cursor-pointer ${
-                    photoFilter === f.id
-                      ? "bg-gray-900 text-white shadow-md shadow-gray-900/20 scale-105"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900"
-                  }`}>
-                  {f.label}
-                </button>
-              ))}
-            </div>
           </motion.div>
 
-          {/* Grid de Fotos */}
-          <motion.div
-            layout
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <AnimatePresence>
-              {espacoFotos
-                .filter(
-                  (foto) =>
-                    photoFilter === "todos" || foto.categoria === photoFilter,
-                )
-                .map((foto, idx) => {
-                  const globalIndex = espacoFotos.findIndex(
-                    (f) => f.id === foto.id,
-                  );
+          {/* Categorias de Fotos com Título, Linha e Layout Assimétrico (Grande + Pequenas) */}
+          <div className="space-y-20">
+            {espacoCategorias.map((cat, catIdx) => {
+              const fotoGrande =
+                cat.fotos.find((f) => f.destaque) || cat.fotos[0];
+              const fotosPequenas = cat.fotos.filter(
+                (f) => f.id !== fotoGrande.id,
+              );
 
-                  return (
-                    <motion.div
-                      layout
-                      key={foto.id}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{ duration: 0.35, delay: idx * 0.04 }}
-                      onClick={() => setSelectedPhotoIndex(globalIndex)}
-                      className="group relative bg-gray-100 rounded-xl overflow-hidden border border-gray-200/80 shadow-sm hover:shadow-xl hover:border-red-500/40 transition-all duration-300 cursor-pointer aspect-[4/3] flex flex-col justify-end">
-                      {/* Imagem */}
-                      <img
-                        src={foto.src}
-                        alt={foto.titulo}
-                        loading="lazy"
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                      />
-
-                      {/* Gradiente de Sobreposição */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-75 group-hover:opacity-90 transition-opacity duration-300" />
-
-                      {/* Botão de Zoom Flutuante no Topo */}
-                      <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm text-gray-900 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-md group-hover:scale-110">
-                        <Maximize2 size={14} />
-                      </div>
-
-                      {/* Tag de Categoria */}
-                      <div className="absolute top-3 left-3">
-                        <span className="bg-red-600 text-white text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider shadow-sm">
-                          {foto.categoria}
-                        </span>
-                      </div>
-
-                      {/* Legenda na base */}
-                      <div className="relative p-4 z-10 text-left">
-                        <h3 className="text-white text-sm font-bold leading-snug drop-shadow-sm group-hover:text-red-200 transition-colors">
-                          {foto.titulo}
+              return (
+                <motion.div
+                  key={cat.id}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: catIdx * 0.05 }}
+                  className="space-y-6">
+                  {/* Título da Categoria com Linha por Baixo */}
+                  <div className="text-left">
+                    <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
+                      <div className="flex items-center gap-3">
+                        <h3 className="text-2xl sm:text-[20px] font-normal text-gray-800 tracking-tight">
+                          {cat.titulo}
                         </h3>
-                        <p className="text-gray-300 text-[11px] line-clamp-1 mt-0.5 opacity-90">
-                          {foto.descricao}
-                        </p>
                       </div>
-                    </motion.div>
-                  );
-                })}
-            </AnimatePresence>
-          </motion.div>
+                    </div>
 
-          {/* Dica de interação */}
-          <div className="text-center mt-8 text-xs text-gray-400">
-            Clique em qualquer fotografia para ampliar e explorar as instalações em pormenor.
+                    {/* Linha abaixo do título */}
+                    <div className="relative w-full my-3">
+                      <div className="w-full h-[1px] bg-gray-200" />
+                      <div className="absolute top-0 left-0 w-28 h-[2px] bg-red-600 rounded-full" />
+                    </div>
+
+                    <p className="text-sm text-gray-500 max-w-2xl mt-1">
+                      {cat.descricao}
+                    </p>
+                  </div>
+
+                  {/* Layout Bento / Assimétrico: Uma Grande e Outras Pequenas */}
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                    {/* Se layout invertido, coloca as pequenas à esquerda em desktop */}
+                    {cat.layoutInvertido ? (
+                      <>
+                        {/* 2 Fotos Pequenas Empilhadas (Coluna Esquerda) */}
+                        <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-5 order-2 lg:order-1">
+                          {fotosPequenas.map((foto) => {
+                            const globalIdx = todasFotos.findIndex(
+                              (f) => f.id === foto.id,
+                            );
+                            return (
+                              <motion.div
+                                key={foto.id}
+                                whileHover={{ y: -3 }}
+                                onClick={() => setSelectedPhotoIndex(globalIdx)}
+                                className="group relative rounded-[5px] overflow-hidden border border-gray-200 bg-gray-950 shadow-sm hover:shadow-xl hover:border-red-500/50 transition-all duration-300 cursor-pointer h-56 sm:h-64 lg:h-[198px]">
+                                <img
+                                  src={foto.src}
+                                  alt={foto.titulo}
+                                  loading="lazy"
+                                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+                                <div className="absolute top-3 right-3 w-7 h-7 rounded-[5px] bg-white/85 backdrop-blur-sm text-gray-900 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow">
+                                  <Maximize2 size={13} />
+                                </div>
+                                <div className="absolute bottom-0 left-0 right-0 p-3.5 text-left"></div>
+                              </motion.div>
+                            );
+                          })}
+                        </div>
+
+                        {/* 1 Foto Grande em Destaque (Coluna Direita) */}
+                        <div className="lg:col-span-7 order-1 lg:order-2">
+                          {(() => {
+                            const globalIdx = todasFotos.findIndex(
+                              (f) => f.id === fotoGrande.id,
+                            );
+                            return (
+                              <motion.div
+                                whileHover={{ y: -4 }}
+                                onClick={() => setSelectedPhotoIndex(globalIdx)}
+                                className="group relative rounded-[10px] overflow-hidden border border-gray-200 bg-gray-950 shadow-md hover:shadow-2xl hover:border-red-500/60 transition-all duration-300 cursor-pointer h-72 sm:h-96 lg:h-[416px]">
+                                <img
+                                  src={fotoGrande.src}
+                                  alt={fotoGrande.titulo}
+                                  loading="lazy"
+                                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+
+                                <div className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm text-gray-900 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg group-hover:scale-110">
+                                  <Maximize2 size={16} />
+                                </div>
+                                <div className="absolute bottom-0 left-0 right-0 p-6 text-left">
+                                  <h4 className="text-white text-lg sm:text-[16px] font-normal leading-snug drop-shadow-sm">
+                                    {fotoGrande.titulo}
+                                  </h4>
+                                </div>
+                              </motion.div>
+                            );
+                          })()}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        {/* 1 Foto Grande em Destaque (Coluna Esquerda) */}
+                        <div className="lg:col-span-7">
+                          {(() => {
+                            const globalIdx = todasFotos.findIndex(
+                              (f) => f.id === fotoGrande.id,
+                            );
+                            return (
+                              <motion.div
+                                whileHover={{ y: -4 }}
+                                onClick={() => setSelectedPhotoIndex(globalIdx)}
+                                className="group relative rounded-[10px] overflow-hidden border border-gray-200 bg-gray-950 shadow-md hover:shadow-2xl hover:border-red-500/60 transition-all duration-300 cursor-pointer h-72 sm:h-96 lg:h-[416px]">
+                                <img
+                                  src={fotoGrande.src}
+                                  alt={fotoGrande.titulo}
+                                  loading="lazy"
+                                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+
+                                <div className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm text-gray-900 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg group-hover:scale-110">
+                                  <Maximize2 size={16} />
+                                </div>
+                                <div className="absolute bottom-0 left-0 right-0 p-6 text-left">
+                                  <h4 className="text-white text-lg sm:text-[16px] font-normal leading-snug ">
+                                    {fotoGrande.titulo}
+                                  </h4>
+                                </div>
+                              </motion.div>
+                            );
+                          })()}
+                        </div>
+
+                        {/* 2 Fotos Pequenas Empilhadas (Coluna Direita) */}
+                        <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-5">
+                          {fotosPequenas.map((foto) => {
+                            const globalIdx = todasFotos.findIndex(
+                              (f) => f.id === foto.id,
+                            );
+                            return (
+                              <motion.div
+                                key={foto.id}
+                                whileHover={{ y: -3 }}
+                                onClick={() => setSelectedPhotoIndex(globalIdx)}
+                                className="group relative rounded-[5px] overflow-hidden border border-gray-200 bg-gray-950 shadow-sm hover:shadow-xl hover:border-red-500/50 transition-all duration-300 cursor-pointer h-56 sm:h-64 lg:h-[198px]">
+                                <img
+                                  src={foto.src}
+                                  alt={foto.titulo}
+                                  loading="lazy"
+                                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+                                <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/85 backdrop-blur-sm text-gray-900 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow">
+                                  <Maximize2 size={13} />
+                                </div>
+                                <div className="absolute bottom-0 left-0 right-0 p-3.5 text-left"></div>
+                              </motion.div>
+                            );
+                          })}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* Modal Lightbox de Foto Ampliada */}
-      {selectedPhotoIndex !== null && (
+      {selectedPhotoIndex !== null && todasFotos[selectedPhotoIndex] && (
         <div
           onClick={() => setSelectedPhotoIndex(null)}
           className="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 sm:p-6">
@@ -1002,10 +1167,10 @@ export default function QuemSomos() {
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-neutral-950/60">
               <div className="flex items-center gap-3">
                 <span className="text-xs font-bold uppercase tracking-wider text-red-400 bg-red-950/60 border border-red-800/40 px-3 py-1 rounded-full">
-                  {espacoFotos[selectedPhotoIndex].categoria}
+                  {todasFotos[selectedPhotoIndex].categoria}
                 </span>
                 <span className="text-xs text-gray-400">
-                  Foto {selectedPhotoIndex + 1} de {espacoFotos.length}
+                  Foto {selectedPhotoIndex + 1} de {todasFotos.length}
                 </span>
               </div>
               <button
@@ -1019,8 +1184,8 @@ export default function QuemSomos() {
             {/* Área da Imagem com Setas */}
             <div className="relative flex items-center justify-center bg-black/95 min-h-[320px] sm:min-h-[460px] max-h-[70vh] overflow-hidden">
               <img
-                src={espacoFotos[selectedPhotoIndex].src}
-                alt={espacoFotos[selectedPhotoIndex].titulo}
+                src={todasFotos[selectedPhotoIndex].src}
+                alt={todasFotos[selectedPhotoIndex].titulo}
                 className="max-h-[70vh] w-auto max-w-full object-contain select-none"
               />
 
@@ -1029,8 +1194,8 @@ export default function QuemSomos() {
                 onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
                   setSelectedPhotoIndex(
-                    (selectedPhotoIndex - 1 + espacoFotos.length) %
-                      espacoFotos.length,
+                    (selectedPhotoIndex - 1 + todasFotos.length) %
+                      todasFotos.length,
                   );
                 }}
                 className="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/60 hover:bg-red-600 text-white flex items-center justify-center transition-all shadow-lg border border-white/20 hover:border-red-600 hover:scale-110 cursor-pointer"
@@ -1043,7 +1208,7 @@ export default function QuemSomos() {
                 onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
                   setSelectedPhotoIndex(
-                    (selectedPhotoIndex + 1) % espacoFotos.length,
+                    (selectedPhotoIndex + 1) % todasFotos.length,
                   );
                 }}
                 className="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/60 hover:bg-red-600 text-white flex items-center justify-center transition-all shadow-lg border border-white/20 hover:border-red-600 hover:scale-110 cursor-pointer"
@@ -1056,16 +1221,16 @@ export default function QuemSomos() {
             <div className="px-6 py-4 bg-neutral-950 flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-t border-white/10 text-left">
               <div>
                 <h4 className="text-base sm:text-lg font-bold text-white">
-                  {espacoFotos[selectedPhotoIndex].titulo}
+                  {todasFotos[selectedPhotoIndex].titulo}
                 </h4>
                 <p className="text-xs sm:text-sm text-gray-400 mt-0.5">
-                  {espacoFotos[selectedPhotoIndex].descricao}
+                  {todasFotos[selectedPhotoIndex].descricao}
                 </p>
               </div>
 
               {/* Miniaturas de navegação rápida */}
               <div className="flex items-center gap-1.5 overflow-x-auto py-1 max-w-full sm:max-w-[260px]">
-                {espacoFotos.map((f, i) => (
+                {todasFotos.map((f, i) => (
                   <button
                     key={f.id}
                     onClick={() => setSelectedPhotoIndex(i)}

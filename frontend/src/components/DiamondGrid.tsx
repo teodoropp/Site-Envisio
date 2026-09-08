@@ -27,23 +27,23 @@ export const DiamondGrid: React.FC<DiamondGridProps> = ({
   // Default Image paths - Fotos reais do espaço da Academia Envisio
   const defaultImages = [
     {
-      src: "/images/espaco/foto-01.jpg",
+      src: "/images/espaco/sala-formacao-01.jpg",
       alt: "Sala de Formação com Postos Informáticos - Academia Envisio",
       delay: 0.1,
     },
     {
-      src: "/images/espaco/foto-02.jpg",
+      src: "/images/espaco/recepcao-01.jpg",
       alt: "Espaço de Recepção e Convívio - Academia Envisio",
       delay: 0.2,
     },
     {
-      src: "/images/espaco/foto-03.jpg",
+      src: "/images/espaco/sala-formacao-02.jpg",
       alt: "Postos Individuais de Trabalho e Formação Prática",
       delay: 0.3,
     },
     {
-      src: "/images/espaco/foto-04.jpg",
-      alt: "Ambiente Tecnológico e Moderno de Aprendizagem",
+      src: "/images/espaco/sala-reuniao-01.jpg",
+      alt: "Sala de Reuniões e Conferências",
       delay: 0.4,
     },
   ];

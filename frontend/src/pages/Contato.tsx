@@ -35,8 +35,12 @@ const Contato: React.FC = () => {
 
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [tipoCliente, setTipoCliente] = useState<"singular" | "empresa">("singular");
-  const [metodoComunicacao, setMetodoComunicacao] = useState<"whatsapp" | "email">("whatsapp");
+  const [tipoCliente, setTipoCliente] = useState<"singular" | "empresa">(
+    "singular",
+  );
+  const [metodoComunicacao, setMetodoComunicacao] = useState<
+    "whatsapp" | "email"
+  >("whatsapp");
   const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -69,7 +73,7 @@ const Contato: React.FC = () => {
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -131,7 +135,9 @@ const Contato: React.FC = () => {
       }
     } catch (error) {
       if (isMountedRef.current) {
-        alert("Erro ao enviar mensagem. Tente novamente ou use o canal via WhatsApp.");
+        alert(
+          "Erro ao enviar mensagem. Tente novamente ou use o canal via WhatsApp.",
+        );
       }
     } finally {
       if (isMountedRef.current) {
@@ -161,17 +167,17 @@ const Contato: React.FC = () => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-red-50 text-red-600 border border-red-200/80 mb-4 shadow-xs">
-            <Sparkles size={13} className="text-red-600" />
+          <span className="text-xs uppercase tracking-widest text-red-600 font-bold mb-2 block">
             Canais de Atendimento
           </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-3xl font-normal text-gray-900 tracking-tight mb-3">
             Fale com os Nossos Especialistas
           </h1>
-          <div className="w-16 h-1 bg-red-600 mx-auto mt-3 mb-4 rounded-full" />
+          <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-gray-600 leading-relaxed">
-            Estamos prontos para atender as necessidades tecnológicas da sua empresa em Angola.
-            Escolha o canal de sua preferência ou envie uma mensagem direta abaixo.
+            Estamos prontos para atender as necessidades tecnológicas da sua
+            empresa em Angola. Escolha o canal de sua preferência ou envie uma
+            mensagem direta abaixo.
           </p>
         </motion.div>
       </header>
@@ -191,21 +197,26 @@ const Contato: React.FC = () => {
             className="bg-white p-6 rounded-[5px] border border-gray-200 shadow-sm hover:shadow-xl hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between group">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 rounded-[5px] bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-[#25D366] group-hover:text-white transition-colors duration-300">
+                <div className="w-12 h-12 text-emerald-600 flex items-center justify-center transition-colors duration-300">
                   <WhatsAppIcon className="w-6 h-6" />
                 </div>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  Online
-                </span>
               </div>
-              <h2 className="text-base font-bold text-gray-900 mb-1">WhatsApp Oficial</h2>
-              <p className="text-xs text-gray-500 mb-3">Atendimento imediato em tempo real</p>
-              <p className="text-sm font-semibold text-gray-800 font-mono">+244 947 137 676</p>
+              <h2 className="text-base font-bold text-gray-900 mb-1">
+                WhatsApp Oficial
+              </h2>
+              <p className="text-xs text-gray-500 mb-3">
+                Atendimento imediato em tempo real
+              </p>
+              <p className="text-sm font-semibold text-gray-800 font-mono">
+                +244 947 137 676
+              </p>
             </div>
             <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-1 text-xs font-bold text-emerald-600 group-hover:text-emerald-700">
               <span>Iniciar conversa</span>
-              <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight
+                size={13}
+                className="group-hover:translate-x-1 transition-transform"
+              />
             </div>
           </motion.a>
 
@@ -219,20 +230,26 @@ const Contato: React.FC = () => {
             className="bg-white p-6 rounded-[5px] border border-gray-200 shadow-sm hover:shadow-xl hover:border-blue-300 transition-all duration-300 flex flex-col justify-between group">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 rounded-[5px] bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                <div className="w-12 h-12  text-blue-600 flex items-center justify-center  transition-colors duration-300">
                   <Mail size={22} />
                 </div>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200">
-                  Corporativo
-                </span>
               </div>
-              <h2 className="text-base font-bold text-gray-900 mb-1">E-mail Comercial</h2>
-              <p className="text-xs text-gray-500 mb-3">Para propostas e parcerias</p>
-              <p className="text-sm font-semibold text-gray-800 break-all">geral@envisio.co.ao</p>
+              <h2 className="text-base font-bold text-gray-900 mb-1">
+                E-mail Comercial
+              </h2>
+              <p className="text-xs text-gray-500 mb-3">
+                Para propostas e parcerias
+              </p>
+              <p className="text-sm font-semibold text-gray-800 break-all">
+                geral@envisio.co.ao
+              </p>
             </div>
             <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-1 text-xs font-bold text-blue-600 group-hover:text-blue-700">
               <span>Enviar mensagem</span>
-              <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight
+                size={13}
+                className="group-hover:translate-x-1 transition-transform"
+              />
             </div>
           </motion.a>
 
@@ -248,22 +265,26 @@ const Contato: React.FC = () => {
             className="bg-white p-6 rounded-[5px] border border-gray-200 shadow-sm hover:shadow-xl hover:border-red-300 transition-all duration-300 flex flex-col justify-between group">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 rounded-[5px] bg-red-50 text-red-600 flex items-center justify-center group-hover:bg-red-600 group-hover:text-white transition-colors duration-300">
+                <div className="w-12 h-12 text-red-600 flex items-center justify-center  transition-colors duration-300">
                   <MapPin size={22} />
                 </div>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-red-50 text-red-700 border border-red-200">
-                  Sede Luanda
-                </span>
               </div>
-              <h2 className="text-base font-bold text-gray-900 mb-1">Visite a Nossa Sede</h2>
-              <p className="text-xs text-gray-500 mb-3">Distrito Urbano do Talatona</p>
+              <h2 className="text-base font-bold text-gray-900 mb-1">
+                Visite a Nossa Sede
+              </h2>
+              <p className="text-xs text-gray-500 mb-3">
+                Distrito Urbano do Talatona
+              </p>
               <p className="text-xs font-medium text-gray-800 leading-snug">
                 Condomínio Jardins do Talatona, Torre 5 - Nº 003, Luanda
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-1 text-xs font-bold text-red-600 group-hover:text-red-700">
               <span>Abrir no Google Maps</span>
-              <ExternalLink size={13} className="group-hover:translate-x-0.5 transition-transform" />
+              <ExternalLink
+                size={13}
+                className="group-hover:translate-x-0.5 transition-transform"
+              />
             </div>
           </motion.a>
         </div>
@@ -281,19 +302,31 @@ const Contato: React.FC = () => {
                   <Clock size={20} />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-gray-900">Horário de Operação</h3>
-                  <p className="text-xs text-gray-500">Fuso horário: Luanda (WAT / GMT+1)</p>
+                  <h3 className="text-sm font-bold text-gray-900">
+                    Horário de Operação
+                  </h3>
+                  <p className="text-xs text-gray-500">
+                    Fuso horário: Luanda (WAT / GMT+1)
+                  </p>
                 </div>
               </div>
 
               <div className="space-y-2.5 text-xs text-gray-600">
                 <div className="flex items-center justify-between py-1.5 border-b border-gray-100">
-                  <span className="font-medium text-gray-700">Segunda a Sexta</span>
-                  <span className="font-semibold text-gray-900">08:00 — 17:00</span>
+                  <span className="font-medium text-gray-700">
+                    Segunda a Sexta
+                  </span>
+                  <span className="font-semibold text-gray-900">
+                    08:00 — 17:00
+                  </span>
                 </div>
                 <div className="flex items-center justify-between py-1.5 border-b border-gray-100">
-                  <span className="font-medium text-gray-700">Sábado e Domingo</span>
-                  <span className="text-gray-500 italic">Plantão de Suporte Técnico</span>
+                  <span className="font-medium text-gray-700">
+                    Sábado e Domingo
+                  </span>
+                  <span className="text-gray-500 italic">
+                    Plantão de Suporte Técnico
+                  </span>
                 </div>
                 <div className="flex items-center justify-between pt-1">
                   <span className="font-medium text-emerald-600 flex items-center gap-1.5">
@@ -321,7 +354,9 @@ const Contato: React.FC = () => {
               <div className="p-4 bg-slate-50/70 border-t border-gray-200 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2 text-xs text-gray-700">
                   <MapPin size={14} className="text-red-600 shrink-0" />
-                  <span className="truncate font-medium">Condomínio Jardins do Talatona</span>
+                  <span className="truncate font-medium">
+                    Condomínio Jardins do Talatona
+                  </span>
                 </div>
                 <a
                   href="https://www.google.com/maps?q=Condom%C3%ADnio%20Jardins%20do%20Talatona%2C%20Torre%205%20-%20N%C2%BA%20003%2C%20Luanda%2C%20Angola"
@@ -332,47 +367,16 @@ const Contato: React.FC = () => {
                 </a>
               </div>
             </div>
-
-            {/* Card: Compromissos & Prova Social */}
-            <div className="bg-gradient-to-br from-slate-900 to-black text-white p-6 rounded-[5px] shadow-lg border border-slate-800">
-              <div className="flex items-center gap-2 mb-3">
-                <ShieldCheck size={18} className="text-red-500" />
-                <h4 className="text-sm font-bold text-white uppercase tracking-wider">
-                  Compromisso Envisio
-                </h4>
-              </div>
-              <p className="text-xs text-slate-300 leading-relaxed mb-4">
-                Atuamos com consultores e engenheiros certificados no mercado angolano,
-                assegurando total confidencialidade e soluções sob medida para a sua operação.
-              </p>
-              <div className="grid grid-cols-2 gap-3 pt-3 border-t border-slate-800 text-[11px]">
-                <div className="flex items-center gap-1.5 text-slate-300">
-                  <CheckCircle2 size={12} className="text-emerald-400 shrink-0" />
-                  <span>Atendimento Ágil</span>
-                </div>
-                <div className="flex items-center gap-1.5 text-slate-300">
-                  <CheckCircle2 size={12} className="text-emerald-400 shrink-0" />
-                  <span>Presença Local</span>
-                </div>
-                <div className="flex items-center gap-1.5 text-slate-300">
-                  <CheckCircle2 size={12} className="text-emerald-400 shrink-0" />
-                  <span>Sistemas Homologados</span>
-                </div>
-                <div className="flex items-center gap-1.5 text-slate-300">
-                  <CheckCircle2 size={12} className="text-emerald-400 shrink-0" />
-                  <span>Suporte Contínuo</span>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* COLUNA DIREITA: Formulário Ultra-Moderno (7 colunas) */}
           <div className="lg:col-span-7">
             <div className="bg-white rounded-[5px] border border-gray-200 p-6 sm:p-8 shadow-xl relative">
               <div className="mb-6 pb-4 border-b border-gray-100">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
+                <h2 className="text-xl sm:text-2xl font-normal text-gray-900 leading-tight mb-2">
                   Envie a Sua Mensagem
                 </h2>
+                <div className="w-12 h-1 bg-red-600 mb-3 rounded-full" />
                 <p className="text-xs sm:text-sm text-gray-500 mt-1">
                   Preencha o formulário e a nossa equipa entrará em contacto prontamente.
                 </p>
@@ -436,7 +440,8 @@ const Contato: React.FC = () => {
                         <label
                           htmlFor="name"
                           className="block text-xs font-semibold text-gray-700 mb-1.5">
-                          Nome do Responsável <span className="text-red-600">*</span>
+                          Nome do Responsável{" "}
+                          <span className="text-red-600">*</span>
                         </label>
                         <input
                           id="name"
@@ -453,7 +458,8 @@ const Contato: React.FC = () => {
                         <label
                           htmlFor="apelido"
                           className="block text-xs font-semibold text-gray-700 mb-1.5">
-                          Apelido / Sobrenome <span className="text-red-600">*</span>
+                          Apelido / Sobrenome{" "}
+                          <span className="text-red-600">*</span>
                         </label>
                         <input
                           id="apelido"
@@ -473,7 +479,8 @@ const Contato: React.FC = () => {
                         <label
                           htmlFor="empresa"
                           className="block text-xs font-semibold text-gray-700 mb-1.5">
-                          Nome da Empresa <span className="text-red-600">*</span>
+                          Nome da Empresa{" "}
+                          <span className="text-red-600">*</span>
                         </label>
                         <input
                           id="empresa"
@@ -559,13 +566,27 @@ const Contato: React.FC = () => {
                     onChange={handleInputChange}
                     className="w-full px-3.5 py-2.5 rounded-[5px] border border-gray-300 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-600 transition cursor-pointer">
                     <option value="">Selecione o serviço pretendido</option>
-                    <option value="Renting de Equipamentos">Renting de Equipamentos & Impressoras</option>
-                    <option value="Sistemas de Segurança">Sistemas de Segurança & Redes (CCTV / Biometria)</option>
-                    <option value="Instalação de ERP">Instalação & Suporte a Sistemas ERP (Primavera)</option>
-                    <option value="Desenvolvimento Web">Desenvolvimento Web & Software Sob Medida</option>
-                    <option value="Consultoria em TI">Consultoria em TI & Auditoria de Sistemas</option>
-                    <option value="Consultoria Digital">Consultoria Digital & Automação de Processos</option>
-                    <option value="Outro Assunto">Outro Assunto / Suporte Geral</option>
+                    <option value="Renting de Equipamentos">
+                      Renting de Equipamentos & Impressoras
+                    </option>
+                    <option value="Sistemas de Segurança">
+                      Sistemas de Segurança & Redes (CCTV / Biometria)
+                    </option>
+                    <option value="Instalação de ERP">
+                      Instalação & Suporte a Sistemas ERP (Primavera)
+                    </option>
+                    <option value="Desenvolvimento Web">
+                      Desenvolvimento Web & Software Sob Medida
+                    </option>
+                    <option value="Consultoria em TI">
+                      Consultoria em TI & Auditoria de Sistemas
+                    </option>
+                    <option value="Consultoria Digital">
+                      Consultoria Digital & Automação de Processos
+                    </option>
+                    <option value="Outro Assunto">
+                      Outro Assunto / Suporte Geral
+                    </option>
                   </select>
                 </div>
 
@@ -574,7 +595,8 @@ const Contato: React.FC = () => {
                   <label
                     htmlFor="message"
                     className="block text-xs font-semibold text-gray-700 mb-1.5">
-                    Mensagem / Detalhes do Projeto <span className="text-red-600">*</span>
+                    Mensagem / Detalhes do Projeto{" "}
+                    <span className="text-red-600">*</span>
                   </label>
                   <textarea
                     id="message"
@@ -591,7 +613,8 @@ const Contato: React.FC = () => {
                 {/* 6. MÉTODO DE ENVIO (CARDS SELECIONÁVEIS) */}
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">
-                    Canal de Envio Preferencial <span className="text-red-600">*</span>
+                    Canal de Envio Preferencial{" "}
+                    <span className="text-red-600">*</span>
                   </label>
                   <div className="grid grid-cols-2 gap-3">
                     <button
@@ -605,7 +628,9 @@ const Contato: React.FC = () => {
                       <WhatsAppIcon className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
                       <div>
                         <div className="flex items-center gap-1.5">
-                          <span className="text-xs font-bold text-gray-900">WhatsApp</span>
+                          <span className="text-xs font-bold text-gray-900">
+                            WhatsApp
+                          </span>
                           <span className="text-[9px] font-extrabold uppercase bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded-full">
                             Direto
                           </span>
@@ -626,7 +651,9 @@ const Contato: React.FC = () => {
                       }`}>
                       <Mail className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
                       <div>
-                        <span className="text-xs font-bold text-gray-900">E-mail</span>
+                        <span className="text-xs font-bold text-gray-900">
+                          E-mail
+                        </span>
                         <p className="text-[11px] text-gray-500 mt-0.5">
                           Envia diretamente para a central
                         </p>
@@ -693,8 +720,8 @@ const Contato: React.FC = () => {
                 Mensagem Registada com Sucesso!
               </h3>
               <p className="text-sm text-gray-600 leading-relaxed mb-6">
-                Obrigado pelo seu contacto. A nossa equipa analisará o seu pedido e
-                retornará em breve pelo canal indicado.
+                Obrigado pelo seu contacto. A nossa equipa analisará o seu
+                pedido e retornará em breve pelo canal indicado.
               </p>
               <button
                 onClick={() => setFormSubmitted(false)}

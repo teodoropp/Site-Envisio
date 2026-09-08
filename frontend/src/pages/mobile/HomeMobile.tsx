@@ -214,7 +214,7 @@ export function HomeMobile() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden relative">
-      {/* 1. HERO SECTION (Mantida 100% como está) */}
+      {/* 1. HERO SECTION */}
       <section className="relative w-full md:hidden pt-[54px]">
         <MobileCarousel slides={heroSlides} />
       </section>

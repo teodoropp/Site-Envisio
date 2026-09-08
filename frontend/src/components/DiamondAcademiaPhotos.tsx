@@ -11,10 +11,10 @@ interface DiamondAcademiaPhotosProps {
 export default function DiamondAcademiaPhotos({
   className = "",
   images = [
-    "/images/espaco/foto-01.jpg",
-    "/images/espaco/foto-02.jpg",
-    "/images/espaco/foto-03.jpg",
-    "/images/espaco/foto-04.jpg",
+    "/images/espaco/sala-formacao-01.jpg",
+    "/images/espaco/recepcao-01.jpg",
+    "/images/espaco/sala-reuniao-01.jpg",
+    "/images/espaco/escritorio-01.jpg",
   ],
 }: DiamondAcademiaPhotosProps) {
   const [topImg, leftImg, rightImg, bottomImg] = images;

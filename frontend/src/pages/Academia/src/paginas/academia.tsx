@@ -29,13 +29,13 @@ const slides = [
     imagemUrl: "/academia/Slide4.jpg",
     titulo: "Domine Sistemas ERP",
     subtitulo:
-      "Aprenda do zero ao avançado com o software de gestão Cegid Primavera e impulsione sua carreira.",
+      "Aprenda do zero ao avançado com o software de gestão Cegid Primavera e impulsione a sua carreira.",
     cta: "Ver Cursos",
     link: "/academia",
   },
   {
-    imagemUrl: "/academia/Slide3.jpg",
-    titulo: "Sua Carreira Decola Aqui",
+    imagemUrl: "/images/espaco/sala-formacao-01.jpg",
+    titulo: "A Sua Carreira Começa Aqui",
     subtitulo:
       "Formação prática com especialistas de mercado e laboratórios totalmente equipados.",
     cta: "Conhecer a Academia",
@@ -43,7 +43,7 @@ const slides = [
   },
   {
     imagemUrl: "/academia/Slide1.jpg",
-    titulo: "Impulsione seu Aprendizado",
+    titulo: "Impulsione a Sua Aprendizagem",
     subtitulo:
       "Aproveite descontos exclusivos nas matrículas para turmas de abertura rápida.",
     cta: "Quero Desconto",
@@ -155,8 +155,7 @@ const Academia = () => {
 
     const invalidFiles = Array.from(arquivos).some(
       (file) =>
-        file.type !== "application/pdf" &&
-        !file.type.startsWith("image/"),
+        file.type !== "application/pdf" && !file.type.startsWith("image/"),
     );
     if (invalidFiles) {
       setError("Apenas ficheiros PDF ou Imagens (PNG, JPG) são permitidos.");
@@ -748,16 +747,13 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Cabeçalho alinhado ao centro */}
           <div className="mb-8 text-center flex flex-col items-center">
-            <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold uppercase tracking-wider text-red-600 bg-red-50 rounded-[5px]">
-              Nossas Formações
+            <span className="text-xs uppercase tracking-widest text-red-600 font-bold mb-2 block">
+              Formações Profissionais
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight">
-              Formações que transformam a sua carreira
+            <h2 className="text-2xl sm:text-3xl font-normal text-gray-900 tracking-tight mb-3">
+              Formações que Transformam a Sua Carreira
             </h2>
-            <p className="mt-2 text-[12px] text-gray-500 max-w-2xl mx-auto">
-              Desde fundamentos técnicos até soluções empresariais, a Envisio
-              apoia o seu desenvolvimento profissional.
-            </p>
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
           </div>
 
           {/* Filtros por Categoria */}
@@ -1015,7 +1011,8 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
                       Inscrição Enviada!
                     </h3>
                     <p className="text-gray-600">
-                      Obrigado pela sua inscrição. Entraremos em contacto brevemente.
+                      Obrigado pela sua inscrição. Entraremos em contacto
+                      brevemente.
                     </p>
                   </div>
                 ) : (
@@ -1410,16 +1407,13 @@ const DepoimentosCarrossel = () => {
       <div className="absolute inset-0 bg-gray-50/50 pointer-events-none" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="mb-12 text-center flex flex-col items-center">
-          <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold uppercase tracking-wider text-red-600 bg-red-50 rounded-[5px]">
+          <span className="text-xs uppercase tracking-widest font-bold text-red-600 mb-2 block">
             Testemunhos
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">
-            O que dizem os nossos alunos
+          <h2 className="text-2xl sm:text-3xl font-normal text-gray-900 tracking-tight mb-3">
+            O Que Dizem os Nossos Alunos
           </h2>
-          <p className="text-[12px] text-gray-500 max-w-2xl mx-auto">
-            Histórias reais de profissionais que impulsionaram as suas carreiras
-            com as formações práticas da Academia Envisio.
-          </p>
+          <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
         </div>
 
         {/* Container principal de exibição dos cards com setas nas extremidades */}
@@ -1702,7 +1696,7 @@ const faqs = [
   {
     pergunta: "Os certificados emitidos são reconhecidos pelo mercado?",
     resposta:
-      "Sim. A Academia Envisio emite certificados com validade e reconhecimento no mercado profissional de Angola, atestando de forma robusta as suas competências.",
+      "Sim. A Envisio Training Academy emite certificados com validade e reconhecimento no mercado profissional de Angola, atestando de forma robusta as suas competências.",
   },
   {
     pergunta: "Preciso de experiência prévia para iniciar uma formação?",

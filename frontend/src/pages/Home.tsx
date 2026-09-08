@@ -116,7 +116,7 @@ const businessSegments: Record<SegmentKey, Segment> = {
       "Mentoria Especializada",
       "Workshops Avançados",
     ],
-    image: "/images/espaco/foto-01.jpg",
+    image: "/images/espaco/sala-formacao-01.jpg",
     icon: "🎓",
     testimonial: {
       text: "Os cursos abriram portas para oportunidades internacionais",
@@ -255,7 +255,6 @@ export function HeroSection() {
       </div>
 
       {/* Carrossel Mobile */}
-
       <MobileCarousel slides={heroSlides} />
 
       {/* Nossa História Redesenhada */}
@@ -273,7 +272,7 @@ export function HeroSection() {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 2 }}
                 className="text-sm uppercase tracking-wider text-gray-900 mb-4 block"></motion.span>
-              <h2 className="text-5xl mb-6">
+              <h2 className="text-4xl font-normal mb-6">
                 Transformando negócios desde 2018
               </h2>
               <div className="w-24 h-1 bg-black mx-auto" />
@@ -287,7 +286,7 @@ export function HeroSection() {
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   className="space-y-6">
-                  <h3 className="text-3xl font-bold">Quem Somos</h3>
+                  <h3 className="text-2xl font-normal">Quem Somos</h3>
                   <p
                     style={{
                       fontSize: "16px",
@@ -377,7 +376,7 @@ export function HeroSection() {
             <span className="text-xs uppercase tracking-widest text-red-600 font-bold mb-2 block">
               Soluções Especializadas
             </span>
-            <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-900 tracking-tight mb-3">
+            <h2 className="text-3xl lg:text-3xl font-normal text-gray-900 tracking-tight mb-3">
               Os Nossos Serviços Especializados
             </h2>
             <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
@@ -470,57 +469,12 @@ export function HeroSection() {
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center max-w-3xl mx-auto mb-14">
             <span className="text-sm uppercase tracking-wider text-red-600 mb-4 block">
-              Formação Profissional de Elite
+              Formação Profissional
             </span>
-            <h2 className="text-5xl text-gray-900 mb-6">
+            <h2 className="text-3xl font-normal text-gray-900 mb-6">
               Desenvolva o Seu Potencial
             </h2>
             <div className="w-24 h-1 bg-red-600 mx-auto mb-8" />
-            <p className="text-xl text-gray-600">
-              Programas exclusivos desenvolvidos por especialistas para
-              impulsionar a sua carreira ao próximo nível
-            </p>
-          </motion.div>
-
-          {/* Destaque das Instalações Reais da Academia Envisio */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-5xl mx-auto mb-16 bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-md group">
-            <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
-              <div className="lg:col-span-7 relative h-64 sm:h-80 overflow-hidden bg-gray-950">
-                <img
-                  src="/images/espaco/foto-01.jpg"
-                  alt="Instalações e Salas de Formação da Academia Envisio"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  loading="lazy"
-                />
-                <span className="absolute top-4 left-4 bg-red-600 text-white text-[10px] font-black uppercase px-3 py-1 rounded-full tracking-wider shadow-md">
-                  Espaço Próprio em Luanda
-                </span>
-              </div>
-              <div className="lg:col-span-5 p-6 sm:p-8 text-left flex flex-col justify-center">
-                <span className="text-xs uppercase font-bold text-red-600 tracking-wider mb-2 block">
-                  Infraestrutura Tecnológica
-                </span>
-                <h3 className="text-xl sm:text-2xl font-extrabold text-gray-900 mb-3 leading-snug">
-                  Salas Equipadas com Computadores Individuais
-                </h3>
-                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed mb-6">
-                  Proporcionamos um ambiente 100% prático e climatizado no coração de Luanda, desenhado para que cada formando execute tarefas reais desde o primeiro dia.
-                </p>
-                <div>
-                  <button
-                    onClick={() => navigate("/academia/quem-somos")}
-                    className="inline-flex items-center gap-2 bg-gray-900 hover:bg-red-600 text-white font-bold px-4 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all shadow cursor-pointer">
-                    <span>Ver Galeria do Espaço</span>
-                    <ArrowRight size={14} />
-                  </button>
-                </div>
-              </div>
-            </div>
           </motion.div>
 
           {/* Grid dos Cursos Oficiais da Academia */}
@@ -672,14 +626,10 @@ export function HeroSection() {
             <span className="text-xs uppercase tracking-widest font-bold text-red-600 mb-3 block">
               Depoimentos
             </span>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
+            <h2 className="text-2xl md:text-3xl font-normal text-slate-900 mb-4 tracking-tight">
               O Que Dizem os Nossos Clientes
             </h2>
             <div className="w-20 h-1 bg-red-600 mx-auto mb-6 rounded-full" />
-            <p className="text-lg md:text-xl text-slate-600 font-normal max-w-xl mx-auto">
-              Histórias reais de sucesso e transformação digital com as nossas
-              soluções
-            </p>
           </motion.div>
 
           {/* Carrossel de Depoimentos */}
@@ -818,17 +768,12 @@ export function HeroSection() {
             <span className="text-xs uppercase tracking-[0.2em] text-red-600 mb-3 block">
               Parcerias Estratégicas
             </span>
-            <h2 className="text-5xl font-extrabold mb-4 text-gray-900 drop-shadow-sm">
+            <h2 className="text-3xl font-normal mb-4 text-gray-900 drop-shadow-sm">
               Nossos Clientes e Parceiros
             </h2>
             <div className="flex justify-center mb-8">
               <span className="inline-block w-24 h-1 rounded-full bg-gradient-to-r from-red-600 via-black to-red-600 shadow-md" />
             </div>
-            <p className="text-lg text-gray-500 leading-relaxed">
-              Colaboramos com as principais empresas do mercado
-              <br />
-              para oferecer as melhores soluções
-            </p>
           </motion.div>
 
           {/* Carrossel de Parceiros */}

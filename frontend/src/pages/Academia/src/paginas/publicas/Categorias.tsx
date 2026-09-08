@@ -92,8 +92,8 @@ export default function Categorias() {
               Categorias de Cursos
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Explore nossas categorias e encontre o curso perfeito para sua
-              jornada de aprendizado
+              Explore as nossas categorias e encontre o curso perfeito para a sua
+              jornada de aprendizagem
             </p>
           </motion.div>
         </div>

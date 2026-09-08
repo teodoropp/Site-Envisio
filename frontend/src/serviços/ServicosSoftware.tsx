@@ -227,14 +227,15 @@ const ServicosSoftware = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0 }}
-            className="text-4xl md:text-5xl text-red-600 mb-6">
-            Soluções Integradas de <span className="text-black">Software</span>
+            className="text-2xl sm:text-3xl font-normal text-gray-900 mb-3 tracking-tight">
+            Soluções Integradas de Software
           </motion.h3>
+          <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.05 }}
-            className="text-lg md:text-2xl text-gray-700 leading-relaxed max-w-3xl mx-auto">
+            className="text-base text-gray-600 leading-relaxed max-w-3xl mx-auto">
             Digitalização, automação e inovação para empresas modernas. Da
             consultoria estratégica ao desenvolvimento à medida, entregamos
             tecnologia de ponta para transformar o seu negócio.
@@ -284,24 +285,19 @@ const ServicosSoftware = () => {
       {/* Seção de Serviços em Destaque - agora carrossel */}
       <section className="py-24 bg-gradient-to-b from-white to-blue-50">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-20">
+          <div className="text-center mb-16">
+            <span className="text-xs uppercase tracking-widest text-red-600 font-bold mb-2 block">
+              Sistemas & Plataformas
+            </span>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-5 tracking-tight">
-              Nossas <span className="text-red-600">Soluções</span>
+              className="text-2xl sm:text-3xl font-normal text-gray-900 mb-3 tracking-tight">
+              As Nossas Soluções
             </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="text-lg md:text-2xl text-gray-600 max-w-2xl mx-auto">
-              Soluções inovadoras, confiáveis e sob medida para digitalizar e
-              automatizar a sua empresa.
-            </motion.p>
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
           </div>
 
           {/* Carrossel de cards */}
@@ -380,19 +376,10 @@ const ServicosSoftware = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-3xl text-red-400 md:text-4xl  mb-4">
-              Por que escolher as nossas{" "}
-              <span className="text-red-400">soluções de software</span>?
+              className="text-2xl sm:text-3xl font-normal text-white mb-3 tracking-tight">
+              Porquê Escolher as Nossas Soluções de Software?
             </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
-              Inovação, segurança e apoio especializado para o crescimento do
-              seu negócio.
-            </motion.p>
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -455,9 +442,10 @@ const ServicosSoftware = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl text-white mb-6">
+            className="text-2xl sm:text-3xl font-normal text-white mb-3 tracking-tight">
             Pronto para transformar a sua operação digital?
           </motion.h2>
+          <div className="w-16 h-1 bg-white/70 mx-auto mb-4 rounded-full" />
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

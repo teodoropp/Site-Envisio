@@ -84,17 +84,10 @@ const About = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-4xl font-semibold text-gray-900 mb-4">
+              className="text-2xl sm:text-3xl font-normal text-gray-900 mb-3 tracking-tight">
               Sobre Nós
             </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="text-lg text-gray-700 font-regular">
-              Conheça nossa história, missão e equipa
-            </motion.p>
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
           </div>
 
           {/* Abas de navegação */}

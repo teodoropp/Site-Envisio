@@ -279,7 +279,7 @@ const LinhaDoTempo = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-3xl font-normal text-gray-900 mb-4">
             Nossa Jornada
           </h2>
 
