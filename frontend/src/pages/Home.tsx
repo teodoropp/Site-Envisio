@@ -618,31 +618,34 @@ export function HeroSection() {
       </section>
 
       {/* Seção 7: Depoimentos */}
-      <section className="py-20 bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden">
-        <div className="absolute inset-0 w-full h-full bg-black/50" />
+      <section className="py-24 bg-gradient-to-b from-slate-50 via-gray-100/90 to-slate-50 relative overflow-hidden border-t border-slate-200/80">
+        {/* Efeitos decorativos suaves de iluminação no fundo */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-red-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-24 right-10 w-80 h-80 bg-slate-200/50 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 left-10 w-80 h-80 bg-red-100/40 rounded-full blur-3xl pointer-events-none" />
 
         <div className="container mx-auto px-6 relative z-10">
           {/* Cabeçalho */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-center max-w-3xl mx-auto mb-20">
-            <span className="text-sm uppercase tracking-wider text-red-400 mb-4 block">
+            className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-xs uppercase tracking-widest font-bold text-red-600 mb-3 block">
               Depoimentos
             </span>
-            <h2 className="text-5xl text-white mb-6">
+            <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
               O Que Nossos Clientes Dizem
             </h2>
-            <div className="w-24 h-1 bg-red-600 mx-auto mb-8" />
-            <p className="text-xl text-gray-300">
-              Histórias de sucesso e transformação
+            <div className="w-20 h-1 bg-red-600 mx-auto mb-6 rounded-full" />
+            <p className="text-lg md:text-xl text-slate-600 font-normal max-w-xl mx-auto">
+              Histórias reais de sucesso e transformação digital com as nossas soluções
             </p>
           </motion.div>
 
           {/* Carrossel de Depoimentos */}
           <div className="flex flex-col items-center justify-center relative z-10">
             {/* Card centralizado */}
-            <div className="relative w-full max-w-xl mx-auto flex items-center justify-center min-h-[370px]">
+            <div className="relative w-full max-w-2xl mx-auto flex items-center justify-center min-h-[380px]">
               {/* Botão Anterior */}
               <button
                 onClick={() =>
@@ -652,11 +655,9 @@ export function HeroSection() {
                       : prev - 1,
                   )
                 }
-                className="absolute left-[-80px] top-1/2 -translate-y-1/2 z-30 flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-gray-800 via-gray-900 to-black border-2 border-white/10 shadow-2xl hover:from-red-700 hover:to-red-900 hover:border-red-500 hover:scale-110 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-red-400/40"
-                aria-label="Anterior"
-                style={{ marginRight: "24px" }}>
-                <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="12" fill="none" />
+                className="absolute left-[-24px] md:left-[-72px] top-1/2 -translate-y-1/2 z-30 flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-full bg-white text-slate-700 border border-slate-200/90 shadow-lg shadow-slate-200/80 hover:bg-red-600 hover:text-white hover:border-red-600 hover:scale-110 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-red-400/20 cursor-pointer"
+                aria-label="Anterior">
+                <svg width="26" height="26" fill="none" viewBox="0 0 24 24">
                   <path
                     d="M15 19l-7-7 7-7"
                     stroke="currentColor"
@@ -671,44 +672,56 @@ export function HeroSection() {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentSlide}
-                  initial={{ opacity: 0, scale: 0.96, y: 30 }}
+                  initial={{ opacity: 0, scale: 0.96, y: 24 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.96, y: -30 }}
-                  transition={{ duration: 0.5, type: "spring" }}
-                  className="relative bg-gradient-to-br from-white/10 via-black/40 to-gray-900/30 backdrop-blur-lg rounded-[5px] shadow-2xl border border-white/10 px-8 py-12 flex flex-col items-center w-full">
-                  {/* Aspas decorativas */}
-                  <div className="absolute -top-8 left-8 text-7xl text-red-600/20 select-none pointer-events-none">
+                  exit={{ opacity: 0, scale: 0.96, y: -24 }}
+                  transition={{ duration: 0.45, type: "spring" }}
+                  className="relative bg-white/95 backdrop-blur-md rounded-2xl shadow-xl shadow-slate-200/70 border border-slate-200/80 px-8 md:px-14 py-12 flex flex-col items-center w-full transition-all">
+                  {/* Aspas decorativas em tom suave */}
+                  <div className="absolute top-4 left-6 text-7xl font-serif text-red-600/10 select-none pointer-events-none leading-none">
                     “
                   </div>
-                  <div className="absolute -bottom-8 right-8 text-7xl text-red-600/20 select-none pointer-events-none">
+                  <div className="absolute bottom-4 right-6 text-7xl font-serif text-red-600/10 select-none pointer-events-none leading-none">
                     ”
                   </div>
 
+                  {/* Estrelas de Avaliação */}
+                  <div className="flex items-center gap-1 mb-6 text-amber-400">
+                    {[...Array(5)].map((_, i) => (
+                      <svg
+                        key={i}
+                        className="w-5 h-5 fill-current text-amber-400"
+                        viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+
                   {/* Texto do Depoimento */}
-                  <p className="text-gray-100 text-2xl md:text-2xl italic mb-8 text-center drop-shadow">
-                    {
+                  <p className="text-slate-700 text-lg md:text-2xl italic mb-8 text-center leading-relaxed font-normal">
+                    "{
                       Object.values(businessSegments)[currentSlide].testimonial
                         .text
-                    }
+                    }"
                   </p>
 
                   {/* Linha divisória */}
-                  <div className="w-24 h-[2px] bg-gradient-to-r from-red-600 via-white/60 to-red-600 rounded-full mb-6 opacity-70" />
+                  <div className="w-20 h-0.5 bg-gradient-to-r from-transparent via-red-500/50 to-transparent rounded-full mb-6" />
 
                   {/* Autor */}
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="w-16 h-16 rounded-full bg-red-600/30 flex items-center justify-center shadow-lg ring-2 ring-red-600/30 mb-2">
-                      <span className="text-3xl">
+                  <div className="flex flex-col items-center gap-1.5 text-center">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-red-50 to-red-100/80 border-2 border-red-500/20 text-red-600 flex items-center justify-center shadow-sm mb-2 text-3xl">
+                      <span>
                         {Object.values(businessSegments)[currentSlide].icon}
                       </span>
                     </div>
-                    <h4 className="text-white text-lg">
+                    <h4 className="text-slate-900 font-bold text-lg md:text-xl">
                       {
                         Object.values(businessSegments)[currentSlide]
                           .testimonial.author
                       }
                     </h4>
-                    <p className="text-red-400 text-sm">
+                    <p className="text-red-600 font-semibold text-sm">
                       {
                         Object.values(businessSegments)[currentSlide]
                           .testimonial.role
@@ -727,11 +740,9 @@ export function HeroSection() {
                       : prev + 1,
                   )
                 }
-                className="absolute right-[-80px] top-1/2 -translate-y-1/2 z-30 flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-red-600 via-red-700 to-red-800 border-2 border-white/10 shadow-2xl hover:from-red-700 hover:to-black hover:border-red-500 hover:scale-110 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-red-400/40"
-                aria-label="Próximo"
-                style={{ marginLeft: "24px" }}>
-                <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="12" fill="none" />
+                className="absolute right-[-24px] md:right-[-72px] top-1/2 -translate-y-1/2 z-30 flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-full bg-red-600 text-white border border-red-600 shadow-lg shadow-red-600/30 hover:bg-red-700 hover:scale-110 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-red-400/30 cursor-pointer"
+                aria-label="Próximo">
+                <svg width="26" height="26" fill="none" viewBox="0 0 24 24">
                   <path
                     d="M9 5l7 7-7 7"
                     stroke="currentColor"
@@ -744,15 +755,15 @@ export function HeroSection() {
             </div>
 
             {/* Indicadores minimalistas */}
-            <div className="flex justify-center gap-2 mt-10 z-10">
+            <div className="flex justify-center items-center gap-2.5 mt-10 z-10">
               {Object.values(businessSegments).map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
-                  className={`transition-all duration-300 focus:outline-none ${
+                  className={`transition-all duration-300 focus:outline-none cursor-pointer ${
                     currentSlide === index
-                      ? "w-8 h-3 bg-gradient-to-r from-red-600 to-red-600 rounded-full shadow-lg ring-2 ring-red-400/70"
-                      : "w-3 h-3 bg-white/20 rounded-full hover:bg-red-600/40"
+                      ? "w-8 h-2.5 bg-red-600 rounded-full shadow-md shadow-red-600/30 ring-2 ring-red-400/40"
+                      : "w-2.5 h-2.5 bg-slate-300 rounded-full hover:bg-red-400"
                   }`}
                   aria-label={`Ir para o depoimento ${index + 1}`}
                 />

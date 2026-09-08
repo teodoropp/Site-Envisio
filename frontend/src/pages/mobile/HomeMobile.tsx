@@ -674,13 +674,13 @@ export function HomeMobile() {
         </div>
       </section>
 
-      {/* 5. DEPOIMENTOS - Prova Social com Design Sofisticado */}
-      <section className="py-14 px-4 sm:px-6 bg-gradient-to-b from-slate-900 via-slate-900 to-black text-white relative overflow-hidden">
+      {/* 5. DEPOIMENTOS - Prova Social com Fundo Claro e Sofisticado */}
+      <section className="py-14 px-4 sm:px-6 bg-gradient-to-b from-slate-50 via-gray-100/90 to-slate-50 text-slate-800 relative overflow-hidden border-t border-slate-200/70">
         {/* Glow Sutil Vermelho no Fundo com Pulsação Suave */}
         <motion.div
           animate={{
             scale: [1, 1.15, 1],
-            opacity: [0.08, 0.16, 0.08],
+            opacity: [0.04, 0.08, 0.04],
           }}
           transition={{
             duration: 6,
@@ -697,10 +697,10 @@ export function HomeMobile() {
             viewport={{ once: true, margin: "-30px" }}
             transition={{ duration: 0.55, ease: smoothEase }}
             className="text-center">
-            <span className="text-[11px] uppercase tracking-wider text-red-400 font-bold mb-1.5 block">
+            <span className="text-[11px] uppercase tracking-wider text-red-600 font-bold mb-1.5 block">
               Confiança & Resultados
             </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               O Que Dizem os Nossos Clientes
             </h2>
             <motion.div
@@ -721,7 +721,7 @@ export function HomeMobile() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -12, scale: 0.98 }}
                 transition={{ duration: 0.35, ease: smoothEase }}
-                className="bg-slate-800/90 border border-slate-700/80 p-6 rounded-2xl shadow-xl backdrop-blur-xs flex flex-col justify-between min-h-[220px]">
+                className="bg-white/95 border border-slate-200/90 p-6 rounded-2xl shadow-xl shadow-slate-200/80 backdrop-blur-xs flex flex-col justify-between min-h-[220px]">
                 <div>
                   {/* Estrelas & Aspas */}
                   <div className="flex items-center justify-between mb-3">
@@ -736,24 +736,24 @@ export function HomeMobile() {
                         ),
                       )}
                     </div>
-                    <Quote size={24} className="text-red-500/40" />
+                    <Quote size={24} className="text-red-500/30" />
                   </div>
 
-                  <p className="text-sm text-slate-200 italic leading-relaxed mb-4">
+                  <p className="text-sm text-slate-700 italic leading-relaxed mb-4">
                     "{testimonials[currentSlide].text}"
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-slate-700/80 flex items-center justify-between">
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
                   <div>
-                    <p className="font-bold text-white text-xs sm:text-sm">
+                    <p className="font-bold text-slate-900 text-xs sm:text-sm">
                       {testimonials[currentSlide].company}
                     </p>
-                    <p className="text-[11px] text-slate-400">
+                    <p className="text-[11px] text-slate-500">
                       {testimonials[currentSlide].author}
                     </p>
                   </div>
-                  <span className="text-[10px] bg-red-500/15 text-red-300 border border-red-500/30 px-2.5 py-0.5 rounded-full font-medium">
+                  <span className="text-[10px] bg-red-50 text-red-600 border border-red-200/80 px-2.5 py-0.5 rounded-full font-semibold">
                     Cliente Verificado
                   </span>
                 </div>
@@ -770,7 +770,7 @@ export function HomeMobile() {
                   )
                 }
                 aria-label="Anterior"
-                className="w-9 h-9 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-white active:scale-90 transition-transform cursor-pointer">
+                className="w-9 h-9 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-700 active:bg-slate-100 active:scale-90 transition-transform cursor-pointer">
                 <ChevronLeft size={18} />
               </motion.button>
 
@@ -782,8 +782,8 @@ export function HomeMobile() {
                     aria-label={`Slide ${idx + 1}`}
                     className={`h-1.5 rounded-full transition-all duration-300 ${
                       idx === currentSlide
-                        ? "w-6 bg-red-500"
-                        : "w-2 bg-slate-700"
+                        ? "w-6 bg-red-600"
+                        : "w-2 bg-slate-300"
                     }`}
                   />
                 ))}
@@ -795,7 +795,7 @@ export function HomeMobile() {
                   setCurrentSlide((prev) => (prev + 1) % testimonials.length)
                 }
                 aria-label="Próximo"
-                className="w-9 h-9 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-white active:scale-90 transition-transform cursor-pointer">
+                className="w-9 h-9 rounded-full bg-red-600 border border-red-600 shadow-md shadow-red-600/30 flex items-center justify-center text-white active:bg-red-700 active:scale-90 transition-transform cursor-pointer">
                 <ChevronRight size={18} />
               </motion.button>
             </div>
