@@ -37,7 +37,7 @@ interface FormularioInscricaoProps {
 }
 
 const STEPS = [
-  { id: 1, title: "Dados Pessoais", description: "Nome e Contato", icon: User },
+  { id: 1, title: "Dados Pessoais", description: "Nome e Contacto", icon: User },
   {
     id: 2,
     title: "Perfil & Turno",

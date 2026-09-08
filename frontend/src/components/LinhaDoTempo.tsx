@@ -95,7 +95,7 @@ const eventos: Evento[] = [
     ano: "01/2025",
     titulo: "Novo Escritório e Academia",
     descricao:
-      "Inauguração do nosso novo escritório e academia, proporcionando melhores instalações para nossa equipe e clientes.",
+      "Inauguração do nosso novo escritório e academia, proporcionando melhores instalações para a nossa equipa e clientes.",
     icon: <Clock className="w-5 h-5 ml-4 mt-4" />,
     color: "from-red-500 to-red-400",
   },
@@ -104,7 +104,7 @@ const eventos: Evento[] = [
     ano: "09/2025",
     titulo: "Lançamento do Site",
     descricao:
-      "Lançamento oficial do nosso novo site, marcando nossa presença digital renovada e moderna.",
+      "Lançamento oficial do nosso novo site, marcando a nossa presença digital renovada e moderna.",
     icon: <Calendar className="w-5 h-5 ml-4 mt-4" />,
     color: "from-red-500 to-red-400",
   },

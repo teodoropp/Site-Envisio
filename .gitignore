@@ -1,5 +1,8 @@
-﻿node_modules/
+node_modules/
 **/node_modules/
 backend/uploads/
 backend/uploads/**
 *.bak
+*.zip
+*Envisio-espaço*
+*Envisio-espa*

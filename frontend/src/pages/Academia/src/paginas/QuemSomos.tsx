@@ -16,12 +16,17 @@ import {
   ChevronRight,
   X,
   ArrowRight,
+  Camera,
+  Maximize2,
+  Sparkles,
 } from "lucide-react";
 import { DiamondGrid } from "../../../../components/DiamondGrid";
 
 export default function QuemSomos() {
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const [selectedMembro, setSelectedMembro] = React.useState<any>(null);
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = React.useState<number | null>(null);
+  const [photoFilter, setPhotoFilter] = React.useState<string>("todos");
   const [width, setWidth] = React.useState(
     typeof window !== "undefined" ? window.innerWidth : 1200,
   );
@@ -33,6 +38,114 @@ export default function QuemSomos() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Navegação por teclado na galeria do espaço
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (selectedPhotoIndex === null) return;
+      if (e.key === "Escape") setSelectedPhotoIndex(null);
+      if (e.key === "ArrowLeft") {
+        setSelectedPhotoIndex((prev) =>
+          prev !== null ? (prev - 1 + espacoFotos.length) % espacoFotos.length : null,
+        );
+      }
+      if (e.key === "ArrowRight") {
+        setSelectedPhotoIndex((prev) =>
+          prev !== null ? (prev + 1) % espacoFotos.length : null,
+        );
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedPhotoIndex]);
+
+  // Fotos reais do espaço e instalações da Academia Envisio
+  const espacoFotos = [
+    {
+      id: 1,
+      src: "/images/espaco/foto-01.jpg",
+      titulo: "Sala de Aula Principal e Postos Informáticos",
+      categoria: "Salas de Formação",
+      descricao: "Ambiente moderno equipado com postos de trabalho individuais e tecnologia de projeção interativa.",
+    },
+    {
+      id: 2,
+      src: "/images/espaco/foto-02.jpg",
+      titulo: "Espaço de Recepção e Atendimento",
+      categoria: "Recepção & Acolhimento",
+      descricao: "Zona de boas-vindas desenhada para prestar todo o suporte aos nossos formandos desde o primeiro dia.",
+    },
+    {
+      id: 3,
+      src: "/images/espaco/foto-03.jpg",
+      titulo: "Postos Individuais de Trabalho",
+      categoria: "Tecnologia & Equipamento",
+      descricao: "Computadores preparados com software especializado para contabilidade, gestão e desenvolvimento.",
+    },
+    {
+      id: 4,
+      src: "/images/espaco/foto-04.jpg",
+      titulo: "Laboratório Tecnológico Prático",
+      categoria: "Salas de Formação",
+      descricao: "Bancadas práticas pensadas para simulações reais do mercado empresarial angolano.",
+    },
+    {
+      id: 5,
+      src: "/images/espaco/foto-05.jpg",
+      titulo: "Sala de Formação Executiva",
+      categoria: "Salas de Formação",
+      descricao: "Espaço climatizado e confortável para formações corporativas e programas avançados.",
+    },
+    {
+      id: 6,
+      src: "/images/espaco/foto-06.jpg",
+      titulo: "Estações de Estudo e Aprendizagem",
+      categoria: "Tecnologia & Equipamento",
+      descricao: "Equipamento informático atualizado que garante fluidez e máxima produtividade nas aulas.",
+    },
+    {
+      id: 7,
+      src: "/images/espaco/foto-07.jpg",
+      titulo: "Balcão de Atendimento e Inscrições",
+      categoria: "Recepção & Acolhimento",
+      descricao: "Atendimento dedicado para esclarecimento de dúvidas sobre percursos formativos e certificações.",
+    },
+    {
+      id: 8,
+      src: "/images/espaco/foto-08.jpg",
+      titulo: "Área de Convivência e Networking",
+      categoria: "Recepção & Acolhimento",
+      descricao: "Espaço descontraído para troca de contactos e experiências entre formandos e formadores.",
+    },
+    {
+      id: 9,
+      src: "/images/espaco/foto-09.jpg",
+      titulo: "Disposição Estruturada das Turmas",
+      categoria: "Salas de Formação",
+      descricao: "Turmas com lotação controlada para garantir acompanhamento próximo e personalizado.",
+    },
+    {
+      id: 10,
+      src: "/images/espaco/foto-10.jpg",
+      titulo: "Recursos Audiovisuais Integrados",
+      categoria: "Tecnologia & Equipamento",
+      descricao: "Ecrãs de apoio e ferramentas de suporte dinâmico às formações técnicas presenciais.",
+    },
+    {
+      id: 11,
+      src: "/images/espaco/foto-11.jpg",
+      titulo: "Ambiente para Workshops e Seminários",
+      categoria: "Salas de Formação",
+      descricao: "Infraestrutura flexível apta a acolher palestras e eventos de capacitação profissional.",
+    },
+    {
+      id: 12,
+      src: "/images/espaco/foto-12.jpg",
+      titulo: "Instalações Envisio em Luanda",
+      categoria: "Salas de Formação",
+      descricao: "O polo de excelência onde tecnologia e formação profissional prática se unem.",
+    },
+  ];
+
   const membros = [
     {
       nome: "João Silva",
@@ -40,7 +153,7 @@ export default function QuemSomos() {
       img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       formacao: "Mestre em Gestão de Informação - Universidade Nova de Lisboa",
       sobre:
-        "Líder e estrategista com vasta experiência em implementação de ERPs, o João guia nossos alunos no desenvolvimento de competências voltadas para liderança empresarial e otimização de processos corporativos.",
+        "Líder e estrategista com vasta experiência em implementação de ERPs, o João guia os nossos formandos no desenvolvimento de competências orientadas para a liderança empresarial e otimização de processos corporativos.",
       especialidades: [
         "ERP Primavera",
         "Gestão Estratégica",
@@ -53,7 +166,7 @@ export default function QuemSomos() {
       img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       formacao: "Pós-graduada em Psicologia Organizacional e Recursos Humanos",
       sobre:
-        "Com mais de 8 anos de atuação como consultora corporativa em grandes empresas angolanas, a Maria capacita alunos com as melhores práticas de atração, retenção e desenvolvimento de talentos no ecossistema moderno.",
+        "Com mais de 8 anos de atuação como consultora corporativa em grandes empresas angolanas, a Maria capacita os nossos formandos com as melhores práticas de atração, retenção e desenvolvimento de talentos no ecossistema moderno.",
       especialidades: [
         "Gestão de Talentos",
         "Psicologia Organizacional",
@@ -66,7 +179,7 @@ export default function QuemSomos() {
       img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       formacao: "Licenciado em Engenharia Informática - IST Portugal",
       sobre:
-        "Desenvolvedor Full Stack Sênior especializado em arquiteturas escaláveis. O Pedro possui grande paixão por compartilhar conhecimento prático sobre desenvolvimento de software com tecnologias modernas.",
+        "Desenvolvedor Full Stack Sénior especializado em arquiteturas escaláveis. O Pedro possui uma grande paixão por partilhar conhecimento prático sobre desenvolvimento de software com tecnologias modernas.",
       especialidades: [
         "React & Node.js",
         "Arquitetura Cloud",
@@ -79,7 +192,7 @@ export default function QuemSomos() {
       img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       formacao: "Mestre em Ciências de Dados - University of Essex",
       sobre:
-        "Especialista em traduzir grandes volumes de dados em insights de negócios valiosos. A Ana tem ajudado dezenas de organizações a criar e implementar estruturas robustas de tomadas de decisão orientadas a dados.",
+        "Especialista em traduzir grandes volumes de dados em insights de negócios valiosos. A Ana tem ajudado dezenas de organizações a criar e implementar estruturas robustas de tomada de decisão baseada em dados.",
       especialidades: [
         "Power BI & Tableau",
         "Linguagem Python",
@@ -92,7 +205,7 @@ export default function QuemSomos() {
       img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       formacao: "Bacharel em Comunicação e Marketing - ESPM",
       sobre:
-        "Focado em growth hacking e estratégias de aquisição digital, o Ricardo apoia profissionais e empresas a alcançarem resultados exponenciais de vendas e visibilidade no ambiente web.",
+        "Focado em estratégias de crescimento e aquisição digital, o Ricardo apoia profissionais e empresas a alcançarem resultados consistentes de visibilidade e notoriedade no ambiente online.",
       especialidades: ["SEO & SEM", "Estratégia de Conteúdo", "Copywriting"],
     },
     {
@@ -101,7 +214,7 @@ export default function QuemSomos() {
       img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       formacao: "Contabilista Certificada - Ordem dos Contabilistas de Angola",
       sobre:
-        "Com sólida experiência em auditoria de contas e consultoria fiscal, a Patrícia ajuda os nossos formandos a dominarem as dinâmicas do Sistema de Contabilidade Geral de Angola com abordagem estritamente operacional.",
+        "Com sólida experiência em auditoria de contas e consultoria fiscal, a Patrícia ajuda os nossos formandos a dominarem as dinâmicas do Sistema de Contabilidade Geral de Angola com abordagem estritamente prática e operacional.",
       especialidades: ["Auditoria Fiscal", "SGCA", "Planeamento de Impostos"],
     },
   ];
@@ -301,23 +414,23 @@ export default function QuemSomos() {
               <DiamondGrid
                 images={[
                   {
-                    src: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80",
-                    alt: "Alunos na Academia Envisio",
+                    src: "/images/espaco/foto-01.jpg",
+                    alt: "Sala de Formação com Computadores - Academia Envisio",
                     delay: 0.1,
                   },
                   {
-                    src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
-                    alt: "Estudantes em Grupo",
+                    src: "/images/espaco/foto-02.jpg",
+                    alt: "Área de Recepção da Academia Envisio",
                     delay: 0.2,
                   },
                   {
-                    src: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80",
-                    alt: "Trabalho em Equipa",
+                    src: "/images/espaco/foto-03.jpg",
+                    alt: "Postos de Trabalho Individuais e Práticos",
                     delay: 0.3,
                   },
                   {
-                    src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80",
-                    alt: "Profissionais a trabalhar",
+                    src: "/images/espaco/foto-04.jpg",
+                    alt: "Ambiente Moderno de Aprendizagem Prática",
                     delay: 0.4,
                   },
                 ]}
@@ -443,7 +556,7 @@ export default function QuemSomos() {
                 Inovação
               </h3>
               <p className="text-sm text-gray-600 leading-relaxed">
-                Buscamos constantemente novas tecnologias e ferramentas de
+                Procuramos constantemente novas tecnologias e ferramentas de
                 mercado, permitindo que a nossa formação esteja sempre alinhada
                 com as reais e atuais necessidades das empresas.
               </p>
@@ -750,6 +863,224 @@ export default function QuemSomos() {
                     )}
                   </div>
                 </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* 5.5. Galeria de Fotos: O Nosso Espaço & Instalações */}
+      <section className="py-24 bg-white relative overflow-hidden border-t border-gray-100">
+        {/* Soft Grid Background */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#F9FAFB_1px,transparent_1px),linear-gradient(to_bottom,#F9FAFB_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none opacity-60 z-0" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Header da Seção */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-3xl mx-auto mb-12">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-50 text-red-600 text-xs font-bold uppercase tracking-wider mb-3">
+              <Camera size={14} />
+              Infraestrutura & Tecnologia
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-4">
+              O Nosso Espaço de Formação
+            </h2>
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
+            <p className="text-base text-gray-600 leading-relaxed">
+              Instalações modernas em Luanda concebidas para proporcionar o melhor ambiente de aprendizagem prática, com salas climatizadas e postos individuais de computadores.
+            </p>
+
+            {/* Filtros de Categoria */}
+            <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
+              {[
+                { id: "todos", label: "Todos os Espaços" },
+                { id: "Salas de Formação", label: "Salas de Formação" },
+                { id: "Tecnologia & Equipamento", label: "Tecnologia & Postos" },
+                { id: "Recepção & Acolhimento", label: "Recepção & Convívio" },
+              ].map((f) => (
+                <button
+                  key={f.id}
+                  onClick={() => setPhotoFilter(f.id)}
+                  className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-full transition-all duration-200 cursor-pointer ${
+                    photoFilter === f.id
+                      ? "bg-gray-900 text-white shadow-md shadow-gray-900/20 scale-105"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900"
+                  }`}>
+                  {f.label}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Grid de Fotos */}
+          <motion.div
+            layout
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <AnimatePresence>
+              {espacoFotos
+                .filter(
+                  (foto) =>
+                    photoFilter === "todos" || foto.categoria === photoFilter,
+                )
+                .map((foto, idx) => {
+                  const globalIndex = espacoFotos.findIndex(
+                    (f) => f.id === foto.id,
+                  );
+
+                  return (
+                    <motion.div
+                      layout
+                      key={foto.id}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ duration: 0.35, delay: idx * 0.04 }}
+                      onClick={() => setSelectedPhotoIndex(globalIndex)}
+                      className="group relative bg-gray-100 rounded-xl overflow-hidden border border-gray-200/80 shadow-sm hover:shadow-xl hover:border-red-500/40 transition-all duration-300 cursor-pointer aspect-[4/3] flex flex-col justify-end">
+                      {/* Imagem */}
+                      <img
+                        src={foto.src}
+                        alt={foto.titulo}
+                        loading="lazy"
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                      />
+
+                      {/* Gradiente de Sobreposição */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-75 group-hover:opacity-90 transition-opacity duration-300" />
+
+                      {/* Botão de Zoom Flutuante no Topo */}
+                      <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm text-gray-900 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-md group-hover:scale-110">
+                        <Maximize2 size={14} />
+                      </div>
+
+                      {/* Tag de Categoria */}
+                      <div className="absolute top-3 left-3">
+                        <span className="bg-red-600 text-white text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider shadow-sm">
+                          {foto.categoria}
+                        </span>
+                      </div>
+
+                      {/* Legenda na base */}
+                      <div className="relative p-4 z-10 text-left">
+                        <h3 className="text-white text-sm font-bold leading-snug drop-shadow-sm group-hover:text-red-200 transition-colors">
+                          {foto.titulo}
+                        </h3>
+                        <p className="text-gray-300 text-[11px] line-clamp-1 mt-0.5 opacity-90">
+                          {foto.descricao}
+                        </p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Dica de interação */}
+          <div className="text-center mt-8 text-xs text-gray-400">
+            Clique em qualquer fotografia para ampliar e explorar as instalações em pormenor.
+          </div>
+        </div>
+      </section>
+
+      {/* Modal Lightbox de Foto Ampliada */}
+      {selectedPhotoIndex !== null && (
+        <div
+          onClick={() => setSelectedPhotoIndex(null)}
+          className="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 sm:p-6">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.92 }}
+            transition={{ duration: 0.25 }}
+            onClick={(e: React.MouseEvent) => e.stopPropagation()}
+            className="relative bg-neutral-900 text-white rounded-2xl overflow-hidden shadow-2xl max-w-4xl w-full flex flex-col border border-white/10">
+            {/* Barra de Topo com Contador e Fechar */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-neutral-950/60">
+              <div className="flex items-center gap-3">
+                <span className="text-xs font-bold uppercase tracking-wider text-red-400 bg-red-950/60 border border-red-800/40 px-3 py-1 rounded-full">
+                  {espacoFotos[selectedPhotoIndex].categoria}
+                </span>
+                <span className="text-xs text-gray-400">
+                  Foto {selectedPhotoIndex + 1} de {espacoFotos.length}
+                </span>
+              </div>
+              <button
+                onClick={() => setSelectedPhotoIndex(null)}
+                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                aria-label="Fechar visualizador">
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Área da Imagem com Setas */}
+            <div className="relative flex items-center justify-center bg-black/95 min-h-[320px] sm:min-h-[460px] max-h-[70vh] overflow-hidden">
+              <img
+                src={espacoFotos[selectedPhotoIndex].src}
+                alt={espacoFotos[selectedPhotoIndex].titulo}
+                className="max-h-[70vh] w-auto max-w-full object-contain select-none"
+              />
+
+              {/* Seta Anterior */}
+              <button
+                onClick={(e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  setSelectedPhotoIndex(
+                    (selectedPhotoIndex - 1 + espacoFotos.length) %
+                      espacoFotos.length,
+                  );
+                }}
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/60 hover:bg-red-600 text-white flex items-center justify-center transition-all shadow-lg border border-white/20 hover:border-red-600 hover:scale-110 cursor-pointer"
+                aria-label="Foto anterior">
+                <ChevronLeft size={24} />
+              </button>
+
+              {/* Seta Seguinte */}
+              <button
+                onClick={(e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  setSelectedPhotoIndex(
+                    (selectedPhotoIndex + 1) % espacoFotos.length,
+                  );
+                }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/60 hover:bg-red-600 text-white flex items-center justify-center transition-all shadow-lg border border-white/20 hover:border-red-600 hover:scale-110 cursor-pointer"
+                aria-label="Foto seguinte">
+                <ChevronRight size={24} />
+              </button>
+            </div>
+
+            {/* Rodapé com Informação da Foto */}
+            <div className="px-6 py-4 bg-neutral-950 flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-t border-white/10 text-left">
+              <div>
+                <h4 className="text-base sm:text-lg font-bold text-white">
+                  {espacoFotos[selectedPhotoIndex].titulo}
+                </h4>
+                <p className="text-xs sm:text-sm text-gray-400 mt-0.5">
+                  {espacoFotos[selectedPhotoIndex].descricao}
+                </p>
+              </div>
+
+              {/* Miniaturas de navegação rápida */}
+              <div className="flex items-center gap-1.5 overflow-x-auto py-1 max-w-full sm:max-w-[260px]">
+                {espacoFotos.map((f, i) => (
+                  <button
+                    key={f.id}
+                    onClick={() => setSelectedPhotoIndex(i)}
+                    className={`w-9 h-7 rounded overflow-hidden flex-shrink-0 border transition-all ${
+                      selectedPhotoIndex === i
+                        ? "border-red-500 scale-110 ring-1 ring-red-500"
+                        : "border-transparent opacity-40 hover:opacity-100"
+                    }`}>
+                    <img
+                      src={f.src}
+                      alt={f.titulo}
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
               </div>
             </div>
           </motion.div>

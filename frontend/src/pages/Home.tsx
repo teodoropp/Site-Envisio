@@ -72,10 +72,10 @@ const businessSegments: Record<SegmentKey, Segment> = {
     title: "Excelência em Contabilidade",
     subtitle: "Transformando números em estratégias",
     description:
-      "Soluções contábeis inovadoras para impulsionar seu negócio ao próximo nível",
+      "Soluções de contabilidade inovadoras para impulsionar o seu negócio ao próximo nível",
     features: [
       "Consultoria Fiscal Especializada",
-      "Planejamento Tributário Estratégico",
+      "Planeamento Tributário Estratégico",
       "Gestão Financeira Integrada",
       "Compliance e Governança",
     ],
@@ -91,7 +91,7 @@ const businessSegments: Record<SegmentKey, Segment> = {
     title: "Serviços Técnicos Especializados",
     subtitle: "Tecnologia e inovação ao seu alcance",
     description:
-      "Suporte técnico avançado e soluções personalizadas para sua empresa",
+      "Suporte técnico avançado e soluções personalizadas para a sua empresa",
     features: [
       "Infraestrutura de TI",
       "Segurança Digital",
@@ -116,7 +116,7 @@ const businessSegments: Record<SegmentKey, Segment> = {
       "Mentoria Especializada",
       "Workshops Avançados",
     ],
-    image: "/images/academia-bg.jpg",
+    image: "/images/espaco/foto-01.jpg",
     icon: "🎓",
     testimonial: {
       text: "Os cursos abriram portas para oportunidades internacionais",
@@ -334,7 +334,7 @@ export function HeroSection() {
                     whileTap={{ scale: 0.98 }}
                     onClick={() => navigate("/quem-somos")}
                     className="mt-8 w-full bg-red-600 text-white py-4 px-8 rounded-[5px] flex items-center justify-center group hover:bg-red-700 transition-all">
-                    Conheça Nossa História Completa
+                    Conheça a Nossa História Completa
                     <motion.span className="ml-2 group-hover:translate-x-1 transition-transform">
                       →
                     </motion.span>
@@ -351,7 +351,7 @@ export function HeroSection() {
                   <div className="relative rounded-[8px] overflow-hidden shadow-2xl">
                     <img
                       src="/images/banner_quem.webp"
-                      alt="Nossa Equipe"
+                      alt="A Nossa Equipa"
                       className="w-full h-[600px] object-cover"
                     />
                     <div className="absolute inset-0" />
@@ -378,7 +378,7 @@ export function HeroSection() {
               Soluções Especializadas
             </span>
             <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-900 tracking-tight mb-3">
-              Nossos Serviços Especializados
+              Os Nossos Serviços Especializados
             </h2>
             <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
             <p className="text-sm lg:text-base text-gray-600 max-w-2xl mx-auto">
@@ -468,18 +468,59 @@ export function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-center max-w-3xl mx-auto mb-20">
-            <span className="text-sm uppercase tracking-wider text-red-600  mb-4 block">
+            className="text-center max-w-3xl mx-auto mb-14">
+            <span className="text-sm uppercase tracking-wider text-red-600 mb-4 block">
               Formação Profissional de Elite
             </span>
             <h2 className="text-5xl text-gray-900 mb-6">
-              Desenvolva Seu Potencial
+              Desenvolva o Seu Potencial
             </h2>
             <div className="w-24 h-1 bg-red-600 mx-auto mb-8" />
             <p className="text-xl text-gray-600">
               Programas exclusivos desenvolvidos por especialistas para
-              impulsionar sua carreira ao próximo nível
+              impulsionar a sua carreira ao próximo nível
             </p>
+          </motion.div>
+
+          {/* Destaque das Instalações Reais da Academia Envisio */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-5xl mx-auto mb-16 bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-md group">
+            <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
+              <div className="lg:col-span-7 relative h-64 sm:h-80 overflow-hidden bg-gray-950">
+                <img
+                  src="/images/espaco/foto-01.jpg"
+                  alt="Instalações e Salas de Formação da Academia Envisio"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <span className="absolute top-4 left-4 bg-red-600 text-white text-[10px] font-black uppercase px-3 py-1 rounded-full tracking-wider shadow-md">
+                  Espaço Próprio em Luanda
+                </span>
+              </div>
+              <div className="lg:col-span-5 p-6 sm:p-8 text-left flex flex-col justify-center">
+                <span className="text-xs uppercase font-bold text-red-600 tracking-wider mb-2 block">
+                  Infraestrutura Tecnológica
+                </span>
+                <h3 className="text-xl sm:text-2xl font-extrabold text-gray-900 mb-3 leading-snug">
+                  Salas Equipadas com Computadores Individuais
+                </h3>
+                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed mb-6">
+                  Proporcionamos um ambiente 100% prático e climatizado no coração de Luanda, desenhado para que cada formando execute tarefas reais desde o primeiro dia.
+                </p>
+                <div>
+                  <button
+                    onClick={() => navigate("/academia/quem-somos")}
+                    className="inline-flex items-center gap-2 bg-gray-900 hover:bg-red-600 text-white font-bold px-4 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all shadow cursor-pointer">
+                    <span>Ver Galeria do Espaço</span>
+                    <ArrowRight size={14} />
+                  </button>
+                </div>
+              </div>
+            </div>
           </motion.div>
 
           {/* Grid dos Cursos Oficiais da Academia */}
@@ -620,9 +661,7 @@ export function HeroSection() {
       {/* Seção 7: Depoimentos */}
       <section className="py-24 bg-gradient-to-b from-slate-50 via-gray-100/90 to-slate-50 relative overflow-hidden border-t border-slate-200/80">
         {/* Efeitos decorativos suaves de iluminação no fundo */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-red-500/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -top-24 right-10 w-80 h-80 bg-slate-200/50 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 left-10 w-80 h-80 bg-red-100/40 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-red-500/1 rounded-full blur-3xl pointer-events-none" />
 
         <div className="container mx-auto px-6 relative z-10">
           {/* Cabeçalho */}
@@ -634,11 +673,12 @@ export function HeroSection() {
               Depoimentos
             </span>
             <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
-              O Que Nossos Clientes Dizem
+              O Que Dizem os Nossos Clientes
             </h2>
             <div className="w-20 h-1 bg-red-600 mx-auto mb-6 rounded-full" />
             <p className="text-lg md:text-xl text-slate-600 font-normal max-w-xl mx-auto">
-              Histórias reais de sucesso e transformação digital com as nossas soluções
+              Histórias reais de sucesso e transformação digital com as nossas
+              soluções
             </p>
           </motion.div>
 
@@ -676,7 +716,7 @@ export function HeroSection() {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.96, y: -24 }}
                   transition={{ duration: 0.45, type: "spring" }}
-                  className="relative bg-white/95 backdrop-blur-md rounded-2xl shadow-xl shadow-slate-200/70 border border-slate-200/80 px-8 md:px-14 py-12 flex flex-col items-center w-full transition-all">
+                  className="relative bg-white/95 backdrop-blur-md rounded-2xl shadow-xl shadow-slate-200/70 border border-slate-200/80 px-8 md:px-14 py-12 flex flex-col items-center w-[500px] transition-all">
                   {/* Aspas decorativas em tom suave */}
                   <div className="absolute top-4 left-6 text-7xl font-serif text-red-600/10 select-none pointer-events-none leading-none">
                     “
@@ -685,24 +725,14 @@ export function HeroSection() {
                     ”
                   </div>
 
-                  {/* Estrelas de Avaliação */}
-                  <div className="flex items-center gap-1 mb-6 text-amber-400">
-                    {[...Array(5)].map((_, i) => (
-                      <svg
-                        key={i}
-                        className="w-5 h-5 fill-current text-amber-400"
-                        viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
-
                   {/* Texto do Depoimento */}
                   <p className="text-slate-700 text-lg md:text-2xl italic mb-8 text-center leading-relaxed font-normal">
-                    "{
+                    "
+                    {
                       Object.values(businessSegments)[currentSlide].testimonial
                         .text
-                    }"
+                    }
+                    "
                   </p>
 
                   {/* Linha divisória */}
@@ -710,7 +740,8 @@ export function HeroSection() {
 
                   {/* Autor */}
                   <div className="flex flex-col items-center gap-1 text-center">
-                    {Object.values(businessSegments)[currentSlide].testimonial.author && (
+                    {Object.values(businessSegments)[currentSlide].testimonial
+                      .author && (
                       <h4 className="text-slate-900 font-bold text-lg md:text-xl">
                         {
                           Object.values(businessSegments)[currentSlide]
@@ -845,7 +876,7 @@ export function HeroSection() {
               className="bg-gradient-to-br from-gray-900 to-black text-white p-8 rounded-[5px] shadow-2xl border border-gray-200 mx-auto" // Adicionado mx-auto aqui também
             >
               <h3 className="text-2xl mb-4 text-white text-center">
-                Quer se Tornar um Parceiro?
+                Quer Ser Nosso Parceiro?
               </h3>
               <p className="text-gray-300 mb-6 max-w-2xl mx-auto text-center text-base">
                 Junte-se a nós e faça parte de uma rede de empresas
@@ -857,7 +888,7 @@ export function HeroSection() {
                   whileTap={{ scale: 0.95 }}
                   onClick={() => navigate("/contato")}
                   className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-[5px] inline-flex items-center group transition-all">
-                  Entre em Contato
+                  Entre em Contacto
                   <span className="ml-2 group-hover:translate-x-1 transition-transform">
                     →
                   </span>

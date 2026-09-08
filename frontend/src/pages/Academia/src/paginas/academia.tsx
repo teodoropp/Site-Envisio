@@ -1015,7 +1015,7 @@ Olá, gostaria de confirmar a minha inscrição na Academia Envisio!`;
                       Inscrição Enviada!
                     </h3>
                     <p className="text-gray-600">
-                      Obrigado por se inscrever. Entraremos em contato em breve.
+                      Obrigado pela sua inscrição. Entraremos em contacto brevemente.
                     </p>
                   </div>
                 ) : (

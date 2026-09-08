@@ -856,8 +856,8 @@ export function HomeMobile() {
               className="bg-gradient-to-br from-gray-900 via-gray-900 to-black text-white p-7 sm:p-8 rounded-[5px] shadow-2xl border border-gray-800 text-center relative overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-red-500/5 to-transparent pointer-events-none" />
 
-              <h3 className="text-xl sm:text-2xl font-bold mb-3 text-white leading-snug">
-                Quer se Tornar um Parceiro?
+              <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-2">
+                Quer Ser Nosso Parceiro?
               </h3>
               <p className="text-gray-300 text-xs sm:text-sm leading-relaxed mb-6 max-w-md mx-auto">
                 Junte-se a nós e faça parte de uma rede de empresas
@@ -870,7 +870,7 @@ export function HomeMobile() {
                   whileTap={{ scale: 0.96 }}
                   onClick={() => navigate("/contato")}
                   className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3.5 rounded-[5px] inline-flex items-center justify-center gap-2 group transition-all text-sm shadow-md cursor-pointer">
-                  <span>Entre em Contato</span>
+                  <span>Entre em Contacto</span>
                   <span className="group-hover:translate-x-1.5 transition-transform duration-200">
                     →
                   </span>

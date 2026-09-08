@@ -78,9 +78,9 @@ const QuemSomosMobile = () => {
         "Promovemos práticas responsáveis que respeitam o meio ambiente e a sociedade.",
     },
     {
-      title: "Trabalho em equipe",
+      title: "Trabalho em equipa",
       description:
-        "Valorizamos a colaboração e o respeito mútuo para alcançarmos resultados excepcionais.",
+        "Valorizamos a colaboração e o respeito mútuo para alcançarmos resultados excecionais.",
     },
     {
       title: "Foco no cliente",
@@ -132,7 +132,7 @@ const QuemSomosMobile = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true }}
               className="text-gray-700">
-              Conheça nossa história, missão e equipe
+              Conheça a nossa história, missão e equipa
             </motion.p>
           </div>
 
@@ -148,7 +148,7 @@ const QuemSomosMobile = () => {
               onClick={() => setActiveTab("historia")}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}>
-              Nossa História
+              A Nossa História
             </motion.button>
 
             {/* Aba: Missão & Visão */}
@@ -174,7 +174,7 @@ const QuemSomosMobile = () => {
               onClick={() => setActiveTab("equipe")}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}>
-              Nossa Equipe
+              A Nossa Equipa
             </motion.button>
           </div>
 
@@ -201,7 +201,7 @@ const QuemSomosMobile = () => {
                   <div className="flex justify-center">
                     <motion.img
                       src="/images/imagem quem somos/História.webp"
-                      alt="Equipe ENVISIO"
+                      alt="Equipa ENVISIO"
                       className="rounded-lg shadow-lg w-full max-w-md h-48 object-cover"
                       initial={{ opacity: 0, scale: 0.8 }}
                       whileInView={{ opacity: 1, scale: 1 }}

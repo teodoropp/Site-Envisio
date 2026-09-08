@@ -338,7 +338,7 @@ const RentingSection = () => {
                 Suporte Especializado
               </h4>
               <p className="text-gray-600">
-                Equipe técnica dedicada e pronta para atender suas necessidades
+                Equipa técnica dedicada e pronta para responder às suas necessidades
               </p>
             </div>
           </motion.div>
@@ -508,8 +508,8 @@ const RentingSection = () => {
                 Suporte Completo
               </h3>
               <p className="text-gray-400">
-                Manutenção preventiva e corretiva inclusa, com atendimento
-                prioritário e equipe especializada.
+                Manutenção preventiva e corretiva incluída, com atendimento
+                prioritário e equipa especializada.
               </p>
             </motion.div>
           </div>

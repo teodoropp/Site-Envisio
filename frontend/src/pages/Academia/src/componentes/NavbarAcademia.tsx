@@ -21,7 +21,7 @@ const mainNavItems = [
   { nome: "Início", path: "/academia" },
   { nome: "Cursos", path: "/academia/cursos" },
   { nome: "Sobre", path: "/academia/quem-somos" },
-  { nome: "Contato", path: "/academia/contato" },
+  { nome: "Contacto", path: "/academia/contato" },
 ];
 
 export default function NavbarAcademia() {

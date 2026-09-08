@@ -52,7 +52,7 @@ export default function Categorias() {
     {
       nome: "Finanças",
       descricao:
-        "Investimentos, contabilidade, análise financeira e planejamento",
+        "Investimentos, contabilidade, análise financeira e planeamento",
       icone: <DollarSign className="text-red-600" size={32} />,
       cor: "from-red-600 to-red-700",
       cursos: 58,
@@ -152,14 +152,14 @@ export default function Categorias() {
               Não encontrou o que procura?
             </h3>
             <p className="text-gray-600 mb-6">
-              Nossa equipe está sempre trabalhando para adicionar novos cursos e
-              categorias. Entre em contato conosco e sugira uma nova área de
+              A nossa equipa está sempre a trabalhar para adicionar novas formações e
+              áreas de especialização. Entre em contacto connosco e sugira uma nova área de
               conhecimento!
             </p>
             <Link
               to="/academia/contato"
               className="inline-flex items-center px-6 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors">
-              Fale Conosco
+              Fale Connosco
             </Link>
           </div>
         </motion.div>

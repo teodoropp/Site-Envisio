@@ -163,7 +163,7 @@ const About = () => {
                   <div className="flex items-center justify-center order-1 md:order-2">
                     <motion.img
                       src="/images/imagem quem somos/História.webp"
-                      alt="Equipe ENVISIO"
+                      alt="Equipa ENVISIO"
                       className="rounded-lg shadow-lg w-full max-w-md h-48 md:h-64 object-cover"
                       initial={{ opacity: 0, scale: 0.8 }}
                       whileInView={{ opacity: 1, scale: 1 }}
@@ -444,11 +444,11 @@ const About = () => {
                 transition={{ duration: 0.5 }}>
                 <div className="text-center mb-8">
                   <h3 className="text-2xl font-semibold text-red-600 mb-2">
-                    Conheça Nossa Equipa
+                    Conheça a Nossa Equipa
                   </h3>
                   <p className="text-gray-700 font-regular px-4">
                     Profissionais apaixonados por tecnologia e inovação, prontos
-                    para transformar sua empresa
+                    para transformar a sua empresa
                   </p>
                 </div>
                 <div className="flex flex-col space-y-8 md:space-y-16">

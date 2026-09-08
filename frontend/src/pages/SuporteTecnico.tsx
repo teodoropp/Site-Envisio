@@ -184,8 +184,8 @@ const SuporteTecnico: React.FC = () => {
                       🎉 Solicitação Enviada!
                     </h3>
                     <p className="text-red-700 mb-6 text-lg font-medium">
-                      Nossa equipe de suporte recebeu sua solicitação e entrará
-                      em contato em breve.
+                      A nossa equipa de suporte recebeu a sua solicitação e entrará
+                      em contacto em breve.
                     </p>
                     <button
                       onClick={() => setFormSubmitted(false)}
@@ -247,7 +247,7 @@ const SuporteTecnico: React.FC = () => {
                             Especialistas Qualificados
                           </h3>
                           <p className="text-gray-600 mt-1">
-                            Equipe certificada em diversas tecnologias e
+                            Equipa certificada em diversas tecnologias e
                             plataformas
                           </p>
                         </div>
@@ -451,19 +451,19 @@ const SuporteTecnico: React.FC = () => {
                         "Sim, oferecemos suporte presencial para clientes em Luanda. Para outras localidades, avaliamos caso a caso. O suporte remoto é nossa modalidade padrão e resolve a maioria dos problemas técnicos.",
                     },
                     {
-                      question: "Como faço para acompanhar meu chamado?",
+                      question: "Como posso acompanhar o meu pedido de suporte?",
                       answer:
-                        "Todos os chamados recebem um número de protocolo que é enviado por e-mail. Você pode acompanhar pelo nosso portal de clientes ou entrar em contato via WhatsApp para atualizações.",
+                        "Todos os pedidos recebem um número de protocolo enviado por e-mail. Pode acompanhar através do nosso portal de clientes ou entrar em contacto via WhatsApp para atualizações.",
                     },
                     {
-                      question: "Quais tipos de suporte vocês oferecem?",
+                      question: "Quais os tipos de suporte que oferecem?",
                       answer:
-                        "Oferecemos suporte para: sistemas operacionais, aplicativos empresariais, hardware, redes, servidores, cloud computing, segurança da informação e treinamentos técnicos.",
+                        "Oferecemos suporte para: sistemas operativos, aplicações empresariais, hardware, redes, servidores, computação em nuvem, segurança da informação e formações técnicas.",
                     },
                     {
-                      question: "Vocês têm plantão 24 horas?",
+                      question: "Existe piquete de assistência 24 horas?",
                       answer:
-                        "Oferecemos plantão 24/7 apenas para clientes com contrato de suporte prioritário. Para demais clientes, o atendimento ocorre de segunda a sexta, das 8h às 18h.",
+                        "Disponibilizamos assistência 24/7 para clientes com contrato de suporte prioritário. Para os restantes clientes, o atendimento ocorre de segunda a sexta-feira, das 8h às 18h.",
                     },
                   ].map((faq, index) => (
                     <div

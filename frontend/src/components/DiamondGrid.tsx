@@ -24,26 +24,26 @@ export const DiamondGrid: React.FC<DiamondGridProps> = ({
     : "w-[290px] h-[290px] md:w-[340px] md:h-[340px]";
   const gridGap = isMobile ? "gap-2" : "gap-3 md:gap-4";
   
-  // Default Image paths
+  // Default Image paths - Fotos reais do espaço da Academia Envisio
   const defaultImages = [
     {
-      src: "/images/imagem quem somos/História.webp",
-      alt: "ENVISIO História",
+      src: "/images/espaco/foto-01.jpg",
+      alt: "Sala de Formação com Postos Informáticos - Academia Envisio",
       delay: 0.1,
     },
     {
-      src: "/images/imagem soft/Consultoria.webp",
-      alt: "Consultoria Especializada",
+      src: "/images/espaco/foto-02.jpg",
+      alt: "Espaço de Recepção e Convívio - Academia Envisio",
       delay: 0.2,
     },
     {
-      src: "/images/imagem soft/Desenvol.webp",
-      alt: "Desenvolvimento de Software",
+      src: "/images/espaco/foto-03.jpg",
+      alt: "Postos Individuais de Trabalho e Formação Prática",
       delay: 0.3,
     },
     {
-      src: "/images/banner_quem.webp",
-      alt: "Equipa ENVISIO",
+      src: "/images/espaco/foto-04.jpg",
+      alt: "Ambiente Tecnológico e Moderno de Aprendizagem",
       delay: 0.4,
     },
   ];

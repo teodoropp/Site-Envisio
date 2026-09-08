@@ -452,7 +452,7 @@ const BizhubRental = () => {
             )}
             {success ? (
               <div className="p-4 rounded-lg bg-green-100 text-green-800 mb-4">
-                Solicitação enviada com sucesso! Entraremos em contato em breve.
+                Solicitação enviada com sucesso! Entraremos em contacto em breve.
               </div>
             ) : (
               <div className="space-y-4">
