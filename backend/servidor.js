@@ -68,6 +68,7 @@ app.use("/webhook", webhookRouter);
 app.use("/modulos", modulosRouter);
 app.use("/licoes", licoesRouter);
 app.use("/api", emailRouter);
+app.use("/email", emailRouter);
 
 console.log("✅ Todas as rotas registradas com sucesso");
 

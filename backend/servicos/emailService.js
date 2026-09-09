@@ -10,16 +10,17 @@ dotenv.config();
  * (ex: cPanel Webmail, servidor SMTP próprio do domínio maisresultados.co.ao / envisio.co.ao)
  */
 export const criarTransporter = () => {
-  const host = process.env.SMTP_HOST || "mail.maisresultados.co.ao";
+  const host = process.env.SMTP_HOST || "mail.envisio.co.ao";
   const port = Number(process.env.SMTP_PORT) || 465;
   const secure = process.env.SMTP_SECURE === "true" || port === 465;
-  const user = process.env.SMTP_USER || process.env.EMAIL_FROM || "geral@maisresultados.co.ao";
+  const user =
+    process.env.SMTP_USER || process.env.EMAIL_FROM || "geral@envisio.co.ao";
   const pass = process.env.SMTP_PASS || "";
 
   // Se não houver senha definida no .env, retorna null para modo de simulação/gravação local
   if (!pass) {
     console.warn(
-      "ℹ️ SMTP_PASS não configurado no backend/.env. O sistema operará em modo de persistência local segura."
+      "ℹ️ SMTP_PASS não configurado no backend/.env. O sistema operará em modo de persistência local segura.",
     );
     return null;
   }
@@ -44,7 +45,7 @@ export const criarTransporter = () => {
 export const enviarNotificacaoEnvisio = async (dados, anexos = []) => {
   const transporter = criarTransporter();
   const destinatarioEmpresa =
-    process.env.EMAIL_TO || process.env.SMTP_USER || "geral@maisresultados.co.ao";
+    process.env.EMAIL_TO || process.env.SMTP_USER || "geral@envisio.co.ao";
   const remetente =
     process.env.EMAIL_FROM || `"Envisio Academia" <${destinatarioEmpresa}>`;
 
@@ -94,8 +95,8 @@ export const enviarNotificacaoEnvisio = async (dados, anexos = []) => {
     <body>
       <div class="card">
         <div class="header">
-          <h2>Nova Candidatura / Inscrição Recebida</h2>
-          <p>Portal Academia Envisio</p>
+          <h2>Nova Candidatura</h2>
+          <p>Envisio Training Academy</p>
           <span class="badge">${curso}</span>
         </div>
         <div class="body">
@@ -109,14 +110,18 @@ export const enviarNotificacaoEnvisio = async (dados, anexos = []) => {
             <div class="field-value"><a href="mailto:${email}" style="color: #dc2626; text-decoration: none;">${email}</a></div>
           </div>
           <div class="field-group">
-            <div class="field-label">Telefone / WhatsApp</div>
+            <div class="field-label">Telefone</div>
             <div class="field-value"><a href="tel:${telefone}" style="color: #0f172a; text-decoration: none;">${telefone}</a></div>
           </div>
-          ${empresa ? `
+          ${
+            empresa
+              ? `
           <div class="field-group">
-            <div class="field-label">Empresa / Organização</div>
+            <div class="field-label">Empresa</div>
             <div class="field-value">${empresa}</div>
-          </div>` : ""}
+          </div>`
+              : ""
+          }
 
           <div class="section-title" style="margin-top: 24px;">Detalhes da Formação</div>
           <div class="highlight-box">
@@ -126,17 +131,23 @@ export const enviarNotificacaoEnvisio = async (dados, anexos = []) => {
             <div style="font-size: 12px; color: #64748b; margin-top: 2px;"><strong>Área:</strong> ${area}</div>
           </div>
 
-          ${mensagem ? `
+          ${
+            mensagem
+              ? `
           <div class="section-title" style="margin-top: 20px;">Observações / Mensagem</div>
           <p style="font-size: 13px; color: #334155; line-height: 1.6; background: #f8fafc; padding: 12px 14px; border-radius: 4px; border: 1px solid #e2e8f0; margin: 6px 0;">
             ${mensagem.replace(/\n/g, "<br>")}
-          </p>` : ""}
+          </p>`
+              : ""
+          }
 
           <div class="section-title" style="margin-top: 20px;">Documentos Anexados</div>
           <p style="font-size: 13px; color: #475569; margin: 4px 0 0 0;">
-            ${attachments.length > 0
-              ? `Foram anexados <strong>${attachments.length}</strong> ficheiro(s) (cópia do B.I. / documentos em anexo neste e-mail).`
-              : "Nenhum ficheiro anexado."}
+            ${
+              attachments.length > 0
+                ? `Foram anexados <strong>${attachments.length}</strong> ficheiro(s) (cópia do B.I. / documentos em anexo neste e-mail).`
+                : "Nenhum ficheiro anexado."
+            }
           </p>
         </div>
         <div class="footer">
@@ -148,11 +159,14 @@ export const enviarNotificacaoEnvisio = async (dados, anexos = []) => {
   `;
 
   if (!transporter) {
-    console.log(`[SIMULAÇÃO SMTP] E-mail de notificação gerado para ${destinatarioEmpresa}:`, {
-      candidato: nomeCompleto,
-      curso,
-      anexos: attachments.length,
-    });
+    console.log(
+      `[SIMULAÇÃO SMTP] E-mail de notificação gerado para ${destinatarioEmpresa}:`,
+      {
+        candidato: nomeCompleto,
+        curso,
+        anexos: attachments.length,
+      },
+    );
     return { simulado: true, destinatario: destinatarioEmpresa };
   }
 
@@ -166,7 +180,10 @@ export const enviarNotificacaoEnvisio = async (dados, anexos = []) => {
   };
 
   const info = await transporter.sendMail(mailOptions);
-  console.log("✅ E-mail de notificação enviado para a Envisio:", info.messageId);
+  console.log(
+    "✅ E-mail de notificação enviado para a Envisio:",
+    info.messageId,
+  );
   return info;
 };
 
@@ -177,10 +194,13 @@ export const enviarConfirmacaoCliente = async (dados) => {
   const transporter = criarTransporter();
   const destinatarioCliente = dados.email;
   const remetente =
-    process.env.EMAIL_FROM || `"Envisio Academia" <${process.env.EMAIL_TO || "geral@maisresultados.co.ao"}>`;
+    process.env.EMAIL_FROM ||
+    `"Envisio Training Academy" <${process.env.EMAIL_TO || "geral@envisio.co.ao"}>`;
 
   if (!destinatarioCliente) {
-    console.warn("⚠️ Nenhum e-mail de cliente fornecido para envio de confirmação.");
+    console.warn(
+      "⚠️ Nenhum e-mail de cliente fornecido para envio de confirmação.",
+    );
     return null;
   }
 
@@ -220,37 +240,38 @@ export const enviarConfirmacaoCliente = async (dados) => {
     <body>
       <div class="card">
         <div class="header">
-          <h1 class="logo-text">ENVISIO ACADEMIA</h1>
-          <p class="logo-sub">Formação Executiva & Soluções Empresariais</p>
+          <h1 class="logo-text">ENVISIO TRAINING ACADEMY</h1>
+          <p class="logo-sub">Formação  & Soluções Empresariais</p>
         </div>
         <div class="body">
           <div class="greeting">Olá, ${primeiroNome}!</div>
           <p>
-            Agradecemos a sua candidatura à <strong>Envisio Academia</strong>.
+            Agradecemos a sua candidatura à <strong>Envisio Training Academy</strong>.
             Confirmamos que a sua inscrição para o curso <strong>${curso}</strong> foi recebida com sucesso pela nossa equipa pedagógica.
           </p>
 
           <div class="course-box">
-            <div class="course-title">${curso}</div>
-            ${turno ? `<div class="course-details"><strong>Turno Selecionado:</strong> ${turno}</div>` : ""}
-            ${nomeCompleto ? `<div class="course-details"><strong>Candidato:</strong> ${nomeCompleto}</div>` : ""}
-            <div class="course-details"><strong>Status:</strong> <span style="color: #16a34a; font-weight: 600;">Recebida / Em Validação</span></div>
+            <div class="course-title">📋 Resumo da Inscrição:</div>
+            <div class="course-details"><strong>Candidato:</strong> ${nomeCompleto || primeiroNome}</div>
+            <div class="course-details"><strong>Curso:</strong> ${curso}</div>
+            ${turno && turno !== "Não especificado" ? `<div class="course-details"><strong>Turno Pretendido:</strong> ${turno}</div>` : ""}
+            <div class="course-details"><strong>Estado:</strong> Candidatura Registada</div>
           </div>
 
           <div class="steps-box">
             <div class="steps-title">Próximos Passos:</div>
-            <div class="step-item">• A nossa equipa pedagógica validará os dados e os documentos anexados.</div>
-            <div class="step-item">• Entraremos em contacto consigo num prazo de <strong>24 a 48 horas úteis</strong> (por e-mail ou WhatsApp).</div>
-            <div class="step-item">• Receberá todas as orientações sobre a turma, cronograma detalhado e formalização da matrícula.</div>
+            <div class="step-item">1. A nossa coordenação pedagógica analisará os seus dados.</div>
+            <div class="step-item">2. Entraremos em contacto via WhatsApp ou telefone para fornecer os detalhes do cronograma e modalidades de pagamento.</div>
+            <div class="step-item">3. Caso tenha anexado documentos, os mesmos serão validados para a emissão da ficha oficial de formando.</div>
           </div>
 
           <p>
-            Caso necessite de algum esclarecimento urgente ou queira adicionar informações à sua candidatura, estamos à sua inteira disposição:
+            Se tiver alguma dúvida urgente ou necessitar de apoio adicional, sinta-se à vontade para nos contactar diretamente através dos nossos canais oficiais:
           </p>
 
           <div class="contact-box">
-            <div>📞 <strong>WhatsApp / Telefone:</strong> +244 947 137 676</div>
-            <div style="margin-top: 4px;">✉️ <strong>E-mail Oficial:</strong> <a href="mailto:geral@maisresultados.co.ao" style="color: #dc2626; text-decoration: none;">geral@maisresultados.co.ao</a></div>
+            <div>📞 <strong>Telefone:</strong> +244 947 137 676</div>
+            <div style="margin-top: 4px;">✉️ <strong>E-mail:</strong> <a href="mailto:geral@envisio.co.ao" style="color: #dc2626; text-decoration: none;">geral@envisio.co.ao</a></div>
             <div style="margin-top: 4px;">📍 <strong>Localização:</strong> Luanda, Angola</div>
           </div>
         </div>
@@ -263,10 +284,13 @@ export const enviarConfirmacaoCliente = async (dados) => {
   `;
 
   if (!transporter) {
-    console.log(`[SIMULAÇÃO SMTP] E-mail de resposta automática gerado para o cliente ${destinatarioCliente}:`, {
-      curso,
-      nome: primeiroNome,
-    });
+    console.log(
+      `[SIMULAÇÃO SMTP] E-mail de resposta automática gerado para o cliente ${destinatarioCliente}:`,
+      {
+        curso,
+        nome: primeiroNome,
+      },
+    );
     return { simulado: true, destinatario: destinatarioCliente };
   }
 
@@ -278,7 +302,10 @@ export const enviarConfirmacaoCliente = async (dados) => {
   };
 
   const info = await transporter.sendMail(mailOptions);
-  console.log("✅ E-mail de resposta automática enviado ao cliente:", info.messageId);
+  console.log(
+    "✅ E-mail de resposta automática enviado ao cliente:",
+    info.messageId,
+  );
   return info;
 };
 
