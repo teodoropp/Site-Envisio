@@ -75,6 +75,7 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [emailStatus, setEmailStatus] = useState<boolean | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -156,24 +157,44 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
     const emailDestinoEnvisio = "geral@envisio.co.ao";
 
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append("nome", formData.nome.trim());
-      formDataToSend.append("sobrenome", formData.sobrenome.trim());
-      formDataToSend.append("email", formData.email.trim());
-      formDataToSend.append("telefone", formData.telefone.trim());
-      formDataToSend.append("empresa", formData.empresa.trim());
-      formDataToSend.append("mensagem", formData.mensagem.trim());
-      formDataToSend.append("turno", formData.turno);
-      formDataToSend.append("nivelExperiencia", formData.nivelExperiencia);
-      formDataToSend.append("curso", cursoNome);
-      formDataToSend.append("area", cursoArea);
-      formDataToSend.append("destinatario", emailDestinoEnvisio);
-      formDataToSend.append("emailDestino", emailDestinoEnvisio);
+      // Decide qual formato enviar: JSON se não houver ficheiros, FormData se houver
+      let payload;
+      let headers = {};
 
-      if (arquivos) {
+      if (arquivos && arquivos.length > 0) {
+        payload = new FormData();
+        payload.append("nome", formData.nome.trim());
+        payload.append("sobrenome", formData.sobrenome.trim());
+        payload.append("email", formData.email.trim());
+        payload.append("telefone", formData.telefone.trim());
+        payload.append("empresa", formData.empresa.trim());
+        payload.append("mensagem", formData.mensagem.trim());
+        payload.append("turno", formData.turno);
+        payload.append("nivelExperiencia", formData.nivelExperiencia);
+        payload.append("curso", cursoNome);
+        payload.append("area", cursoArea);
+        payload.append("destinatario", emailDestinoEnvisio);
+        payload.append("emailDestino", emailDestinoEnvisio);
+
         Array.from(arquivos).forEach((file) => {
-          formDataToSend.append("arquivos", file);
+          payload.append("arquivos", file);
         });
+      } else {
+        payload = {
+          nome: formData.nome.trim(),
+          sobrenome: formData.sobrenome.trim(),
+          email: formData.email.trim(),
+          telefone: formData.telefone.trim(),
+          empresa: formData.empresa.trim(),
+          mensagem: formData.mensagem.trim(),
+          turno: formData.turno,
+          nivelExperiencia: formData.nivelExperiencia,
+          curso: cursoNome,
+          area: cursoArea,
+          destinatario: emailDestinoEnvisio,
+          emailDestino: emailDestinoEnvisio,
+        };
+        headers = { "Content-Type": "application/json" };
       }
 
       // Envio exclusivo por e-mail para a API da Envisio
@@ -188,16 +209,19 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
       };
 
       const targetUrl = getTargetUrl();
+      let emailEntregue = false;
 
       try {
-        await axios.post(targetUrl, formDataToSend);
+        const response = await axios.post(targetUrl, payload, { headers });
+        emailEntregue = response.data?.envioEmail?.clienteEntregue || false;
       } catch (apiErr) {
         console.warn(
           "Tentativa de envio via URL principal falhou, tentando rota relativa /api/email:",
           apiErr,
         );
         try {
-          await axios.post("/api/email", formDataToSend);
+          const fallbackResponse = await axios.post("/api/email", payload, { headers });
+          emailEntregue = fallbackResponse.data?.envioEmail?.clienteEntregue || false;
         } catch (fallbackErr) {
           console.error("Falha ao comunicar com o servidor de e-mail:", fallbackErr);
           throw new Error(
@@ -206,10 +230,13 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
         }
       }
 
+      // Guardar o status do e-mail para mostrar na UI
       setSuccess(true);
+      setEmailStatus(emailEntregue);
 
       setTimeout(() => {
         setSuccess(false);
+        setEmailStatus(null);
         setCurrentStep(1);
         setFormData({
           nome: "",
@@ -339,9 +366,18 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
                 </h4>
                 <p className="text-sm text-slate-600 max-w-md mx-auto font-normal">
                   A sua inscrição para o curso <strong>{cursoNome}</strong> foi
-                  recebida com sucesso pela nossa equipa e enviámos uma
-                  confirmação para o seu e-mail (<strong>{formData.email}</strong>).
-                  A nossa equipa pedagógica entrará em contacto consigo muito em breve.
+                  recebida com sucesso pela nossa equipa.
+                  {emailStatus === true ? (
+                    <span>
+                      {" "}E enviámos uma confirmação para o seu e-mail (<strong>{formData.email}</strong>).
+                    </span>
+                  ) : (
+                    <span>
+                      {" "}O envio automático do e-mail de confirmação falhou devido a restrições do servidor, mas <strong>a nossa equipa já recebeu os seus dados no painel central</strong>.
+                    </span>
+                  )}
+                  <br /><br />
+                  A nossa equipa pedagógica entrará em contacto consigo muito em breve para finalizar o processo.
                 </p>
               </motion.div>
             ) : (
