@@ -31,7 +31,19 @@ const upload = multer({
   },
 });
 
-export const uploadMiddleware = upload.array("arquivos", 5);
+export const uploadMiddleware = (req, res, next) => {
+  const handler = upload.array("arquivos", 5);
+  handler(req, res, (err) => {
+    if (err) {
+      // Erros do multer (tipo de ficheiro, tamanho, etc.) não devem crashar o servidor
+      console.warn("⚠️ Aviso no upload de ficheiros:", err.message);
+      req.uploadError = err.message;
+      req.files = req.files || [];
+    }
+    next();
+  });
+};
+
 
 const getBaseBackendDir = () => {
   if (fs.existsSync(path.join(process.cwd(), "controllers"))) {
