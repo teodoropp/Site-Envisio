@@ -31,7 +31,7 @@ const slides = [
     subtitulo:
       "Aprenda do zero ao avançado com o software de gestão Cegid Primavera e impulsione a sua carreira.",
     cta: "Ver Cursos",
-    link: "/academia",
+    link: "#cursos",
   },
   {
     imagemUrl: "/images/espaco/sala-formacao-01.jpg",
@@ -39,7 +39,7 @@ const slides = [
     subtitulo:
       "Formação prática com especialistas de mercado e laboratórios totalmente equipados.",
     cta: "Conhecer a Academia",
-    link: "/academia",
+    link: "/academia/quem-somos",
   },
   {
     imagemUrl: "/academia/Slide1.jpg",
@@ -55,7 +55,7 @@ const slides = [
     subtitulo:
       "Valide as suas competências com um certificado de peso no mercado de trabalho.",
     cta: "Saber Mais",
-    link: "/academia",
+    link: "#beneficios",
   },
 ];
 
@@ -1822,7 +1822,7 @@ const DiferenciaisSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-gray-50 overflow-hidden relative border-t border-gray-200">
+    <section id="beneficios" className="py-24 bg-gray-50 overflow-hidden relative border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="mb-12 text-center flex flex-col items-center">
           <span className="text-xs uppercase tracking-widest text-red-600 font-bold mb-2 block">

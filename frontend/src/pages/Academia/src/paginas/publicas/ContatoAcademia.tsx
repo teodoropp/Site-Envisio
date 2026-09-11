@@ -45,21 +45,24 @@ export default function ContatoAcademia() {
         {/* Soft Grid Background */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#F3F4F6_1px,transparent_1px),linear-gradient(to_bottom,#F3F4F6_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none opacity-50 z-0" />
 
-        {/* Lado Direito (Desktop Full-Bleed Background Image) */}
-        <div className="absolute right-0 top-0 bottom-0 w-full lg:w-[52%] xl:w-[54%] h-full z-10 hidden lg:block overflow-hidden">
-          {/* Curve mask separator */}
+        {/* Lado Direito (Background Image Visível em Mobile e Desktop) */}
+        <div className="absolute inset-0 lg:left-auto lg:right-0 lg:w-[52%] xl:w-[54%] h-full z-10 overflow-hidden">
+          {/* Curve mask separator - apenas no desktop */}
           <svg
-            className="absolute left-0 top-0 h-full w-24 text-white fill-current z-20"
+            className="absolute left-0 top-0 h-full w-24 text-white fill-current z-20 hidden lg:block"
             viewBox="0 0 100 100"
             preserveAspectRatio="none">
             <path d="M0,0 L100,0 C60,20 30,70 0,100 Z" />
           </svg>
 
+          {/* Overlay claro para garantir legibilidade no mobile */}
+          <div className="absolute inset-0 bg-white/85 lg:hidden z-20" />
+
           {/* Generated Customer Support Woman Image */}
           <img
             src="/images/support_hero_bg.png"
             alt="Atendimento e Suporte Envisio"
-            className="w-full h-full object-cover object-top select-none transition-transform duration-700 hover:scale-105"
+            className="w-full h-full object-cover object-center lg:object-top select-none transition-transform duration-700 hover:scale-105"
           />
         </div>
 
