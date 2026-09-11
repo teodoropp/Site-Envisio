@@ -176,6 +176,7 @@ const Academia = () => {
         formDataToSend.append(`arquivos`, file);
       });
 
+      try {
         const getTargetUrl = () => {
           if (process.env.REACT_APP_API_URL) {
             return `${process.env.REACT_APP_API_URL}/api/email`;
