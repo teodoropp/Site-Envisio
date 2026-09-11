@@ -190,22 +190,14 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
       const targetUrl = getTargetUrl();
 
       try {
-        await axios.post(targetUrl, formDataToSend, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        await axios.post(targetUrl, formDataToSend);
       } catch (apiErr) {
         console.warn(
           "Tentativa de envio via URL principal falhou, tentando rota relativa /api/email:",
           apiErr,
         );
         try {
-          await axios.post("/api/email", formDataToSend, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
+          await axios.post("/api/email", formDataToSend);
         } catch (fallbackErr) {
           console.error("Falha ao comunicar com o servidor de e-mail:", fallbackErr);
           throw new Error(
