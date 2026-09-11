@@ -14,9 +14,18 @@ interface EmailResponse {
   error?: string;
 }
 
-const API_URL = process.env.REACT_APP_API_URL
-  ? `${process.env.REACT_APP_API_URL}/api`
-  : "https://api.maisresultados.co.ao/api";
+const getApiBaseUrl = () => {
+  if (process.env.REACT_APP_API_URL) {
+    return `${process.env.REACT_APP_API_URL}/api`;
+  }
+  if (typeof window !== "undefined" && window.location?.origin) {
+    return `${window.location.origin}/api`;
+  }
+  return "https://envisio.co.ao/api";
+};
+
+const API_URL = getApiBaseUrl();
+
 
 const emailService = {
   async enviar(data: SupportEmailData): Promise<EmailResponse> {

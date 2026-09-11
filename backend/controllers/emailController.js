@@ -181,21 +181,50 @@ export const enviarEmail = async (req, res) => {
       enviarConfirmacaoCliente(dadosCandidatura),
     ]);
 
-    const notifEnvisioSucesso = resultadoEnvisio.status === "fulfilled";
-    const confClienteSucesso = resultadoCliente.status === "fulfilled";
+    const notifEnvisioSucesso =
+      resultadoEnvisio.status === "fulfilled" && !resultadoEnvisio.value?.simulado;
+    const confClienteSucesso =
+      resultadoCliente.status === "fulfilled" && !resultadoCliente.value?.simulado;
 
-    console.log("📊 Resumo do envio de e-mails:", {
-      notificacaoEnvisio: notifEnvisioSucesso ? "Sucesso" : resultadoEnvisio.reason?.message,
-      confirmacaoCliente: confClienteSucesso ? "Sucesso" : resultadoCliente.reason?.message,
+    const notifSimulado =
+      resultadoEnvisio.status === "fulfilled" && Boolean(resultadoEnvisio.value?.simulado);
+    const confSimulado =
+      resultadoCliente.status === "fulfilled" && Boolean(resultadoCliente.value?.simulado);
+
+    const erroEnvisio =
+      resultadoEnvisio.status === "rejected" ? resultadoEnvisio.reason?.message : null;
+    const erroCliente =
+      resultadoCliente.status === "rejected" ? resultadoCliente.reason?.message : null;
+
+    console.log("📊 Resumo detalhado do envio de e-mails:", {
+      notificacaoEnvisio: notifEnvisioSucesso
+        ? "✅ Enviado"
+        : notifSimulado
+        ? "⚠️ Modo Simulação (sem SMTP_PASS)"
+        : `❌ Falhou: ${erroEnvisio}`,
+      confirmacaoCliente: confClienteSucesso
+        ? "✅ Enviado"
+        : confSimulado
+        ? "⚠️ Modo Simulação (sem SMTP_PASS)"
+        : `❌ Falhou: ${erroCliente}`,
     });
+
+    const mensagemRetorno = confClienteSucesso
+      ? "Candidatura submetida com sucesso! Foi enviada uma confirmação para o seu e-mail."
+      : "Candidatura registada com sucesso! A nossa equipa entrará em contacto brevemente.";
 
     return res.status(200).json({
       sucesso: true,
-      mensagem:
-        "Candidatura submetida com sucesso! Foi enviada uma confirmação para o seu e-mail.",
+      mensagem: mensagemRetorno,
       candidaturaId,
       emailNotificado: process.env.EMAIL_TO || "geral@envisio.co.ao",
       emailCliente: dadosCandidatura.email,
+      envioEmail: {
+        clienteEntregue: confClienteSucesso,
+        empresaEntregue: notifEnvisioSucesso,
+        modoSimulacao: notifSimulado || confSimulado,
+        erro: erroCliente || erroEnvisio || null,
+      },
     });
   } catch (error) {
     console.error("❌ Erro ao processar candidatura:", error);

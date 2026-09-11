@@ -176,16 +176,31 @@ const Academia = () => {
         formDataToSend.append(`arquivos`, file);
       });
 
-      try {
-        const targetUrl = process.env.REACT_APP_API_URL
-          ? `${process.env.REACT_APP_API_URL}/api/email`
-          : "https://api.maisresultados.co.ao/api/email";
+        const getTargetUrl = () => {
+          if (process.env.REACT_APP_API_URL) {
+            return `${process.env.REACT_APP_API_URL}/api/email`;
+          }
+          if (typeof window !== "undefined" && window.location?.origin) {
+            return `${window.location.origin}/api/email`;
+          }
+          return "https://envisio.co.ao/api/email";
+        };
 
-        await axios.post(targetUrl, formDataToSend, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        const targetUrl = getTargetUrl();
+
+        try {
+          await axios.post(targetUrl, formDataToSend, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+        } catch (postErr) {
+          await axios.post("/api/email", formDataToSend, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+        }
       } catch (apiErr) {
         console.warn(
           "API de email não disponível, prosseguindo com WhatsApp:",

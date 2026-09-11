@@ -177,9 +177,17 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
       }
 
       // Envio exclusivo por e-mail para a API da Envisio
-      const targetUrl = process.env.REACT_APP_API_URL
-        ? `${process.env.REACT_APP_API_URL}/api/email`
-        : "https://api.maisresultados.co.ao/api/email";
+      const getTargetUrl = () => {
+        if (process.env.REACT_APP_API_URL) {
+          return `${process.env.REACT_APP_API_URL}/api/email`;
+        }
+        if (typeof window !== "undefined" && window.location?.origin) {
+          return `${window.location.origin}/api/email`;
+        }
+        return "https://envisio.co.ao/api/email";
+      };
+
+      const targetUrl = getTargetUrl();
 
       try {
         await axios.post(targetUrl, formDataToSend, {
@@ -189,9 +197,21 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
         });
       } catch (apiErr) {
         console.warn(
-          "Tentativa de envio via API retornou aviso; a processar confirmação:",
+          "Tentativa de envio via URL principal falhou, tentando rota relativa /api/email:",
           apiErr,
         );
+        try {
+          await axios.post("/api/email", formDataToSend, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+        } catch (fallbackErr) {
+          console.error("Falha ao comunicar com o servidor de e-mail:", fallbackErr);
+          throw new Error(
+            "Não foi possível enviar a sua candidatura por e-mail neste momento. Por favor tente novamente ou contacte-nos pelo WhatsApp."
+          );
+        }
       }
 
       setSuccess(true);

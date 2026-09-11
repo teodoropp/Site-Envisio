@@ -21,8 +21,11 @@ process.on("unhandledRejection", (reason, promise) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Carregar variáveis de ambiente (.env)
-dotenv.config();
+// Carregar variáveis de ambiente (.env) de forma robusta
+dotenv.config({ path: join(__dirname, ".env") });
+dotenv.config({ path: join(__dirname, "../.env") });
+dotenv.config(); // fallback para cwd
+
 
 const app = express();
 

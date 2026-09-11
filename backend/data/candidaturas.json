@@ -1,5 +1,49 @@
 [
   {
+    "id": "CAND-1788973218482-GKWCU",
+    "nome": "Teodoro",
+    "sobrenome": "Pedro",
+    "nomeCompleto": "Teodoro Pedro",
+    "email": "teodorop990@gmail.com",
+    "telefone": "945351749",
+    "empresa": "",
+    "mensagem": "",
+    "turno": "Turno B",
+    "curso": "ERP Cegid Primavera: Funcionalidades e Módulos",
+    "area": "ERP & Gestão",
+    "nivelExperiencia": "Intermediário",
+    "data": "09/09/2026, 18:00:18",
+    "ficheiros": [
+      {
+        "originalName": "shaquir.pdf",
+        "filename": "CAND-1788973218482-GKWCU_1788973218482_shaquir.pdf",
+        "path": "C:\\Users\\User\\3D Objects\\Projecto_Soft\\Site-Envisio\\backend\\uploads\\candidaturas\\CAND-1788973218482-GKWCU_1788973218482_shaquir.pdf",
+        "size": 43842,
+        "mimetype": "application/pdf"
+      }
+    ],
+    "recebidoEm": "2026-09-09T17:00:18.485Z",
+    "status": "recebida"
+  },
+  {
+    "id": "CAND-1788972971776-GVK9B",
+    "nome": "Teste Integracao",
+    "sobrenome": "Envisio",
+    "nomeCompleto": "Teste Integracao Envisio",
+    "email": "geral@envisio.co.ao",
+    "telefone": "947137676",
+    "empresa": "",
+    "mensagem": "Teste operacional de email",
+    "turno": "Não especificado",
+    "curso": "Gestao de Recursos Humanos",
+    "area": "Academia Envisio",
+    "nivelExperiencia": "",
+    "data": "09/09/2026, 17:56:11",
+    "ficheiros": [],
+    "recebidoEm": "2026-09-09T16:56:11.799Z",
+    "status": "recebida"
+  },
+  {
     "id": "CAND-1788816189744-0XANS",
     "nome": "teste",
     "sobrenome": "teo",

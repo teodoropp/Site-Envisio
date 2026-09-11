@@ -9,9 +9,18 @@ interface EmailResponse {
 }
 
 
-const API_URL = process.env.REACT_APP_API_URL
-  ? `${process.env.REACT_APP_API_URL}/api/email`
-  : "https://api.maisresultados.co.ao/api/email";
+const getApiUrl = () => {
+  if (process.env.REACT_APP_API_URL) {
+    return `${process.env.REACT_APP_API_URL}/api/email`;
+  }
+  if (typeof window !== "undefined" && window.location?.origin) {
+    return `${window.location.origin}/api/email`;
+  }
+  return "https://envisio.co.ao/api/email";
+};
+
+const API_URL = getApiUrl();
+
 
 export async function enviarEmail(formData: any, tipoCliente: string): Promise<EmailResponse> {
   try {

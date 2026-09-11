@@ -2,8 +2,16 @@
 
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Tenta carregar backend/.env independentemente do diretório de onde o processo foi iniciado
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
+dotenv.config(); // fallback para cwd
+
 
 /**
  * Cria o transporte SMTP com o servidor de correio próprio da empresa

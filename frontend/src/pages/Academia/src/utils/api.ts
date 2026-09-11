@@ -1,8 +1,17 @@
 import axios from "axios";
 
-// Cria a instância do Axios com base na URL do .env
+const getBaseURL = () => {
+  if (process.env.REACT_APP_API_URL) return process.env.REACT_APP_API_URL;
+  if (process.env.REACT_APP_API_ACADEMIA) return process.env.REACT_APP_API_ACADEMIA;
+  if (typeof window !== "undefined" && window.location?.origin && !window.location.origin.includes("localhost")) {
+    return window.location.origin;
+  }
+  return "http://localhost:3001";
+};
+
+// Cria a instância do Axios com base na URL do .env ou origem atual
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || "http://localhost:3001",
+  baseURL: getBaseURL(),
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
