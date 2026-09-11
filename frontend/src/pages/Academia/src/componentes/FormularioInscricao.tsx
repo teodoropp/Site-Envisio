@@ -37,7 +37,12 @@ interface FormularioInscricaoProps {
 }
 
 const STEPS = [
-  { id: 1, title: "Dados Pessoais", description: "Nome e Contacto", icon: User },
+  {
+    id: 1,
+    title: "Dados Pessoais",
+    description: "Nome e Contacto",
+    icon: User,
+  },
   {
     id: 2,
     title: "Perfil & Turno",
@@ -158,8 +163,8 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
 
     try {
       // Decide qual formato enviar: JSON se não houver ficheiros, FormData se houver
-      let payload;
-      let headers = {};
+      let payload: any;
+      let headers: any = {};
 
       if (arquivos && arquivos.length > 0) {
         payload = new FormData();
@@ -220,12 +225,18 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
           apiErr,
         );
         try {
-          const fallbackResponse = await axios.post("/api/email", payload, { headers });
-          emailEntregue = fallbackResponse.data?.envioEmail?.clienteEntregue || false;
+          const fallbackResponse = await axios.post("/api/email", payload, {
+            headers,
+          });
+          emailEntregue =
+            fallbackResponse.data?.envioEmail?.clienteEntregue || false;
         } catch (fallbackErr) {
-          console.error("Falha ao comunicar com o servidor de e-mail:", fallbackErr);
+          console.error(
+            "Falha ao comunicar com o servidor de e-mail:",
+            fallbackErr,
+          );
           throw new Error(
-            "Não foi possível enviar a sua candidatura por e-mail neste momento. Por favor tente novamente ou contacte-nos pelo WhatsApp."
+            "Não foi possível enviar a sua candidatura por e-mail neste momento. Por favor tente novamente ou contacte-nos pelo WhatsApp.",
           );
         }
       }
@@ -369,15 +380,25 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
                   recebida com sucesso pela nossa equipa.
                   {emailStatus === true ? (
                     <span>
-                      {" "}E enviámos uma confirmação para o seu e-mail (<strong>{formData.email}</strong>).
+                      {" "}
+                      E enviámos uma confirmação para o seu e-mail (
+                      <strong>{formData.email}</strong>).
                     </span>
                   ) : (
                     <span>
-                      {" "}O envio automático do e-mail de confirmação falhou devido a restrições do servidor, mas <strong>a nossa equipa já recebeu os seus dados no painel central</strong>.
+                      {" "}
+                      O envio automático do e-mail de confirmação falhou devido
+                      a restrições do servidor, mas{" "}
+                      <strong>
+                        a nossa equipa já recebeu os seus dados no painel
+                        central
+                      </strong>
+                      .
                     </span>
                   )}
-                  <br /><br />
-                  A nossa equipa pedagógica entrará em contacto consigo muito em breve para finalizar o processo.
+                  <br />
+                  <br />A nossa equipa pedagógica entrará em contacto consigo
+                  muito em breve para finalizar o processo.
                 </p>
               </motion.div>
             ) : (
@@ -631,7 +652,8 @@ const FormularioInscricao: React.FC<FormularioInscricaoProps> = ({
                           Passo 3: Documento de Identificação
                         </h4>
                         <p className="text-xs text-slate-500 font-normal">
-                          Cópia do Bilhete de Identidade (B.I.) ou Passaporte para emissão do certificado.
+                          Cópia do Bilhete de Identidade (B.I.) ou Passaporte
+                          para emissão do certificado.
                         </p>
                       </div>
 
