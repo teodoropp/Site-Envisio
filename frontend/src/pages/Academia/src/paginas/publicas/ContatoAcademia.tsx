@@ -41,42 +41,51 @@ export default function ContatoAcademia() {
   return (
     <div className="bg-[#f8fafc] min-h-screen font-['Segoe_UI_Variable_Text',sans-serif] text-slate-800">
       {/* 1. Hero Header */}
-      <section className="relative bg-white text-slate-900 overflow-hidden min-h-screen lg:h-screen flex flex-col justify-center pt-14 pb-12 border-b border-gray-100">
+      <section className="relative bg-white text-slate-900 overflow-hidden lg:h-screen flex flex-col justify-center pt-24 lg:pt-14 pb-12 border-b border-gray-100">
         {/* Soft Grid Background */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#F3F4F6_1px,transparent_1px),linear-gradient(to_bottom,#F3F4F6_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none opacity-50 z-0" />
 
-        {/* Lado Direito (Background Image Visível em Mobile e Desktop) */}
-        <div className="absolute inset-0 lg:left-auto lg:right-0 lg:w-[52%] xl:w-[54%] h-full z-10 overflow-hidden">
-          {/* Curve mask separator - apenas no desktop */}
+        {/* Lado Direito (Desktop Full-Bleed Background Image) */}
+        <div className="absolute right-0 top-0 bottom-0 w-full lg:w-[52%] xl:w-[54%] h-full z-10 hidden lg:block overflow-hidden">
+          {/* Curve mask separator */}
           <svg
-            className="absolute left-0 top-0 h-full w-24 text-white fill-current z-20 hidden lg:block"
+            className="absolute left-0 top-0 h-full w-24 text-white fill-current z-20"
             viewBox="0 0 100 100"
             preserveAspectRatio="none">
             <path d="M0,0 L100,0 C60,20 30,70 0,100 Z" />
           </svg>
 
-          {/* Overlay claro para garantir legibilidade no mobile */}
-          <div className="absolute inset-0 bg-white/85 lg:hidden z-20" />
-
           {/* Generated Customer Support Woman Image */}
           <img
             src="/images/support_hero_bg.png"
             alt="Atendimento e Suporte Envisio"
-            className="w-full h-full object-cover object-center lg:object-top select-none transition-transform duration-700 hover:scale-105"
+            className="w-full h-full object-cover object-top select-none transition-transform duration-700 hover:scale-105"
           />
         </div>
 
         {/* Left Side Content Container */}
         <div className="max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 relative z-20 w-full flex-grow flex flex-col justify-center">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-6 xl:col-span-5 flex flex-col items-start text-left w-full">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-normal mb-4 leading-[1.1] text-[#111827] tracking-tight">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
+            {/* Texto */}
+            <div className="lg:col-span-6 xl:col-span-5 flex flex-col items-start text-left w-full mt-4 lg:mt-0">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-normal mb-4 leading-[1.1] text-[#111827] tracking-tight">
                 Fale connosco e tire as suas dúvidas.
               </h1>
               <p className="text-base md:text-lg text-[#374151] leading-relaxed max-w-md">
                 Entre em contacto com a nossa equipa para informações sobre
                 formações, inscrições e apoio pedagógico.
               </p>
+            </div>
+            
+            {/* Imagem no Mobile (Abaixo da Informação) */}
+            <div className="lg:hidden col-span-1 w-full mt-6 mb-4">
+              <div className="w-full h-[350px] sm:h-[450px] rounded-2xl overflow-hidden shadow-xl border border-gray-100">
+                <img
+                  src="/images/support_hero_bg.png"
+                  alt="Atendimento e Suporte Envisio"
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
             </div>
           </div>
         </div>

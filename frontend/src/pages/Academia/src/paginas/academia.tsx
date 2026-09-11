@@ -31,7 +31,7 @@ const slides = [
     subtitulo:
       "Aprenda do zero ao avançado com o software de gestão Cegid Primavera e impulsione a sua carreira.",
     cta: "Ver Cursos",
-    link: "#cursos",
+    link: "/academia/curso/cegid-primavera",
   },
   {
     imagemUrl: "/images/espaco/sala-formacao-01.jpg",
@@ -47,7 +47,7 @@ const slides = [
     subtitulo:
       "Aproveite descontos exclusivos nas matrículas para turmas de abertura rápida.",
     cta: "Quero Desconto",
-    link: "#inscricao",
+    link: "/academia/cursos",
   },
   {
     imagemUrl: "/academia/Slide2.jpg",
@@ -55,7 +55,7 @@ const slides = [
     subtitulo:
       "Valide as suas competências com um certificado de peso no mercado de trabalho.",
     cta: "Saber Mais",
-    link: "#beneficios",
+    link: "/academia/cursos",
   },
 ];
 
