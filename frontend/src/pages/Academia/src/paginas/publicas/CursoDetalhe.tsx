@@ -45,7 +45,9 @@ export default function CursoDetalhe() {
   const [videoUrl] = useState("");
 
   const [moduloAberto, setModuloAberto] = useState<number | null>(null); // Fechado por padrão
-  const [topicosAbertos, setTopicosAbertos] = useState<Record<string, boolean>>({});
+  const [topicosAbertos, setTopicosAbertos] = useState<Record<string, boolean>>(
+    {},
+  );
 
   const toggleTopico = (chave: string) => {
     setTopicosAbertos((prev) => ({
@@ -189,6 +191,22 @@ export default function CursoDetalhe() {
                       Saiba Mais
                     </button>
                   </div>
+                </div>
+
+                {/* IMAGEM NO MOBILE (Exibida abaixo do texto) */}
+                <div className="lg:hidden col-span-1 flex justify-center mt-8 mb-4">
+                  <img
+                    src={
+                      curso.id === "cegid-primavera" || curso.id === "primavera"
+                        ? "/academia/Cegid.png"
+                        : curso.id === "gestao-recursos-humanos" ||
+                            !curso.imagemUrl
+                          ? "/academia/imagem_rh.png"
+                          : curso.imagemUrl
+                    }
+                    alt={curso.titulo}
+                    className="w-full max-w-[280px] sm:max-w-[340px] h-auto object-contain "
+                  />
                 </div>
               </div>
             </div>
