@@ -261,7 +261,7 @@ export function HeroSection() {
       {/* Nossa História Redesenhada com Animações Fluidas e Contadores */}
       <section className="py-20 bg-white relative overflow-hidden">
         {/* Elemento de iluminação ambiente suave */}
-        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-red-100/50 rounded-full blur-3xl pointer-events-none animate-ambient-glow" />
+
         <div className="absolute bottom-10 right-0 w-80 h-80 bg-slate-100/60 rounded-full blur-2xl pointer-events-none" />
 
         <div className="container mx-auto px-6 relative z-10">
@@ -273,10 +273,10 @@ export function HeroSection() {
             className="max-w-7xl mx-auto">
             {/* Cabeçalho da Seção */}
             <div className="text-center mb-16">
-              <span className="text-xs uppercase tracking-widest text-red-600 font-bold mb-2 block">
+              <span className="text-xs uppercase tracking-widest text-red-600 font-normal mb-2 block">
                 Nossa Trajetória
               </span>
-              <h2 className="text-3xl lg:text-4xl font-normal mb-4 text-gray-900 tracking-tight">
+              <h2 className="text-3xl lg:text-4xl font-normal mb-4 text-gray-900">
                 Transformando negócios desde 2018
               </h2>
               <div className="w-20 h-1 bg-red-600 mx-auto rounded-full" />
@@ -292,10 +292,10 @@ export function HeroSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6 }}
                   className="space-y-6">
-                  <h3 className="text-2xl font-semibold text-gray-900">
+                  <h3 className="text-2xl font-normal text-gray-900">
                     Quem Somos
                   </h3>
-                  <p className="text-gray-600 leading-relaxed text-base">
+                  <p className="text-gray-600 leading-relaxed text-normal">
                     A <strong className="text-gray-900">ENVISIO</strong> é uma
                     empresa de direito Angolano, orientada para os problemas e
                     soluções locais, que atua no mercado da Consultoria e
@@ -305,9 +305,9 @@ export function HeroSection() {
                   </p>
 
                   {/* Números Importantes com Contador Dinâmico CountUp */}
-                  <div className="grid grid-cols-2 gap-6 py-6 border-y border-gray-100">
-                    <div className="text-center bg-gray-50/70 p-4 rounded-xl border border-gray-100/80 hover-lift">
-                      <div className="text-3xl lg:text-4xl font-extrabold mb-1 text-red-600 tracking-tight">
+                  <div className="grid grid-cols-2 gap-6 py-6 ">
+                    <div className="text-center  p-4">
+                      <div className="text-3xl lg:text-4xl font-normal mb-1 text-red-600 ">
                         <CountUp
                           end={2500}
                           prefix="+ "
@@ -317,12 +317,12 @@ export function HeroSection() {
                           duration={2.2}
                         />
                       </div>
-                      <div className="text-gray-600 font-medium text-xs lg:text-sm">
+                      <div className="text-gray-900 font-normal text-xs lg:text-sm">
                         Clientes Atendidos
                       </div>
                     </div>
-                    <div className="text-center bg-gray-50/70 p-4 rounded-xl border border-gray-100/80 hover-lift">
-                      <div className="text-3xl lg:text-4xl font-extrabold mb-1 text-gray-900 tracking-tight">
+                    <div className="text-center p-4">
+                      <div className="text-3xl lg:text-4xl font-normal mb-1 text-gray-900 ">
                         <CountUp
                           end={5}
                           prefix="+ "
@@ -331,7 +331,7 @@ export function HeroSection() {
                           duration={2}
                         />
                       </div>
-                      <div className="text-gray-600 font-medium text-xs lg:text-sm">
+                      <div className="text-gray-900 font-normal text-xs lg:text-sm">
                         Anos no mercado
                       </div>
                     </div>
@@ -341,7 +341,7 @@ export function HeroSection() {
                   <div className="space-y-4 pt-2">
                     <div className="flex items-center gap-4">
                       <div className="relative flex items-center justify-center">
-                        <div className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shrink-0 font-bold text-sm ">
+                        <div className="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center shrink-0 font-normal text-sm ">
                           2018
                         </div>
                       </div>
@@ -387,7 +387,6 @@ export function HeroSection() {
                   </div>
                 </motion.div>
                 {/* Elemento decorativo */}
-                <div className="absolute -right-3 -bottom-3 w-full h-full border-2 border-red-600/30 rounded-2xl -z-10 transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1" />
               </div>
             </div>
           </motion.div>
