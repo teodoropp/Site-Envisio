@@ -61,6 +61,7 @@ export interface Curso {
   status: 'active' | 'upcoming' | 'disponivel' | 'breve' | string;
   available?: boolean;
   destaque?: boolean;
+  hidden?: boolean;
   format?: string;
   idioma?: string;
   targetAudience?: string;

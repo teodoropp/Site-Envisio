@@ -11,7 +11,7 @@ export const isCursoAtivo = (curso?: Curso | null): boolean => {
 
 export const getCursos = async (): Promise<Curso[]> => {
   // Simulação de camada de serviço (pode ser trocada futuramente por fetch('/api/cursos'))
-  return Promise.resolve(cursosData);
+  return Promise.resolve(cursosData.filter((c) => !c.hidden));
 };
 
 export const getCursoById = async (id: string): Promise<Curso | null> => {

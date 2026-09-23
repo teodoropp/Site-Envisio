@@ -31,7 +31,7 @@ const slides = [
     subtitulo:
       "Aprenda do zero ao avançado com o software de gestão Cegid Primavera e impulsione a sua carreira.",
     cta: "Ver Cursos",
-    link: "/academia/curso/cegid-primavera",
+    link: "/academia/cursos",
   },
   {
     imagemUrl: "/images/espaco/sala-formacao-01.jpg",

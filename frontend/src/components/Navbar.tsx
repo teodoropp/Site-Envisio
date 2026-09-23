@@ -33,8 +33,8 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 h-[54px] select-none transition-all duration-300 ${
         isScrolled
-          ? "bg-white border-b border-[#e6e6e6] shadow-sm text-[#262626]"
-          : "bg-white border-b border-[#e6e6e6]"
+          ? "bg-white/95 backdrop-blur-md border-b border-gray-200/80 shadow-sm text-[#262626]"
+          : "bg-white/90 backdrop-blur-sm border-b border-gray-200/60"
       }`}>
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
         {/* Lado Esquerdo: Apenas o Logótipo Envisio */}
@@ -207,13 +207,15 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Botão Especial Academia (Estilo Original Restaurado) */}
+          {/* Botão Especial Academia */}
           <div className="pl-4">
-            <Link
-              to="/academia"
-              className="px-6 text-xs font-normal text-black bg-white border border-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-300 uppercase flex items-center justify-center rounded-[3px] h-[38px]">
-              Academia
-            </Link>
+            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+              <Link
+                to="/academia"
+                className="px-6 text-xs font-semibold text-gray-900 bg-white border border-red-600 hover:bg-red-600 hover:text-white transition-all duration-300 uppercase flex items-center justify-center rounded-[4px] h-[38px] shadow-sm hover:shadow-md cursor-pointer">
+                Academia
+              </Link>
+            </motion.div>
           </div>
         </div>
 
@@ -221,20 +223,21 @@ export default function Navbar() {
         <div className="md:hidden flex items-center">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="p-2 rounded-md text-[#262626] focus:outline-none">
+            className="p-2 rounded-md text-[#262626] focus:outline-none cursor-pointer"
+            aria-label="Menu">
             <div className="w-6 h-5 relative flex flex-col justify-between">
               <span
-                className={`w-full h-0.5 bg-current transition-all transform origin-left ${
+                className={`w-full h-0.5 bg-current transition-all transform origin-left duration-300 ${
                   isOpen ? "rotate-45 translate-x-0.5 -translate-y-0.5" : ""
                 }`}
               />
               <span
-                className={`w-full h-0.5 bg-current transition-all ${
+                className={`w-full h-0.5 bg-current transition-all duration-300 ${
                   isOpen ? "opacity-0" : "opacity-100"
                 }`}
               />
               <span
-                className={`w-full h-0.5 bg-current transition-all transform origin-left ${
+                className={`w-full h-0.5 bg-current transition-all transform origin-left duration-300 ${
                   isOpen ? "-rotate-45 translate-x-0.5 translate-y-0.5" : ""
                 }`}
               />
@@ -243,113 +246,149 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Menu Mobile Dropdown Overlay */}
+      {/* Menu Mobile Dropdown Overlay com Animação em Cascata */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-b border-gray-200 shadow-lg overflow-hidden">
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="md:hidden bg-white/98 backdrop-blur-lg border-b border-gray-200 shadow-xl overflow-hidden">
             <div className="px-4 pt-3 pb-6 space-y-2">
-              <Link
-                to="/"
-                onClick={() => setIsOpen(false)}
-                className={`block px-3 py-2 rounded-md text-sm font-medium ${
-                  location.pathname === "/"
-                    ? "bg-red-50 text-red-600 font-bold"
-                    : "text-gray-700 hover:bg-gray-50"
-                }`}>
-                Início
-              </Link>
-              <Link
-                to="/quem-somos"
-                onClick={() => setIsOpen(false)}
-                className={`block px-3 py-2 rounded-md text-sm font-medium ${
-                  location.pathname === "/quem-somos"
-                    ? "bg-red-50 text-red-600 font-bold"
-                    : "text-gray-700 hover:bg-gray-50"
-                }`}>
-                Quem Somos
-              </Link>
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.05 }}>
+                <Link
+                  to="/"
+                  onClick={() => setIsOpen(false)}
+                  className={`block px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                    location.pathname === "/"
+                      ? "bg-red-50 text-red-600 font-bold"
+                      : "text-gray-700 hover:bg-gray-50"
+                  }`}>
+                  Início
+                </Link>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 }}>
+                <Link
+                  to="/quem-somos"
+                  onClick={() => setIsOpen(false)}
+                  className={`block px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                    location.pathname === "/quem-somos"
+                      ? "bg-red-50 text-red-600 font-bold"
+                      : "text-gray-700 hover:bg-gray-50"
+                  }`}>
+                  Quem Somos
+                </Link>
+              </motion.div>
 
               {/* Submenu Serviços Mobile */}
-              <div className="space-y-1">
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.15 }}
+                className="space-y-1">
                 <button
                   onClick={() => setServicosDropdownOpen(!servicosDropdownOpen)}
-                  className="w-full flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                  className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 cursor-pointer">
                   <span>Serviços</span>
                   <ChevronDown
                     size={14}
-                    className={`transition-transform ${
-                      servicosDropdownOpen ? "rotate-180" : ""
+                    className={`transition-transform duration-300 ${
+                      servicosDropdownOpen ? "rotate-180 text-red-600" : ""
                     }`}
                   />
                 </button>
-                {servicosDropdownOpen && (
-                  <div className="pl-4 space-y-1 border-l-2 border-red-100 ml-3">
-                    <Link
-                      to="/servicos/hardware"
-                      onClick={() => setIsOpen(false)}
-                      className="block px-3 py-1.5 text-xs text-gray-600 hover:text-red-600">
-                      Hardware
-                    </Link>
-                    <Link
-                      to="/servicos/software"
-                      onClick={() => setIsOpen(false)}
-                      className="block px-3 py-1.5 text-xs text-gray-600 hover:text-red-600">
-                      Software
-                    </Link>
-                    <Link
-                      to="/servicos/renting"
-                      onClick={() => setIsOpen(false)}
-                      className="block px-3 py-1.5 text-xs text-gray-600 hover:text-red-600">
-                      Aluguel de Produtos (Renting)
-                    </Link>
-                  </div>
-                )}
-              </div>
+                <AnimatePresence>
+                  {servicosDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="pl-4 space-y-1 border-l-2 border-red-200 ml-3 overflow-hidden">
+                      <Link
+                        to="/servicos/hardware"
+                        onClick={() => setIsOpen(false)}
+                        className="block px-3 py-2 text-xs font-medium text-gray-600 hover:text-red-600 hover:translate-x-1 transition-all">
+                        Hardware & Redes
+                      </Link>
+                      <Link
+                        to="/servicos/software"
+                        onClick={() => setIsOpen(false)}
+                        className="block px-3 py-2 text-xs font-medium text-gray-600 hover:text-red-600 hover:translate-x-1 transition-all">
+                        Software & ERP
+                      </Link>
+                      <Link
+                        to="/servicos/renting"
+                        onClick={() => setIsOpen(false)}
+                        className="block px-3 py-2 text-xs font-medium text-gray-600 hover:text-red-600 hover:translate-x-1 transition-all">
+                        Aluguel de Produtos (Renting)
+                      </Link>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
 
               {/* Submenu Apoio Mobile */}
-              <div className="space-y-1">
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+                className="space-y-1">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="w-full flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                  className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 cursor-pointer">
                   <span>Apoio</span>
                   <ChevronDown
                     size={14}
-                    className={`transition-transform ${
-                      dropdownOpen ? "rotate-180" : ""
+                    className={`transition-transform duration-300 ${
+                      dropdownOpen ? "rotate-180 text-red-600" : ""
                     }`}
                   />
                 </button>
-                {dropdownOpen && (
-                  <div className="pl-4 space-y-1 border-l-2 border-red-100 ml-3">
-                    <Link
-                      to="/contato"
-                      onClick={() => setIsOpen(false)}
-                      className="block px-3 py-1.5 text-xs text-gray-600 hover:text-red-600">
-                      Contactos
-                    </Link>
-                    <Link
-                      to="/suporte-tecnico"
-                      onClick={() => setIsOpen(false)}
-                      className="block px-3 py-1.5 text-xs text-gray-600 hover:text-red-600">
-                      Suporte Técnico
-                    </Link>
-                  </div>
-                )}
-              </div>
+                <AnimatePresence>
+                  {dropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="pl-4 space-y-1 border-l-2 border-red-200 ml-3 overflow-hidden">
+                      <Link
+                        to="/contato"
+                        onClick={() => setIsOpen(false)}
+                        className="block px-3 py-2 text-xs font-medium text-gray-600 hover:text-red-600 hover:translate-x-1 transition-all">
+                        Contactos
+                      </Link>
+                      <Link
+                        to="/suporte-tecnico"
+                        onClick={() => setIsOpen(false)}
+                        className="block px-3 py-2 text-xs font-medium text-gray-600 hover:text-red-600 hover:translate-x-1 transition-all">
+                        Suporte Técnico
+                      </Link>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
 
               {/* Botão Academia Mobile */}
-              <div className="pt-2">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 }}
+                className="pt-3">
                 <Link
                   to="/academia"
                   onClick={() => setIsOpen(false)}
-                  className="w-full flex items-center justify-center h-[40px] px-6 text-xs font-normal text-black bg-white border border-red-600 hover:bg-red-50 hover:text-red-700 transition-all uppercase rounded-[3px]">
-                  Academia
+                  className="w-full flex items-center justify-center h-[42px] px-6 text-xs font-bold text-white bg-red-600 hover:bg-red-700 shadow-md rounded-[5px] transition-all uppercase">
+                  Aceder à Academia
                 </Link>
-              </div>
+              </motion.div>
             </div>
           </motion.div>
         )}

@@ -57,24 +57,51 @@ export const MobileCarousel = ({ slides }: CarouselProps) => {
       <AnimatePresence mode="wait">
         <motion.div
           key={carouselIndex}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="relative w-full h-full">
+          initial={{ opacity: 0, scale: 1.02 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="relative w-full h-full overflow-hidden">
           <img
             src={slides[carouselIndex].srcMobile}
-            alt={slides[carouselIndex].label}
+            alt={slides[carouselIndex].label || "Envisio"}
             className="w-full h-full object-cover"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10 pointer-events-none" />
 
-          {/* Conteúdo e botão reposicionado */}
-          <div className="absolute bottom-2 sm:bottom-3 left-2 right-2 sm:left-3 sm:right-3">
-            <button
+          {/* Conteúdo e botão reposicionado com animação */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.15 }}
+            className="absolute bottom-3 left-3 right-3 flex items-center justify-between z-20">
+            <motion.button
+              whileTap={{ scale: 0.94 }}
               onClick={() => navigate(slides[carouselIndex].link)}
-              className="w-28 sm:w-32 bg-red-600 text-white py-1.5 sm:py-2 px-3 sm:px-4 rounded-[5px] text-xs sm:text-sm font-semibold hover:bg-red-700 transition-colors">
-              Saiba mais
-            </button>
-          </div>
+              className="bg-red-600 text-white py-2 px-5 rounded-[5px] text-xs font-semibold shadow-lg hover:bg-red-700 active:bg-red-800 transition-colors flex items-center gap-1.5 cursor-pointer">
+              <span>Saiba mais</span>
+              <span>→</span>
+            </motion.button>
+
+            {/* Indicadores de slides móveis */}
+            <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-sm px-2.5 py-1 rounded-full">
+              {slides.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => {
+                    setIsPaused(true);
+                    setCarouselIndex(idx);
+                  }}
+                  aria-label={`Slide ${idx + 1}`}
+                  className={`transition-all duration-300 rounded-full h-1.5 cursor-pointer ${
+                    carouselIndex === idx
+                      ? "w-5 bg-red-500"
+                      : "w-1.5 bg-white/60"
+                  }`}
+                />
+              ))}
+            </div>
+          </motion.div>
         </motion.div>
       </AnimatePresence>
 

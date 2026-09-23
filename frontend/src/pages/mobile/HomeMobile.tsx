@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
+import CountUp from "react-countup";
 import { partners } from "../../types/partners";
 import { MobileCarousel } from "../../components/Carousel";
 import {
@@ -290,7 +291,7 @@ export function HomeMobile() {
             </p>
           </motion.div>
 
-          {/* Régua de Métricas com Animação Escalonada */}
+          {/* Régua de Métricas com Animação Escalonada e Contadores Dinâmicos */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -298,8 +299,15 @@ export function HomeMobile() {
             variants={staggerContainer}
             className="grid grid-cols-3 gap-2 py-4 border-t border-b border-gray-100 text-center">
             <motion.div variants={fadeInUp}>
-              <div className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
-                +2.500
+              <div className="text-2xl sm:text-3xl font-extrabold text-red-600 tracking-tight">
+                <CountUp
+                  end={2500}
+                  prefix="+ "
+                  separator="."
+                  enableScrollSpy
+                  scrollSpyOnce
+                  duration={2.2}
+                />
               </div>
               <div className="text-[11px] sm:text-xs text-gray-500 font-medium mt-0.5">
                 Clientes Atendidos
@@ -309,7 +317,14 @@ export function HomeMobile() {
               variants={fadeInUp}
               className="border-l border-r border-gray-100">
               <div className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
-                +5 Anos
+                <CountUp
+                  end={5}
+                  prefix="+ "
+                  suffix=" Anos"
+                  enableScrollSpy
+                  scrollSpyOnce
+                  duration={2}
+                />
               </div>
               <div className="text-[11px] sm:text-xs text-gray-500 font-medium mt-0.5">
                 no Mercado
@@ -317,7 +332,13 @@ export function HomeMobile() {
             </motion.div>
             <motion.div variants={fadeInUp}>
               <div className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
-                100%
+                <CountUp
+                  end={100}
+                  suffix="%"
+                  enableScrollSpy
+                  scrollSpyOnce
+                  duration={2}
+                />
               </div>
               <div className="text-[11px] sm:text-xs text-gray-500 font-medium mt-0.5">
                 Suporte
@@ -507,7 +528,7 @@ export function HomeMobile() {
               ref={academiaScrollRef}
               onScroll={handleAcademiaScroll}
               className="flex gap-4 overflow-x-auto snap-x snap-mandatory px-6 sm:px-8 pb-3 pt-1 no-scrollbar scroll-smooth scroll-pl-6">
-              {cursosData.slice(0, 4).map((curso: any, idx: number) => {
+              {(cursosData as any[]).filter((c) => !c.hidden).slice(0, 4).map((curso: any, idx: number) => {
                 const ativo =
                   curso.status === "active" ||
                   curso.available === true ||
@@ -891,7 +912,7 @@ export function HomeMobile() {
         whileTap={{ scale: 0.92 }}
         className="fixed bottom-5 right-5 z-40 bg-[#25D366] text-white p-3.5 rounded-full shadow-2xl shadow-emerald-600/40 flex items-center justify-center hover:bg-[#20bd5a] transition-colors focus:outline-none cursor-pointer">
         <WhatsAppIcon className="w-6 h-6 text-white fill-current" />
-        <span className="absolute inset-0 rounded-full bg-[#25D366] opacity-30 pointer-events-none -z-10" />
+        <span className="absolute inset-0 rounded-full bg-[#25D366] opacity-40 pointer-events-none -z-10 animate-radar-green" />
       </motion.a>
     </div>
   );

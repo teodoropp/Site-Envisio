@@ -85,9 +85,10 @@
   {
     "id": "cegid-primavera",
     "titulo": "ERP Cegid Primavera: Funcionalidades e Módulos",
+    "hidden": true,
     "status": "active",
     "available": true,
-    "destaque": true,
+    "destaque": false,
     "categoria": "ERP & Gestão",
     "subcategoria": "Com uma abordagem prática e focada em cenários reais, o curso oferece uma estrutura clara e eficaz para garantir uma aprendizagem sólida e aplicável desde o primeiro dia.",
     "descricao": "Este programa foi criado para quem procura uma formação prática, dinâmica e orientada para o mercado, seja para iniciar uma carreira promissora ou para reforçar competências numa área com elevada procura. \n Ao longo do curso, os formandos aprenderão a dominar o Erp Cegid Primavera, uma das soluções de gestão empresarial mais utilizadas por empresas de diferentes setores.",

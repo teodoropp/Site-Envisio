@@ -4,6 +4,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import CountUp from "react-countup";
 import { partners } from "../types/partners";
 import { DesktopCarousel, MobileCarousel } from "../components/Carousel";
 import { useWindowSize } from "../hooks/useWindowSize";
@@ -257,25 +258,28 @@ export function HeroSection() {
       {/* Carrossel Mobile */}
       <MobileCarousel slides={heroSlides} />
 
-      {/* Nossa História Redesenhada */}
-      <section className="py-20 bg-white  relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-20 to-transparent" />
+      {/* Nossa História Redesenhada com Animações Fluidas e Contadores */}
+      <section className="py-20 bg-white relative overflow-hidden">
+        {/* Elemento de iluminação ambiente suave */}
+        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-red-100/50 rounded-full blur-3xl pointer-events-none animate-ambient-glow" />
+        <div className="absolute bottom-10 right-0 w-80 h-80 bg-slate-100/60 rounded-full blur-2xl pointer-events-none" />
 
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6 }}
             className="max-w-7xl mx-auto">
             {/* Cabeçalho da Seção */}
-            <div className="text-center mb-20">
-              <motion.span
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 2 }}
-                className="text-sm uppercase tracking-wider text-gray-900 mb-4 block"></motion.span>
-              <h2 className="text-4xl font-normal mb-6">
+            <div className="text-center mb-16">
+              <span className="text-xs uppercase tracking-widest text-red-600 font-bold mb-2 block">
+                Nossa Trajetória
+              </span>
+              <h2 className="text-3xl lg:text-4xl font-normal mb-4 text-gray-900 tracking-tight">
                 Transformando negócios desde 2018
               </h2>
-              <div className="w-24 h-1 bg-black mx-auto" />
+              <div className="w-20 h-1 bg-red-600 mx-auto rounded-full" />
             </div>
 
             {/* Grid Principal */}
@@ -285,58 +289,82 @@ export function HeroSection() {
                 <motion.div
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
                   className="space-y-6">
-                  <h3 className="text-2xl font-normal">Quem Somos</h3>
-                  <p
-                    style={{
-                      fontSize: "16px",
-                      marginTop: "20px", // ou "24px" se preferir maior
-                    }}
-                    className="text-gray-600 leading-relaxed">
-                    A ENVISIO, é uma empresa de direito Angolano, orientada para
-                    os problemas e soluções locais, que atua no mercado da
-                    Consultoria e provedor de serviços e soluções de tecnologia
-                    de informações apostando numa prestação de serviço eficaz e
-                    de qualidade desde 2018.
+                  <h3 className="text-2xl font-semibold text-gray-900">
+                    Quem Somos
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed text-base">
+                    A <strong className="text-gray-900">ENVISIO</strong> é uma
+                    empresa de direito Angolano, orientada para os problemas e
+                    soluções locais, que atua no mercado da Consultoria e
+                    provedor de serviços e soluções de tecnologia de informações
+                    apostando numa prestação de serviço eficaz e de excelência
+                    desde 2018.
                   </p>
 
-                  {/* Números Importantes */}
-                  <div className="grid grid-cols-2 gap-6 py-8">
-                    <div className="text-center">
-                      <div className="text-4xl font-bold mb-2">+ 2.500</div>
-                      <div className="text-gray-500">Clientes Atendidos</div>
+                  {/* Números Importantes com Contador Dinâmico CountUp */}
+                  <div className="grid grid-cols-2 gap-6 py-6 border-y border-gray-100">
+                    <div className="text-center bg-gray-50/70 p-4 rounded-xl border border-gray-100/80 hover-lift">
+                      <div className="text-3xl lg:text-4xl font-extrabold mb-1 text-red-600 tracking-tight">
+                        <CountUp
+                          end={2500}
+                          prefix="+ "
+                          separator="."
+                          enableScrollSpy
+                          scrollSpyOnce
+                          duration={2.2}
+                        />
+                      </div>
+                      <div className="text-gray-600 font-medium text-xs lg:text-sm">
+                        Clientes Atendidos
+                      </div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-4xl font-bold mb-2">+ 5</div>
-                      <div className="text-gray-500">anos no mercado</div>
+                    <div className="text-center bg-gray-50/70 p-4 rounded-xl border border-gray-100/80 hover-lift">
+                      <div className="text-3xl lg:text-4xl font-extrabold mb-1 text-gray-900 tracking-tight">
+                        <CountUp
+                          end={5}
+                          prefix="+ "
+                          enableScrollSpy
+                          scrollSpyOnce
+                          duration={2}
+                        />
+                      </div>
+                      <div className="text-gray-600 font-medium text-xs lg:text-sm">
+                        Anos no mercado
+                      </div>
                     </div>
                   </div>
 
-                  {/* Marco Históricos */}
-                  <div className="space-y-4 mb-12">
-                    {" "}
-                    {/* Adicionado mb-12 para espaçamento */}
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-full bg-red bg-red-600 text-white flex items-center justify-center shrink-0">
-                        2018
+                  {/* Marco Históricos com radar pulsante */}
+                  <div className="space-y-4 pt-2">
+                    <div className="flex items-center gap-4">
+                      <div className="relative flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shrink-0 font-bold text-sm ">
+                          2018
+                        </div>
                       </div>
                       <div>
-                        <h4 className="font-semibold mb-1 mt-3">
+                        <h4 className="font-semibold text-gray-900 mb-0.5">
                           Fundação da Empresa
                         </h4>
+                        <p className="text-xs text-gray-500">
+                          Início das operações e consolidação em Angola
+                        </p>
                       </div>
                     </div>
                   </div>
 
                   <motion.button
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ scale: 1.02, y: -2 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => navigate("/quem-somos")}
-                    className="mt-8 w-full bg-red-600 text-white py-4 px-8 rounded-[5px] flex items-center justify-center group hover:bg-red-700 transition-all">
-                    Conheça a Nossa História Completa
-                    <motion.span className="ml-2 group-hover:translate-x-1 transition-transform">
+                    className="mt-6 w-full bg-red-600 hover:bg-red-700 text-white py-3.5 px-8 rounded-[5px] flex items-center justify-center font-semibold text-sm shadow-lg shadow-red-600/20 group transition-all cursor-pointer">
+                    <span>Nossa História</span>
+                    <span className="ml-2 group-hover:translate-x-1.5 transition-transform duration-300">
                       →
-                    </motion.span>
+                    </span>
                   </motion.button>
                 </motion.div>
               </div>
@@ -344,20 +372,22 @@ export function HeroSection() {
               {/* Coluna da Direita - Imagem e Destaques */}
               <div className="lg:col-span-7 relative">
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
-                  className="relative z-10">
-                  <div className="relative rounded-[8px] overflow-hidden shadow-2xl">
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.65 }}
+                  className="relative z-10 group">
+                  <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-200/80 bg-gray-100">
                     <img
                       src="/images/banner_quem.webp"
                       alt="A Nossa Equipa"
-                      className="w-full h-[600px] object-cover"
+                      className="w-full h-[450px] lg:h-[520px] object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
                   </div>
                 </motion.div>
                 {/* Elemento decorativo */}
-                <div className="absolute -right-4 -bottom-4 w-full h-full border-2 border-black rounded-2xl -z-10" />
+                <div className="absolute -right-3 -bottom-3 w-full h-full border-2 border-red-600/30 rounded-2xl -z-10 transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1" />
               </div>
             </div>
           </motion.div>
@@ -393,19 +423,20 @@ export function HeroSection() {
                 key={index}
                 initial={{ opacity: 0, y: 25 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ y: -4 }}
-                viewport={{ once: true }}
+                whileHover={{ y: -6 }}
+                viewport={{ once: true, margin: "-30px" }}
                 transition={{ duration: 0.4, delay: index * 0.08 }}
-                className="w-full bg-white rounded-[5px] border border-gray-200 shadow-sm hover:shadow-xl hover:border-red-200 transition-all duration-300 flex flex-col overflow-hidden group">
+                className="w-full bg-white rounded-xl border border-gray-200/80 shadow-sm hover:shadow-xl hover:border-red-200 transition-all duration-300 flex flex-col overflow-hidden group">
                 {/* Imagem no topo com Badge */}
                 <div className="relative w-full h-44 bg-gray-100 overflow-hidden">
                   <img
                     src={service.image}
                     alt={service.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
                     loading="lazy"
                   />
-                  <span className="absolute top-3 left-3 bg-slate-900/75 backdrop-blur-md border border-white/20 text-white px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                  <span className="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md border border-white/20 text-white px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm transition-transform duration-300 group-hover:scale-105">
                     {service.badge}
                   </span>
                 </div>
@@ -425,7 +456,7 @@ export function HeroSection() {
                       <div key={i} className="flex items-center gap-2">
                         <CheckCircle2
                           size={13}
-                          className="text-emerald-600 shrink-0"
+                          className="text-emerald-600 shrink-0 group-hover:scale-110 transition-transform"
                         />
                         <span className="text-xs text-gray-700 font-medium">
                           {h}
@@ -437,15 +468,17 @@ export function HeroSection() {
                   {/* Rodapé com Ação Clara */}
                   <div className="mt-auto pt-3 border-t border-gray-100 flex items-center justify-between">
                     <span className="text-xs text-gray-400 font-medium"></span>
-                    <button
+                    <motion.button
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.95 }}
                       onClick={() => navigate(service.path)}
                       className="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-[5px] text-xs flex items-center gap-1.5 shadow-sm transition-all group-hover:shadow-md cursor-pointer">
                       <span>Saiba mais</span>
                       <ArrowRight
                         size={13}
-                        className="group-hover:translate-x-1 transition-transform"
+                        className="group-hover:translate-x-1.5 transition-transform"
                       />
-                    </button>
+                    </motion.button>
                   </div>
                 </div>
               </motion.div>
@@ -479,125 +512,132 @@ export function HeroSection() {
 
           {/* Grid dos Cursos Oficiais da Academia */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 text-left">
-            {cursosData.slice(0, 4).map((curso: any, idx: number) => {
-              const ativo =
-                curso.status === "active" ||
-                curso.available === true ||
-                curso.status === "disponivel";
-              const instrutorNome =
-                typeof curso.instrutor === "object" && curso.instrutor !== null
-                  ? curso.instrutor.nome
-                  : curso.instrutor || "Formador Certificado";
-              const isSpecialBorder =
-                curso.id === "power-bi" || curso.id === "sql-server";
+            {(cursosData as any[])
+              .filter((c) => !c.hidden)
+              .slice(0, 4)
+              .map((curso: any, idx: number) => {
+                const ativo =
+                  curso.status === "active" ||
+                  curso.available === true ||
+                  curso.status === "disponivel";
+                const instrutorNome =
+                  typeof curso.instrutor === "object" &&
+                  curso.instrutor !== null
+                    ? curso.instrutor.nome
+                    : curso.instrutor || "Formador Certificado";
+                const isSpecialBorder =
+                  curso.id === "power-bi" || curso.id === "sql-server";
 
-              return (
-                <motion.div
-                  key={curso.id || idx}
-                  initial={{ opacity: 0, y: 25 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.35, delay: idx * 0.08 }}
-                  className="h-full">
-                  <div
-                    className={`rounded-[5px] border overflow-hidden flex flex-col h-full transition-all duration-300 ${
-                      isSpecialBorder
-                        ? "bg-white border-slate-300 shadow-sm cursor-default select-none"
-                        : ativo
-                          ? "bg-white border-slate-200 shadow-sm hover:shadow-md group"
-                          : "bg-white border-slate-200/80 cursor-default select-none"
-                    }`}>
-                    {/* Imagem do curso com badge */}
+                return (
+                  <motion.div
+                    key={curso.id || idx}
+                    initial={{ opacity: 0, y: 25 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.35, delay: idx * 0.08 }}
+                    className="h-full">
                     <div
-                      className={`relative h-48 sm:h-52 w-full overflow-hidden flex-shrink-0 bg-white ${
-                        isSpecialBorder ? "border-b border-slate-200" : ""
+                      className={`rounded-[5px] border overflow-hidden flex flex-col h-full transition-all duration-300 ${
+                        isSpecialBorder
+                          ? "bg-white border-slate-300 shadow-sm cursor-default select-none"
+                          : ativo
+                            ? "bg-white border-slate-200 shadow-sm hover:shadow-md group"
+                            : "bg-white border-slate-200/80 cursor-default select-none"
                       }`}>
-                      <img
-                        src={curso.imagemUrl || "/academia/RH.png"}
-                        alt={curso.titulo}
-                        className="w-full h-full object-cover object-center scale-[1.02] transition-transform duration-700 group-hover:scale-108"
-                      />
-                      {/* Categoria tag overlay */}
-                      <span className="absolute top-3 left-3 bg-slate-900/60 backdrop-blur-md border border-white/20 text-white px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider shadow-sm z-10">
-                        {curso.categoria}
-                      </span>
-
-                      {/* Badge de status */}
-                      {!ativo ? (
-                        <span className="absolute top-3 right-3 bg-amber-500 text-slate-950 px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider shadow-sm z-10">
-                          Em breve
-                        </span>
-                      ) : (
-                        <span className="absolute top-3 right-3 bg-white text-slate-900 px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider shadow-sm z-10">
-                          Novo
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Conteúdo */}
-                    <div className="p-5 flex flex-col flex-grow text-left bg-white">
-                      <h3
-                        onClick={() =>
-                          ativo && navigate(`/academia/curso/${curso.id}`)
-                        }
-                        className={`text-[15px] font-bold mb-2 leading-snug ${
-                          ativo
-                            ? "text-slate-900 cursor-pointer hover:text-red-600 transition-colors line-clamp-2"
-                            : "text-slate-700 cursor-not-allowed line-clamp-2"
+                      {/* Imagem do curso com badge */}
+                      <div
+                        className={`relative h-48 sm:h-52 w-full overflow-hidden flex-shrink-0 bg-white ${
+                          isSpecialBorder ? "border-b border-slate-200" : ""
                         }`}>
-                        {curso.titulo}
-                      </h3>
+                        <img
+                          src={curso.imagemUrl || "/academia/RH.png"}
+                          alt={curso.titulo}
+                          className="w-full h-full object-cover object-center scale-[1.02] transition-transform duration-700 group-hover:scale-108"
+                        />
+                        {/* Categoria tag overlay */}
+                        <span className="absolute top-3 left-3 bg-slate-900/60 backdrop-blur-md border border-white/20 text-white px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider shadow-sm z-10">
+                          {curso.categoria}
+                        </span>
 
-                      <p className="text-[12px] text-slate-500 line-clamp-2 leading-relaxed mb-4 flex-grow font-normal">
-                        {curso.descricao}
-                      </p>
-
-                      <div className="flex items-center gap-1.5 text-[11px] text-slate-500 font-medium mb-4">
-                        <User size={13} className="text-slate-400 shrink-0" />
-                        <span className="truncate">{instrutorNome}</span>
-                      </div>
-
-                      {/* Rodapé */}
-                      <div className="mt-auto flex items-center justify-between pt-3 border-t border-slate-100 gap-2">
-                        <div className="flex items-center gap-3 min-w-0">
-                          <span className="flex items-center gap-1 text-slate-600 text-[11px] font-semibold whitespace-nowrap">
-                            <Clock
-                              size={12}
-                              className="text-slate-400 flex-shrink-0"
-                            />
-                            {String(curso.duracao || "").replace(" horas", "h")}
+                        {/* Badge de status */}
+                        {!ativo ? (
+                          <span className="absolute top-3 right-3 bg-amber-500 text-slate-950 px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider shadow-sm z-10">
+                            Em breve
                           </span>
-                          <span className="flex items-center gap-1 text-slate-600 text-[11px] font-semibold whitespace-nowrap truncate">
-                            <BarChart
-                              size={12}
-                              className="text-slate-400 flex-shrink-0"
-                            />
-                            {String(curso.nivel || "").includes("Intermédio")
-                              ? "Intermédio"
-                              : curso.nivel}
-                          </span>
-                        </div>
-
-                        {ativo ? (
-                          <button
-                            onClick={() =>
-                              navigate(`/academia/curso/${curso.id}`)
-                            }
-                            className="text-slate-600 hover:text-red-600 text-[10px] font-bold uppercase tracking-wider flex items-center gap-0.5 cursor-pointer whitespace-nowrap flex-shrink-0">
-                            Ver curso <ChevronRight size={13} />
-                          </button>
                         ) : (
-                          <span className="text-slate-400 text-[11px] font-bold flex items-center gap-1 uppercase tracking-wider cursor-not-allowed whitespace-nowrap flex-shrink-0">
-                            <Lock size={12} className="text-slate-400" />{" "}
-                            Brevemente
+                          <span className="absolute top-3 right-3 bg-white text-slate-900 px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider shadow-sm z-10">
+                            Novo
                           </span>
                         )}
                       </div>
+
+                      {/* Conteúdo */}
+                      <div className="p-5 flex flex-col flex-grow text-left bg-white">
+                        <h3
+                          onClick={() =>
+                            ativo && navigate(`/academia/curso/${curso.id}`)
+                          }
+                          className={`text-[15px] font-bold mb-2 leading-snug ${
+                            ativo
+                              ? "text-slate-900 cursor-pointer hover:text-red-600 transition-colors line-clamp-2"
+                              : "text-slate-700 cursor-not-allowed line-clamp-2"
+                          }`}>
+                          {curso.titulo}
+                        </h3>
+
+                        <p className="text-[12px] text-slate-500 line-clamp-2 leading-relaxed mb-4 flex-grow font-normal">
+                          {curso.descricao}
+                        </p>
+
+                        <div className="flex items-center gap-1.5 text-[11px] text-slate-500 font-medium mb-4">
+                          <User size={13} className="text-slate-400 shrink-0" />
+                          <span className="truncate">{instrutorNome}</span>
+                        </div>
+
+                        {/* Rodapé */}
+                        <div className="mt-auto flex items-center justify-between pt-3 border-t border-slate-100 gap-2">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <span className="flex items-center gap-1 text-slate-600 text-[11px] font-semibold whitespace-nowrap">
+                              <Clock
+                                size={12}
+                                className="text-slate-400 flex-shrink-0"
+                              />
+                              {String(curso.duracao || "").replace(
+                                " horas",
+                                "h",
+                              )}
+                            </span>
+                            <span className="flex items-center gap-1 text-slate-600 text-[11px] font-semibold whitespace-nowrap truncate">
+                              <BarChart
+                                size={12}
+                                className="text-slate-400 flex-shrink-0"
+                              />
+                              {String(curso.nivel || "").includes("Intermédio")
+                                ? "Intermédio"
+                                : curso.nivel}
+                            </span>
+                          </div>
+
+                          {ativo ? (
+                            <button
+                              onClick={() =>
+                                navigate(`/academia/curso/${curso.id}`)
+                              }
+                              className="text-slate-600 hover:text-red-600 text-[10px] font-bold uppercase tracking-wider flex items-center gap-0.5 cursor-pointer whitespace-nowrap flex-shrink-0">
+                              Ver curso <ChevronRight size={13} />
+                            </button>
+                          ) : (
+                            <span className="text-slate-400 text-[11px] font-bold flex items-center gap-1 uppercase tracking-wider cursor-not-allowed whitespace-nowrap flex-shrink-0">
+                              <Lock size={12} className="text-slate-400" />{" "}
+                              Brevemente
+                            </span>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              );
-            })}
+                  </motion.div>
+                );
+              })}
           </div>
 
           {/* Botão de Navegação para a Academia */}

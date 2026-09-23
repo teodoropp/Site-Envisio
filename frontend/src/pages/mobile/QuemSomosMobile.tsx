@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import CountUp from "react-countup";
 
 import Avatar from "../../components/Avatar";
 import { TeamMember } from "../../types/Team";
@@ -131,26 +132,48 @@ const QuemSomosMobile = () => {
             </motion.h2>
             <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
               viewport={{ once: true }}
-              className="text-sm text-gray-600 max-w-xl mx-auto leading-relaxed">
+              className="text-xs sm:text-sm text-gray-600 max-w-xl mx-auto leading-relaxed mb-6">
               Conheça a nossa história, missão e os valores que nos guiam todos os dias.
             </motion.p>
+
+            {/* Régua de Métricas Animadas Mobile */}
+            <div className="grid grid-cols-3 gap-2 w-full max-w-md mx-auto my-4 text-center">
+              <div className="bg-white p-3 rounded-lg shadow-sm border border-gray-100">
+                <div className="text-xl font-extrabold text-red-600 tracking-tight">
+                  <CountUp end={2500} prefix="+ " separator="." enableScrollSpy scrollSpyOnce duration={2} />
+                </div>
+                <div className="text-[10px] text-gray-500 font-medium mt-0.5">Clientes</div>
+              </div>
+              <div className="bg-white p-3 rounded-lg shadow-sm border border-gray-100">
+                <div className="text-xl font-extrabold text-gray-900 tracking-tight">
+                  <CountUp end={5} prefix="+ " enableScrollSpy scrollSpyOnce duration={2} />
+                </div>
+                <div className="text-[10px] text-gray-500 font-medium mt-0.5">Anos</div>
+              </div>
+              <div className="bg-white p-3 rounded-lg shadow-sm border border-gray-100">
+                <div className="text-xl font-extrabold text-red-600 tracking-tight">
+                  <CountUp end={100} suffix="%" enableScrollSpy scrollSpyOnce duration={2} />
+                </div>
+                <div className="text-[10px] text-gray-500 font-medium mt-0.5">Compromisso</div>
+              </div>
+            </div>
           </div>
 
           {/* Abas de navegação */}
-          <div className="flex flex-wrap justify-center gap-3 mb-8 w-full overflow-x-auto pb-2">
+          <div className="flex flex-wrap justify-center gap-2 mb-8 w-full overflow-x-auto pb-2">
             {/* Aba: Nossa História */}
             <motion.button
-              className={`px-4 py-2 text-sm rounded-[5px] font-semibold border transition-all duration-300 ${
+              className={`px-4 py-2 text-xs font-semibold rounded-[5px] border transition-all duration-300 ${
                 activeTab === "historia"
-                  ? "bg-red-600 text-white border-red-600"
-                  : "bg-transparent text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
+                  ? "bg-red-600 text-white border-red-600 shadow-sm"
+                  : "bg-white text-gray-700 border-gray-200 hover:border-red-600 hover:text-red-600"
               }`}
               onClick={() => setActiveTab("historia")}
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.95 }}>
               A Nossa História
             </motion.button>

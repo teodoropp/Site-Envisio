@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import CountUp from "react-countup";
 import LinhaDoTempo from "../components/LinhaDoTempo";
 import Avatar from "../components/Avatar";
 import { TeamMember } from "../types/Team";
@@ -87,45 +88,73 @@ const About = () => {
               className="text-2xl sm:text-3xl font-normal text-gray-900 mb-3 tracking-tight">
               Sobre Nós
             </motion.h2>
-            <div className="w-16 h-1 bg-red-600 mx-auto mb-4 rounded-full" />
+            <div className="w-16 h-1 bg-red-600 mx-auto mb-6 rounded-full" />
+            
+            {/* Régua de Métricas Dinâmicas da Envisio */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto my-8">
+              <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover-lift text-center">
+                <div className="text-2xl lg:text-3xl font-extrabold text-red-600 tracking-tight">
+                  <CountUp end={2500} prefix="+ " separator="." enableScrollSpy scrollSpyOnce duration={2.2} />
+                </div>
+                <div className="text-xs text-gray-500 font-medium mt-1">Clientes Atendidos</div>
+              </div>
+              <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover-lift text-center">
+                <div className="text-2xl lg:text-3xl font-extrabold text-gray-900 tracking-tight">
+                  <CountUp end={5} prefix="+ " enableScrollSpy scrollSpyOnce duration={2} />
+                </div>
+                <div className="text-xs text-gray-500 font-medium mt-1">Anos no Mercado</div>
+              </div>
+              <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover-lift text-center">
+                <div className="text-2xl lg:text-3xl font-extrabold text-red-600 tracking-tight">
+                  <CountUp end={100} suffix="%" enableScrollSpy scrollSpyOnce duration={2} />
+                </div>
+                <div className="text-xs text-gray-500 font-medium mt-1">Soluções Locais</div>
+              </div>
+              <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover-lift text-center">
+                <div className="text-2xl lg:text-3xl font-extrabold text-gray-900 tracking-tight">
+                  <CountUp end={24} suffix="/7" enableScrollSpy scrollSpyOnce duration={2} />
+                </div>
+                <div className="text-xs text-gray-500 font-medium mt-1">Suporte Técnico</div>
+              </div>
+            </div>
           </div>
 
-          {/* Abas de navegação */}
-          <div className="flex flex-wrap justify-center gap-4 mb-10">
+          {/* Abas de navegação com micro-interações */}
+          <div className="flex flex-wrap justify-center gap-3 mb-10">
             {/* Aba: Nossa História */}
             <motion.button
-              className={`px-6 py-2 rounded-[5px] font-semibold border transition-all duration-300 ${
+              className={`px-6 py-2.5 rounded-[5px] text-sm font-semibold border transition-all duration-300 shadow-sm cursor-pointer ${
                 activeTab === "historia"
-                  ? "bg-red-600 text-white border-red-600"
-                  : "bg-transparent text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
+                  ? "bg-red-600 text-white border-red-600 shadow-red-600/20"
+                  : "bg-white text-gray-700 border-gray-200 hover:border-red-600 hover:text-red-600"
               }`}
               onClick={() => setActiveTab("historia")}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}>
+              whileHover={{ scale: 1.04, y: -1 }}
+              whileTap={{ scale: 0.96 }}>
               Nossa História
             </motion.button>
             {/* Aba: Missão & Visão */}
             <motion.button
-              className={`px-6 py-2 rounded-[5px] font-semibold border transition-all duration-300 ${
+              className={`px-6 py-2.5 rounded-[5px] text-sm font-semibold border transition-all duration-300 shadow-sm cursor-pointer ${
                 activeTab === "missao"
-                  ? "bg-red-600 text-white border-red-600"
-                  : "bg-transparent text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
+                  ? "bg-red-600 text-white border-red-600 shadow-red-600/20"
+                  : "bg-white text-gray-700 border-gray-200 hover:border-red-600 hover:text-red-600"
               }`}
               onClick={() => setActiveTab("missao")}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}>
+              whileHover={{ scale: 1.04, y: -1 }}
+              whileTap={{ scale: 0.96 }}>
               Missão & Visão
             </motion.button>
             {/* Aba: Nossa Equipe */}
             <motion.button
-              className={`px-6 py-2 rounded-[5px] font-semibold border transition-all duration-300 ${
+              className={`px-6 py-2.5 rounded-[5px] text-sm font-semibold border transition-all duration-300 shadow-sm cursor-pointer ${
                 activeTab === "equipe"
-                  ? "bg-red-600 text-white border-red-600"
-                  : "bg-transparent text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
+                  ? "bg-red-600 text-white border-red-600 shadow-red-600/20"
+                  : "bg-white text-gray-700 border-gray-200 hover:border-red-600 hover:text-red-600"
               }`}
               onClick={() => setActiveTab("equipe")}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}>
+              whileHover={{ scale: 1.04, y: -1 }}
+              whileTap={{ scale: 0.96 }}>
               Nossa Equipa
             </motion.button>
           </div>
