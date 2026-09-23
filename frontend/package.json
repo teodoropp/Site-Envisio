@@ -38,6 +38,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
+        "postbuild": "powershell -Command \"Copy-Item -Path 'build\\*' -Destination '..\\backend\\public' -Recurse -Force\"",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "dev": "ts-node src/server.ts"
